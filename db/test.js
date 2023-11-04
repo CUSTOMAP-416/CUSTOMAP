@@ -83,3 +83,34 @@ describe('GET /api/maps', () => {
         expect(response.status).toEqual(200);
     });
 });
+
+// describe('POST /api/map', () => {
+//     test('create a new map', async () => {
+//         const newMapData = {
+//             email: 'johnDoe@estonybrook.edu',
+//             name: 'Test Map',
+//             file: {}, 
+//     };
+//     const response = await request(app)
+//         .post('/api/map')
+//         .send(newMapData)
+//         .expect('Content-Type', /json/)
+//         .expect(201);
+
+//     expect(response.body).toMatchObject({
+//         name: newMapData.name,
+//         chat: [{}],
+//         file: newMapData.file,
+//     });
+//     });
+
+//     test('400 when file is not exist', async () => {
+
+//     await request(app)
+//         .post('/api/map')
+//         .expect(400)
+//         .then((response) => {
+//         expect(response.body).toEqual({ message: 'File is required.' });
+//         });
+//     });
+// });
