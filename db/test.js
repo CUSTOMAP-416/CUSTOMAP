@@ -46,3 +46,26 @@ describe('GET /api/users', () => {
             
 //     });
 // });
+
+describe('PUT /api/user/:id', () => {
+    test('updates the user and returns the updated user data', async () => {
+      // You need to replace '1' with the actual id of the user you expect to update
+    const userId = '1'; 
+    const updatedUserData = {
+        name: 'Jane Doe',
+        phone: '631-YYY-YYYY',
+        password: '1234'
+    };
+    const response = await request(app)
+        .put(`/api/user/${userId}`)
+        .send(updatedUserData);
+
+    expect(response.statusCode).toBe(201);
+    expect(response.body).toEqual(expect.any(Object));
+    });
+    test('404 if no user id is provided', async () => {
+    const response = await request(app)
+        .put('/api/user/') // No ID provided
+    expect(response.statusCode).toBe(404);
+    });
+});
