@@ -173,3 +173,17 @@ describe('DELETE /api/map/:email/:id', () => {
         .expect(404);
     });
 });
+
+// This is test code for login. After connect to front-end server, can use this
+// describe('POST /api/users/login', () => {
+//     test('200 successful login', async () => {
+//         await request(app)
+//             .post('/api/users/login')
+//             .expect(200);
+//     });
+//     test('401 failed login', async () => {
+//         await request(app)
+//             .post('/api/users/login')
+//             .expect(401);
+//     });
+// })
