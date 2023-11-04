@@ -133,5 +133,22 @@ app.delete('/api/map/:email/:id ', (req, res) => {
     res.status(200).json({ message: 'File is required.' });
 })
 
+// loggedIn
+app.post('/api/users/login', (req, res) => {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+        return res.status(400).json({ message: 'Username and password are required' });
+    }
+
+    const user = users.find(u => u.username === username);
+    if (user && user.password === password) {
+        return res.status(200).json({
+            message: 'Login successful',
+        });
+    } else {
+        return res.status(401).json({ message: 'Invalid credentials' });
+    }
+});
 
 module.exports = app; 
