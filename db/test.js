@@ -69,3 +69,17 @@ describe('PUT /api/user/:id', () => {
     expect(response.statusCode).toBe(404);
     });
 });
+
+describe('GET /api/map/:email/:id', () => {
+    test('get specific map', async () => {
+        const response = await request(app).get('/api/map/:email/:id');
+        expect(response.status).toEqual(200);
+    });
+});
+
+describe('GET /api/maps', () => {
+    test('get all users', async () => {
+        const response = await request(app).get('/api/maps');
+        expect(response.status).toEqual(200);
+    });
+});
