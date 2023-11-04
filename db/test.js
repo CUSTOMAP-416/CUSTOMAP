@@ -156,3 +156,20 @@ describe('PUT /api/map/:email/:id', () => {
             .expect(404);
 });
 });
+
+describe('DELETE /api/map/:email/:id', () => {
+    const email = 'johnDoe@stonybrook.edu';
+    const id = 'johnDoe000';
+
+    test('404 if email is not exist', async () => {
+        await request(app)
+            .delete(`/api/map/${''}/${id}`)
+            .expect(404);
+    });
+
+    test('404 if id is not exist', async () => {
+        await request(app)
+        .delete(`/api/map/${email}/${''}`)
+        .expect(404);
+    });
+});
