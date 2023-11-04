@@ -114,3 +114,45 @@ describe('GET /api/maps', () => {
 //         });
 //     });
 // });
+
+describe('PUT /api/map/:email/:id', () => {
+    test('update a map with email and id', async () => {
+        const email = 'johnDoe@stonybrook.edu';
+        const id = 'johnDoe000';
+        const updateData = {
+            name: 'Updated Test Map',
+            chat: [],
+            file: {},
+            font: 'Arial',
+            color: {},
+            legend: 'Updated legend'
+        };
+        const response = await request(app)
+            .put(`/api/map/${email}/${id}`)
+            .send(updateData)
+            .expect(200);
+        expect(response.body).toMatchObject({
+            id: id,
+            name: updateData.name,
+            chat: updateData.chat,
+            file: updateData.file,
+            font: updateData.font,
+            color: updateData.color,
+            legend: updateData.legend
+        });
+    });
+    test('404 Not Found when email is missing', async () => {
+        const id = 'johnDoe000';
+        const updateData = {
+        };
+        await request(app)
+            .put(`/api/map//${id}`) // Intentionally missing email
+            .expect(404);
+    });
+    test('should respond with 404 Not Found when id is missing', async () => {
+        const email = 'johnDoe@stonybrook.edu';
+        await request(app)
+            .put(`/api/map/${email}/`) // Intentionally missing id
+            .expect(404);
+});
+});
