@@ -8,11 +8,11 @@
     "jest": "^27.4.3",
     "jest-resolve": "^27.4.2",
     "jest-watch-typeahead": "^1.0.0",
-    "mongodb": "6.2",
+    "mongoose": "^8.0.0",
     "supertest": "^6.3.3"
   },
   "scripts": {
-    "start": "node db/index.js",
+    "start": "nodemon db/index.js",
     "test": "jest"
   }
 }

@@ -1,23 +1,36 @@
 const express= require('express');
-const { MongoClient } = require("mongodb");
+const mongoose = require('mongoose');
 
 const app = express();
 const port = 3000;
 
-const uri = 'mongodb://127.0.0.1:27017';
-const dbName = 'customap'
-let client;
+app.use(
+    express.json({
+        limit: "50mb",
+    })
+);
 
+const dbName = 'customap'
+const uri = `mongodb://127.0.0.1:27017/${dbName}`;
+
+// FIXME: separate routers and app (possibly separate config files)
 async function startServer(){
     //mongo
     try{
-        client = new MongoClient(uri);
-        await client.connect();
+        await mongoose.connect(uri);
     }catch(err){
         console.error(err);
         process.exit();
     }
-    const db = client.db(dbName);
+    const ObjectId = mongoose.Types.ObjectId;
+    //User Schema
+    //FIXME: what is username? (Why is it unique?)
+    const userSchema = new mongoose.Schema({
+        username: { type: String, required: true, unique: true },
+        email: { type: String, required: true, unique: true },
+        password: { type: String, required: true },
+    });
+    const User = mongoose.model('user', userSchema);
 
     // webpage
     app.get('/', (req, res) => {
@@ -27,52 +40,51 @@ async function startServer(){
     });
 
     // getUser
-    app.get('/api/user/:id', (req, res) => {
-        const {id} = req.params
+    app.get('/api/user/:id', async(req, res) => {
+        const id = new Object(req.params.id)
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
 
-        res.status(200).json({ message: 'Success' });
+        res.status(200).json(user);
     })
 
     // getAllUser
-    app.get('/api/users', (req, res) => {
-        res.status(200).json({ message: 'Success' });
+    app.get('/api/users', async (req, res) => {
+        const users = await User.find();
+        res.status(200).json(users);
     })
 
     // createUser
-    app.post('/api/users', (req, res) => {
-        const { name, phone, email, password } = req.body;
+    app.post('/api/users', async (req, res) => {
+        const { username, email, password } = req.body;
+        const userInfo = {
+            username,
+            email,
+            password
+        }
 
-        if (!email || !name || !password) {
+        if (!email || !username || !password) {
             return res.status(400).json({ message: 'Name, email, and password are required.' });
         }
 
-        const newUser = {name: 'John Doe', 
-                        phone: '631-XXX-XXXX', 
-                        id: 'johndoe000', 
-                        email: 'john.doe@stonybrook.edu', 
-                        password: '0000'}
-
-        users.push(newUser);
+        const newUser = new User(userInfo);        
+        await newUser.save();
         res.status(201).json(newUser);
     })
 
     // updateUser
-    app.put('/api/user/:id', (req, res) => {
+    app.put('/api/user/:id', async (req, res) => {
         if(!req.params.id){
             res.status(404).json({})
         }
-        //const { name, phone, email, password } = req.body; 
-        
-        //temp
-        const name= 'Jane Doe'
-        const phone= '631-YYY-YYYY'
-        const password= '1234'
+        const { username, email, password } = req.body; 
+        const filter = { _id: new ObjectId(req.params.id) };
+        const update = { username, email, password  };
 
-        const updatedUser = {
-            name: name, 
-            phone: phone, 
-            password: password}
-
+        await User.findOneAndUpdate(filter, update);
+        const updatedUser = await User.findOne(filter);
         res.status(201).json(updatedUser);
     });
 
@@ -172,7 +184,11 @@ async function startServer(){
     });
 
     app.listen(port, () => {
-        console.log(`Example app listening on port ${port}`)
+        console.log(`
+        #######################################################################################
+        ##################  Customap Backend listening on port ${port}  ##########################
+        #######################################################################################
+        `)
     })
 }
 

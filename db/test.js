@@ -2,6 +2,10 @@ const request = require('supertest');
 const fs = require("fs");
 const app = require('./index');
 
+beforeEach(() => {
+    // initializeCityDatabase();
+});
+
 describe('GET /', () => {
     test('upload webpage', async () => {
         const response = await request(app).get('/');
@@ -11,8 +15,19 @@ describe('GET /', () => {
 
 describe('GET /api/user/:id', () => {
     test('get specific user', async () => {
-        const response = await request(app).get('/api/user/:id');
-        expect(response.status).toEqual(200);
+        const userData = {
+            username: 'Janny Doe', 
+            email: 'janny.doe@stonybrook.edu', 
+            password: '0000'
+        };
+        let response = await request(app).post('/api/users').send(userData)
+        const newUser = response.body
+        const id = newUser['_id']
+
+        response = await request(app).get(`/api/user/${id}`);
+        for(const key in userData){
+            expect(userData[key]).toEqual(response.body[key])
+        }
     });
 });
 
@@ -24,49 +39,50 @@ describe('GET /api/users', () => {
 });
 
 // This is test code for createUser. After connect to front-end server, can use this
-// describe('POST /api/users', () => {
-//     test('creates a new user', async () => {
-//         const userData = {
-//             name: 'John Doe', 
-//             phone: '631-XXX-XXXX', 
-//             id: 'johndoe000', 
-//             email: 'john.doe@stonybrook.edu', 
-//             password: '0000'};
+describe('POST /api/users', () => {
+    test('creates a new user', async () => {
+        const userData = {
+            username: 'Jenny Doe', 
+            email: 'jenny.doe@stonybrook.edu', 
+            password: '0000'};
 
-//         const response = await request(app)
-//             .post('/api/users')
-//             .send(userData)
-//             .expect(201);
-//             expect(response.body).toEqual(expect.objectContaining({
-//                 name: userData.name,
-//                 phone: userData.phone,
-//                 email: userData.email,
-//                 id: userData.id,
-//             }))
-            
-//     });
-// });
+        const response = await request(app)
+            .post('/api/users')
+            .send(userData)
+            .expect(201);
+        for(const key in userData){
+            expect(userData[key]).toEqual(response.body[key])
+        }
+    });
+});
 
 describe('PUT /api/user/:id', () => {
     test('updates the user and returns the updated user data', async () => {
-      // You need to replace '1' with the actual id of the user you expect to update
-    const userId = '1'; 
-    const updatedUserData = {
-        name: 'Jane Doe',
-        phone: '631-YYY-YYYY',
-        password: '1234'
-    };
-    const response = await request(app)
-        .put(`/api/user/${userId}`)
-        .send(updatedUserData);
+        const userData = {
+            username: 'PUT Doe', 
+            email: 'PUT.doe@stonybrook.edu', 
+            password: '0000'
+        };
+        let response = await request(app).post('/api/users').send(userData)
+        const newUser = response.body
+        const id = newUser['_id']
 
-    expect(response.statusCode).toBe(201);
-    expect(response.body).toEqual(expect.any(Object));
+        const updatedUserData = {
+            username: 'UPDATED Doe',
+            email: 'PUT.doe@stonybrook.edu',
+            password: '1234'
+        };
+        response = await request(app).put(`/api/user/${id}`).send(updatedUserData);
+        expect(response.statusCode).toBe(201);
+        for(const key in updatedUserData){
+            expect(updatedUserData[key]).toEqual(response.body[key])
+        }
     });
+
     test('404 if no user id is provided', async () => {
-    const response = await request(app)
-        .put('/api/user/') // No ID provided
-    expect(response.statusCode).toBe(404);
+        const response = await request(app)
+            .put('/api/user/') // No ID provided
+        expect(response.statusCode).toBe(404);
     });
 });
 
