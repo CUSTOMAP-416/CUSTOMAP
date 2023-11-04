@@ -1,6 +1,6 @@
 const request = require('supertest');
 const fs = require("fs");
-const app = require('./server');
+const app = require('./index');
 
 describe('GET /', () => {
     test('upload webpage', async () => {
