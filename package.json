@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "CSE416 project",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node project/server/server.js",
     "server": "nodemon project/server/server.js",
@@ -10,5 +11,4 @@
     "front_end_test": "node test/front_end_tests.js",
     "deploy-aws": "node aws-deploy.js"
   }
-  "type": "module"
 }
