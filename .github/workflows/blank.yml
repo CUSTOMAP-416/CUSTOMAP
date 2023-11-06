@@ -38,7 +38,7 @@ jobs:
            npm i bcryptjs
         
     - name: Test
-      run: npm back_end_test
+      run: npm test
       
     - name: Install aws-sdk/mine
       run: npm i aws-sdk
