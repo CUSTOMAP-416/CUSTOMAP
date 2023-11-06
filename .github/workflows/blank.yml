@@ -38,7 +38,7 @@ jobs:
            npm i bcryptjs
            
     - name: Test
-      run: npx cypress run front_end_tests --if-present
+      run: npx cypress open front_end_tests
            npm run back_end_test --if-present
       
     - name: Install aws-sdk/mine
