@@ -9,7 +9,7 @@
     "server": "nodemon project/server/server.js",
     "client": "npm start --prefix client",
     "front_end_test": "node test/front_end_tests.js",
-    "back_end_test": "jest",
+    "test": "jest",
     "deploy-aws": "node aws-deploy.js"
   }
 }
