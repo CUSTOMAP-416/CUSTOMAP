@@ -1,0 +1,12 @@
+{
+  "name": "customap",
+  "version": "1.0.0",
+  "description": "CSE416 project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "server": "nodemon server/server.js",
+    "client": "npm start --prefix client",
+    "deploy-aws": "node aws-deploy.js"
+  }
+}
