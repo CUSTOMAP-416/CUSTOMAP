@@ -51,8 +51,9 @@ jobs:
       with:
         app-name: 'customap'
         slot-name: 'Production'
-        publish-profile: ${{ secrets.SECRETACCESSKEY }}
         package: ./project
+        username: ${{ secrets.FTPS_USERNAME }}
+        password: ${{ secrets.FTPS_PASSWORD }}
           
     - name: Install aws-sdk/mine
       run: npm i aws-sdk
