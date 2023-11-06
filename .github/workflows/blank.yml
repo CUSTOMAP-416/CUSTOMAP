@@ -29,8 +29,9 @@ jobs:
     - name: Test
       run: npm run test --if-present
       
-    - name: Install aws-sdk
+    - name: Install aws-sdk/mine
       run: npm i aws-sdk
+           npm i mime
 
     - name: Set up AWS CLI
       run: |
