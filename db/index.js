@@ -31,6 +31,20 @@ async function startServer(){
         password: { type: String, required: true },
     });
     const User = mongoose.model('user', userSchema);
+    
+    //Map Schema
+    const mapSchema = new mongoose.Schema({
+        title: { type: String, required: true },
+        description: String,
+        owner: { type: mongoose.Types.ObjectId, ref: 'User', required: true },
+        visibility: { type: String, default: 'private' },
+        discussions: [{ type: mongoose.Types.ObjectId, ref: 'Discussion' }],
+        legend: [String],
+        texts: [{ type: mongoose.Types.ObjectId, ref: 'Text' }],
+        colors: [{ type: mongoose.Types.ObjectId, ref: 'Color' }],
+        createdDate: { type: Date, default: Date.now },
+    });
+    const Map = mongoose.model('map', mapSchema);
 
     // webpage
     app.get('/', (req, res) => {
@@ -88,68 +102,67 @@ async function startServer(){
         res.status(201).json(updatedUser);
     });
 
-    // getMap
-    app.get('/api/map/:email/:id', (req, res) => {
-        res.status(200).json({ message: 'Success' });
+    //getMap
+    app.get('/api/map/:owner/:mapid', async(req, res) => {
+        const id = new Object(req.params.id)
+        const map = await Map.findById(id);
+        if (!map) {
+            return res.status(404).json({ message: 'Map not found' });
+        }
+        
+        res.status(200).json(map);
     })
 
     // getAllMaps
-    app.get('/api/maps', (req, res) => {
-        res.status(200).json({ message: 'Success' });
+    app.get('/api/maps', async (req, res) => {
+        const maps = await Map.find();
+        res.status(200).json(maps);
     })
 
     // createMap
-    app.post('/api/map', (req, res) => {
-        const { email, name, chat, file, font, color, legend } = req.body;
-        if (!file) {
-            return res.status(400).json({ message: 'File is required.' });
-        }
-        const newMap = {
-            name: name || 'myMap', 
-            chat: [{}], 
-            file: file || {},
-            font: font || '',
-            color: color || {},
-            legend: legend || ''
+    app.post('/api/map', async (req, res) => {
+        const { title, owner ,description, legend, texts, colors } = req.body;
+        
+        const textsArray = texts ? texts.split(',').map(id => mongoose.Types.ObjectId(id.trim())) : [];
+        const colorsArray = colors ? colors.split(',').map(id => mongoose.Types.ObjectId(id.trim())) : [];
+
+        const ownerId = new mongoose.Types.ObjectId(owner);
+        const mapInfo = {
+            title, 
+            description,
+            owner: ownerId,
+            legend,
+            texts: textsArray,
+            colors: colorsArray,
         };
 
+        const newMap = new Map(mapInfo);
+        await newMap.save();
         res.status(201).json(newMap);
     });
 
-    // updateMap
-    app.put('/api/map/:email/:id', (req, res) => {
-        if(!req.params.email){
-            res.status(404).json({})
-        }
-        if(!req.params.id){
-            res.status(404).json({})
-        }
+    // // updateMap
+    // app.put('/api/map/:owner/:mapid', async(req, res) => {
+    //     if(!req.params.email){
+    //         res.status(404).json({})
+    //     }
+    //     if(!req.params.id){
+    //         res.status(404).json({})
+    //     }
 
-        //const { email, name, chat, file, font, color, legend } = req.body;
+    //     const { title, description, owner,visibility, discussions, legend, texts, colors, createdDate } = req.body;
+    //     const filter = { _id: new ObjectId(req.params.id) };
+    //     const update = { title, description, owner,visibility, discussions, legend, texts, colors, createdDate  };
 
-        //temp
-        const name= 'Updated Test Map';
-        const chat= []
-        const file= {}
-        const font= 'Arial'
-        const color= {}
-        const legend= 'Updated legend'
+    //     await Map.findOneAndUpdate(filter, update);
+    //     const updatedMap = await Map.findOne(filter);
 
-        const updatedMap = {
-            id: req.params.id,
-            name: name,
-            chat: chat, 
-            file: file,
-            font: font,
-            color: color,
-            legend: legend
-        };
-
-        res.status(200).json(updatedMap);
-    });
+    //     res.status(200).json(updatedMap);
+    //     res.status(200).json()
+    // });
 
     // deleteMap
-    app.delete('/api/map/:email/:id ', (req, res) => {
+    app.delete('/api/map/:owner/:mapid ', async(req, res) => {
         if(!req.params.email){
             res.status(404).json({})
         }
@@ -157,12 +170,10 @@ async function startServer(){
             res.status(404).json({})
         }
 
-        const {file} = req.body;
-        const mapId = req.params.id;
-        if (!file) {
-            return res.status(400).json({ message: 'File is required.' });
-        }
-        res.status(200).json({ message: 'File is required.' });
+        const filter = { _id: new ObjectId(req.params.id) };
+
+        await Map.findOneAndDelete(filter);
+        res.status(200).json({message: "Successfully deleted"});
     })
 
     // loggedIn
@@ -173,7 +184,7 @@ async function startServer(){
             return res.status(400).json({ message: 'Username and password are required' });
         }
 
-        const user = users.find(u => u.username === username);
+        const user = User.find(u => u.username === username);
         if (user && user.password === password) {
             return res.status(200).json({
                 message: 'Login successful',
