@@ -10,4 +10,5 @@
     "front_end_test": "node test/front_end_tests.js",
     "deploy-aws": "node aws-deploy.js"
   }
+  "type": "module"
 }
