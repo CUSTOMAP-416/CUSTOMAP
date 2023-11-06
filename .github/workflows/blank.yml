@@ -36,6 +36,7 @@ jobs:
            npm i jsonwebtoken
            npm i mongoose
            npm i bcryptjs
+           npm i ts-node
         
     - name: Test
       run: npm test
