@@ -8,7 +8,7 @@ Cypress.on("uncaught:exception", (err, runnable) => {
 describe("Login test", () => {
   it("Log-in Test", () => {
     cy.viewport(1200, 800);
-    cy.mount(<App />);
+    /*cy.mount(<App />);*/
 
     cy.contains("Sign in").click();
     cy.get("input[type=email]").type("user@example.com");
@@ -20,7 +20,7 @@ describe("Login test", () => {
 describe("Create map and file input load-clear test", () => {
   it("Create new Map", () => {
     cy.viewport(1200, 800);
-    cy.mount(<App />);
+    /*cy.mount(<App />);*/
     cy.contains("Create Map").click();
 
     cy.get("input[type=name]").type("My new map!");
@@ -32,7 +32,7 @@ describe("Create map and file input load-clear test", () => {
   });
   it("File input test in Create new Map", () => {
     cy.viewport(1200, 800);
-    cy.mount(<App />);
+    /*cy.mount(<App />);*/
     cy.contains("Create Map").click();
     cy.mount(<MapComponent />);
     cy.get(".fileinput").selectFile("./testgeojson.geojson", {
