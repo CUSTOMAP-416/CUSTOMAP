@@ -26,9 +26,10 @@ jobs:
     - name: Build
       run: npm run build --if-present
       
-    - name: Install cypress/supertest
+    - name: Install cypress/supertest/cookie
       run: npm i cypress
            npm i supertest
+           npm i cookie
            
     - name: Test
       run: npm run back_end_test --if-present
