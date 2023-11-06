@@ -26,8 +26,9 @@ jobs:
     - name: Build
       run: npm run build --if-present
       
-    - name: Install cypress
+    - name: Install cypress/supertest
       run: npm i cypress
+           npm i supertest
            
     - name: Test
       run: npm run back_end_test --if-present
