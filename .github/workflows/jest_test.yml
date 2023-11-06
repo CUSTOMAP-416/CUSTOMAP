@@ -1,0 +1,42 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 16
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build
+      run: npm run build --if-present
+      
+    - name: Install supertest/jest/cookie/express/cors/cookie-parser/jsonwebtoken/mongoose/bcryptjs
+      run: npm i supertest
+           npm i jest
+           npm i cookie
+           npm i express
+           npm i cors
+           npm i cookie-parser
+           npm i jsonwebtoken
+           npm i mongoose
+           npm i bcryptjs
+           npm i ts-node
+        
+    - name: Test
+      run: npm jest
