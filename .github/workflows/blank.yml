@@ -30,7 +30,7 @@ jobs:
       run: npm i cypress
            
     - name: Test
-      run: npm run front_end_test --if-present
+      run: npm run back_end_test --if-present
       
     - name: Install aws-sdk/mine
       run: npm i aws-sdk
