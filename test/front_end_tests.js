@@ -8,7 +8,6 @@ Cypress.on("uncaught:exception", (err, runnable) => {
 describe("Login test", () => {
   it("Log-in Test", () => {
     cy.viewport(1200, 800);
-    cy.mount(<App />);
 
     cy.contains("Sign in").click();
     cy.get("input[type=email]").type("user@example.com");
