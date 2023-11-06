@@ -2,7 +2,7 @@ const AWS = require("aws-sdk");
 const fs = require("fs");
 const path = require("path");
 const mime = require('mime');
-const rootFolderName = process.env.BUILD_DIRECTORY || 'dist'
+const rootFolderName = process.env.BUILD_DIRECTORY || 'project'
 // configuration
 const config = {
     s3BucketName: process.env.BUCKET_NAME,
