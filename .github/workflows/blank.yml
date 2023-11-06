@@ -26,7 +26,7 @@ jobs:
     - name: Build
       run: npm run build --if-present
       
-    - name: Install cypress/supertest/cookie/express/cors/cookie-parser/jsonwebtoken
+    - name: Install cypress/supertest/cookie/express/cors/cookie-parser/jsonwebtoken/mongoose
       run: npm i cypress
            npm i supertest
            npm i cookie
@@ -34,6 +34,7 @@ jobs:
            npm i cors
            npm i cookie-parser
            npm i jsonwebtoken
+           npm i mongoose
            
     - name: Test
       run: npm run back_end_test --if-present
