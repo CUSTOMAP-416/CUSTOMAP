@@ -39,3 +39,7 @@ process.on('SIGINT', () => {
         .catch((err) => console.log(err));
     }
   })
+module.exports = {
+  app,
+  db
+}
