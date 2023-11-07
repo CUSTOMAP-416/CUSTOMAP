@@ -31,7 +31,7 @@ jobs:
       run: npx cypress install
 
     - name: Cypress Run
-      run: npx cypress run front_end_test
+      run: npx cypress run --component
 
     - name: Save Test Artifacts
       uses: actions/upload-artifact@v2
