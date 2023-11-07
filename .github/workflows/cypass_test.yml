@@ -11,7 +11,7 @@ jobs:
     
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up Node.js
       uses: actions/setup-node@v2
@@ -30,12 +30,11 @@ jobs:
     # - name: Cypress Install
     #   # working-directory: CUSTOMAP/project/client
     #   run: npx cypress install
-    - name: Checkout
-      uses: actions/checkout@v4
       
     - name: Cypress Run
       # run: npx cypress run --component
-      uses: cypress-io/github-action@v6
+      # uses: cypress-io/github-action@v6
+      uses: ./
       with:
         working-directory: project/client
         component: true
