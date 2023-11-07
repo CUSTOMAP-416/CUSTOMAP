@@ -7,7 +7,7 @@
     "start": "node project/server/index.js",
     "server": "nodemon project/server/index.js",
     "client": "npm start --prefix project/client",
-    "front_end_test": "./project/client",
+    "front_end_test": "npx cypress run --component /project/client",
     "back_end_test": "jest",
     "deploy-aws": "node aws-deploy.js",
     "azure": "NPM_CONFIG_PRODUCTION=false npm install --prefix project/client && npm run build --prefix project/client && npm run start"
