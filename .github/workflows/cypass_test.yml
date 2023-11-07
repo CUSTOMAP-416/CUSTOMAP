@@ -29,14 +29,14 @@ jobs:
 
     - name: Cypress Install
       run: npx cypress install
-      working-directory: CUSTOMAP/project/client
+      #working-directory: CUSTOMAP/project/client
 
       
     - name: Cypress Run
-      run: npx cypress run --component
+      run: npx cypress run front_end_test --component
       # uses: cypress-io/github-action@v6
       # with:
-      working-directory: project/client
+      #working-directory: project/client
 
     - name: Save Test Artifacts
       uses: actions/upload-artifact@v2
