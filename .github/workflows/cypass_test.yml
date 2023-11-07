@@ -27,9 +27,10 @@ jobs:
     - name: Install Dependencies
       run: npm ci
 
-    # - name: Cypress Install
-    #   # working-directory: CUSTOMAP/project/client
-    #   run: npx cypress install
+    - name: Cypress Install
+      run: npx cypress install
+      working-directory: CUSTOMAP/project/client
+
       
     - name: Cypress Run
       run: npx cypress run --component
