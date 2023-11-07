@@ -28,9 +28,11 @@ jobs:
       run: npm ci
 
     - name: Cypress Install
+      working-directory: /home/runner/work/CUSTOMAP/CUSTOMAP/project/client
       run: npx cypress install
 
     - name: Cypress Run
+      working-directory: /home/runner/work/CUSTOMAP/CUSTOMAP/project/client
       run: npx cypress run --component
 
     - name: Save Test Artifacts
