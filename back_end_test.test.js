@@ -2,7 +2,12 @@ const request = require('supertest');
 const cookieParser = require('cookie')
 const {app, db} = require('./project/server/index.js');
 
+const PORT = process.env.PORT || 80;
+
+let server;
+
 beforeAll(async () => {
+  server = app.listen(PORT, () => console.log(`Test server running on port`));
   await db.collection('users').drop();
 });
 
@@ -114,5 +119,10 @@ describe('GET /auth_store/loggedIn', () => {
 })
 
 afterAll(async () => {
-  await db.close();
+  if (server && server.close) {
+    await new Promise(resolve => server.close(resolve));
+  }
+  if (db && db.close) {
+    await db.close();
+  }
 });
