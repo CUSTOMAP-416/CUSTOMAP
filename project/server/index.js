@@ -21,7 +21,7 @@ app.use('/auth_store', authStoreRouter)
 
 // INITIALIZE OUR DATABASE OBJECT
 const mongoose = require('mongoose')
-const mongoDB = "mongodb://127.0.0.1:27017/customap";
+const mongoDB = "mongodb://customap-server:0qBo25lKmOWy9gDKPtOnrVu2dBIQScBuZqWfbJ8wcBAPffYrgN5ahgFXzyI8ApyDSugBeVY95vc3ACDbtHcpVw==@customap-server.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&maxIdleTimeMS=120000&appName=@customap-server@";
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
