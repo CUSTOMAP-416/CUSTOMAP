@@ -2,9 +2,9 @@ const request = require('supertest');
 const cookieParser = require('cookie')
 const {app, db} = require('./project/server/index.js');
 
-beforeAll(() => {
-    db.collection('users').drop();
-})
+beforeAll(async () => {
+  await db.collection('users').drop();
+});
 
 const userData = {
     username: 'John Doe', 
@@ -112,3 +112,7 @@ describe('GET /auth_store/loggedIn', () => {
         expect(userData['email']).toEqual(response.body.user['email'])
     });
 })
+
+afterAll(async () => {
+  await db.close();
+});
