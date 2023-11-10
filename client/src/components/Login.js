@@ -1,6 +1,8 @@
 import { useContext, useState } from "react";
 import AuthStoreContextProvider from "../auth_store";
 import { Link } from "react-router-dom";
+import "../styles/Login.css"
+import mapdot from "../assets_img/login_mapWp.svg";
 
 export default function Login() {
   const { auth_store } = useContext(AuthStoreContextProvider);
@@ -46,32 +48,55 @@ export default function Login() {
   };
 
   return (
-    <div>
-      <h2>Email</h2>
-      <input
-        id="logemail"
-        data-cy="log_email"
-        name="email"
-        type="text"
-        value={email}
-        onChange={handleEmailChange}
-      ></input>
-      <h2>Password</h2>
-      <input
-        className="log_passw"
-        type="password"
-        value={password}
-        onChange={handlePasswordChange}
-      ></input>
-      <Link to="/Dashboard/" onClick={() => handleLoginSubmit()}>
-        Log in
-      </Link>
-      <Link to="/ForgetPassword/" onClick={() => openForgotPassword()}>
-        Forgot Password?
-      </Link>
-      <Link to="/SignUp/" onClick={() => openSignUp()}>
-        Sign Up{" "}
-      </Link>
+    <div className="loginall">
+      <style>
+        @import
+        url('https://fonts.googleapis.com/css2?family=Changa+One&display=swap');
+      </style>
+      <div className="left">
+        <h1 className="welcome">WELCOME BACK!</h1>
+        <h2 className="smallWelcome">Login to your account</h2>
+        <h3>Email</h3>
+        <input
+          id="logemail"
+          data-cy="log_email"
+          name="email"
+          type="text"
+          value={email}
+          onChange={handleEmailChange}
+        ></input>
+        <h3>Password</h3>
+        <input
+          className="log_passw"
+          type="password"
+          value={password}
+          onChange={handlePasswordChange}
+        ></input>
+        <div className="forgetPassw">
+          <Link
+            className="forgetText"
+            to="/ForgetPassword/"
+            onClick={() => openForgotPassword()}
+          >
+            Forgot Password?
+          </Link>
+        </div>
+        <div className="buttons">
+          <Link
+            className="signin"
+            to="/Dashboard/"
+            onClick={() => handleLoginSubmit()}
+          >
+            Log in
+          </Link>
+          <Link className="signup" to="/SignUp/" onClick={() => openSignUp()}>
+            Sign Up{" "}
+          </Link>
+        </div>
+      </div>
+      <div className="right">
+        <img className="mapdot" src={mapdot} alt="My SVG" />
+      </div>
     </div>
   );
 }
