@@ -74,10 +74,16 @@ export default function ForgetPassword(){
           </div>
           <div className="forget_right">
             <div>
-              <input type="text" value={ID} onChange={handleIDChange}></input>
+              <input
+                className="f_input"
+                type="text"
+                value={ID}
+                onChange={handleIDChange}
+              ></input>
             </div>
             <div>
               <input
+                className="f_input"
                 type="text"
                 value={email}
                 onChange={handleEmailChange}
@@ -85,6 +91,7 @@ export default function ForgetPassword(){
             </div>
             <div>
               <input
+                className="f_input"
                 type="text"
                 value={phone}
                 onChange={handlePhoneChange}
@@ -123,6 +130,7 @@ export default function ForgetPassword(){
           <div className="forget_right">
             <div>
               <input
+                className="f_input"
                 type="text"
                 value={newPassword}
                 onChange={handleNewPasswordChange}
@@ -130,6 +138,7 @@ export default function ForgetPassword(){
             </div>
             <div>
               <input
+                className="f_input"
                 type="text"
                 value={newPasswordAgain}
                 onChange={handleNewPasswordAgainChange}

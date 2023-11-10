@@ -77,10 +77,16 @@ export default function SignUp(){
           </div>
           <div className="rightBox">
             <div>
-              <input type="text" value={ID} onChange={handleIDChange}></input>
+              <input
+                className="signup_input"
+                type="text"
+                value={ID}
+                onChange={handleIDChange}
+              ></input>
             </div>
             <div>
               <input
+                className="signup_input"
                 type="text"
                 value={password}
                 onChange={handlePasswordChange}
@@ -88,6 +94,7 @@ export default function SignUp(){
             </div>
             <div>
               <input
+                className="signup_input"
                 type="text"
                 value={passwordVerify}
                 onChange={handlePasswordVerifyChange}
@@ -95,6 +102,7 @@ export default function SignUp(){
             </div>
             <div>
               <input
+                className="signup_input"
                 type="text"
                 value={name}
                 onChange={handleNameChange}
@@ -102,6 +110,7 @@ export default function SignUp(){
             </div>
             <div>
               <input
+                className="signup_input"
                 type="text"
                 value={email}
                 onChange={handleEmailChange}
@@ -109,6 +118,7 @@ export default function SignUp(){
             </div>
             <div>
               <input
+                className="signup_input"
                 type="text"
                 value={phone}
                 onChange={handlePhoneChange}

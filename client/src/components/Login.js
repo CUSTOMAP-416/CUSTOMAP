@@ -53,12 +53,13 @@ export default function Login() {
         @import
         url('https://fonts.googleapis.com/css2?family=Changa+One&display=swap');
       </style>
-      <div className="left">
+      <div className="log_left">
         <h1 className="welcome">WELCOME BACK!</h1>
         <h2 className="smallWelcome">Login to your account</h2>
         <h3>Email</h3>
         <input
           id="logemail"
+          className="log_input"
           data-cy="log_email"
           name="email"
           type="text"
@@ -67,7 +68,7 @@ export default function Login() {
         ></input>
         <h3>Password</h3>
         <input
-          className="log_passw"
+          className="log_input"
           type="password"
           value={password}
           onChange={handlePasswordChange}
@@ -94,7 +95,7 @@ export default function Login() {
           </Link>
         </div>
       </div>
-      <div className="right">
+      <div className="log_right">
         <img className="mapdot" src={mapdot} alt="My SVG" />
       </div>
     </div>
