@@ -1,4 +1,4 @@
-name: Cypass test
+name: Cypress test
 on:
   push:
     branches: ["main"]
