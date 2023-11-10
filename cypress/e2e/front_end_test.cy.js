@@ -2,7 +2,7 @@
 
 context("front_end", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3000/");
+    cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/login/");
   });
   // Cypress.on("uncaught:exception", (err, runnable) => {
   //   return false;
