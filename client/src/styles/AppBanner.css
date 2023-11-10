@@ -1,0 +1,43 @@
+.banner {
+  background-color: #1f8505;
+}
+.flexbox {
+  display: flex;
+  align-items: center;
+}
+.icon {
+  width: 40px;
+  height: auto;
+  padding: 20px;
+}
+.logo {
+  font-family: "Changa One", sans-serif;
+  font-size: 40px;
+  color: white;
+}
+.links {
+  display: flex;
+  margin-left: auto;
+}
+.links > div {
+  padding: 20px;
+  color: white;
+  /* If you want to remove the default underline from links: */
+  text-decoration: none;
+}
+.login {
+  /* Style=Filled */
+  box-sizing: border-box;
+  /* Auto layout */
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+
+  width: 100px;
+  height: 40px;
+  /* Icon color 2 */
+  background: #155a03;
+  /* text color 1 */
+  border: 3px solid #104502;
+  border-radius: 50px;
+}
