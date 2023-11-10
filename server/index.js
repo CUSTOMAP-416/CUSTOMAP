@@ -3,13 +3,13 @@ const express = require('express')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 // CREATE OUR SERVER
-const PORT = 8080;
+const PORT = process.env.PORT || 80;
 const app = express()
 
 // SETUP THE MIDDLEWARE
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000", "https://customap416client-3b33f67d5c86.herokuapp.com"],
     credentials: true
 }))
 app.use(express.json())
@@ -21,7 +21,7 @@ app.use('/auth_store', authStoreRouter)
 
 // INITIALIZE OUR DATABASE OBJECT
 const mongoose = require('mongoose')
-const mongoDB = "mongodb://127.0.0.1:27017/customap";
+const mongoDB = "mongodb+srv://shihaowen:customap@cluster0.qw90kmw.mongodb.net/?retryWrites=true&w=majority";
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
@@ -39,3 +39,7 @@ process.on('SIGINT', () => {
         .catch((err) => console.log(err));
     }
   })
+module.exports = {
+  app,
+  db
+}
