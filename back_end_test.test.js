@@ -1,6 +1,6 @@
 const request = require('supertest');
 const cookieParser = require('cookie')
-const {app, db} = require('./project/server/index.js');
+const {app, db} = require('./server/index.js');
 
 const PORT = process.env.PORT || 80;
 
