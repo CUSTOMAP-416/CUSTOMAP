@@ -1,7 +1,7 @@
 import axios from 'axios'
 axios.defaults.withCredentials = true;
 const api = axios.create({
-    baseURL: 'http://localhost:8080/auth_store',
+    baseURL: 'http://localhost:80/auth_store',
 })
 
 const getUser = () => api.get('/loggedIn/');
