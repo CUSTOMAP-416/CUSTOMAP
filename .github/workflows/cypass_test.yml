@@ -36,15 +36,3 @@ jobs:
         # uses: cypress-io/github-action@v6
         # with:
         #working-directory: project/client
-
-      - name: Save Test Artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: cypress-screenshots
-          path: cypress/screenshots
-
-      - name: Save Test Videos
-        uses: actions/upload-artifact@v2
-        with:
-          name: cypress-videos
-          path: cypress/videos
