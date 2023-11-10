@@ -1,0 +1,139 @@
+body {
+  background-color: rgb(243, 244, 243);
+}
+
+#heading-banner {
+  grid-column: 1 / 3;
+  grid-row: 1 / 2;
+  text-align: center;
+  font-size: 32pt;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  background-image: linear-gradient(to bottom, #1fc23a, #ffffff);
+  color: rgb(6, 6, 6);
+  font-size: 40pt;
+  border-width: 2px;
+  border-color: black;
+  border-style: solid;
+}
+
+.map-container {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+#map {
+  margin: 20px;
+  width: 98%;
+  height: 500px;
+  border-width: 2px;
+  border-color: black;
+  border-style: solid;
+}
+
+.editbar {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+#filedrop {
+  border: 2px dashed #a2a2a2;
+  border-radius: 19px;
+  background-color: #f8fdff;
+  text-align: center;
+  height: 200px;
+  margin: 20px;
+  display: grid;
+  grid-row: 1;
+  grid-column: 1/2;
+  border-width: 2px;
+  border-color: black;
+}
+#toolbar {
+  height: 200px;
+  margin: 20px;
+  display: grid;
+  grid-row: 1;
+  grid-column: 2/3;
+  border-width: 2px;
+  border-color: black;
+  border-style: solid;
+}
+
+#buttom-banner {
+  color: #ffffff;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: #1f1e1e;
+}
+.flex-container {
+  display: flex;
+  margin: 10px;
+  border: 10px;
+}
+/* CSS */
+input[type="file"],
+.button-19 {
+  appearance: button;
+  background-color: #158f2a;
+  border: solid transparent 10px;
+  border-radius: 16px;
+  border-width: 0 0 4px;
+  box-sizing: border-box;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: din-round, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  line-height: 20px;
+  margin: 0;
+  outline: none;
+  overflow: visible;
+  padding: 13px 16px;
+  text-align: center;
+  text-transform: uppercase;
+  touch-action: manipulation;
+  transform: translateZ(0);
+  transition: filter 0.2s;
+  user-select: none;
+  -webkit-user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+  width: 100%;
+}
+
+input[type="file"]:after,
+.button-19:after {
+  background-clip: padding-box;
+  background-color: #158f2a;
+  border: solid transparent 10px;
+  border-radius: 16px;
+  border-width: 0 0 4px;
+  bottom: -4px;
+  content: "";
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: -1;
+}
+
+input[type="file"]:main,
+.button-19:main,
+input[type="file"]:focus,
+.button-19:focus {
+  user-select: auto;
+}
+
+input[type="file"]:hover:not(:disabled),
+.button-19:hover:not(:disabled) {
+  filter: brightness(1.1);
+  -webkit-filter: brightness(1.1);
+}
+
+input[type="file"]:disabled,
+.button-19:disabled {
+  cursor: auto;
+}

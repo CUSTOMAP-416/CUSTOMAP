@@ -10,6 +10,7 @@
     "front_end_test": "./project/client",
     "test": "jest",
     "deploy-aws": "node aws-deploy.js",
+    "cy:run": "cypress run",
     "azure": "NPM_CONFIG_PRODUCTION=false npm install --prefix project/client && npm run build --prefix project/client && npm run start"
   },
   "dependencies": {
@@ -22,14 +23,6 @@
     "@testing-library/react": "^13.1.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.26.1",
-    "jszip": "^3.10.1",
-    "leaflet": "^1.9.4",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-router-dom": "^6.18.0",
-    "react-scripts": "5.0.1",
-    "shapefile": "^0.6.6",
-    "web-vitals": "^2.1.4",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
@@ -37,6 +30,17 @@
     "dotenv": "^10.0.0",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.7.5"
+    "jszip": "^3.10.1",
+    "leaflet": "^1.9.4",
+    "mongoose": "^5.7.5",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-router-dom": "^6.18.0",
+    "react-scripts": "5.0.1",
+    "shapefile": "^0.6.6",
+    "web-vitals": "^2.1.4"
+  },
+  "devDependencies": {
+    "cypress": "^13.5.0"
   }
 }
