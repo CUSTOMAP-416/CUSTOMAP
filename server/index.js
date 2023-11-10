@@ -9,7 +9,7 @@ const app = express()
 // SETUP THE MIDDLEWARE
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000", "https://customap416client-3b33f67d5c86.herokuapp.com"],
     credentials: true
 }))
 app.use(express.json())
