@@ -4,8 +4,8 @@
   "description": "CSE416 project",
   "main": "index.js",
   "scripts": {
-    "start": "npm start",
-    "client": "npm start",
+    "start": "npm start --prefix client",
+    "client": "npm start --prefix client",
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
