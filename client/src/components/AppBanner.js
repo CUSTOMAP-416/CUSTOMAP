@@ -1,6 +1,8 @@
 import { useContext } from 'react';
 import AuthStoreContextProvider from '../auth_store';
 import { Link } from "react-router-dom";
+import "../styles/AppBanner.css";
+import icon from "../assets_img/icon.svg";
 
 export default function AppBanner() {
   const { auth_store } = useContext(AuthStoreContextProvider);
@@ -25,16 +27,56 @@ export default function AppBanner() {
   }
 
   return (
-    <div>
-        <p>CUSTOMAP </p>
-        <Link to='/Dashboard/' onClick={() => openHome()}>Home </Link>
-        <Link to='/Dashboard/' onClick={() => openMyPage()}>MyPage </Link>
-        {auth_store.loggedIn 
-        ? <div>
-            <p>{auth_store.user.username}</p>
-            <Link to='/'onClick={() => handleLogout()}>Sign out</Link>
+    <div className="banner">
+      <style>
+        @import
+        url('https://fonts.googleapis.com/css2?family=Changa+One&display=swap');
+      </style>
+      <div className="flexbox">
+        <div>
+          <img className="icon" src={icon} alt="My SVG" />
+        </div>
+        <div className="logo">CUSTOMAP</div>
+        <div className="links">
+          <div>
+            <Link
+              to="/"
+              style={{ color: "white", textDecoration: "none" }}
+              onClick={() => openHome()}>
+              Home{" "}
+            </Link>
           </div>
-        : <Link to='/login/' onClick={() => handleLogin()}>Sign in</Link>}
+          <div>
+            <Link
+              to="/Dashboard/"
+              style={{ color: "white", textDecoration: "none" }}
+              onClick={() => openMyPage()}>
+              MyPage{" "}
+            </Link>
+          </div>
+          {auth_store.loggedIn ? (
+            <div>
+              <p>{auth_store.user.username}</p>
+              <Link
+                to="/"
+                style={{ color: "white", textDecoration: "none" }}
+                onClick={() => handleLogout()}>
+                Sign out
+              </Link>
+            </div>
+          ) : (
+            <div>
+              <Link
+                to="/login/"
+                className="login"
+                style={{ color: "white", textDecoration: "none" }}
+                onClick={() => handleLogin()}>
+                Sign in
+              </Link>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
