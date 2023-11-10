@@ -2,7 +2,7 @@
 
 context("front_end", () => {
   beforeEach(() => {
-    cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/login/");
+    cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/");
   });
   // Cypress.on("uncaught:exception", (err, runnable) => {
   //   return false;
