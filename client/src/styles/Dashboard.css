@@ -127,6 +127,7 @@ margin-bottom: 20px;
 .box{
     border: solid #1F8505;
     padding: 30px;
+    cursor: pointer;
 }
 
 .map-name{

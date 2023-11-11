@@ -9,8 +9,7 @@ import DashboardCreateOrEditMapView from './DashboardComponents/DashboardCreateO
 import DashboardSearchMapView from './DashboardComponents/DashboardSearchMapView';
 
 import bear from "../assets_img/dashboard_bear.svg";
-import arrow from "../assets_img/dashboard_arrow.svg";
-import map from "../assets_img/dashboard_map.svg";
+
 
 
 export default function Dashboard(){
@@ -47,27 +46,7 @@ export default function Dashboard(){
                 <button type="button" onClick={() => handleSelectedViewChange(<DashboardSearchMapView />)}>Search Map</button>
                 </div>
             </div>
-            <div style={{width: "100%"}}>
-                <div className='dashboard-header'>
-                    Dashboard
-                </div>
-                <div className='description-and-sorting'>
-                    <div className='description'>Maps you have participated in</div>
-                <div className='sort-buttons'>
-                    <button className='arrow-button'><img className="arrow" src={arrow} alt="My SVG" /></button><button class="sort-button">Ascending</button>
-                    <button className='arrow-button'><img className="arrow" src={arrow} alt="My SVG" /></button><button class="sort-button">Descending</button>
-                    <button className='arrow-button'><img className="arrow" src={arrow} alt="My SVG" /></button><button class="sort-button">Date</button>
-                </div>
-                </div>
-                <div className="box-container">
-                    <div className='boxes'><div className="box"><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap1</div><button className="delete">Delete</button></div></div></div>
-                    <div className='boxes'><div className="box"><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap2</div><button className="delete">Delete</button></div></div></div>
-                    <div className='boxes'><div className="box"><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap3</div><button className="delete">Delete</button></div></div></div>
-                    <div className='boxes'><div className="box"><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap4</div><button className="delete">Delete</button></div></div></div>
-                    <div className='boxes'><div className="box"><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap5</div><button className="delete">Delete</button></div></div></div>
-                </div>
-                    {/* {selectedView} */}
-            </div>
+            {selectedView}
         </div>
 
     )
