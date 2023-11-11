@@ -1,0 +1,139 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    width: 100%;
+}
+.whole-body{
+    display: flex;
+}
+
+.right-body{
+    width: 80%;
+}
+
+.admin-header {
+    color: #155A03;
+    padding: 40px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-family: Changa One;
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 150px;
+}
+
+.header-font{
+    font-size: 50px;
+}
+
+.sidebar {
+    background-color: #E8E8E8;
+    padding: 20px;
+    width: 20%;
+    height: 95vh;
+    text-align: center;
+}
+.sidebar-buttons{
+    padding-top: 30px;
+}
+
+.sidebar button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #000;
+
+    font-family: DM Sans;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+}
+
+.sidebar button:hover {
+    background-color: #95C289;
+    border-radius: 10px;
+    color: white;
+}
+
+.profile{
+    border-bottom: solid #1F8505;
+    padding: 20px;
+    color: #000;
+    font-family: DM Sans;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+}
+
+.user-list {
+    padding: 0px 30px
+}
+
+.user-item {
+    background-color: #ffffff;
+    padding: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+    border: 2px solid;
+    border-color:#1F8505;
+    font-family: DM Sans;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+}
+
+.user-item button {
+    padding: 5px 10px;
+    margin-right: 5px;
+    color: white;
+    text-shadow: -1px 0px green, 0px 1px green, 1px 0px green, 0px -1px green;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: #DAEDD5;
+
+}
+
+.sort-buttons {
+    padding: 10px;
+    display: flex;
+    justify-content: end;
+}
+
+.right-align{
+    text-align: right;
+}
+
+.sort-button {
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+    background-color: transparent;
+    padding: 4px 20px;
+    margin: 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    height: 100%;
+}
+
+.arrow{
+    width: 100%;
+    height: 100%;
+    color:#000
+}
+
+.arrow-button{
+    width: 25px;
+    height: 25px;
+    padding:0px;
+    cursor: pointer;
+    background-color: #B8D6B0;
+    border-color: #B8D6B0;
+}
