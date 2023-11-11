@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react';
 import AuthStoreContextProvider from '../../auth_store';
+import "../../styles/DashboardMyProfileView.css";
 
 export default function DashboardMyProfileView(){
     const { auth_store } = useContext(AuthStoreContextProvider);
@@ -48,16 +49,63 @@ export default function DashboardMyProfileView(){
     }
 
     return (
-        <div>
-            <h2>Name</h2>
-            <input type="text" value={name} onChange={handleNameChange}></input>
-            <h2>Phone</h2>
-            <input type="text" value={phone} onChange={handlePhoneChange}></input>
-            <h2>Change Password</h2>
-            <input type="text" value={changePassword} onChange={handleChangePasswordChange}></input>
-            <h2>Confirm Password</h2>
-            <input type="text" value={confirmPassword} onChange={handleConfirmPasswordChange}></input>
-            <button type="button" onClick={() => handleChangeInformation()}>Change Information</button>
+      <div>
+        <div className="myprofile_H">
+          <h1>My Profile</h1>
         </div>
-        )
+        <div className="profi_bottoms">
+          <div className="profi_content">
+            <div className="profile_left">
+              <h2>Name</h2>
+              <h2>Phone</h2>
+              <h2>Change Password</h2>
+              <h2>Confirm Password</h2>
+            </div>
+
+            <div className="profile_right">
+              <div>
+                <input
+                  type="text"
+                  className="profile_input"
+                  value={name}
+                  onChange={handleNameChange}
+                ></input>
+              </div>
+              <div>
+                <input
+                  type="text"
+                  className="profile_input"
+                  value={phone}
+                  onChange={handlePhoneChange}
+                ></input>
+              </div>
+              <div>
+                <input
+                  type="text"
+                  className="profile_input"
+                  value={changePassword}
+                  onChange={handleChangePasswordChange}
+                ></input>
+              </div>
+              <div>
+                <input
+                  type="text"
+                  className="profile_input"
+                  s
+                  value={confirmPassword}
+                  onChange={handleConfirmPasswordChange}
+                ></input>
+              </div>
+            </div>
+          </div>
+          <button
+            className="changeInfo_btn"
+            type="button"
+            onClick={() => handleChangeInformation()}
+          >
+            Change Information
+          </button>
+        </div>
+      </div>
+    );
 }
