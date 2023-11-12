@@ -1,6 +1,10 @@
 import { useContext, useState } from 'react';
 import AuthStoreContextProvider from '../../auth_store';
 
+import arrow from "../../assets_img/dashboard_arrow.svg";
+import map from "../../assets_img/dashboard_map.svg";
+import glass from "../../assets_img/dashboard_glass.svg";
+
 export default function DashboardSearchMapView(){
     const { auth_store } = useContext(AuthStoreContextProvider);
 
@@ -39,11 +43,38 @@ export default function DashboardSearchMapView(){
         setSortingOption(event)
     }
 
-    return <div>
-                <h2>Search Map</h2>
-                <input type="text" value={searchKeyword} onChange={handleSearchChange}></input>
-                <button type="button" onClick={() => handleSearch()}>Edit</button>
-                <button type="button" onClick={() => handleSortingChange()}>sorting</button>
-                <button type="button" onClick={() => handleMapSelect()}>Map Name</button>
-            </div>
+    // return <div>
+    //             {/* <h2>Search Map</h2>
+    //             <input type="text" value={searchKeyword} onChange={handleSearchChange}></input> */}
+    //             {/* <button type="button" onClick={() => handleSearch()}>Edit</button>
+    //             <button type="button" onClick={() => handleSortingChange()}>sorting</button> */}
+    //             {/* <button type="button" onClick={() => handleMapSelect()}>Map Name</button> */}
+    //         </div>
+
+    return(
+        <div>
+        <div className='dashboard-header'>
+            Search Map
+        </div>
+        <div className='search-box'>
+            <img className="glass" src={glass} alt="My SVG" />
+            <input type="text" value={searchKeyword} onChange={handleSearchChange} style={{backgroundColor: "#DAEDD5", border:"#DAEDD5", borderRadius: "2px", width: "100%", height: "50px", paddingLeft: "50px"}}></input>
+            <button className="search-button">Search</button>
+        </div>
+        <div className='description-and-sorting' style={{justifyContent: "end"}}>
+        <div className='sort-buttons'>
+            <button className='arrow-button' onClick={() => handleSortingChange()}><img className="arrow" src={arrow} alt="My SVG" /></button><button class="sort-button" onClick={() => handleSortingChange()}>Ascending</button>
+            <button className='arrow-button' onClick={() => handleSortingChange()}><img className="arrow" src={arrow} alt="My SVG" /></button><button class="sort-button" onClick={() => handleSortingChange()}>Descending</button>
+            <button className='arrow-button' onClick={() => handleSortingChange()}><img className="arrow" src={arrow} alt="My SVG" /></button><button class="sort-button" onClick={() => handleSortingChange()}>Date</button>
+        </div>
+        </div>
+        <div className="box-container">
+        <button className="box" onClick={() => handleMapSelect()}><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap1</div><button className="delete" onClick={() => handleSearch()}>Edit</button></div></button>
+        <button className="box" onClick={() => handleMapSelect()}><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap1</div><button className="delete" onClick={() => handleSearch()}>Edit</button></div></button>
+        <button className="box" onClick={() => handleMapSelect()}><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap1</div><button className="delete" onClick={() => handleSearch()}>Edit</button></div></button>
+        <button className="box" onClick={() => handleMapSelect()}><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap1</div><button className="delete" onClick={() => handleSearch()}>Edit</button></div></button>
+        <button className="box" onClick={() => handleMapSelect()}><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap1</div><button className="delete" onClick={() => handleSearch()}>Edit</button></div></button>
+        </div>
+    </div>
+    )
 }

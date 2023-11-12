@@ -26,7 +26,7 @@ export default function AdminDashboard(){
     }
 
     return (
-        <div>
+        <div style={{display: "flex"}}>
             <div className = "container">
             <div className='sidebar'>
             <img className="admin-bear" src={adminBear} style={{padding:"30px 0px"}} alt="My SVG" />

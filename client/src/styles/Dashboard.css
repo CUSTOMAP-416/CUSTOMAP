@@ -7,6 +7,12 @@
     height: 100vh;
 }
 
+.search-box{
+    position: relative;
+    margin: 0px 60px 20px 60px;
+    width: 80%;
+}
+
 .sidebar {
     background-color: #E8E8E8;
     padding: 20px;
@@ -115,7 +121,7 @@ margin-bottom: 20px;
 }
 
 .box-container {
-    padding: 10px 40px;
+    padding: 10px 80px;
     display: flex;
     align-content: space-around;
     flex-wrap: wrap;
@@ -145,4 +151,25 @@ margin-bottom: 20px;
     cursor: pointer;
     border-radius: 10px;
     background-color: #DAEDD5;
+}
+
+.glass{
+    position:absolute;
+    z-index: 1;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.search-button{
+    color: white;
+    background-color: green;
+    border-color: green;
+    border-radius: 10px;
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 5px 15px;
+    cursor: pointer;
 }
