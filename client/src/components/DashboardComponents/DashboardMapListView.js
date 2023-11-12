@@ -60,7 +60,7 @@ export default function DashboardMapListView(){
         //     <button type="button" onClick={() => handleEdit()}>Edit</button>
         //     <button type="button" onClick={() => handleDeleteMap()}>X</button>
         // </div>
-        <div style={{width: "100%"}}>
+        <div>
                 <div className='dashboard-header'>
                     Dashboard
                 </div>
@@ -73,11 +73,16 @@ export default function DashboardMapListView(){
                 </div>
                 </div>
                 <div className="box-container">
-                    <div className='boxes'><button className="box"><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap1</div><button className="delete">Delete</button></div></button></div>
+                <button className="box"><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap1</div><button className="delete">Delete</button></div></button>
+                <button className="box"><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap1</div><button className="delete">Delete</button></div></button>
+                <button className="box"><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap1</div><button className="delete">Delete</button></div></button>
+                <button className="box"><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap1</div><button className="delete">Delete</button></div></button>
+                <button className="box"><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap1</div><button className="delete">Delete</button></div></button>
+                    {/* <div className='boxes'></div>
                     <div className='boxes'><button className="box"><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap2</div><button className="delete">Delete</button></div></button></div>
                     <div className='boxes'><button className="box"><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap3</div><button className="delete">Delete</button></div></button></div>
                     <div className='boxes'><button className="box"><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap4</div><button className="delete">Delete</button></div></button></div>
-                    <div className='boxes'><button className="box"><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap5</div><button className="delete">Delete</button></div></button></div>
+                    <div className='boxes'><button className="box"><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap5</div><button className="delete">Delete</button></div></button></div> */}
                 </div>
             </div>
             )

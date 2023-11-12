@@ -10,7 +10,7 @@
 .sidebar {
     background-color: #E8E8E8;
     padding: 20px;
-    width: 20%;
+    flex: 0 0 20%;
     height: 100%;
     text-align: center;
 }
@@ -119,14 +119,12 @@ margin-bottom: 20px;
     display: flex;
     align-content: space-around;
     flex-wrap: wrap;
-}
-.boxes{
-    padding: 20px
+    gap: 20px;
 }
 
 .box{
     border: solid #1F8505;
-    padding: 30px;
+    padding: 20px 30px;
     cursor: pointer;
 }
 
