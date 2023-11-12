@@ -26,21 +26,21 @@ export default function AdminDashboard(){
     }
 
     return (
-        <div style={{display: "flex"}}>
+        // <div style={{display: "flex"}}>
             <div className = "container">
-            <div className='sidebar'>
-            <img className="admin-bear" src={adminBear} style={{padding:"30px 0px"}} alt="My SVG" />
-                <div className='profile'>Hello, Admin</div>
-                <div className="sidebar-buttons">
-                <button type="button" onClick={() => handleSelectedViewChange(<AdminDashboardUserList/>)}>User List</button>
+                <div className='sidebar'>
+                    <img className="admin-bear" src={adminBear} style={{padding:"30px 0px"}} alt="My SVG" />
+                    <div className='profile'>Hello, Admin</div>
+                    <div className="sidebar-buttons">
+                        <button type="button" onClick={() => handleSelectedViewChange(<AdminDashboardUserList/>)}>User List</button>
+                    </div>
+                    <div className="sidebar-buttons">
+                        <button type="button" onClick={() => handleSelectedViewChange(<AdminDashboardMapList/>)}>Map List</button>
+                    </div>
                 </div>
-                <div className="sidebar-buttons">
-                <button type="button" onClick={() => handleSelectedViewChange(<AdminDashboardMapList/>)}>Map List</button>
-                </div>
+                {selectedView}
             </div>
-            
-            </div>
-        {selectedView}
-        </div>
+        
+        // </div>
     )
 }

@@ -60,30 +60,25 @@ export default function DashboardMapListView(){
         //     <button type="button" onClick={() => handleDeleteMap()}>X</button>
         // </div>
         <div>
-                <div className='dashboard-header'>
-                    Dashboard
-                </div>
-                <div className='description-and-sorting'>
-                    <div className='description'>Maps you have participated in</div>
-                <div className='sort-buttons'>
-                    <button className='arrow-button'><img className="arrow" src={arrow} alt="My SVG" /></button><button class="sort-button">Ascending</button>
-                    <button className='arrow-button'><img className="arrow" src={arrow} alt="My SVG" /></button><button class="sort-button">Descending</button>
-                    <button className='arrow-button'><img className="arrow" src={arrow} alt="My SVG" /></button><button class="sort-button">Date</button>
-                </div>
-                </div>
-                <div className="box-container">
-                <button className="box"><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap1</div><button className="delete">Delete</button></div></button>
-                <button className="box"><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap1</div><button className="delete">Delete</button></div></button>
-                <button className="box"><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap1</div><button className="delete">Delete</button></div></button>
-                <button className="box"><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap1</div><button className="delete">Delete</button></div></button>
-                <button className="box"><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap1</div><button className="delete">Delete</button></div></button>
-                    {/* <div className='boxes'></div>
-                    <div className='boxes'><button className="box"><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap2</div><button className="delete">Delete</button></div></button></div>
-                    <div className='boxes'><button className="box"><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap3</div><button className="delete">Delete</button></div></button></div>
-                    <div className='boxes'><button className="box"><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap4</div><button className="delete">Delete</button></div></button></div>
-                    <div className='boxes'><button className="box"><img className="map" src={map} alt="My SVG" /><div style={{display: "flex", justifyContent: "center"}}><div className='map-name'>MyMap5</div><button className="delete">Delete</button></div></button></div> */}
-                </div>
+            <div className='dashboard-header'>
+                Dashboard
             </div>
+            <div className='description-and-sorting'>
+                <div className='description'>Maps you have participated in</div>
+            <div className='sort-buttons'>
+                <button className='arrow-button'  onClick={() => handleSortingChange()}><img className="arrow" src={arrow} alt="My SVG" /></button><button class="sort-button" onClick={() => handleSortingChange()}>Ascending</button>
+                <button className='arrow-button' onClick={() => handleSortingChange()}><img className="arrow" src={arrow} alt="My SVG" /></button><button class="sort-button" onClick={() => handleSortingChange()}>Descending</button>
+                <button className='arrow-button' onClick={() => handleSortingChange()}><img className="arrow" src={arrow} alt="My SVG" /></button><button class="sort-button" onClick={() => handleSortingChange()}>Date</button>
+            </div>
+            </div>
+            <div className="box-container">
+            <button className="box" onClick={() => handleMapSelect()}><div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}><div className='map-name'>MyMap1</div><button className="delete" onClick={() => handleEdit()}>Edit</button><button className="delete" onClick={() => handleDeleteMap()}>X</button></div><img className="map" src={map} alt="My SVG" /></button>
+            <button className="box" onClick={() => handleMapSelect()}><div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}><div className='map-name'>MyMap2</div><button className="delete" onClick={() => handleEdit()}>Edit</button><button className="delete" onClick={() => handleDeleteMap()}>X</button></div><img className="map" src={map} alt="My SVG" /></button>
+            <button className="box" onClick={() => handleMapSelect()}><div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}><div className='map-name'>MyMap3</div><button className="delete" onClick={() => handleEdit()}>Edit</button><button className="delete" onClick={() => handleDeleteMap()}>X</button></div><img className="map" src={map} alt="My SVG" /></button>
+            <button className="box" onClick={() => handleMapSelect()}><div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}><div className='map-name'>MyMap4</div><button className="delete" onClick={() => handleEdit()}>Edit</button><button className="delete" onClick={() => handleDeleteMap()}>X</button></div><img className="map" src={map} alt="My SVG" /></button>
+            <button className="box" onClick={() => handleMapSelect()}><div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}><div className='map-name'>MyMap5</div><button className="delete" onClick={() => handleEdit()}>Edit</button><button className="delete" onClick={() => handleDeleteMap()}>X</button></div><img className="map" src={map} alt="My SVG" /></button>
+            </div>
+        </div>
             )
 
 }

@@ -43,14 +43,6 @@ export default function DashboardSearchMapView(){
         setSortingOption(event)
     }
 
-    // return <div>
-    //             {/* <h2>Search Map</h2>
-    //             <input type="text" value={searchKeyword} onChange={handleSearchChange}></input> */}
-    //             {/* <button type="button" onClick={() => handleSearch()}>Edit</button>
-    //             <button type="button" onClick={() => handleSortingChange()}>sorting</button> */}
-    //             {/* <button type="button" onClick={() => handleMapSelect()}>Map Name</button> */}
-    //         </div>
-
     return(
         <div>
         <div className='dashboard-header'>
@@ -58,7 +50,7 @@ export default function DashboardSearchMapView(){
         </div>
         <div className='search-box'>
             <img className="glass" src={glass} alt="My SVG" />
-            <input type="text" value={searchKeyword} onChange={handleSearchChange} style={{backgroundColor: "#DAEDD5", border:"#DAEDD5", borderRadius: "2px", width: "100%", height: "50px", paddingLeft: "50px"}}></input>
+            <input type="text" value={searchKeyword} onChange={handleSearchChange} style={{backgroundColor: "#DAEDD5", border:"#DAEDD5", borderRadius: "2px", width: "97%", height: "50px", paddingLeft: "50px"}}></input>
             <button className="search-button">Search</button>
         </div>
         <div className='description-and-sorting' style={{justifyContent: "end"}}>
