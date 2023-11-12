@@ -1,5 +1,4 @@
 import '../../styles/Dashboard.css';
-
 import { useContext, useState } from 'react';
 import AuthStoreContextProvider from '../../auth_store';
 

@@ -2,6 +2,8 @@ import React, { useContext, useState, useEffect } from "react";
 import AuthStoreContextProvider from "../../auth_store";
 import { Link } from "react-router-dom";
 import MapComponent from "../../map.jsx";
+import '../../styles/Dashboard.css';
+
 export default function DashboardCreateOrEditMapView() {
   const { auth_store } = useContext(AuthStoreContextProvider);
 
@@ -103,65 +105,111 @@ export default function DashboardCreateOrEditMapView() {
     onEditMap();
   };
 
+
   return (
     <div>
       <div>
-        <h2>Map Name</h2>
+
+
+        <div class="creat-banner">
+
+          <div class="title-section">
+            <div className='dashboard-header'>
+                  Creat map
+            </div>
+            <button
+              className="button upload"
+              type="button"
+              onClick={() => document.getElementById('link-to-map-view').click()}
+            >Map Customize Tool
+            </button>
+            <Link  id="link-to-map-view" to="/MapView/" onClick={() => handleCustomizeTool()}>
+              Customize Tool
+            </Link>
+          </div>
+
+          <div className="button-section">
+            <input
+              type="file"
+              id="creatmap-fileInput"
+              accept=".zip,.kml,.geojson"
+              onChange={handleUploadFile()}
+            />
+ 
+            <button
+              className="button upload"
+              type="button"
+              onClick={() => document.getElementById('creatmap-fileInput').click()}
+            >Upload File
+            </button>
+
+            <button className="button fork"
+              type="button"
+              onClick={() => handleForkMap()}
+            >Fork Map
+            </button>
+            <p class="file-types">↑ Available on SHP/DBF, GeoJSON, KML</p>
+          </div>
+
+
+
+        </div>
+        
+        <div class="property-bar">
+          <label for="key">Property</label>
+          <input
+            type="text"
+            id="key"
+            placeholder="Property Key"
+            value={propertyValue}
+            onChange={handlePropertyValueChange}
+          />
+          <input
+            type="text"
+            id="value"
+            placeholder="Property Value"
+            value={propertyValue}
+            onChange={handlePropertyValueChange}
+          />
+          <button
+            class="attach-btn"
+            onClick={() => handleAttachProperty()}
+          >Attach</button>
+          <div class="icons">
+            <button
+              class="icon-link"
+              onClick={() => handleUndo()}
+            >↩</button>
+            <button
+              class="icon-search"
+              onClick={() => handleRedo()}
+            >↪</button>
+          </div>
+        </div>
+      </div>
+
+      <MapComponent handleUploadFile={() => handleUploadFile()} />
+
+      <div class="create-map-bottom-bar">
         <input
           type="text"
-          value={mapTitle}
+          id="map-name"
+          placeholder="Map Name"
+        value={mapTitle}
           onChange={handleMapTitleChange}
-        ></input>
-        <h2>Map Description</h2>
-        <input
-          type="text"
-          value={mapDescription}
-          onChange={handleMapDescriptionChange}
-        ></input>
-        <h2>Property Key</h2>
-        <input
-          type="text"
-          value={propertyKey}
-          onChange={handlePropertyKeyChange}
-        ></input>
-        <h2>Property Value</h2>
-        <input
-          type="text"
-          value={propertyValue}
-          onChange={handlePropertyValueChange}
-        ></input>
-        <button type="button" onClick={() => handleUploadFile()}>
-          Upload File
-        </button>
-        <button type="button" onClick={() => handleAttachProperty()}>
-          Attach
-        </button>
-        <button type="button" onClick={() => handleCustomizeTool()}>
-          Customize Tool
-        </button>
-        <Link to="/MapView/" onClick={() => handleCustomizeTool()}>
-          Customize Tool
-        </Link>
-        <button type="button" onClick={() => handleForkMap()}>
-          Fork Map
-        </button>
-        <button type="button" onClick={() => handleUndo()}>
-          Undo
-        </button>
-        <button type="button" onClick={() => handleRedo()}>
-          Redo
-        </button>
-        <button type="button" onClick={() => handleCancel()}>
-          Cancel
-        </button>
-        <button type="button" onClick={() => handleCreateMap()}>
-          Create New Map
-        </button>
-        <button type="button" onClick={() => handleEditMap()}>
+        />
+        <button
+          id="cancel-button"
+          onClick={() => handleCancel()}
+        >Cancel</button>
+        <button
+          id="create-button"
+          onClick={() => handleCreateMap()}
+        >Create Map</button>
+        <button id="edit-button" type="button" onClick={() => handleEditMap()}>
           Edit Map
         </button>
       </div>
-      <MapComponent handleUploadFile={() => handleUploadFile()} />
     </div>
   );
 }

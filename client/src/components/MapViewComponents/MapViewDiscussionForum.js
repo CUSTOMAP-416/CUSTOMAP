@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react';
 import AuthStoreContextProvider from '../../auth_store';
+import '../../styles/Discuss.css';
 
 export default function MapViewDiscussionForum(){
     const { auth_store } = useContext(AuthStoreContextProvider);
@@ -27,11 +28,43 @@ export default function MapViewDiscussionForum(){
         onDiscussion()
     }
 
+  
+        const [isOpen, setIsOpen] = useState(false);
+      
+        const toggleSidebar = () => {
+          setIsOpen(!isOpen);
+        };
+
     return (
         <div>
-            <h2>New Discussion</h2>
-            <input type="text" value={newDiscussion} onChange={handleNewDiscussionChange}></input>
-            <button type="button" onClick={() => handleDiscussionSubmit()}>Send</button>
+            <div className={`sidebar-container ${isOpen ? 'open' : ''}`}>
+                <button className="toggle-button" onClick={toggleSidebar}>
+                    {isOpen ? '<' : '>'}
+                </button>
+                <div className="sidebar-content">
+                    <div className="message-container">
+                        <div className="username">Jack</div>
+                        <div className="message">Hey, your map has an error!</div>
+                    </div>
+                    <div className="message-container">
+                        <div className="username">Anny</div>
+                        <div className="message">We will fix it later, Thank you!</div>
+                    </div>
+                    <div className="message-container">
+                        <div className="username">Stark</div>
+                        <div className="message">Great map!</div>
+                    </div>
+                
+                    <div className="sidebar-footer">
+                        <input
+                            type="text"
+                            value={newDiscussion}
+                            onChange={handleNewDiscussionChange}
+                            placeholder="Type a message..." />
+                        <button type="button" onClick={() => handleDiscussionSubmit()}>Send</button>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }

@@ -1,5 +1,7 @@
 import { useContext, useState } from 'react';
 import AuthStoreContextProvider from '../auth_store';
+import '../styles/MapView.css';
+import MapComponent from "../map.jsx";
 
 import MapViewDiscussionForum from './MapViewComponents/MapViewDiscussionForum';
 import MapViewCustomizeToolbar from './MapViewComponents/MapViewCustomizeToolbar';
@@ -26,10 +28,17 @@ export default function MapView(){
         }
     }
     
-    return <div>
-                {showDiscussionForum ? <MapViewDiscussionForum/> : ''}
-                <button type="button" onClick={() => handleDiscussionForum()}>{showDiscussionForum ? 'Discussion Close': 'Discussion Open'}</button>
-                <p>map</p>
-                <MapViewCustomizeToolbar/>
+    return (
+        <div className="MapView-page-container">
+            <MapViewDiscussionForum /> 
+
+       
+            <div className="content">
+                <MapViewCustomizeToolbar />
+                <MapComponent width="1800px" height="700px" />
             </div>
+            
+
+        </div>
+    )
 }
