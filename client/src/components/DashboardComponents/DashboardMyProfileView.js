@@ -49,9 +49,9 @@ export default function DashboardMyProfileView(){
     }
 
     return (
-      <div>
+      <div className='myprofile_all'>
         <div className="myprofile_H">
-          <h1>My Profile</h1>
+          My Profile
         </div>
         <div className="profi_bottoms">
           <div className="profi_content">

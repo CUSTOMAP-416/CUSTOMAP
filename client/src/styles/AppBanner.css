@@ -1,9 +1,11 @@
 .banner {
   background-color: #1f8505;
+  width: 100%;
 }
 .flexbox {
   display: flex;
   align-items: center;
+    width: 100%;
 }
 .icon {
   width: 40px;

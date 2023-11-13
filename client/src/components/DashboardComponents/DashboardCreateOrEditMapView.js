@@ -107,23 +107,25 @@ export default function DashboardCreateOrEditMapView() {
 
 
   return (
-    <div>
+    <div className="createEditAll">
       <div>
-
-
         <div class="creat-banner">
-
           <div class="title-section">
-            <div className='dashboard-header'>
-                  Creat map
-            </div>
+            <div className="dashboard-header">Creat Map</div>
             <button
               className="button upload"
               type="button"
-              onClick={() => document.getElementById('link-to-map-view').click()}
-            >Map Customize Tool
+              onClick={() =>
+                document.getElementById("link-to-map-view").click()
+              }
+            >
+              Map Customize Tool
             </button>
-            <Link  id="link-to-map-view" to="/MapView/" onClick={() => handleCustomizeTool()}>
+            <Link
+              id="link-to-map-view"
+              to="/MapView/"
+              onClick={() => handleCustomizeTool()}
+            >
               Customize Tool
             </Link>
           </div>
@@ -135,80 +137,82 @@ export default function DashboardCreateOrEditMapView() {
               accept=".zip,.kml,.geojson"
               onChange={handleUploadFile()}
             />
- 
+
             <button
               className="button upload"
               type="button"
-              onClick={() => document.getElementById('creatmap-fileInput').click()}
-            >Upload File
+              onClick={() =>
+                document.getElementById("creatmap-fileInput").click()
+              }
+            >
+              Upload File
             </button>
 
-            <button className="button fork"
+            <button
+              className="button fork"
               type="button"
               onClick={() => handleForkMap()}
-            >Fork Map
+            >
+              Fork Map
             </button>
             <p class="file-types">↑ Available on SHP/DBF, GeoJSON, KML</p>
           </div>
-
-
-
         </div>
-        
-        <div class="property-bar">
-          <label for="key">Property</label>
-          <input
-            type="text"
-            id="key"
-            placeholder="Property Key"
-            value={propertyValue}
-            onChange={handlePropertyValueChange}
-          />
-          <input
-            type="text"
-            id="value"
-            placeholder="Property Value"
-            value={propertyValue}
-            onChange={handlePropertyValueChange}
-          />
-          <button
-            class="attach-btn"
-            onClick={() => handleAttachProperty()}
-          >Attach</button>
-          <div class="icons">
-            <button
-              class="icon-link"
-              onClick={() => handleUndo()}
-            >↩</button>
-            <button
-              class="icon-search"
-              onClick={() => handleRedo()}
-            >↪</button>
+        <div className="create-content">
+          <div class="property-bar">
+            <label for="key">Property</label>
+            <input
+              type="text"
+              id="key"
+              placeholder="Property Key"
+              value={propertyValue}
+              onChange={handlePropertyValueChange}
+            />
+            <input
+              type="text"
+              id="value"
+              placeholder="Property Value"
+              value={propertyValue}
+              onChange={handlePropertyValueChange}
+            />
+            <button class="attach-btn" onClick={() => handleAttachProperty()}>
+              Attach
+            </button>
+            <div class="icons">
+              <button class="icon-link" onClick={() => handleUndo()}>
+                ↩
+              </button>
+              <button class="icon-search" onClick={() => handleRedo()}>
+                ↪
+              </button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <MapComponent handleUploadFile={() => handleUploadFile()} />
+        <MapComponent handleUploadFile={() => handleUploadFile()} />
 
-      <div class="create-map-bottom-bar">
-        <input
-          type="text"
-          id="map-name"
-          placeholder="Map Name"
-        value={mapTitle}
-          onChange={handleMapTitleChange}
-        />
-        <button
-          id="cancel-button"
-          onClick={() => handleCancel()}
-        >Cancel</button>
-        <button
-          id="create-button"
-          onClick={() => handleCreateMap()}
-        >Create Map</button>
-        <button id="edit-button" type="button" onClick={() => handleEditMap()}>
-          Edit Map
-        </button>
+        <div class="create-map-bottom-bar">
+          <input
+            type="text"
+            id="map-name"
+            placeholder="Map Name"
+            value={mapTitle}
+            onChange={handleMapTitleChange}
+          />
+          <button id="cancel-button" onClick={() => handleCancel()}>
+            Cancel
+          </button>
+          <button id="create-button" onClick={() => handleCreateMap()}>
+            Create Map
+          </button>
+          <button
+            id="edit-button"
+            type="button"
+            onClick={() => handleEditMap()}
+          >
+            Edit Map
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -11,7 +11,7 @@ export default function Main() {
         height: '82%',
         objectFit: 'cover', // Cover the container without stretching
         position: 'absolute',
-        top: '50%',
+        top: '56%',
         left: '50%',
         transform: 'translate(-50%, -50%)' // Center the image
       };

@@ -3,7 +3,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 //import shp from "shpjs"; // For handling Shapefiles
 import toGeoJSON from "@mapbox/togeojson"; // Updated import for toGeoJSON
-//import "./style.css";
+import "./styles/Discuss.css";
 import * as shapefile from "shapefile";
 import JSZip from 'jszip';
 
@@ -153,10 +153,10 @@ class MapComponent extends Component {
   render() {
 
     const { style, width, height } = this.props;
-    const mapStyle = style || { height: height || "500px", width: width || "1200px" };
+    const mapStyle = style || { height: height || "500px", width: width || "1050px" };
     
     return (
-      <div id='map-container'>
+      <div id="map-container">
         <>
           {/* <!-- Import the LEAFLET CSS filr here--> */}
           <link
@@ -175,17 +175,23 @@ class MapComponent extends Component {
         <div id="main-map" ref={this.mapContainerRef} style={mapStyle}></div>
         <div className="flex-container">
           <input
+            className="mapjsx_button"
             type="file"
             accept=".zip,.kml,.geojson"
             onChange={this.loadFile}
             style={{ backgroundColorcolor: "#158f2a", border: "5px, #158f2a" }}
           />
-          <button className="button-19" onClick={this.renderMap}>
-            Render
-          </button>
-          <button className="button-19" onClick={this.clearmap}>
-            clear map
-          </button>
+          <div>
+            <button
+              className="button-19 mapjsx_button"
+              onClick={this.renderMap}
+            >
+              Render
+            </button>
+            <button className="button-19 mapjsx_button" onClick={this.clearmap}>
+              clear map
+            </button>
+          </div>
         </div>
       </div>
     );
