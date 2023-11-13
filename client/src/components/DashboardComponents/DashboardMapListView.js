@@ -1,5 +1,9 @@
+import '../../styles/Dashboard.css';
 import { useContext, useState } from 'react';
 import AuthStoreContextProvider from '../../auth_store';
+
+import arrow from "../../assets_img/dashboard_arrow.svg";
+import map from "../../assets_img/dashboard_map.svg";
 
 export default function DashboardMapListView(){
     const { auth_store } = useContext(AuthStoreContextProvider);
@@ -48,10 +52,33 @@ export default function DashboardMapListView(){
         openEdit(event)
     }
     
-    return <div>
-                <button type="button" onClick={() => handleSortingChange()}>sorting</button>
-                <button type="button" onClick={() => handleMapSelect()}>Map Name</button>
-                <button type="button" onClick={() => handleEdit()}>Edit</button>
-                <button type="button" onClick={() => handleDeleteMap()}>X</button>
+    return (
+        // <div>
+        //     <button type="button" onClick={() => handleSortingChange()}>sorting</button>
+        //     <button type="button" onClick={() => handleMapSelect()}>Map Name</button>
+        //     <button type="button" onClick={() => handleEdit()}>Edit</button>
+        //     <button type="button" onClick={() => handleDeleteMap()}>X</button>
+        // </div>
+        <div>
+            <div className='dashboard-header'>
+                Dashboard
             </div>
+            <div className='description-and-sorting'>
+                <div className='description'>Maps you have participated in</div>
+            <div className='sort-buttons'>
+                <button className='arrow-button'  onClick={() => handleSortingChange()}><img className="arrow" src={arrow} alt="My SVG" /></button><button class="sort-button" onClick={() => handleSortingChange()}>Ascending</button>
+                <button className='arrow-button' onClick={() => handleSortingChange()}><img className="arrow" src={arrow} alt="My SVG" /></button><button class="sort-button" onClick={() => handleSortingChange()}>Descending</button>
+                <button className='arrow-button' onClick={() => handleSortingChange()}><img className="arrow" src={arrow} alt="My SVG" /></button><button class="sort-button" onClick={() => handleSortingChange()}>Date</button>
+            </div>
+            </div>
+            <div className="box-container">
+            <button className="box" onClick={() => handleMapSelect()}><div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}><div className='map-name'>MyMap1</div><button className="delete" onClick={() => handleEdit()}>Edit</button><button className="delete" onClick={() => handleDeleteMap()}>X</button></div><img className="map" src={map} alt="My SVG" /></button>
+            <button className="box" onClick={() => handleMapSelect()}><div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}><div className='map-name'>MyMap2</div><button className="delete" onClick={() => handleEdit()}>Edit</button><button className="delete" onClick={() => handleDeleteMap()}>X</button></div><img className="map" src={map} alt="My SVG" /></button>
+            <button className="box" onClick={() => handleMapSelect()}><div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}><div className='map-name'>MyMap3</div><button className="delete" onClick={() => handleEdit()}>Edit</button><button className="delete" onClick={() => handleDeleteMap()}>X</button></div><img className="map" src={map} alt="My SVG" /></button>
+            <button className="box" onClick={() => handleMapSelect()}><div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}><div className='map-name'>MyMap4</div><button className="delete" onClick={() => handleEdit()}>Edit</button><button className="delete" onClick={() => handleDeleteMap()}>X</button></div><img className="map" src={map} alt="My SVG" /></button>
+            <button className="box" onClick={() => handleMapSelect()}><div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}><div className='map-name'>MyMap5</div><button className="delete" onClick={() => handleEdit()}>Edit</button><button className="delete" onClick={() => handleDeleteMap()}>X</button></div><img className="map" src={map} alt="My SVG" /></button>
+            </div>
+        </div>
+            )
+
 }

@@ -28,9 +28,9 @@ const App = () => {
                     <Route path="/MapView/" element={<MapView/>} />
                     <Route path="/AdminDashboard/" element={<AdminDashboard/>} />
                 </Routes>
-                <div id="buttom-banner">
+                {/* <div id="buttom-banner">
                     Group project by Green team. Team members: Juyeon Nam, Seolhee Yun, Shihao Wen, Weikang Yang
-                </div>
+                </div> */}
             </AuthStoreContextProvider>
         </BrowserRouter>
     )

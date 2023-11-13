@@ -3,7 +3,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 //import shp from "shpjs"; // For handling Shapefiles
 import toGeoJSON from "@mapbox/togeojson"; // Updated import for toGeoJSON
-//import "./style.css";
+import "./styles/Discuss.css";
 import * as shapefile from "shapefile";
 import JSZip from 'jszip';
 
@@ -21,8 +21,8 @@ class MapComponent extends Component {
   componentDidMount() {
     if (!this.mapInitialized) {
       // Initialize Leaflet map only if it hasn't been initialized
-      const map = L.map(this.mapContainerRef.current).setView([40.915734, 286.87721], 13);
-
+      const map = L.map(this.mapContainerRef.current).setView([40.915734,286.87721],13)
+      map.removeControl(map.zoomControl);
       // Add a tile layer (you can choose a suitable one)
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
@@ -151,8 +151,12 @@ class MapComponent extends Component {
   };
 
   render() {
+
+    const { style, width, height } = this.props;
+    const mapStyle = style || { height: height || "500px", width: width || "1050px" };
+    
     return (
-      <div>
+      <div id="map-container">
         <>
           {/* <!-- Import the LEAFLET CSS filr here--> */}
           <link
@@ -168,24 +172,25 @@ class MapComponent extends Component {
             crossOrigin=""
           ></script>
         </>
-        <div id="heading-banner">MAP</div>
-        <div ref={this.mapContainerRef} style={{ height: "500px" }}></div>
+        <div id="main-map" ref={this.mapContainerRef} style={mapStyle}></div>
         <div className="flex-container">
           <input
+            className="mapjsx_button"
             type="file"
             accept=".zip,.kml,.geojson"
             onChange={this.loadFile}
             style={{ backgroundColorcolor: "#158f2a", border: "5px, #158f2a" }}
           />
-          <button className="button-19" onClick={this.renderMap}>
-            Render
-          </button>
-          <button className="button-19" onClick={this.clearmap}>
-            clear map
-          </button>
-          <div id="buttom-banner">
-            Group project by Green team <br />
-            Team members: Juyeon Nam, Seolhee Yun, Shihao Wen, Weikang Yang
+          <div>
+            <button
+              className="button-19 mapjsx_button"
+              onClick={this.renderMap}
+            >
+              Render
+            </button>
+            <button className="button-19 mapjsx_button" onClick={this.clearmap}>
+              clear map
+            </button>
           </div>
         </div>
       </div>

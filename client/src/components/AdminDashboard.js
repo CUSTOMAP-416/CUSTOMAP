@@ -1,8 +1,13 @@
+
+
 import { useContext, useState } from 'react';
 import AuthStoreContextProvider from '../auth_store';
 
 import AdminDashboardUserList from './AdminDashboardComponents/AdminDashboardUserList';
 import AdminDashboardMapList from './AdminDashboardComponents/AdminDashboardMapList';
+
+import adminBear from "../assets_img/adminDashboard_bear.svg";
+
 
 export default function AdminDashboard(){
     const { auth_store } = useContext(AuthStoreContextProvider);
@@ -21,12 +26,21 @@ export default function AdminDashboard(){
     }
 
     return (
-        <div>
-            <div>
-                <button type="button" onClick={() => handleSelectedViewChange(<AdminDashboardUserList/>)}>User List</button>
-                <button type="button" onClick={() => handleSelectedViewChange(<AdminDashboardMapList/>)}>Map List</button>
-            </div>
+        // <div style={{display: "flex"}}>
+            <div className = "container">
+                <div className='sidebar'>
+                    <img className="admin-bear" src={adminBear} style={{padding:"30px 0px"}} alt="My SVG" />
+                    <div className='profile'>Hello, Admin</div>
+                    <div className="sidebar-buttons">
+                        <button type="button" onClick={() => handleSelectedViewChange(<AdminDashboardUserList/>)}>User List</button>
+                    </div>
+                    <div className="sidebar-buttons">
+                        <button type="button" onClick={() => handleSelectedViewChange(<AdminDashboardMapList/>)}>Map List</button>
+                    </div>
+                </div>
                 {selectedView}
-        </div>
+            </div>
+        
+        // </div>
     )
 }
