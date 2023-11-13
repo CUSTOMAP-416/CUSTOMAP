@@ -64,7 +64,7 @@ export default function DashboardMapListView(){
                 Dashboard
             </div>
             <div className='description-and-sorting'>
-                <div className='description'>Maps you have participated in</div>
+                <div className='description'>I'm getting an echo! from Wen in</div>
             <div className='sort-buttons'>
                 <button className='arrow-button'  onClick={() => handleSortingChange()}><img className="arrow" src={arrow} alt="My SVG" /></button><button class="sort-button" onClick={() => handleSortingChange()}>Ascending</button>
                 <button className='arrow-button' onClick={() => handleSortingChange()}><img className="arrow" src={arrow} alt="My SVG" /></button><button class="sort-button" onClick={() => handleSortingChange()}>Descending</button>
