@@ -5,7 +5,6 @@ const userSchema = new Schema(
     {
         username: { type: String, required: true, unique: true }, 
         email: { type: String, required: true, unique: true }, 
-        phone: { type: String, required: true},
         passwordHash: { type: String, required: true },
         role: { type: String, required: true, default: 'user'},
         profile: { type: Schema.Types.ObjectId, ref: 'Profile' }, 

@@ -12,7 +12,6 @@ const createUser = (name, phone, id, email, password, passwordVerify) => {
     return api.post('/register/', {
         username : name,
         email : email,
-        phone : phone,
         password : password,
         passwordVerify: passwordVerify
     })
@@ -66,7 +65,7 @@ const onVerification = (username, email, phone) => {
   return api.post("/forgetPassword/", {
     username: username,
     email: email,
-    phone: phone,
+    phone: phone
   });
 };
 //function to handle the edit map process 

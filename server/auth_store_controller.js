@@ -183,11 +183,7 @@ forgetPassword = async (req, res) => {
           .json({ errorMessage: "Please enter all required fields." });
       }
       console.log("entered all fields");
-      const user = await User.findOne({
-        username: username,
-        email: email,
-        phone: phone,
-      });
+      const user = await User.findOne({ email: email });
       console.log("user: "+ user);
       if (!user) {
         return res
@@ -200,7 +196,7 @@ forgetPassword = async (req, res) => {
       res.status(200).json({
         user: {
           username: user.username,
-          email: user.email,
+          email: user.email
         },
       });
       console.log("all Mached");
