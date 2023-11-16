@@ -20,6 +20,7 @@ function AuthStoreContextProvider(props) {
         loggedIn: false,
         selectMap: null,
         isCreatePage: true,
+        errorMessage: null,
     });
 
     const history = useNavigate();
@@ -83,6 +84,9 @@ function AuthStoreContextProvider(props) {
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
+            return setAuthStore({
+                errorMessage: error.response.data.errorMessage
+            })
         });
     }
     //All user list in Admin dashboard const getUsers = async () => { ?
@@ -95,6 +99,9 @@ function AuthStoreContextProvider(props) {
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
+            return setAuthStore({
+                errorMessage: error.response.data.errorMessage
+            })
         });
     }
     // Registers the user const onSignUp = async (userData) => ?
@@ -107,6 +114,9 @@ function AuthStoreContextProvider(props) {
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
+            return setAuthStore({
+                errorMessage: error.response.data.errorMessage
+            })
         });
     }
     //Change the profile user const onChangeInformation = async (userData) => {...
@@ -120,6 +130,9 @@ function AuthStoreContextProvider(props) {
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
+            return setAuthStore({
+                errorMessage: error.response.data.errorMessage
+            })
         });
     }
     ///All map list in Admin dashboard const getMaps = async () => { ?
@@ -132,6 +145,9 @@ function AuthStoreContextProvider(props) {
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
+            return setAuthStore({
+                errorMessage: error.response.data.errorMessage
+            })
         });
     }
     auth_store.getMap = async function () {
@@ -143,6 +159,9 @@ function AuthStoreContextProvider(props) {
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
+            return setAuthStore({
+                errorMessage: error.response.data.errorMessage
+            })
         });
     }
     //function to handle the create a new map process const onCreateMap = async (map) => { ?
@@ -155,6 +174,9 @@ function AuthStoreContextProvider(props) {
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
+            return setAuthStore({
+                errorMessage: error.response.data.errorMessage
+            })
         });
     }
     auth_store.updateMap= async function () {
@@ -166,6 +188,9 @@ function AuthStoreContextProvider(props) {
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
+            return setAuthStore({
+                errorMessage: error.response.data.errorMessage
+            })
         });
     }
     //function to handle delete map process. const onDeleteMap = async (map) => { ?
@@ -178,6 +203,9 @@ function AuthStoreContextProvider(props) {
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
+            return setAuthStore({
+                errorMessage: error.response.data.errorMessage
+            })
         });
     }
     // Logs in the user const onLogin = async (userData) => { ?
@@ -190,6 +218,9 @@ function AuthStoreContextProvider(props) {
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
+            return setAuthStore({
+                errorMessage: error.response.data.errorMessage
+            })
         });
     }
     // Logs out the user
@@ -202,6 +233,9 @@ function AuthStoreContextProvider(props) {
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
+            return setAuthStore({
+                errorMessage: error.response.data.errorMessage
+            })
         });
     }
     //function to handle verification process 
@@ -214,6 +248,9 @@ function AuthStoreContextProvider(props) {
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
+            return setAuthStore({
+                errorMessage: error.response.data.errorMessage
+            })
         });
     }
     //function to handle the edit map process 
@@ -226,6 +263,9 @@ function AuthStoreContextProvider(props) {
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
+            return setAuthStore({
+                errorMessage: error.response.data.errorMessage
+            })
         });
     }
     //function to handle the fork map process 
@@ -238,6 +278,9 @@ function AuthStoreContextProvider(props) {
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
+            return setAuthStore({
+                errorMessage: error.response.data.errorMessage
+            })
         });
     }
     //function to handle the attach property process 
@@ -250,6 +293,9 @@ function AuthStoreContextProvider(props) {
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
+            return setAuthStore({
+                errorMessage: error.response.data.errorMessage
+            })
         });
     }
     //function to handle the Discussion process 
@@ -262,6 +308,9 @@ function AuthStoreContextProvider(props) {
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
+            return setAuthStore({
+                errorMessage: error.response.data.errorMessage
+            })
         });
     }
     //function to handle the text process 
@@ -274,6 +323,9 @@ function AuthStoreContextProvider(props) {
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
+            return setAuthStore({
+                errorMessage: error.response.data.errorMessage
+            })
         });
     }
     //function to handle the Color process 
@@ -286,6 +338,9 @@ function AuthStoreContextProvider(props) {
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
+            return setAuthStore({
+                errorMessage: error.response.data.errorMessage
+            })
         });
     }
     //function to handle the Legend process 
@@ -298,6 +353,9 @@ function AuthStoreContextProvider(props) {
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
+            return setAuthStore({
+                errorMessage: error.response.data.errorMessage
+            })
         });
     }
     //function to handle the search process 
@@ -310,6 +368,9 @@ function AuthStoreContextProvider(props) {
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
+            return setAuthStore({
+                errorMessage: error.response.data.errorMessage
+            })
         });
     }
     //function to handle get the Array Discussions. 
@@ -322,6 +383,9 @@ function AuthStoreContextProvider(props) {
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
+            return setAuthStore({
+                errorMessage: error.response.data.errorMessage
+            })
         });
     }
     //function to handle getting the list of user's created maps. 
@@ -334,6 +398,9 @@ function AuthStoreContextProvider(props) {
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
+            return setAuthStore({
+                errorMessage: error.response.data.errorMessage
+            })
         });
     }
     //function to handle the redo process. 
