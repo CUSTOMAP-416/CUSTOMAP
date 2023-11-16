@@ -183,12 +183,12 @@ function AuthStoreContextProvider(props) {
         }
     }
     //function to handle verification process 
-    auth_store.onVerification= async function () {
-        const response = await apis.onVerification();
+    auth_store.onVerification= async function (state) {
+        const response = await apis.onVerification(state.username, state.email, state.phone);
         if (response.status === 200) {
             auth_storeReducer({
-                type: AuthStoreActionType.null,
-                payload: null,
+              type: AuthStoreActionType.null,
+              payload: response.data.user,
             });
         }
     }

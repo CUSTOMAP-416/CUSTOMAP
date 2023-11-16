@@ -12,6 +12,7 @@ const createUser = (name, phone, id, email, password, passwordVerify) => {
     return api.post('/register/', {
         username : name,
         email : email,
+        phone : phone,
         password : password,
         passwordVerify: passwordVerify
     })
@@ -56,10 +57,18 @@ const loggedIn = (email, password) => {
         password : password
     })
 };
+
 // Logs out the user
 const onLogout = () => api.get('/logout/')
+
 //function to handle verification process 
-const onVerification = () => {}
+const onVerification = (username, email, phone) => {
+  return api.post("/forgetPassword/", {
+    username: username,
+    email: email,
+    phone: phone,
+  });
+};
 //function to handle the edit map process 
 const onEditMap = (map) => {}
 //function to handle the fork map process 

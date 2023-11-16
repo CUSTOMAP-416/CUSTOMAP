@@ -32,7 +32,7 @@ export default function Dashboard(){
         <div className='container'>
             <div className='sidebar'>
             <img className="bear" src={bear} style={{padding:"30px 0px"}}alt="My SVG" />
-                <div className='profile'>Hello User</div>
+                <div className='profile'>Hello {auth_store.user.username}</div>
                 <div className="sidebar-buttons">
                 <button type="button" onClick={() => handleSelectedViewChange(<DashboardMapListView />)}>Dashboard</button>
                 </div>

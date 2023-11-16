@@ -42,25 +42,34 @@ export default function AppBanner() {
             <Link
               to="/"
               style={{ color: "white", textDecoration: "none" }}
-              onClick={() => openHome()}>
+              onClick={() => openHome()}
+            >
               Home{" "}
-            </Link>
-          </div>
-          <div>
-            <Link
-              to="/Dashboard/"
-              style={{ color: "white", textDecoration: "none" }}
-              onClick={() => openMyPage()}>
-              MyPage{" "}
             </Link>
           </div>
           {auth_store.loggedIn ? (
             <div>
-              <p>{auth_store.user.username}</p>
+              <Link
+                to="/Dashboard/"
+                style={{ color: "white", textDecoration: "none" }}
+                onClick={() => openMyPage()}
+              >
+                MyPage{" "}
+              </Link>
+            </div>
+          ) : (
+            <div></div>
+          )}
+
+          {auth_store.loggedIn ? (
+            <div>
+              {/* <div style ={{ marginRight:"10px" }}>{auth_store.user.username}</div> */}
               <Link
                 to="/"
+                className="login"
                 style={{ color: "white", textDecoration: "none" }}
-                onClick={() => handleLogout()}>
+                onClick={() => handleLogout()}
+              >
                 Sign out
               </Link>
             </div>
@@ -70,7 +79,8 @@ export default function AppBanner() {
                 to="/login/"
                 className="login"
                 style={{ color: "white", textDecoration: "none" }}
-                onClick={() => handleLogin()}>
+                onClick={() => handleLogin()}
+              >
                 Sign in
               </Link>
             </div>

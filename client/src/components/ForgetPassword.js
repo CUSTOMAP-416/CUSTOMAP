@@ -15,8 +15,8 @@ export default function ForgetPassword(){
         auth_store.onVerification(state)
     }
 
-    //Stores the ID input. 
-    const [ID, setID] = useState('');
+    //Stores the Name input. 
+    const [name, setName] = useState('');
     //Stores the email input. 
     const [email, setEmail] = useState('');
     //Stores the phone input. 
@@ -26,9 +26,9 @@ export default function ForgetPassword(){
     //Stores the new password again input. 
     const [newPasswordAgain, setNewPasswordAgain] = useState('');
 
-    //Handle changes to the ID input field. 
-    const handleIDChange = (event) => {
-        setID(event.target.value);
+    //Handle changes to the Name input field. 
+    const handleNameChange = (event) => {
+        setName(event.target.value);
     }
     //Handle changes to the email input field. 
     const handleEmailChange = (event) => {
@@ -49,10 +49,11 @@ export default function ForgetPassword(){
     //Handles the Verification button click. 
     const handleVerification = () => {
         const state = {
-            ID: ID,
+            username: name,
             email: email,
             phone: phone
         }
+        // console.log(state)
         onVerification(state)
     }
     //Handles the change password button click. 
@@ -68,7 +69,7 @@ export default function ForgetPassword(){
       <div className="forgetAll">
         <div className="bodys">
           <div className="forget_left">
-            <h2>ID</h2>
+            <h2>Name</h2>
             <h2>Email</h2>
             <h2>Phone</h2>
           </div>
@@ -77,8 +78,8 @@ export default function ForgetPassword(){
               <input
                 className="f_input"
                 type="text"
-                value={ID}
-                onChange={handleIDChange}
+                value={name}
+                onChange={handleNameChange}
               ></input>
             </div>
             <div>

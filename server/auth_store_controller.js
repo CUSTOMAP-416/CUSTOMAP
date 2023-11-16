@@ -20,7 +20,8 @@ getLoggedIn = async (req, res) => {
             loggedIn: true,
             user: {
                 username: loggedInUser.username,
-                email: loggedInUser.email
+                email: loggedInUser.email,
+                //phone: loggedInUser.phone
             }
         })
     } catch (err) {
@@ -94,9 +95,9 @@ logoutUser = async (req, res) => {
 
 registerUser = async (req, res) => {
     try {
-        const { username, email, password, passwordVerify } = req.body;
+        const { username, email, phone, password, passwordVerify } = req.body;
         console.log("create user: " + username + " " + email + " " + password + " " + passwordVerify);
-        if (!username || !email || !password || !passwordVerify) {
+        if (!username || !email || !password || !passwordVerify || !phone) {
             return res
                 .status(400)
                 .json({ errorMessage: "Please enter all required fields." });
@@ -128,6 +129,13 @@ registerUser = async (req, res) => {
                     errorMessage: "An account with this email address already exists."
                 })
         }
+        //check the phone has all number.
+        if(!(/^\d+$/.test(phone))){
+            return res
+              .status(400)
+              .json({ errorMessage: "Contains non-numeric characters." });
+        }
+        console.log("phone number has all number");
 
         const saltRounds = 10;
         const salt = await bcrypt.genSalt(saltRounds);
@@ -135,7 +143,7 @@ registerUser = async (req, res) => {
         console.log("passwordHash: " + passwordHash);
 
         const newUser = new User({
-            username, email, passwordHash
+            username, email, phone, passwordHash
         });
         const savedUser = await newUser.save();
         console.log("new user saved: " + savedUser._id);
@@ -164,9 +172,48 @@ registerUser = async (req, res) => {
     }
 }
 
-module.exports = {
-    getLoggedIn,
-    registerUser,
-    loginUser,
-    logoutUser
+forgetPassword = async (req, res) => {
+    try {
+    console.log(req.body);
+      const { username, email, phone } = req.body;
+      console.log(username, email, phone)
+      if (!email || !username || !phone) {
+        return res
+          .status(400)
+          .json({ errorMessage: "Please enter all required fields." });
+      }
+      console.log("entered all fields");
+      const user = await User.findOne({
+        username: username,
+        email: email,
+        phone: phone,
+      });
+      console.log("user: "+ user);
+      if (!user) {
+        return res
+          .status(404)
+          .json({ errorMessage: "No matching user found." });
+      }
+      else{
+        console.log("Find user");
+      }
+      res.status(200).json({
+        user: {
+          username: user.username,
+          email: user.email,
+        },
+      });
+      console.log("all Mached");
+    } catch (err) {
+      console.error(err);
+      res.status(500).send();
+    }
 }
+
+module.exports = {
+  getLoggedIn,
+  registerUser,
+  loginUser,
+  logoutUser,
+  forgetPassword,
+};

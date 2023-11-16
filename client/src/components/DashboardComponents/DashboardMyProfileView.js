@@ -39,6 +39,7 @@ export default function DashboardMyProfileView(){
     }
     //Handles the Change Information button click. 
     const handleChangeInformation = () => {
+      console.log("Button clicked");
         const state = {
             name: name,
             phone: phone,
@@ -49,13 +50,14 @@ export default function DashboardMyProfileView(){
     }
 
     return (
-      <div className='myprofile_all'>
-        <div className="myprofile_H">
-          My Profile
-        </div>
+      <div className="myprofile_all">
+        <div className="myprofile_H">My Profile</div>
         <div className="profi_bottoms">
           <div className="profi_content">
             <div className="profile_left">
+              <h2>Name</h2>
+              <h2>Email</h2>
+              <h2>Phone</h2>
               <h2>Name</h2>
               <h2>Phone</h2>
               <h2>Change Password</h2>
@@ -63,6 +65,9 @@ export default function DashboardMyProfileView(){
             </div>
 
             <div className="profile_right">
+              <div>{auth_store.user.username}</div>
+              <div>{auth_store.user.email}</div>
+              <div>{auth_store.user.phone}</div>
               <div>
                 <input
                   type="text"

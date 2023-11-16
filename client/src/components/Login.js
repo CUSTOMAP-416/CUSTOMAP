@@ -1,12 +1,21 @@
-import { useContext, useState } from "react";
+import { useEffect, useContext, useState } from "react";
 import AuthStoreContextProvider from "../auth_store";
 import { Link } from "react-router-dom";
 import "../styles/Login.css"
 import mapdot from "../assets_img/login_mapWp.svg";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const { auth_store } = useContext(AuthStoreContextProvider);
 
+  useEffect(() => {
+    if (auth_store.loggedIn) {
+      navigate("/Dashboard/");
+    }
+    //checking state for login
+  }, [auth_store.loggedIn]);
+
+  const navigate = useNavigate();
   //function to handle the login process
   const onLogin = (state) => {
     auth_store.onLogin(state);
@@ -28,6 +37,8 @@ export default function Login() {
   //Stores the password input.
   const [password, setPassword] = useState("");
 
+  const [ready, setReady] = useState(false);
+
   //Handle changes to the email input field.
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -38,14 +49,23 @@ export default function Login() {
     setPassword(event.target.value);
   };
 
-  //Handles the login button click.
+  const [errorMessage, setErrorMessage] = useState("");
+  console.log(auth_store);
+  // Handles the login button click.
   const handleLoginSubmit = () => {
     const state = {
       email: email,
       password: password,
     };
     onLogin(state);
+
+    if(!auth_store.loggedIn){
+      setErrorMessage(
+        "You are not the user or your email and password do not match."
+      );
+    }
   };
+
 
   return (
     <div className="loginall">
@@ -82,14 +102,9 @@ export default function Login() {
             Forgot Password?
           </Link>
         </div>
+        {errorMessage && <p className="error-message" style={{color:"red"}}>{errorMessage}</p>}
         <div className="buttons">
-          <Link
-            className="signin"
-            to="/Dashboard/"
-            onClick={() => handleLoginSubmit()}
-          >
-            Log in
-          </Link>
+          <button className="signin" onClick={() => handleLoginSubmit()}>Log in</button>
           <Link className="signup" to="/SignUp/" onClick={() => openSignUp()}>
             Sign Up{" "}
           </Link>
