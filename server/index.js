@@ -3,7 +3,7 @@ const express = require('express')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 // CREATE OUR SERVER
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 8080;
 const app = express()
 
 // SETUP THE MIDDLEWARE
