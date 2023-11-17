@@ -19,7 +19,7 @@ export default function SignUp(){
         navigate("/Dashboard/");
       }
       //checking state for login
-    }, [auth_store.loggedIn]);
+    }, [auth_store.loggedIn, auth_store.errMessage]);
 
     //Stores the ID input. 
     const [ID, setID] = useState('');
@@ -60,7 +60,6 @@ export default function SignUp(){
     }
     //Handle the create account button click. 
     const handleCreateAccount = async() => {
-      try{
         const state = {
             id: ID,
             password: password,
@@ -70,9 +69,9 @@ export default function SignUp(){
             phone: phone,
         }
         onSignUp(state)
-      } catch(error){
-        alert("User information not enough")
-      }
+        if(!auth_store.loggedIn){
+          setErrMessage(auth_store.errorMessage)
+        }
       
     }
 
@@ -143,9 +142,9 @@ export default function SignUp(){
           </div>
         </div>
         <div>
+        {errMessage && <p className="error-message" style={{color:"red"}}>{errMessage}</p>}
           <Link
             className="createB"
-            //to="/Dashboard/"
             onClick={() => handleCreateAccount()}
           >
             Create Account
