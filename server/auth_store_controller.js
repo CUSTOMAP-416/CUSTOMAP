@@ -1,5 +1,6 @@
 const auth = require('./auth')
 const User = require('./models/user')
+const Profile = require('./models/profile')
 const bcrypt = require('bcryptjs')
 
 getLoggedIn = async (req, res) => {
@@ -95,8 +96,8 @@ logoutUser = async (req, res) => {
 
 registerUser = async (req, res) => {
     try {
-        const { username, email, phone, password, passwordVerify } = req.body;
-        console.log("create user: " + username + " " + email + " " + password + " " + passwordVerify);
+        const { username, email, password, passwordVerify, phone } = req.body;
+        console.log("create user: " + username + " " + email + " " + password + " " + passwordVerify + " " + phone);
         if (!username || !email || !password || !passwordVerify || !phone) {
             return res
                 .status(400)
@@ -132,8 +133,8 @@ registerUser = async (req, res) => {
         //check the phone has all number.
         if(!(/^\d+$/.test(phone))){
             return res
-              .status(400)
-              .json({ errorMessage: "Contains non-numeric characters." });
+                .status(400)
+                .json({ errorMessage: "Contains non-numeric characters." });
         }
         console.log("phone number has all number");
 
@@ -143,14 +144,21 @@ registerUser = async (req, res) => {
         console.log("passwordHash: " + passwordHash);
 
         const newUser = new User({
-            username, email, phone, passwordHash
+            username, email, passwordHash
         });
         const savedUser = await newUser.save();
         console.log("new user saved: " + savedUser._id);
 
+        const newProfile = new Profile({
+            username, phone
+        });
+        const savedProfile = await newProfile.save();
+        console.log("new profile saved: " + savedProfile._id);
+
         // LOGIN THE USER
         const token = auth.signToken(savedUser._id);
         console.log("token:" + token);
+        console.log("username: "+ savedUser.username);
 
         await res.cookie("token", token, {
             httpOnly: true,
