@@ -6,6 +6,7 @@ authStoreRouter.post('/register', AuthStoreController.registerUser)
 authStoreRouter.post('/login', AuthStoreController.loginUser)
 authStoreRouter.get('/logout', AuthStoreController.logoutUser)
 authStoreRouter.get('/loggedIn', AuthStoreController.getLoggedIn)
-authStoreRouter.post("/forgetPassword", AuthStoreController.forgetPassword);
+authStoreRouter.post("/forgetPassword", AuthStoreController.forgetPassword)
+authStoreRouter.post("/createMap", AuthStoreController.createMap)
 
 module.exports = authStoreRouter
