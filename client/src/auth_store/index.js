@@ -18,6 +18,7 @@ function AuthStoreContextProvider(props) {
     const [auth_store, setAuthStore] = useState({
       user: null,
       loggedIn: false,
+      userMaps: null,
       selectMap: null,
       isCreatePage: true,
       errorMessage: null,
@@ -166,12 +167,11 @@ function AuthStoreContextProvider(props) {
         });
     }
     //function to handle the create a new map process const onCreateMap = async (map) => { ?
-    auth_store.createMap= async function () {
-        await apis.createMap().then(response => {
-            auth_storeReducer({
-                type: AuthStoreActionType.null,
-                payload: null,
-            });
+    auth_store.createMap= async function (mapData, mapTitle) {
+        await apis.createMap(mapData, mapTitle, auth_store.user).then(response => {
+            setAuthStore({
+                errorMessage: response.data.message
+            })
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
