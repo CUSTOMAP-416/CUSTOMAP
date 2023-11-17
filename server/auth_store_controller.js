@@ -22,7 +22,6 @@ getLoggedIn = async (req, res) => {
             user: {
                 username: loggedInUser.username,
                 email: loggedInUser.email,
-                //phone: loggedInUser.phone
             }
         })
     } catch (err) {

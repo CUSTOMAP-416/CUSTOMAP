@@ -17,7 +17,7 @@ export default function ForgetPassword(){
     //checking state for login
   }, [auth_store.errorMessage]);
   useEffect(() => {
-    if (auth_store.successMessage) {
+    if (auth_store.successMessage == "ForgetSuccess") {
       setErrorMessage("");
       setPassInfo(true);
     }
@@ -78,8 +78,9 @@ export default function ForgetPassword(){
   //Handles the change password button click.
   const handleChangePassword = () => {
     const state = {
-      newPassword: newPassword,
-      newPasswordAgain: newPasswordAgain,
+      username: name,
+      phone: phone,
+      password: newPassword
     };
     updateUser(state);
   };
