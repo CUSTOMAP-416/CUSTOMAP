@@ -15,13 +15,7 @@ export default function Main() {
         left: '50%',
         transform: 'translate(-50%, -50%)' // Center the image
       };
-    
-    if(auth_store.loggedIn)
-        return <Dashboard />
-    else
-        
-        return (
-            <img id="welcome"src={image} alt="welcom to the customap" style={imageStyle} ></img>
-        )
+       
+    return <img id="welcome"src={image} alt="welcom to the customap" style={imageStyle} ></img>
 
 }
