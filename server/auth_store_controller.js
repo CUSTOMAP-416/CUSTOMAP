@@ -1,6 +1,7 @@
 const auth = require('./auth')
 const User = require('./models/user')
 const Profile = require('./models/profile')
+const Map = require('./models/map')
 const bcrypt = require('bcryptjs')
 
 getLoggedIn = async (req, res) => {
@@ -221,10 +222,37 @@ forgetPassword = async (req, res) => {
     }
 }
 
+createMap = async (req, res) => {
+    try {
+        const { email, mapTitle, mapData} = req.body;
+        console.log("create map: " + email + " " + mapTitle);
+        const user = await User.findOne({ email: email });
+        const userID = user._id;
+        const newMap = new Map({
+            title: mapTitle, owner: userID, mapData: mapData
+        });
+        const savedMap = await newMap.save();
+        console.log("new map saved: " + savedMap._id);
+        const maps = user.maps;
+        maps.push(savedMap._id);
+        await User.updateOne(
+            {"_id": userID},
+            {$set: {"maps": maps}})
+        console.log("user updated");
+        return res.status(200).json({
+            message: "Created successfully!",
+        })
+    } catch (err) {
+        console.error(err);
+        res.status(500).send();
+    }
+}
+
 module.exports = {
   getLoggedIn,
   registerUser,
   loginUser,
   logoutUser,
   forgetPassword,
+  createMap,
 };
