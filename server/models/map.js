@@ -4,8 +4,9 @@ const Schema = mongoose.Schema;
 const mapSchema = new Schema(
     {
         title: { type: String, required: true },
-        description: String,
         owner: { type: Schema.Types.ObjectId, ref: 'User', required: true }, 
+        mapData: { type: Object, required: true},
+        description: String,
         visibility: { type: String, default: 'private' },
         discussions: [{ type: Schema.Types.ObjectId, ref: 'Discussion' }], 
         legend: [String],
