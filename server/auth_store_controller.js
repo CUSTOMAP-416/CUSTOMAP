@@ -191,22 +191,26 @@ forgetPassword = async (req, res) => {
           .json({ errorMessage: "Please enter all required fields." });
       }
       console.log("entered all fields");
-      const user = await User.findOne({ email: email });
-      console.log("user: "+ user);
-      if (!user) {
+      const userinfo = await User.findOne({ email: email, username: username });
+      console.log("userinfo: " + userinfo);
+      if (!userinfo) {
         return res
           .status(404)
-          .json({ errorMessage: "No matching user found." });
+          .json({ errorMessage: "No matching user namd and email found." });
+      } else {
+        console.log("Find user name email");
+        // const userphone = await Profile.findOne({_id:userinfo._id});
+        // console.log("userphone: " + userphone);
+        // if(!userphone){
+        //     return res
+        //       .status(404)
+        //       .json({ errorMessage: "No matching user phone found." });
+        // }
+        // else{
+        //     console.log("Find user phone");
+        // }
       }
-      else{
-        console.log("Find user");
-      }
-      res.status(200).json({
-        user: {
-          username: user.username,
-          email: user.email
-        },
-      });
+      res.status(200).json({ message: "SSS" });
       console.log("all Mached");
     } catch (err) {
       console.error(err);

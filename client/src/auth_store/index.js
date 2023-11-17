@@ -16,11 +16,12 @@ export const AuthStoreActionType = {
 
 function AuthStoreContextProvider(props) {
     const [auth_store, setAuthStore] = useState({
-        user: null,
-        loggedIn: false,
-        selectMap: null,
-        isCreatePage: true,
-        errorMessage: null,
+      user: null,
+      loggedIn: false,
+      selectMap: null,
+      isCreatePage: true,
+      errorMessage: null,
+      message: null,
     });
 
     const history = useNavigate();
