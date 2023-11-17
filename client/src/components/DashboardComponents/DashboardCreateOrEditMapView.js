@@ -11,10 +11,11 @@ export default function DashboardCreateOrEditMapView() {
   const isCreatePage = auth_store.isCreatePage;
 
   const [history, setHistory] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
 
   //function to handle the create a new map process
   const onCreateMap = () => {
-    auth_store.onCreateMap();
+    auth_store.createMap(mapData, mapTitle);
   };
   //function to handle the edit map process
   const onEditMap = () => {
@@ -69,7 +70,9 @@ export default function DashboardCreateOrEditMapView() {
     setPropertyValue(event.target.value);
   };
   //Handles file uploads.
-  const handleUploadFile = (event) => {};
+  const handleUploadFile = (event) => {
+    setMapData(event.target.files[0])
+  };
   //Handles attach property button click.
   const handleAttachProperty = () => {
     const state = {
@@ -98,7 +101,15 @@ export default function DashboardCreateOrEditMapView() {
   const handleCancel = () => {};
   //Handles map create button click.
   const handleCreateMap = () => {
-    onCreateMap();
+    if(mapData == null || mapTitle == ""){
+      setErrorMessage('The map or map name is empty, please upload or fork it.')
+    }
+    else{
+      onCreateMap();
+      setErrorMessage(
+        auth_store.errorMessage
+      );
+    }
   };
   //Handles map Edit button click.
   const handleEditMap = () => {
@@ -135,7 +146,7 @@ export default function DashboardCreateOrEditMapView() {
               type="file"
               id="creatmap-fileInput"
               accept=".zip,.kml,.geojson"
-              onChange={handleUploadFile()}
+              onChange={handleUploadFile}
             />
 
             <button
@@ -189,8 +200,8 @@ export default function DashboardCreateOrEditMapView() {
           </div>
         </div>
 
-        <MapComponent handleUploadFile={() => handleUploadFile()} />
-
+        <MapComponent mapData={mapData} />
+        {errorMessage && <p className="error-message" style={{color:"red"}}>{errorMessage}</p>}
         <div class="create-map-bottom-bar">
           <input
             type="text"
