@@ -21,7 +21,7 @@ function AuthStoreContextProvider(props) {
       selectMap: null,
       isCreatePage: true,
       errorMessage: null,
-      message: null,
+      successMessage: null,
     });
 
     const history = useNavigate();
@@ -245,6 +245,9 @@ function AuthStoreContextProvider(props) {
             auth_storeReducer({
               type: AuthStoreActionType.null,
               payload: response.data.user,
+            });
+            setAuthStore({
+              successMessage: response.data.message,
             });
         })
         .catch(error => {

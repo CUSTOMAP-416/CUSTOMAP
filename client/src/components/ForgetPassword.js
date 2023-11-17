@@ -14,30 +14,24 @@ export default function ForgetPassword(){
     if (auth_store.errorMessage) {
       setErrorMessage(auth_store.errorMessage);
     }
-    else{
-      setErrorMessage("");
-    }
     //checking state for login
   }, [auth_store.errorMessage]);
+  useEffect(() => {
+    if (auth_store.successMessage) {
+      setErrorMessage("");
+      setPassInfo(true);
+    }
+    //checking state for login
+  }, [auth_store.successMessage]);
 
   // console.log(auth_store);
   //function to handle change password process
   const updateUser = (state) => {
     auth_store.updateUser(state);
   };
-
-
   
   const onVerification = (state) => {
     auth_store.onVerification(state)
-      .then(() => {
-        console.log(auth_store.message);
-        setPassInfo(true);
-      })
-      .catch(error => {
-        // 에러 처리
-        console.log(error);
-      });
   };
 
   //Stores the Name input.
