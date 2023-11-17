@@ -40,13 +40,11 @@ class MapComponent extends Component {
     }
   }
 
-  loadFile = (event) => {
-    const file = event.target.files[0];
-
+  loadFile = (file) => {
     if (file) {
       if (file.name.endsWith(".zip")) {
+        this.clearmap()
         const reader = new FileReader();
-
         reader.onload = async (e) => {
           try {
           const zip = await JSZip.loadAsync(e.target.result);
@@ -61,6 +59,7 @@ class MapComponent extends Component {
           const geojson = await shapefile.read(shpBuffer, dbfBuffer);
 
           this.setState({ geojsonLayer: geojson });
+          setTimeout(() => {this.renderMap()}, 100);
             
           } catch (error) {
             console.error("Error loading Shapefile:", error);
@@ -70,6 +69,7 @@ class MapComponent extends Component {
         // Read the .shp file as an ArrayBuffer
         reader.readAsArrayBuffer(file);
       } else if (file.name.endsWith(".kml")) {
+        this.clearmap()
         // Handle KML using toGeoJSON
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -84,9 +84,11 @@ class MapComponent extends Component {
 
           // Store the GeoJSON layer in the state
           this.setState({geojsonLayer: geojson});
+          setTimeout(() => {this.renderMap()}, 100);
         };
         reader.readAsText(file);
       } else if (file.name.endsWith(".geojson")) {
+        this.clearmap()
         // Handle GeoJSON directly
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -94,6 +96,7 @@ class MapComponent extends Component {
 
           // Store the GeoJSON layer in the state
           this.setState({geojsonLayer: geojson});
+          setTimeout(() => {this.renderMap()}, 100);
         };
         reader.readAsText(file);
       } else {
@@ -105,8 +108,7 @@ class MapComponent extends Component {
   renderMap = () => {
     // Changed
     const { map, geojsonLayer } = this.state;
-
-    if (map && geojsonLayer) {
+    if (map && geojsonLayer && geojsonLayer.type == 'FeatureCollection') {
       const layer = L.geoJSON(geojsonLayer, {
         onEachFeature: (feature, layer) => {
           // Access feature properties and create a label
@@ -150,11 +152,16 @@ class MapComponent extends Component {
     }
   };
 
-  render() {
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.mapData !== this.props.mapData) {
+      this.loadFile(this.props.mapData);
+    }
+  }
 
+
+  render() {
     const { style, width, height } = this.props;
     const mapStyle = style || { height: height || "500px", width: width || "1050px" };
-    
     return (
       <div id="map-container">
         <>
@@ -173,7 +180,15 @@ class MapComponent extends Component {
           ></script>
         </>
         <div id="main-map" ref={this.mapContainerRef} style={mapStyle}></div>
-        <div className="flex-container">
+      </div>
+    );
+  }
+}
+
+export default MapComponent;
+
+/*
+<div className="flex-container">
           <input
             className="mapjsx_button"
             type="file"
@@ -193,9 +208,4 @@ class MapComponent extends Component {
             </button>
           </div>
         </div>
-      </div>
-    );
-  }
-}
-
-export default MapComponent;
+*/
