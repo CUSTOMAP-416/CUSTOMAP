@@ -32,11 +32,11 @@ const updateUser = (name, phone, id, password) => {
 const getAllMaps = () => api.get('');
 const getMap = () => api.get('');
 //function to handle the create a new map process const onCreateMap = async (map) => { ?
-const createMap = (id, name, file) => {
-    return api.post('', {
-        id : id,
-        username : name,
-        file : file,
+const createMap = (mapData, mapTitle, user) => {
+    return api.post('/createMap/', {
+        email : user.email,
+        mapTitle : mapTitle,
+        mapData : mapData,
     })
 };
 const updateMap = (id_, name, phone, id, email, password) => {
