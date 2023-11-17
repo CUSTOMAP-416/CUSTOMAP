@@ -108,8 +108,8 @@ function AuthStoreContextProvider(props) {
     auth_store.createUser = async function (state) {
         await apis.createUser(state.name, state.phone, state.id, state.email, state.password, state.passwordVerify).then(response => {
             auth_storeReducer({
-                type: AuthStoreActionType.null,
-                payload: null,
+                type: AuthStoreActionType.LOGIN_USER,
+                payload: response.data.user,
             });
         })
         .catch(error => {

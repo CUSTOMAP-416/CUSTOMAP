@@ -1,16 +1,25 @@
-import { useContext, useState } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import AuthStoreContextProvider from '../auth_store';
 import { Link } from "react-router-dom";
 import "../styles/SignUp.css";
 import logo from "../assets_img/signup_logo.svg";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp(){
     const { auth_store } = useContext(AuthStoreContextProvider);
+    const navigate = useNavigate();
 
     //function to handle the sign-up process 
     const onSignUp = (state) => {
         auth_store.createUser(state)
     }
+
+    useEffect(() => {
+      if (auth_store.loggedIn) {
+        navigate("/Dashboard/");
+      }
+      //checking state for login
+    }, [auth_store.loggedIn]);
 
     //Stores the ID input. 
     const [ID, setID] = useState('');
@@ -23,6 +32,8 @@ export default function SignUp(){
     const [email, setEmail] = useState('');
     //Stores the phone input. 
     const [phone, setPhone] = useState('');
+    //Handle error message
+    const [errMessage, setErrMessage] = useState('');
 
     //Handle changes to the ID input field. 
     const handleIDChange = (event) => {
@@ -48,7 +59,8 @@ export default function SignUp(){
         setPhone(event.target.value);
     }
     //Handle the create account button click. 
-    const handleCreateAccount = () => {
+    const handleCreateAccount = async() => {
+      try{
         const state = {
             id: ID,
             password: password,
@@ -58,6 +70,10 @@ export default function SignUp(){
             phone: phone,
         }
         onSignUp(state)
+      } catch(error){
+        alert("User information not enough")
+      }
+      
     }
 
     return (
@@ -129,7 +145,7 @@ export default function SignUp(){
         <div>
           <Link
             className="createB"
-            to="/Dashboard/"
+            //to="/Dashboard/"
             onClick={() => handleCreateAccount()}
           >
             Create Account

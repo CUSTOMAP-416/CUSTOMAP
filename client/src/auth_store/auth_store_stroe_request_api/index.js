@@ -9,11 +9,13 @@ const getUser = () => api.get('/loggedIn/');
 const getAllUsers = () => api.get('');
 // Registers the user const onSignUp = async (userData) => ?
 const createUser = (name, phone, id, email, password, passwordVerify) => {
+    console.log(phone)
     return api.post('/register/', {
         username : name,
         email : email,
         password : password,
-        passwordVerify: passwordVerify
+        passwordVerify: passwordVerify,
+        phone: phone
     })
 };
 //Change the profile user const onChangeInformation = async (userData) => {...
