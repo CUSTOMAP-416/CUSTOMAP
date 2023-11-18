@@ -58,7 +58,13 @@ export default function DashboardMyProfileView(){
         }
         updateUser(state)
       }else{
-        setErrorMessage("Password does not match")
+        setErrorMessage("Please enter the same password twice.")
+      }
+      if(!(/^\d+$/.test(phone))){
+        setErrorMessage("Phone number contains non-numeric characters.")
+      }
+      if(changePassword < 8){
+        setErrorMessage("Please enter a password of at least 8 characters")
       }
 
     }

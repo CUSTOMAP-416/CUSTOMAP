@@ -238,9 +238,14 @@ editUserInfo = async (req, res) => {
             return res.status(404).json({ errorMessage: "User not found." });
         }
 
+        const saltRounds = 10;
+        const salt = await bcrypt.genSalt(saltRounds);
+        const passwordHash = await bcrypt.hash(password, salt);
+        console.log("passwordHash: " + passwordHash);
+
         userToUpdate.username = username;
         userToUpdate.email = email; 
-        userToUpdate.password = password; 
+        userToUpdate.passwordHash = passwordHash; 
         userToUpdate.phone = phone;
 
         const updatedUser = await userToUpdate.save();
