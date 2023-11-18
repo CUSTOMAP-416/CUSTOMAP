@@ -18,11 +18,15 @@ getLoggedIn = async (req, res) => {
         const loggedInUser = await User.findOne({ _id: userId });
         console.log("loggedInUser: " + loggedInUser);
 
+        const profile = await Profile.findById(loggedInUser.profile);
+
         return res.status(200).json({
             loggedIn: true,
             user: {
                 username: loggedInUser.username,
                 email: loggedInUser.email,
+                phone: profile.phone,   
+                name: profile.name,   
             }
         })
     } catch (err) {
@@ -68,7 +72,6 @@ loginUser = async (req, res) => {
         console.log(token);
 
         const profile = await Profile.findById(existingUser.profile);
-
         res.cookie("token", token, {
             httpOnly: true,
             secure: true,
@@ -173,7 +176,9 @@ registerUser = async (req, res) => {
             success: true,
             user: {
                 username: savedUser.username,  
-                email: savedUser.email              
+                email: savedUser.email,
+                phone: phone,   
+                name: '',                
             }
         })
 
