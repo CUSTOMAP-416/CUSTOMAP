@@ -253,7 +253,8 @@ editUserInfo = async (req, res) => {
                 phone: phone, 
                 password: password,  
                 name: '',                
-            }
+            },
+            message: "Changed User Info"
         })
     } catch(err) {
         console.error(err);

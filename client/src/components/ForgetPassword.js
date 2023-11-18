@@ -2,13 +2,13 @@ import { useEffect, useContext, useState } from "react";
 import AuthStoreContextProvider from '../auth_store';
 import "../styles/ForgetPassword.css";
 import logo from "../assets_img/forgetP_logo.svg";
+import { useNavigate } from "react-router-dom";
 
 export default function ForgetPassword(){
   const { auth_store } = useContext(AuthStoreContextProvider);
   const [passInfo, setPassInfo] = useState(false);
-  const [firstModal, setFirstModal] = useState(false);
-  const [secondModal, setSecondModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (auth_store.errorMessage) {
@@ -17,14 +17,16 @@ export default function ForgetPassword(){
     //checking state for login
   }, [auth_store.errorMessage]);
   useEffect(() => {
-    if (auth_store.successMessage == "ForgetSuccess") {
+    if (auth_store.successMessage === "ForgetSuccess") {
       setErrorMessage("");
       setPassInfo(true);
+    }
+    if(auth_store.successMessage === "Changed User Info"){
+      navigate("/login/");
     }
     //checking state for login
   }, [auth_store.successMessage]);
 
-  // console.log(auth_store);
   //function to handle change password process
   const updateUser = (state) => {
     auth_store.updateUser(state);
@@ -77,12 +79,18 @@ export default function ForgetPassword(){
   };
   //Handles the change password button click.
   const handleChangePassword = () => {
-    const state = {
-      username: name,
-      phone: phone,
-      password: newPassword
-    };
-    updateUser(state);
+    if(newPassword === newPasswordAgain){
+      const state = {
+        name: name,
+        email: email,
+        phone: phone,
+        password: newPassword,
+      };
+      updateUser(state);
+    }
+    else{
+      setErrorMessage("The new password does not match.");
+    }
   };
 
   const Verification = (
@@ -132,15 +140,6 @@ export default function ForgetPassword(){
       </div>
     </div>
   );
-  // <div className="inup">
-  //     <h2>ID</h2>
-  //     <input type="text" value={ID} onChange={handleIDChange}></input>
-  //     <h2>Email</h2>
-  //     <input type="text" value={email} onChange={handleEmailChange}></input>
-  //     <h2>Phone</h2>
-  //     <input type="text" value={phone} onChange={handlePhoneChange}></input>
-  //     <button type="button" onClick={() => handleVerification()}>Verification</button>
-  // </div>
 
   const ChangePassword = (
     <div className="forgetAll">
@@ -173,54 +172,47 @@ export default function ForgetPassword(){
         <button
           className="chage_pass"
           type="button"
-          onClick={() => handleVerification()}
+          onClick={() => handleChangePassword()}
         >
           Change Password
         </button>
       </div>
     </div>
   );
-  // <div className="bodys">
-  //     <h2>New Password</h2>
-  //     <input type="text" value={newPassword} onChange={handleNewPasswordChange}></input>
-  //     <h2>New Password Again</h2>
-  //     <input type="text" value={newPasswordAgain} onChange={handleNewPasswordAgainChange}></input>
-  //     <button type="button" onClick={() => handleChangePassword()}>Change Password</button>
-  // </div>
-  const modalVeri = (
-    <div id="modal">
-      <div className="modal-content">
-        <div>
-          <h2>WARNING</h2>
-        </div>
-        <div className="modalbody">
-          <p className="empty">.</p>
-          <p>
-            Input information does not match the system Verification Failure
-          </p>
-        </div>
-        <div className="modalfoot">
-          <button id="close-modal">Try again</button>
-        </div>
-      </div>
-    </div>
-  );
-  const modalTwo = (
-    <div id="modal">
-      <div className="modal-content">
-        <div>
-          <h2>WARNING</h2>
-        </div>
-        <div className="modalbody">
-          <p className="empty">.</p>
-          <p>2 new passwords doesn’t match Please try again</p>
-        </div>
-        <div className="modalfoot">
-          <button id="close-modal">Try again</button>
-        </div>
-      </div>
-    </div>
-  );
+  // const modalVeri = (
+  //   <div id="modal">
+  //     <div className="modal-content">
+  //       <div>
+  //         <h2>WARNING</h2>
+  //       </div>
+  //       <div className="modalbody">
+  //         <p className="empty">.</p>
+  //         <p>
+  //           Input information does not match the system Verification Failure
+  //         </p>
+  //       </div>
+  //       <div className="modalfoot">
+  //         <button id="close-modal">Try again</button>
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
+  // const modalTwo = (
+  //   <div id="modal">
+  //     <div className="modal-content">
+  //       <div>
+  //         <h2>WARNING</h2>
+  //       </div>
+  //       <div className="modalbody">
+  //         <p className="empty">.</p>
+  //         <p>2 new passwords doesn’t match Please try again</p>
+  //       </div>
+  //       <div className="modalfoot">
+  //         <button id="close-modal">Try again</button>
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
   return (
     <div>
       <style>

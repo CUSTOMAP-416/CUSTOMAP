@@ -138,6 +138,10 @@ function AuthStoreContextProvider(props) {
                 type: AuthStoreActionType.REGISTER_USER,
                 payload: response.data.user,
             });
+            return setAuthStore((prevAuthStore) => ({
+                ...prevAuthStore,
+                successMessage: response.data.message,
+            }));
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
