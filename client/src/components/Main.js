@@ -8,7 +8,7 @@ export default function Main() {
     console.log("Main auth_store.loggedIn: " + auth_store.loggedIn);
     const imageStyle = {
         width: '100%',
-        height: '82%',
+        height: '90%',
         objectFit: 'cover', // Cover the container without stretching
         position: 'absolute',
         top: '56%',
