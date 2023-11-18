@@ -454,7 +454,12 @@ function AuthStoreContextProvider(props) {
     //function to handle open the sign-up screen 
     auth_store.openSignUp = () => {}
     //function to handle open forgot password screen 
-    auth_store.openForgotPassword = () => {}
+    auth_store.openForgotPassword = () => {
+        return setAuthStore((prevAuthStore) => ({
+          ...prevAuthStore,
+          errorMessage: null,
+        }));
+    }
     //function to handle open the selected view screen 
     auth_store.openViewScreen = () => {}
     //function to handle open edit map Screen. 
