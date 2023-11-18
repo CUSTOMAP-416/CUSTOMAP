@@ -247,7 +247,13 @@ editUserInfo = async (req, res) => {
 
         return res.status(200).json({
             success: true,
-            updatedUser
+            user: {
+                username: username,  
+                email: email,
+                phone: phone, 
+                password: password,  
+                name: '',                
+            }
         })
     } catch(err) {
         console.error(err);

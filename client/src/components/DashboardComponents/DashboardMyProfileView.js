@@ -7,27 +7,28 @@ export default function DashboardMyProfileView(){
 
     //user data.
     const user = auth_store.user
+    console.log("auth_store.user ", auth_store.user);
     //function to handle the change Information process 
     const updateUser = (state) => {
         auth_store.updateUser(state)
     }
 
     //Stores the name input. 
-    const [username, setUsername] = useState(auth_store.user.username);
+    // const [username, setUsername] = useState(auth_store.user.username);
     //Stores the phone input. 
     const [email, setEmail] = useState(auth_store.user.email);
     //Stores the phone input. 
     const [phone, setPhone] = useState(auth_store.user.phone);
     //Stores the name input. 
-    const [name, setName] = useState(auth_store.user.name);
+    const [name, setName] = useState(auth_store.user.username);
     //Stores the change password input. 
     const [changePassword, setChangePassword] = useState('********');
     //Stores the confirm password input. 
     const [confirmPassword, setConfirmPassword] = useState('********');
 
-    const handleUsernameChange = (event) => {
-      setUsername(event.target.value);
-    }
+    // const handleUsernameChange = (event) => {
+    //   setUsername(event.target.value);
+    // }
     const handleEmailChange = (event) => {
       setEmail(event.target.value);
     }
@@ -50,12 +51,13 @@ export default function DashboardMyProfileView(){
     //Handles the Change Information button click. 
     const handleChangeInformation = () => {
       console.log("Button clicked");
+      
         const state = {
             name: name,
             phone: phone,
             email: email,
-            newPassword: changePassword,
-            newPasswordAgain: confirmPassword,
+            password: changePassword,
+            // newasswordAgain: confirmPassword,
         }
         updateUser(state)
     }
@@ -66,7 +68,7 @@ export default function DashboardMyProfileView(){
         <div className="profi_bottoms">
           <div className="profi_content">
             <div className="profile_left">
-              <h2>Username</h2>
+              {/* <h2>Username</h2> */}
               <h2>Email</h2>
               <h2>Phone</h2>
               <h2>Name</h2>
@@ -76,12 +78,12 @@ export default function DashboardMyProfileView(){
 
             <div className="profile_right">
               <div>
-                <input
+                {/* <input
                   type="text"
                   className="profile_input"
                   value={username}
                   onChange={handleUsernameChange}
-                ></input>
+                ></input> */}
               </div>
               <div>
                 <input
@@ -89,6 +91,7 @@ export default function DashboardMyProfileView(){
                   className="profile_input"
                   value={email}
                   onChange={handleEmailChange}
+                  disabled
                 ></input>
               </div>
               <div>

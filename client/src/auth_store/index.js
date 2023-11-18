@@ -132,8 +132,8 @@ function AuthStoreContextProvider(props) {
     }
     //Change the profile user const onChangeInformation = async (userData) => {...
     //function to handle change password process const onChangePassword = async () => ?
-    auth_store.updateUser = async function () {
-        await apis.updateUser().then(response => {
+    auth_store.updateUser = async function (state) {
+        await apis.updateUser(state.name, state.email, state.phone, state.password).then(response => {
             auth_storeReducer({
                 type: AuthStoreActionType.REGISTER_USER,
                 payload: response.data.user,

@@ -19,12 +19,12 @@ const createUser = (name, phone, id, email, password, passwordVerify) => {
 };
 //Change the profile user const onChangeInformation = async (userData) => {...
 //function to handle change password process const onChangePassword = async () => ?
-const updateUser = (name, email, phone, id, password) => {
+const updateUser = (name, email, phone, password) => {
+    console.log('email: ', email);
     return api.put(`/Dashboard/${email}`, { 
         username : name,
         email: email,
         phone : phone,
-        id : id,
         password : password 
     })
 };
