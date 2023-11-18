@@ -209,20 +209,17 @@ forgetPassword = async (req, res) => {
           .json({ errorMessage: "No matching user namd and email found." });
       } else {
         console.log("Find user name email");
-        // console.log("HH",userinfo._id);
         
-        // const userphone = await Profile.findOne({
-        //   _id: userinfo._id
-        // });
-        // console.log("userphone: " + userphone);
-        // if(!userphone){
-        //     return res
-        //       .status(404)
-        //       .json({ errorMessage: "No matching user phone found." });
-        // }
-        // else{
-        //     console.log("Find user phone");
-        // }
+        const userphone = await Profile.findById(userinfo.profile);
+        console.log("userphone: " + userphone.phone);
+
+        if (userphone.phone !== phone) {
+          return res
+            .status(404)
+            .json({ errorMessage: "No matching user phone found." });
+        } else {
+          console.log("Find user phone");
+        }
       }
       res.status(200).json({ message: "ForgetSuccess" });
       console.log("all Mached");
