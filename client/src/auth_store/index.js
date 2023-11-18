@@ -135,8 +135,8 @@ function AuthStoreContextProvider(props) {
     auth_store.updateUser = async function () {
         await apis.updateUser().then(response => {
             auth_storeReducer({
-                type: AuthStoreActionType.null,
-                payload: null,
+                type: AuthStoreActionType.REGISTER_USER,
+                payload: response.data.user,
             });
         })
         .catch(error => {

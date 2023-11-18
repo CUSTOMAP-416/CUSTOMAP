@@ -9,7 +9,6 @@ const getUser = () => api.get('/loggedIn/');
 const getAllUsers = () => api.get('');
 // Registers the user const onSignUp = async (userData) => ?
 const createUser = (name, phone, id, email, password, passwordVerify) => {
-    console.log(phone)
     return api.post('/register/', {
         username : name,
         email : email,
@@ -20,12 +19,13 @@ const createUser = (name, phone, id, email, password, passwordVerify) => {
 };
 //Change the profile user const onChangeInformation = async (userData) => {...
 //function to handle change password process const onChangePassword = async () => ?
-const updateUser = (name, phone, id, password) => {
-    return api.put('', {
+const updateUser = (name, email, phone, id, password) => {
+    return api.put(`/Dashboard/${email}`, { 
         username : name,
+        email: email,
         phone : phone,
         id : id,
-        password : password
+        password : password 
     })
 };
 ///All map list in Admin dashboard const getMaps = async () => { ?

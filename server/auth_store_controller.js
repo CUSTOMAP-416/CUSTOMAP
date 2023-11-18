@@ -181,7 +181,6 @@ registerUser = async (req, res) => {
                 name: '',                
             }
         })
-
         console.log("token sent");
 
     } catch (err) {
@@ -229,6 +228,33 @@ forgetPassword = async (req, res) => {
     }
 }
 
+editUserInfo = async (req, res) => {
+    try{
+        const { username, email, password, passwordVerify, phone } = req.body;
+        console.log("edit user: " + username + " " + email + " " + password + " " + passwordVerify + " " + phone);
+        
+        const userToUpdate = await User.findOne({ email: req.params.email });
+        if (!userToUpdate) {
+            return res.status(404).json({ errorMessage: "User not found." });
+        }
+
+        userToUpdate.username = username;
+        userToUpdate.email = email; 
+        userToUpdate.password = password; 
+        userToUpdate.phone = phone;
+
+        const updatedUser = await userToUpdate.save();
+
+        return res.status(200).json({
+            success: true,
+            updatedUser
+        })
+    } catch(err) {
+        console.error(err);
+        res.status(500).send();
+    }
+}
+
 createMap = async (req, res) => {
     try {
         const { email, mapTitle, mapData} = req.body;
@@ -250,8 +276,8 @@ createMap = async (req, res) => {
             message: "Created successfully!",
         })
     } catch (err) {
-        console.error(err);
-        res.status(500).send();
+      console.error(err);
+      res.status(500).send();
     }
 }
 
@@ -261,5 +287,6 @@ module.exports = {
   loginUser,
   logoutUser,
   forgetPassword,
+  editUserInfo,
   createMap,
 };

@@ -53,6 +53,7 @@ export default function DashboardMyProfileView(){
         const state = {
             name: name,
             phone: phone,
+            email: email,
             newPassword: changePassword,
             newPasswordAgain: confirmPassword,
         }
