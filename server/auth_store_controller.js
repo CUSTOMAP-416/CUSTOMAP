@@ -67,6 +67,8 @@ loginUser = async (req, res) => {
         const token = auth.signToken(existingUser._id);
         console.log(token);
 
+        const profile = await Profile.findById(existingUser.profile);
+
         res.cookie("token", token, {
             httpOnly: true,
             secure: true,
@@ -75,7 +77,9 @@ loginUser = async (req, res) => {
             success: true,
             user: {
                 username: existingUser.username,  
-                email: existingUser.email              
+                email: existingUser.email,
+                phone: profile.phone,   
+                name: profile.name,        
             }
         })
 
@@ -138,22 +142,23 @@ registerUser = async (req, res) => {
         }
         console.log("phone number has all number");
 
+        const newProfile = new Profile({
+            phone
+        });
+        const savedProfile = await newProfile.save();
+        const profile = savedProfile._id
+        console.log("new profile saved: " + profile);
+
         const saltRounds = 10;
         const salt = await bcrypt.genSalt(saltRounds);
         const passwordHash = await bcrypt.hash(password, salt);
         console.log("passwordHash: " + passwordHash);
 
         const newUser = new User({
-            username, email, passwordHash
+            username, email, passwordHash, profile
         });
         const savedUser = await newUser.save();
         console.log("new user saved: " + savedUser._id);
-
-        const newProfile = new Profile({
-            username, phone
-        });
-        const savedProfile = await newProfile.save();
-        console.log("new profile saved: " + savedProfile._id);
 
         // LOGIN THE USER
         const token = auth.signToken(savedUser._id);
