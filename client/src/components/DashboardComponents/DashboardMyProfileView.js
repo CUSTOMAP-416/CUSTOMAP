@@ -13,22 +13,32 @@ export default function DashboardMyProfileView(){
     }
 
     //Stores the name input. 
-    const [name, setName] = useState([]);
+    const [username, setUsername] = useState(auth_store.user.username);
     //Stores the phone input. 
-    const [phone, setPhone] = useState([]);
+    const [email, setEmail] = useState(auth_store.user.email);
+    //Stores the phone input. 
+    const [phone, setPhone] = useState(auth_store.user.phone);
+    //Stores the name input. 
+    const [name, setName] = useState(auth_store.user.name);
     //Stores the change password input. 
-    const [changePassword, setChangePassword] = useState([]);
+    const [changePassword, setChangePassword] = useState('********');
     //Stores the confirm password input. 
-    const [confirmPassword, setConfirmPassword] = useState([]);
+    const [confirmPassword, setConfirmPassword] = useState('********');
 
-    //Handle changes to the name input field. 
-    const handleNameChange = (event) => {
-        setName(event.target.value);
+    const handleUsernameChange = (event) => {
+      setUsername(event.target.value);
+    }
+    const handleEmailChange = (event) => {
+      setEmail(event.target.value);
     }
     //Handle changes to the phone input field. 
     const handlePhoneChange = (event) => {
         setPhone(event.target.value);
     }
+    //Handle changes to the name input field. 
+    const handleNameChange = (event) => {
+      setName(event.target.value);
+  }
     //Handle changes to the change password input field. 
     const handleChangePasswordChange = (event) => {
         setChangePassword(event.target.value);
@@ -55,25 +65,29 @@ export default function DashboardMyProfileView(){
         <div className="profi_bottoms">
           <div className="profi_content">
             <div className="profile_left">
-              <h2>Name</h2>
+              <h2>Username</h2>
               <h2>Email</h2>
               <h2>Phone</h2>
               <h2>Name</h2>
-              <h2>Phone</h2>
               <h2>Change Password</h2>
               <h2>Confirm Password</h2>
             </div>
 
             <div className="profile_right">
-              <div>{auth_store.user.username}</div>
-              <div>{auth_store.user.email}</div>
-              <div>{auth_store.user.phone}</div>
               <div>
                 <input
                   type="text"
                   className="profile_input"
-                  value={name}
-                  onChange={handleNameChange}
+                  value={username}
+                  onChange={handleUsernameChange}
+                ></input>
+              </div>
+              <div>
+                <input
+                  type="text"
+                  className="profile_input"
+                  value={email}
+                  onChange={handleEmailChange}
                 ></input>
               </div>
               <div>
@@ -82,6 +96,14 @@ export default function DashboardMyProfileView(){
                   className="profile_input"
                   value={phone}
                   onChange={handlePhoneChange}
+                ></input>
+              </div>
+              <div>
+                <input
+                  type="text"
+                  className="profile_input"
+                  value={name}
+                  onChange={handleNameChange}
                 ></input>
               </div>
               <div>
