@@ -94,6 +94,7 @@ export default function SignUp(){
             <div>
               <input
                 className="signup_input"
+                data-cy="signup_id"
                 type="text"
                 value={ID}
                 onChange={handleIDChange}
@@ -102,6 +103,7 @@ export default function SignUp(){
             <div>
               <input
                 className="signup_input"
+                data-cy="signup_pw"
                 type="text"
                 value={password}
                 onChange={handlePasswordChange}
@@ -110,6 +112,7 @@ export default function SignUp(){
             <div>
               <input
                 className="signup_input"
+                data-cy="signup_pwv"
                 type="text"
                 value={passwordVerify}
                 onChange={handlePasswordVerifyChange}
@@ -118,6 +121,7 @@ export default function SignUp(){
             <div>
               <input
                 className="signup_input"
+                data-cy="signup_name"
                 type="text"
                 value={name}
                 onChange={handleNameChange}
@@ -126,6 +130,7 @@ export default function SignUp(){
             <div>
               <input
                 className="signup_input"
+                data-cy="signup_email"
                 type="text"
                 value={email}
                 onChange={handleEmailChange}
@@ -134,6 +139,7 @@ export default function SignUp(){
             <div>
               <input
                 className="signup_input"
+                data-cy="signup_phone"
                 type="text"
                 value={phone}
                 onChange={handlePhoneChange}
@@ -142,11 +148,12 @@ export default function SignUp(){
           </div>
         </div>
         <div>
-        {errMessage && <p className="error-message" style={{color:"red"}}>{errMessage}</p>}
-          <Link
-            className="createB"
-            onClick={() => handleCreateAccount()}
-          >
+          {errMessage && (
+            <p className="error-message" style={{ color: "red" }}>
+              {errMessage}
+            </p>
+          )}
+          <Link className="createB" onClick={() => handleCreateAccount()}>
             Create Account
           </Link>
         </div>
