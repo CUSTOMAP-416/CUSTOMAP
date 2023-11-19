@@ -167,12 +167,12 @@ function AuthStoreContextProvider(props) {
             }));
         });
     }
-    auth_store.getMap = async function () {
-        await apis.getMap().then(response => {
-            auth_storeReducer({
-                type: AuthStoreActionType.null,
-                payload: null,
-            });
+    auth_store.getMap = async function (mapId) {
+        await apis.getMap(mapId).then(response => {
+            return setAuthStore((prevAuthStore) => ({
+                ...prevAuthStore,
+                selectMap: response.data.map
+            }));
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
@@ -264,10 +264,6 @@ function AuthStoreContextProvider(props) {
     //function to handle verification process 
     auth_store.onVerification= async function (state) {
         await apis.onVerification(state.username, state.email, state.phone).then(response => {
-            auth_storeReducer({
-              type: AuthStoreActionType.null,
-              payload: response.data.user,
-            });
             return setAuthStore((prevAuthStore) => ({
                 ...prevAuthStore,
                 successMessage: response.data.message,
@@ -464,8 +460,6 @@ function AuthStoreContextProvider(props) {
     auth_store.openViewScreen = () => {}
     //function to handle open edit map Screen. 
     auth_store.openEdit = (map) => {}
-    //function to handle open map select view Screen. 
-    auth_store.openMapSelect = (map) => {}
     //function to handle open customize tool Screen. 
     auth_store.openCustomizeTool = (map) => {}
     //function to handle open discussion forum. 

@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import AuthStoreContextProvider from '../auth_store';
 import '../styles/MapView.css';
 import MapComponent from "../map.jsx";
@@ -8,8 +8,9 @@ import MapViewCustomizeToolbar from './MapViewComponents/MapViewCustomizeToolbar
 
 export default function MapView(){
     const { auth_store } = useContext(AuthStoreContextProvider);
-  
-    const selectMap = auth_store.selectMap
+
+    //Stores the map data.
+    const [mapData, setMapData] = useState(null);
 
     //function to handle open discussion forum. 
     const openDiscussionForum = () => {
@@ -27,18 +28,20 @@ export default function MapView(){
             setShowDiscussionForum(true)
         }
     }
+
+    useEffect(() => {
+        if(auth_store.selectMap != null){
+            setMapData(auth_store.selectMap.mapData)
+        }
+    }, [auth_store.selectMap]);
     
     return (
         <div className="MapView-page-container">
             <MapViewDiscussionForum /> 
-
-       
             <div className="content">
                 <MapViewCustomizeToolbar />
-                <MapComponent width="1800px" height="700px" />
+                <MapComponent width="1400px" height="600px" mapData={mapData}/>
             </div>
-            
-
         </div>
     )
 }

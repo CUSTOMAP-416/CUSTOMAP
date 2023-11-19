@@ -9,6 +9,6 @@ authStoreRouter.get('/loggedIn', AuthStoreController.getLoggedIn)
 authStoreRouter.post("/forgetPassword", AuthStoreController.forgetPassword)
 authStoreRouter.put("/Dashboard/:email", AuthStoreController.editUserInfo);
 authStoreRouter.post("/createMap", AuthStoreController.createMap)
-
+authStoreRouter.post("/getMap", AuthStoreController.getMap)
 
 module.exports = authStoreRouter

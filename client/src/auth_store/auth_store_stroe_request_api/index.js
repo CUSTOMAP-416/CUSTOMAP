@@ -30,13 +30,19 @@ const updateUser = (name, email, phone, password) => {
 };
 ///All map list in Admin dashboard const getMaps = async () => { ?
 const getAllMaps = () => api.get('');
-const getMap = () => api.get('');
+const getMap = (mapId) => {
+    return api.post('/getMap/', {
+        mapId : mapId,
+    })
+};
 //function to handle the create a new map process const onCreateMap = async (map) => { ?
 const createMap = (mapData, mapTitle, user) => {
+    // Serialize the data
+    const serializedData = JSON.stringify(mapData);
     return api.post('/createMap/', {
         email : user.email,
         mapTitle : mapTitle,
-        mapData : mapData,
+        mapData : serializedData,
     })
 };
 const updateMap = (id_, name, phone, id, email, password) => {

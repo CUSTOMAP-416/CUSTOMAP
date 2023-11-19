@@ -1,5 +1,6 @@
 import '../../styles/Dashboard.css';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
+import { Link } from "react-router-dom";
 import AuthStoreContextProvider from '../../auth_store';
 
 import arrow from "../../assets_img/dashboard_arrow.svg";
@@ -15,8 +16,6 @@ export default function DashboardMapListView(){
     //Stores the map sorting option. 
     const [sortingOption, setSortingOption] = useState('');
 
-    const user = auth_store.user
-
     //function to handle getting the list of user's created maps. 
     const getUserMaps = (user) => {
         setUserMaps(auth_store.getUserMaps(user))
@@ -29,19 +28,37 @@ export default function DashboardMapListView(){
     const openEdit = (map) => {
         auth_store.openEdit(map)
     }
-    //function to handle open map select view Screen. 
-    const openMapSelect = () => {
-        auth_store.openMapSelect(mapSelected)
-    }
-
     //Handles map selection button click. 
     const handleMapSelect = (event) => {
-        setMapSelected(event)
-        openMapSelect()
+        auth_store.getMap(event)
     }
     //Handle changes in map sorting.
     const handleSortingChange = (event) => {
-        setSortingOption(event)
+        const mapsId = [...auth_store.user.maps]
+        if(event == "Ascending"){
+            mapsId.sort((a, b) => a.title.localeCompare(b.title));
+        }
+        else if(event == "Descending"){
+            mapsId.sort((a, b) => b.title.localeCompare(a.title));
+        }
+        else if(event == "Recent Date"){
+            mapsId.sort((a, b) => a.createdDate - b.createdDate);
+        }
+
+        const maps = []
+        for(let i=0; i<mapsId.length; i++){
+            maps.push(
+                <Link  key={auth_store.user.maps[i]._id} className="box" to="/MapView/" onClick={() => handleMapSelect(mapsId[i]._id)}>
+                    <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
+                        <div className='map-name'>{mapsId[i].title}</div>
+                        <button className="delete" onClick={() => handleEdit()}>Edit</button>
+                        <button className="delete" onClick={() => handleDeleteMap()}>X</button>
+                    </div>
+                    <img className="map" src={map} alt="My SVG" />
+                </Link>
+            )
+        }
+        setUserMaps(maps)
     }
     //Handles map delete button click. 
     const handleDeleteMap = (event) => {
@@ -52,13 +69,24 @@ export default function DashboardMapListView(){
         openEdit(event)
     }
     
+    useEffect(() => {
+        const maps = []
+        for(let i=0; i<auth_store.user.maps.length; i++){
+            maps.push(
+                <Link key={auth_store.user.maps[i]._id} className="box" to="/MapView/" onClick={() => handleMapSelect(auth_store.user.maps[i]._id)}>
+                    <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
+                        <div className='map-name'>{auth_store.user.maps[i].title}</div>
+                        <button className="delete" onClick={() => handleEdit()}>Edit</button>
+                        <button className="delete" onClick={() => handleDeleteMap()}>X</button>
+                    </div>
+                    <img className="map" src={map} alt="My SVG" />
+                </Link>
+            )
+        }
+        setUserMaps(maps)
+    }, []);
+
     return (
-        // <div>
-        //     <button type="button" onClick={() => handleSortingChange()}>sorting</button>
-        //     <button type="button" onClick={() => handleMapSelect()}>Map Name</button>
-        //     <button type="button" onClick={() => handleEdit()}>Edit</button>
-        //     <button type="button" onClick={() => handleDeleteMap()}>X</button>
-        // </div>
         <div>
             <div className='dashboard-header'>
                 Dashboard
@@ -66,19 +94,23 @@ export default function DashboardMapListView(){
             <div className='description-and-sorting'>
                 <div className='description'>Maps you have participated in</div>
             <div className='sort-buttons'>
-                <button className='arrow-button'  onClick={() => handleSortingChange()}><img className="arrow" src={arrow} alt="My SVG" /></button><button class="sort-button" onClick={() => handleSortingChange()}>Ascending</button>
-                <button className='arrow-button' onClick={() => handleSortingChange()}><img className="arrow" src={arrow} alt="My SVG" /></button><button class="sort-button" onClick={() => handleSortingChange()}>Descending</button>
-                <button className='arrow-button' onClick={() => handleSortingChange()}><img className="arrow" src={arrow} alt="My SVG" /></button><button class="sort-button" onClick={() => handleSortingChange()}>Date</button>
+                <button className='arrow-button'  onClick={() => handleSortingChange("Ascending")}>
+                    <img className="arrow" src={arrow} alt="My SVG" />
+                </button>
+                <button className="sort-button" onClick={() => handleSortingChange("Ascending")}>Ascending</button>
+                <button className='arrow-button' onClick={() => handleSortingChange("Descending")}>
+                    <img className="arrow" src={arrow} alt="My SVG" />
+                </button>
+                <button className="sort-button" onClick={() => handleSortingChange("Descending")}>Descending</button>
+                <button className='arrow-button' onClick={() => handleSortingChange("Recent Date")}>
+                    <img className="arrow" src={arrow} alt="My SVG" />
+                </button>
+                <button className="sort-button" onClick={() => handleSortingChange("Recent Date")}>Recent Date</button>
             </div>
             </div>
             <div className="box-container">
-            <button className="box" onClick={() => handleMapSelect()}><div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}><div className='map-name'>MyMap1</div><button className="delete" onClick={() => handleEdit()}>Edit</button><button className="delete" onClick={() => handleDeleteMap()}>X</button></div><img className="map" src={map} alt="My SVG" /></button>
-            <button className="box" onClick={() => handleMapSelect()}><div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}><div className='map-name'>MyMap2</div><button className="delete" onClick={() => handleEdit()}>Edit</button><button className="delete" onClick={() => handleDeleteMap()}>X</button></div><img className="map" src={map} alt="My SVG" /></button>
-            <button className="box" onClick={() => handleMapSelect()}><div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}><div className='map-name'>MyMap3</div><button className="delete" onClick={() => handleEdit()}>Edit</button><button className="delete" onClick={() => handleDeleteMap()}>X</button></div><img className="map" src={map} alt="My SVG" /></button>
-            <button className="box" onClick={() => handleMapSelect()}><div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}><div className='map-name'>MyMap4</div><button className="delete" onClick={() => handleEdit()}>Edit</button><button className="delete" onClick={() => handleDeleteMap()}>X</button></div><img className="map" src={map} alt="My SVG" /></button>
-            <button className="box" onClick={() => handleMapSelect()}><div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}><div className='map-name'>MyMap5</div><button className="delete" onClick={() => handleEdit()}>Edit</button><button className="delete" onClick={() => handleDeleteMap()}>X</button></div><img className="map" src={map} alt="My SVG" /></button>
+                {userMaps}
             </div>
         </div>
             )
-
 }

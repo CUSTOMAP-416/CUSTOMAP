@@ -5,9 +5,6 @@ import "../../styles/DashboardMyProfileView.css";
 export default function DashboardMyProfileView(){
     const { auth_store } = useContext(AuthStoreContextProvider);
 
-    //user data.
-    const user = auth_store.user
-    console.log("auth_store.user ", auth_store.user);
     //function to handle the change Information process 
     const updateUser = (state) => {
         auth_store.updateUser(state)
@@ -67,7 +64,6 @@ export default function DashboardMyProfileView(){
       if(changePassword < 8){
         setErrorMessage("Please enter a password of at least 8 characters")
       }
-
     }
 
     return (
@@ -78,16 +74,13 @@ export default function DashboardMyProfileView(){
           <div className="profi_content">
             <div className="profile_left">
               <h2>Name</h2>
-              <h2>Email</h2>
+              <h2>Email (Cannot be change!)</h2>
               <h2>Phone</h2>
-
               <h2>Change Password</h2>
               <h2>Confirm Password</h2>
             </div>
 
             <div className="profile_right">
-              <div>
-              </div>
               <div>
                 <input
                   type="text"
@@ -101,8 +94,6 @@ export default function DashboardMyProfileView(){
                   type="text"
                   className="profile_input"
                   value={email}
-                  onChange={handleEmailChange}
-                  disabled
                 ></input>
               </div>
               <div>
@@ -125,7 +116,6 @@ export default function DashboardMyProfileView(){
                 <input
                   type="text"
                   className="profile_input"
-                  s
                   value={confirmPassword}
                   onChange={handleConfirmPasswordChange}
                 ></input>

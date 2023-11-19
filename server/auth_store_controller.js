@@ -18,15 +18,24 @@ getLoggedIn = async (req, res) => {
         const loggedInUser = await User.findOne({ _id: userId });
         console.log("loggedInUser: " + loggedInUser);
 
-        const profile = await Profile.findById(loggedInUser.profile);
+        const maps = []
+        for(let i=0; i<loggedInUser.maps.length; i++){
+            const map = await Map.findById(loggedInUser.maps[i])
+            maps.push({
+                _id: map._id,
+                title: map.title,
+                createdDate: map.createdDate,
+            })
+        }
 
+        const profile = await Profile.findById(loggedInUser.profile);
         return res.status(200).json({
             loggedIn: true,
             user: {
                 username: loggedInUser.username,
                 email: loggedInUser.email,
                 phone: profile.phone,   
-                name: profile.name,   
+                maps: maps, 
             }
         })
     } catch (err) {
@@ -71,6 +80,16 @@ loginUser = async (req, res) => {
         const token = auth.signToken(existingUser._id);
         console.log(token);
 
+        const maps = []
+        for(let i=0; i<existingUser.maps.length; i++){
+            const map = await Map.findById(existingUser.maps[i])
+            maps.push({
+                _id: map._id,
+                title: map.title,
+                createdDate: map.createdDate,
+            })
+        }
+
         const profile = await Profile.findById(existingUser.profile);
         res.cookie("token", token, {
             httpOnly: true,
@@ -81,8 +100,8 @@ loginUser = async (req, res) => {
             user: {
                 username: existingUser.username,  
                 email: existingUser.email,
-                phone: profile.phone,   
-                name: profile.name,        
+                phone: profile.phone,    
+                maps: maps,        
             }
         })
 
@@ -178,7 +197,7 @@ registerUser = async (req, res) => {
                 username: savedUser.username,  
                 email: savedUser.email,
                 phone: phone,   
-                name: '',                
+                maps: [],              
             }
         })
         console.log("token sent");
@@ -230,34 +249,56 @@ forgetPassword = async (req, res) => {
 
 editUserInfo = async (req, res) => {
     try{
-        const { username, email, password, passwordVerify, phone } = req.body;
-        console.log("edit user: " + username + " " + email + " " + password + " " + passwordVerify + " " + phone);
+        const { username, email, password, phone } = req.body;
+        console.log("edit user: " + username + " " + email + " " + password + " " + phone);
         
         const userToUpdate = await User.findOne({ email: req.params.email });
         if (!userToUpdate) {
             return res.status(404).json({ errorMessage: "User not found." });
         }
 
-        const saltRounds = 10;
-        const salt = await bcrypt.genSalt(saltRounds);
-        const passwordHash = await bcrypt.hash(password, salt);
-        console.log("passwordHash: " + passwordHash);
+        if(password === '********'){
+            await User.updateOne(
+                {"_id": userToUpdate._id},
+                {$set: {"username": username, "email":email}}
+            )
+            console.log("user updated");
+        }
+        else{
+            const saltRounds = 10;
+            const salt = await bcrypt.genSalt(saltRounds);
+            const passwordHash = await bcrypt.hash(password, salt);
+            console.log("passwordHash: " + passwordHash);
+            await User.updateOne(
+                {"_id": userToUpdate._id},
+                {$set: {"username": username, "email":email, "passwordHash":passwordHash}}
+            )
+            console.log("user updated");
+        }
+        const profile = await Profile.findById(userToUpdate.profile);
+        await Profile.updateOne(
+            {"_id": profile._id},
+            {$set: {"phone": phone}}
+        )
+        console.log("profile updated");
 
-        userToUpdate.username = username;
-        userToUpdate.email = email; 
-        userToUpdate.passwordHash = passwordHash; 
-        userToUpdate.phone = phone;
-
-        const updatedUser = await userToUpdate.save();
+        const maps = []
+        for(let i=0; i<userToUpdate.maps.length; i++){
+            const map = await Map.findById(userToUpdate.maps[i])
+            maps.push({
+                _id: map._id,
+                title: map.title,
+                createdDate: map.createdDate,
+            })
+        }
 
         return res.status(200).json({
             success: true,
             user: {
                 username: username,  
                 email: email,
-                phone: phone, 
-                password: password,  
-                name: '',                
+                phone: phone,   
+                maps: maps,          
             },
             message: "Changed User Info"
         })
@@ -270,11 +311,13 @@ editUserInfo = async (req, res) => {
 createMap = async (req, res) => {
     try {
         const { email, mapTitle, mapData} = req.body;
+        let deserializedData = JSON.parse(mapData);
         console.log("create map: " + email + " " + mapTitle);
+        //console.log(deserializedData);
         const user = await User.findOne({ email: email });
         const userID = user._id;
         const newMap = new Map({
-            title: mapTitle, owner: userID, mapData: mapData
+            title: mapTitle, owner: userID, mapData: deserializedData
         });
         const savedMap = await newMap.save();
         console.log("new map saved: " + savedMap._id);
@@ -288,8 +331,23 @@ createMap = async (req, res) => {
             message: "Created successfully!",
         })
     } catch (err) {
-      console.error(err);
-      res.status(500).send();
+        console.error(err);
+        res.status(500).send();
+    }
+}
+
+getMap = async (req, res) => {
+    try {
+        const { mapId } = req.body;
+        console.log("map id: " + mapId);
+        const map = await Map.findById(mapId);
+        console.log("get map: " + map.title);
+        return res.status(200).json({
+            map: map,
+        })
+    } catch (err) {
+        console.log("err: " + err);
+        res.json(false);
     }
 }
 
@@ -301,4 +359,5 @@ module.exports = {
   forgetPassword,
   editUserInfo,
   createMap,
+  getMap,
 };

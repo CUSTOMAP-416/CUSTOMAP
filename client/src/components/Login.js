@@ -50,7 +50,6 @@ export default function Login() {
   };
 
   const [errorMessage, setErrorMessage] = useState("");
-  console.log(auth_store);
   // Handles the login button click.
   const handleLoginSubmit = () => {
     const state = {
@@ -61,7 +60,7 @@ export default function Login() {
 
     if(!auth_store.loggedIn){
       setErrorMessage(
-        "You are not the user or your email and password do not match."
+        auth_store.errorMessage
       );
     }
   };
