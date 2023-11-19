@@ -9,6 +9,7 @@
     "client": "npm start --prefix project/client",
     "front_end_test": "./project/client",
     "test": "jest --runInBand --detectOpenHandles --forceExit",
+    "test_local": "jest", 
     "deploy-aws": "node aws-deploy.js",
     "cy:run": "cypress run",
     "azure": "NPM_CONFIG_PRODUCTION=false npm install --prefix project/client && npm run build --prefix project/client && npm run start"
@@ -29,6 +30,7 @@
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.16.4",
+    "jest": "^27.5.1",
     "jsonwebtoken": "^8.5.1",
     "jszip": "^3.10.1",
     "leaflet": "^1.9.4",
@@ -38,6 +40,7 @@
     "react-router-dom": "^6.18.0",
     "react-scripts": "5.0.1",
     "shapefile": "^0.6.6",
+    "supertest": "^6.3.3",
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {

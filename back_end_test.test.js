@@ -9,6 +9,7 @@ beforeAll(async () => {
 const userData = {
     username: 'John Doe', 
     email: 'john.doe@stonybrook.edu', 
+    phone: '0',
     password: '000000000',
     passwordVerify: '000000000'
 };
@@ -110,6 +111,93 @@ describe('GET /auth_store/loggedIn', () => {
         
         expect(userData['username']).toEqual(response.body.user['username'])
         expect(userData['email']).toEqual(response.body.user['email'])
+    });
+})
+
+describe('POST /auth_store/forgetPassword', () => {
+    test('400 Missing required fields', async () => {
+        await request(app)
+            .post('/auth_store/forgetPassword')
+            .send({
+                username: "",
+                email: "",
+                phone: ""
+            })
+            .expect(400);
+    });
+    test('404 No matching info', async () => {
+        await request(app)
+            .post('/auth_store/register')
+            .send(userData)
+
+        await request(app)
+            .post('/auth_store/forgetPassword')
+            .send({
+                username: "jen",
+                email: "jen@stonybrook.edu",
+                phone: "2023"
+            })
+            .expect(404);
+    });
+    test('200 successful forgetPassword', async () => {
+        await request(app)
+            .post('/auth_store/register')
+            .send(userData)
+        
+        await request(app)
+            .post('/auth_store/forgetPassword')
+            .send({
+                username: userData['username'],
+                email: userData['email'],
+                phone: userData['phone']
+            })
+            .expect(200);
+    });
+})
+
+describe(`PUT /auth_store/Dashboard/:email`, () => {
+    test('200 successful username change', async () => {
+        await request(app)
+            .post('/auth_store/register')
+            .send(userData)
+        
+        const newData = {
+            username: 'DoeDoe', 
+            email: 'john.doe@stonybrook.edu', 
+            phone: '1',
+            password: '000000000',
+            passwordVerify: '000000000'
+        }
+
+        const response = await request(app)
+            .put('/auth_store/Dashboard/john.doe@stonybrook.edu')
+            .send(newData)
+            .expect(200);
+
+        expect(newData['username']).toEqual(response.body.user['username'])
+    });
+    test('200 successful password change', async () => { 
+        const newData = {
+            username: 'DoeDoe', 
+            email: 'john.doe@stonybrook.edu', 
+            phone: '1',
+            password: '000000001',
+            passwordVerify: '000000001'
+        }
+
+        await request(app)
+            .put('/auth_store/Dashboard/john.doe@stonybrook.edu')
+            .send(newData)
+            .expect(200);
+
+        await request(app)
+            .get('/auth_store/logout')
+            .expect(200);
+
+        await request(app)
+            .post('/auth_store/login')
+            .send(newData)
+            .expect(200)
     });
 })
 
