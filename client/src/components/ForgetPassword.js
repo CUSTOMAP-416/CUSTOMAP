@@ -79,6 +79,10 @@ export default function ForgetPassword(){
   };
   //Handles the change password button click.
   const handleChangePassword = () => {
+    if(newPassword.length < 8){
+      setErrorMessage("Please enter a password of at least 8 characters")
+      return ''
+    }
     if(newPassword === newPasswordAgain){
       const state = {
         name: name,

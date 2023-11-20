@@ -77,7 +77,12 @@ const onVerification = (username, email, phone) => {
   });
 };
 //function to handle the edit map process 
-const onEditMap = (map) => {}
+const onEditMap = (title, _id) => {
+    return api.post("/editMap/", {
+        _id: _id,
+        title: title
+      });
+}
 //function to handle the fork map process 
 const onForkMap = (map) => {}
 //function to handle the attach property process 

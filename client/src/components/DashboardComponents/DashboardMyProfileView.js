@@ -45,6 +45,18 @@ export default function DashboardMyProfileView(){
     //Handles the Change Information button click. 
     const handleChangeInformation = () => {
       console.log("Button clicked");
+      if(email === auth_store.user.email && phone === auth_store.user.phone && name === auth_store.user.username && changePassword === "********"){
+        setErrorMessage("You didn't change anything.")
+        return ''
+      }
+      if(!(/^\d+$/.test(phone))){
+        setErrorMessage("Phone number contains non-numeric characters.")
+        return ''
+      }
+      if(changePassword.length < 8){
+        setErrorMessage("Please enter a password of at least 8 characters")
+        return ''
+      }
       if(changePassword === confirmPassword){
         setErrorMessage("");
         const state = {
@@ -54,15 +66,8 @@ export default function DashboardMyProfileView(){
             password: changePassword,
         }
         updateUser(state)
-        alert("Success Changed!")
       }else{
         setErrorMessage("Please enter the same password twice.")
-      }
-      if(!(/^\d+$/.test(phone))){
-        setErrorMessage("Phone number contains non-numeric characters.")
-      }
-      if(changePassword < 8){
-        setErrorMessage("Please enter a password of at least 8 characters")
       }
     }
 
@@ -94,6 +99,7 @@ export default function DashboardMyProfileView(){
                   type="text"
                   className="profile_input"
                   value={email}
+                  onChange={handleEmailChange}
                   readOnly
                 ></input>
               </div>

@@ -278,12 +278,16 @@ function AuthStoreContextProvider(props) {
         });
     }
     //function to handle the edit map process 
-    auth_store.onEditMap= async function () {
-        await apis.onEditMap().then(response => {
-            auth_storeReducer({
-                type: AuthStoreActionType.null,
-                payload: null,
-            });
+    auth_store.onEditMap= async function (title) {
+        for(let i=0; i<this.user.maps.length; i++){
+            if(this.user.maps[i]._id == this.selectMap._id){
+                this.user.maps[i].title = title
+                this.selectMap.title = title;
+                break;
+            }
+        }
+        await apis.onEditMap(title, this.selectMap._id).then(response => {
+            return ''
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
@@ -459,7 +463,12 @@ function AuthStoreContextProvider(props) {
     //function to handle open the selected view screen 
     auth_store.openViewScreen = () => {}
     //function to handle open edit map Screen. 
-    auth_store.openEdit = (map) => {}
+    auth_store.openEdit = (page) => {
+        return setAuthStore((prevAuthStore) => ({
+            ...prevAuthStore,
+            isCreatePage: page,
+          }));
+    }
     //function to handle open customize tool Screen. 
     auth_store.openCustomizeTool = (map) => {}
     //function to handle open discussion forum. 

@@ -11,19 +11,12 @@ import JSZip from 'jszip';
 export default function DashboardCreateOrEditMapView() {
   const { auth_store } = useContext(AuthStoreContextProvider);
 
-  const selectMap = auth_store.selectMap;
-  const isCreatePage = auth_store.isCreatePage;
-
   const [history, setHistory] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
 
   //function to handle the create a new map process
   const onCreateMap = () => {
     auth_store.createMap(mapData, mapTitle);
-  };
-  //function to handle the edit map process
-  const onEditMap = () => {
-    auth_store.onEditMap();
   };
   //function to handle the fork map process
   const onForkMap = () => {
@@ -143,7 +136,7 @@ export default function DashboardCreateOrEditMapView() {
   };
   //Handles the map customization button click.
   const handleCustomizeTool = () => {
-    openCustomizeTool(selectMap);
+    openCustomizeTool(auth_store.selectMap);
   };
   //Handles the fork map button click.
   const handleForkMap = () => {
@@ -173,8 +166,21 @@ export default function DashboardCreateOrEditMapView() {
   };
   //Handles map Edit button click.
   const handleEditMap = () => {
-    onEditMap();
+    if(mapTitle != auth_store.selectMap.title){
+      //function to handle the edit map process
+      auth_store.onEditMap(mapTitle);
+    }
+    alert("Success Changed!")
   };
+
+  useEffect(() => {
+    if(!auth_store.isCreatePage){
+      setTimeout(function() {
+        setMapData(auth_store.selectMap.mapData)
+        setMapTitle(auth_store.selectMap.title)
+      }, 100);
+    }
+  }, [auth_store.selectMap]);
 
 
   return (
@@ -182,26 +188,27 @@ export default function DashboardCreateOrEditMapView() {
       <div>
         <div className="creat-banner">
           <div className="title-section">
-            <div className="dashboard-header">Creat Map</div>
-            <button
-              className="button upload"
-              type="button"
-              onClick={() =>
-                document.getElementById("link-to-map-view").click()
-              }
-            >
-              Map Customize Tool
-            </button>
-            {mapData == null ?'':
-            <Link
-              id="link-to-map-view"
-              to="/MapView/"
-              onClick={() => handleCustomizeTool()}>
-              Customize Tool
-            </Link>
+            <div className="dashboard-header">{auth_store.isCreatePage ? 'Creat Map' : 'Edit Map'}</div>
+            {auth_store.isCreatePage ?'':
+            <div>
+              <button
+                className="button upload"
+                type="button"
+                onClick={() =>
+                  document.getElementById("link-to-map-view").click()
+                }
+              >
+                Map Customize Tool
+              </button>
+              <Link
+                id="link-to-map-view"
+                to="/MapView/"
+                onClick={() => handleCustomizeTool()}>
+                Map Customize Tool
+              </Link>
+            </div>
             }
           </div>
-
           <div className="button-section">
             <input
               type="file"
@@ -260,7 +267,6 @@ export default function DashboardCreateOrEditMapView() {
             </div>
           </div>
         </div>
-
         <MapComponent mapData={mapData} />
         {errorMessage && <p className="error-message" style={{color:"red"}}>{errorMessage}</p>}
         <div className="create-map-bottom-bar">
@@ -274,16 +280,13 @@ export default function DashboardCreateOrEditMapView() {
           <button id="cancel-button" onClick={() => handleCancel()}>
             Cancel
           </button>
-          <button id="create-button" onClick={() => handleCreateMap()}>
-            Create Map
-          </button>
-          <button
-            id="edit-button"
-            type="button"
-            onClick={() => handleEditMap()}
-          >
-            Edit Map
-          </button>
+          {auth_store.isCreatePage 
+            ? <button id="create-button" onClick={() => handleCreateMap()}>
+              Create Map
+              </button>
+            : <button id="edit-button" onClick={() => handleEditMap()}>
+              Edit Map
+              </button>}
         </div>
       </div>
     </div>

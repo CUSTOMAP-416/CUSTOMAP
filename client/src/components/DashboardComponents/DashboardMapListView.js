@@ -24,12 +24,9 @@ export default function DashboardMapListView(){
     const deleteMap = (map) => {
         auth_store.deleteMap(map)
     }
-    //function to handle open edit map Screen. 
-    const openEdit = (map) => {
-        auth_store.openEdit(map)
-    }
     //Handles map selection button click. 
     const handleMapSelect = (event) => {
+        console.log(event)
         auth_store.getMap(event)
     }
     //Handle changes in map sorting.
@@ -48,14 +45,16 @@ export default function DashboardMapListView(){
         const maps = []
         for(let i=0; i<mapsId.length; i++){
             maps.push(
-                <Link  key={auth_store.user.maps[i]._id} className="box" to="/MapView/" onClick={() => handleMapSelect(mapsId[i]._id)}>
+                <div key={mapsId[i]._id} className="box">
                     <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
                         <div className='map-name'>{mapsId[i].title}</div>
-                        <button className="delete" onClick={() => handleEdit()}>Edit</button>
+                        <button className="delete" onClick={() => handleEdit(mapsId[i]._id)}>Edit</button>
                         <button className="delete" onClick={() => handleDeleteMap()}>X</button>
                     </div>
-                    <img className="map" src={map} alt="My SVG" />
-                </Link>
+                    <Link to="/MapView/" onClick={() => handleMapSelect(mapsId[i]._id)}>
+                        <img className="map" src={map} alt="My SVG" />
+                    </Link>
+                </div>
             )
         }
         setUserMaps(maps)
@@ -66,21 +65,26 @@ export default function DashboardMapListView(){
     }
     //Handles map edit button click. 
     const handleEdit = (event) => {
-        openEdit(event)
+        //function to handle open edit map Screen. 
+        handleMapSelect(id)
+        auth_store.openEdit(false)
+        handleEditView()
     }
     
     useEffect(() => {
         const maps = []
         for(let i=0; i<auth_store.user.maps.length; i++){
             maps.push(
-                <Link key={auth_store.user.maps[i]._id} className="box" to="/MapView/" onClick={() => handleMapSelect(auth_store.user.maps[i]._id)}>
+                <div key={auth_store.user.maps[i]._id} className="box">
                     <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
                         <div className='map-name'>{auth_store.user.maps[i].title}</div>
-                        <button className="delete" onClick={() => handleEdit()}>Edit</button>
+                        <button className="delete" onClick={() => handleEdit(auth_store.user.maps[i]._id)}>Edit</button>
                         <button className="delete" onClick={() => handleDeleteMap()}>X</button>
                     </div>
-                    <img className="map" src={map} alt="My SVG" />
-                </Link>
+                    <Link to="/MapView/" onClick={() => handleMapSelect(auth_store.user.maps[i]._id)}>
+                        <img className="map" src={map} alt="My SVG" />
+                    </Link>
+                </div>
             )
         }
         setUserMaps(maps)

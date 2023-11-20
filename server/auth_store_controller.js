@@ -257,24 +257,15 @@ editUserInfo = async (req, res) => {
             return res.status(404).json({ errorMessage: "User not found." });
         }
 
-        if(password === '********'){
-            await User.updateOne(
-                {"_id": userToUpdate._id},
-                {$set: {"username": username, "email":email}}
-            )
-            console.log("user updated");
-        }
-        else{
-            const saltRounds = 10;
-            const salt = await bcrypt.genSalt(saltRounds);
-            const passwordHash = await bcrypt.hash(password, salt);
-            console.log("passwordHash: " + passwordHash);
-            await User.updateOne(
-                {"_id": userToUpdate._id},
-                {$set: {"username": username, "email":email, "passwordHash":passwordHash}}
-            )
-            console.log("user updated");
-        }
+        const saltRounds = 10;
+        const salt = await bcrypt.genSalt(saltRounds);
+        const passwordHash = await bcrypt.hash(password, salt);
+        console.log("passwordHash: " + passwordHash);
+        await User.updateOne(
+            {"_id": userToUpdate._id},
+            {$set: {"username": username, "email":email, "passwordHash":passwordHash}}
+        )
+        console.log("user updated");
         const profile = await Profile.findById(userToUpdate.profile);
         await Profile.updateOne(
             {"_id": profile._id},
@@ -351,6 +342,21 @@ getMap = async (req, res) => {
     }
 }
 
+editMap= async (req, res) => {
+    try {
+        const { _id, title } = req.body;
+        console.log("map: " + _id + " " + title);
+        await Map.updateOne(
+            {"_id": _id},
+            {$set: {"title": title}})
+        console.log("map updated");
+        res.status(200).send();
+    } catch (err) {
+        console.log("err: " + err);
+        res.json(false);
+    }
+}
+
 module.exports = {
   getLoggedIn,
   registerUser,
@@ -360,4 +366,5 @@ module.exports = {
   editUserInfo,
   createMap,
   getMap,
+  editMap,
 };
