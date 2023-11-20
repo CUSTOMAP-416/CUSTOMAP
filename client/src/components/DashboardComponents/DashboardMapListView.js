@@ -6,7 +6,7 @@ import AuthStoreContextProvider from '../../auth_store';
 import arrow from "../../assets_img/dashboard_arrow.svg";
 import map from "../../assets_img/dashboard_map.svg";
 
-export default function DashboardMapListView(){
+export default function DashboardMapListView({ handleEditView }){
     const { auth_store } = useContext(AuthStoreContextProvider);
 
     //List of user maps. 
@@ -64,7 +64,7 @@ export default function DashboardMapListView(){
         deleteMap(event)
     }
     //Handles map edit button click. 
-    const handleEdit = (event) => {
+    const handleEdit = (id) => {
         //function to handle open edit map Screen. 
         handleMapSelect(id)
         auth_store.openEdit(false)
