@@ -58,10 +58,7 @@ describe("Login test", () => {
 
     cy.get('input.log_input[type="password"]').should("exist");
     cy.get('input.log_input[type="password"]').type("testpassword");
-    cy.get('input.log_input[type="password"]').should(
-      "have.value",
-      "testpassword"
-    );
+    cy.get('input.log_input[type="password"]').should("have.value", "testpassword");
     cy.contains("Log in").should("exist");
     // cy.contains("Log in").click();
     // cy.wait(1000);
