@@ -38,8 +38,9 @@ export default function AppBanner() {
         </div>
         <div className="logo">CUSTOMAP</div>
         <div className="links">
-          <div>
+          <div className="banner-button" id="banner-home">
             <Link
+              typle="button"
               to="/"
               style={{ color: "white", textDecoration: "none" }}
               onClick={() => openHome()}
@@ -47,9 +48,11 @@ export default function AppBanner() {
               Home{" "}
             </Link>
           </div>
+
           {auth_store.loggedIn ? (
-            <div>
+            <div className="banner-button" id="banner-mypage">
               <Link
+                type="button"
                 to="/Dashboard/"
                 style={{ color: "white", textDecoration: "none" }}
                 onClick={() => openMyPage()}
@@ -65,6 +68,7 @@ export default function AppBanner() {
             <div>
               {/* <div style ={{ marginRight:"10px" }}>{auth_store.user.username}</div> */}
               <Link
+                type="button"
                 to="/"
                 className="login"
                 style={{ color: "white", textDecoration: "none" }}

@@ -74,7 +74,7 @@ export default function DashboardMyProfileView(){
           <div className="profi_content">
             <div className="profile_left">
               <h2>Name</h2>
-              <h2>Email (Cannot be change!)</h2>
+              <h2>Email</h2>
               <h2>Phone</h2>
               <h2>Change Password</h2>
               <h2>Confirm Password</h2>
@@ -94,6 +94,7 @@ export default function DashboardMyProfileView(){
                   type="text"
                   className="profile_input"
                   value={email}
+                  readOnly
                 ></input>
               </div>
               <div>
