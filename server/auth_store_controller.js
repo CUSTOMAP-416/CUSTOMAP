@@ -319,7 +319,11 @@ createMap = async (req, res) => {
             {$set: {"maps": maps}})
         console.log("user updated");
         return res.status(200).json({
-            message: "Created successfully!",
+            map: {
+                _id: savedMap._id,
+                title: savedMap.title,
+                createdDate: savedMap.createdDate,
+            },
         })
     } catch (err) {
         console.error(err);
