@@ -22,6 +22,7 @@ export default function ForgetPassword(){
       setPassInfo(true);
     }
     if(auth_store.successMessage === "Changed User Info"){
+      console.log(0)
       navigate("/login/");
     }
     //checking state for login

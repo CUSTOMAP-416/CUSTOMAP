@@ -17,6 +17,9 @@ export default function DashboardCreateOrEditMapView() {
   //function to handle the create a new map process
   const onCreateMap = () => {
     auth_store.createMap(mapData, mapTitle);
+    alert("Created successfully!")
+    setMapData(null)
+    setMapTitle('')
   };
   //function to handle the fork map process
   const onForkMap = () => {
