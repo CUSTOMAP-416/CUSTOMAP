@@ -9,6 +9,7 @@ export default function Login() {
   const { auth_store } = useContext(AuthStoreContextProvider);
 
   useEffect(() => {
+    auth_store.successMessage = null
     if (auth_store.loggedIn) {
       navigate("/Dashboard/");
     }
