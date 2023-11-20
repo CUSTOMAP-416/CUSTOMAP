@@ -20,21 +20,25 @@ export default function Dashboard(){
         auth_store.openViewScreen()
     }
 
-    //Stores the currently selected view (Dash Board, My Profile, Create Map, Search Map)
-    const [selectedView, setSelectedView] = useState(<DashboardMapListView/>);
-
     //Handles changing the selected view.
     const handleSelectedViewChange = (event) => {
+        auth_store.openEdit(true)
         setSelectedView(event)
     }
+    const handleEditView = () => {
+        setSelectedView(<DashboardCreateOrEditMapView />)
+    }
+
+    //Stores the currently selected view (Dash Board, My Profile, Create Map, Search Map)
+    const [selectedView, setSelectedView] = useState(<DashboardMapListView handleEditView={handleEditView}/>);
 
     return (
         <div className='container'>
             <div className='sidebar'>
             <img className="bear" src={bear} style={{padding:"30px 0px"}}alt="My SVG" />
-                <div className='profile'>Hello User</div>
+                <div className='profile'>Hello {auth_store.user.username}</div>
                 <div className="sidebar-buttons">
-                <button type="button" onClick={() => handleSelectedViewChange(<DashboardMapListView />)}>Dashboard</button>
+                <button type="button" onClick={() => handleSelectedViewChange(<DashboardMapListView handleEditView={handleEditView}/>)}>Dashboard</button>
                 </div>
                 <div className="sidebar-buttons">
                 <button type="button" onClick={() => handleSelectedViewChange(<DashboardMyProfileView />)}>My Profile</button>

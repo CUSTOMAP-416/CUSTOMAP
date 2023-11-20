@@ -5,30 +5,35 @@ import "../../styles/DashboardMyProfileView.css";
 export default function DashboardMyProfileView(){
     const { auth_store } = useContext(AuthStoreContextProvider);
 
-    //user data.
-    const user = auth_store.user
     //function to handle the change Information process 
     const updateUser = (state) => {
         auth_store.updateUser(state)
     }
 
-    //Stores the name input. 
-    const [name, setName] = useState([]);
     //Stores the phone input. 
-    const [phone, setPhone] = useState([]);
+    const [email, setEmail] = useState(auth_store.user.email);
+    //Stores the phone input. 
+    const [phone, setPhone] = useState(auth_store.user.phone);
+    //Stores the name input. 
+    const [name, setName] = useState(auth_store.user.username);
     //Stores the change password input. 
-    const [changePassword, setChangePassword] = useState([]);
+    const [changePassword, setChangePassword] = useState('********');
     //Stores the confirm password input. 
-    const [confirmPassword, setConfirmPassword] = useState([]);
+    const [confirmPassword, setConfirmPassword] = useState('********');
 
-    //Handle changes to the name input field. 
-    const handleNameChange = (event) => {
-        setName(event.target.value);
+    const [errorMessage, setErrorMessage] = useState("");
+
+    const handleEmailChange = (event) => {
+      setEmail(event.target.value);
     }
     //Handle changes to the phone input field. 
     const handlePhoneChange = (event) => {
         setPhone(event.target.value);
     }
+    //Handle changes to the name input field. 
+    const handleNameChange = (event) => {
+      setName(event.target.value);
+  }
     //Handle changes to the change password input field. 
     const handleChangePasswordChange = (event) => {
         setChangePassword(event.target.value);
@@ -39,24 +44,42 @@ export default function DashboardMyProfileView(){
     }
     //Handles the Change Information button click. 
     const handleChangeInformation = () => {
+      console.log("Button clicked");
+      if(email === auth_store.user.email && phone === auth_store.user.phone && name === auth_store.user.username && changePassword === "********"){
+        setErrorMessage("You didn't change anything.")
+        return ''
+      }
+      if(!(/^\d+$/.test(phone))){
+        setErrorMessage("Phone number contains non-numeric characters.")
+        return ''
+      }
+      if(changePassword.length < 8){
+        setErrorMessage("Please enter a password of at least 8 characters")
+        return ''
+      }
+      if(changePassword === confirmPassword){
+        setErrorMessage("");
         const state = {
             name: name,
             phone: phone,
-            newPassword: changePassword,
-            newPasswordAgain: confirmPassword,
+            email: email,
+            password: changePassword,
         }
         updateUser(state)
+      }else{
+        setErrorMessage("Please enter the same password twice.")
+      }
     }
 
     return (
-      <div className='myprofile_all'>
-        <div className="myprofile_H">
-          My Profile
-        </div>
+      <div className="myprofile_all">
+        <div className="myprofile_H">My Profile</div>
+        <div style={{color: "grey", paddingTop: "20px", paddingLeft: "10px"}}>User email cannot be changed</div>
         <div className="profi_bottoms">
           <div className="profi_content">
             <div className="profile_left">
               <h2>Name</h2>
+              <h2>Email</h2>
               <h2>Phone</h2>
               <h2>Change Password</h2>
               <h2>Confirm Password</h2>
@@ -69,6 +92,15 @@ export default function DashboardMyProfileView(){
                   className="profile_input"
                   value={name}
                   onChange={handleNameChange}
+                ></input>
+              </div>
+              <div>
+                <input
+                  type="text"
+                  className="profile_input"
+                  value={email}
+                  onChange={handleEmailChange}
+                  readOnly
                 ></input>
               </div>
               <div>
@@ -91,13 +123,13 @@ export default function DashboardMyProfileView(){
                 <input
                   type="text"
                   className="profile_input"
-                  s
                   value={confirmPassword}
                   onChange={handleConfirmPasswordChange}
                 ></input>
               </div>
             </div>
           </div>
+          {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
           <button
             className="changeInfo_btn"
             type="button"

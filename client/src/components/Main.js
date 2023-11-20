@@ -8,20 +8,14 @@ export default function Main() {
     console.log("Main auth_store.loggedIn: " + auth_store.loggedIn);
     const imageStyle = {
         width: '100%',
-        height: '82%',
+        height: '90%',
         objectFit: 'cover', // Cover the container without stretching
         position: 'absolute',
         top: '56%',
         left: '50%',
         transform: 'translate(-50%, -50%)' // Center the image
       };
-    
-    if(auth_store.loggedIn)
-        return <Dashboard />
-    else
-        
-        return (
-            <img id="welcome"src={image} alt="welcom to the customap" style={imageStyle} ></img>
-        )
+       
+    return <img id="welcome"src={image} alt="welcom to the customap" style={imageStyle} ></img>
 
 }

@@ -4,21 +4,19 @@ import { Link } from "react-router-dom";
 import MapComponent from "../../map.jsx";
 import '../../styles/Dashboard.css';
 
+import toGeoJSON from "@mapbox/togeojson"; // Updated import for toGeoJSON
+import * as shapefile from "shapefile";
+import JSZip from 'jszip';
+
 export default function DashboardCreateOrEditMapView() {
   const { auth_store } = useContext(AuthStoreContextProvider);
 
-  const selectMap = auth_store.selectMap;
-  const isCreatePage = auth_store.isCreatePage;
-
   const [history, setHistory] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
 
   //function to handle the create a new map process
   const onCreateMap = () => {
-    auth_store.onCreateMap();
-  };
-  //function to handle the edit map process
-  const onEditMap = () => {
-    auth_store.onEditMap();
+    auth_store.createMap(mapData, mapTitle);
   };
   //function to handle the fork map process
   const onForkMap = () => {
@@ -69,7 +67,65 @@ export default function DashboardCreateOrEditMapView() {
     setPropertyValue(event.target.value);
   };
   //Handles file uploads.
-  const handleUploadFile = (event) => {};
+  const handleUploadFile = (event) => {
+    const file = event.target.files[0]
+    if (file) {
+      console.log(typeof file)
+      if (file.name.endsWith(".zip")) {
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+          try {
+          const zip = await JSZip.loadAsync(e.target.result);
+
+          const shpFile = zip.file(/\.shp$/i)[0];
+          const dbfFile = zip.file(/\.dbf$/i)[0];
+
+          // Read the content of each component as ArrayBuffer
+          const shpBuffer = await shpFile.async("arraybuffer");
+          const dbfBuffer = await dbfFile.async("arraybuffer");
+
+          const geojson = await shapefile.read(shpBuffer, dbfBuffer);
+
+          setMapData(geojson)
+          } catch (error) {
+            console.error("Error loading Shapefile:", error);
+          }
+        };
+
+        // Read the .shp file as an ArrayBuffer
+        reader.readAsArrayBuffer(file);
+      } else if (file.name.endsWith(".kml")) {
+        // Handle KML using toGeoJSON
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const kmlString = e.target.result;
+
+          // Convert KML to GeoJSON using toGeoJSON
+          const kmlDocument = new DOMParser().parseFromString(
+            kmlString,
+            "text/xml"
+          );
+          const geojson = toGeoJSON.kml(kmlDocument);
+
+          // Store the GeoJSON layer in the state
+          setMapData(geojson)
+        };
+        reader.readAsText(file);
+      } else if (file.name.endsWith(".geojson")) {
+        // Handle GeoJSON directly
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const geojson = JSON.parse(e.target.result);
+
+          // Store the GeoJSON layer in the state
+          setMapData(geojson)
+        };
+        reader.readAsText(file);
+      } else {
+        console.error("Unsupported file format");
+      }
+    }
+  };
   //Handles attach property button click.
   const handleAttachProperty = () => {
     const state = {
@@ -80,7 +136,7 @@ export default function DashboardCreateOrEditMapView() {
   };
   //Handles the map customization button click.
   const handleCustomizeTool = () => {
-    openCustomizeTool(selectMap);
+    openCustomizeTool(auth_store.selectMap);
   };
   //Handles the fork map button click.
   const handleForkMap = () => {
@@ -98,44 +154,67 @@ export default function DashboardCreateOrEditMapView() {
   const handleCancel = () => {};
   //Handles map create button click.
   const handleCreateMap = () => {
-    onCreateMap();
+    if(mapData == null || mapTitle == ""){
+      setErrorMessage('The map or map name is empty, please upload or fork it.')
+    }
+    else{
+      onCreateMap();
+      setErrorMessage(
+        auth_store.errorMessage
+      );
+    }
   };
   //Handles map Edit button click.
   const handleEditMap = () => {
-    onEditMap();
+    if(mapTitle != auth_store.selectMap.title){
+      //function to handle the edit map process
+      auth_store.onEditMap(mapTitle);
+    }
+    alert("Success Changed!")
   };
+
+  useEffect(() => {
+    if(!auth_store.isCreatePage){
+      setTimeout(function() {
+        setMapData(auth_store.selectMap.mapData)
+        setMapTitle(auth_store.selectMap.title)
+      }, 100);
+    }
+  }, [auth_store.selectMap]);
 
 
   return (
     <div className="createEditAll">
       <div>
-        <div class="creat-banner">
-          <div class="title-section">
-            <div className="dashboard-header">Creat Map</div>
-            <button
-              className="button upload"
-              type="button"
-              onClick={() =>
-                document.getElementById("link-to-map-view").click()
-              }
-            >
-              Map Customize Tool
-            </button>
-            <Link
-              id="link-to-map-view"
-              to="/MapView/"
-              onClick={() => handleCustomizeTool()}
-            >
-              Customize Tool
-            </Link>
+        <div className="creat-banner">
+          <div className="title-section">
+            <div className="dashboard-header">{auth_store.isCreatePage ? 'Creat Map' : 'Edit Map'}</div>
+            {auth_store.isCreatePage ?'':
+            <div>
+              <button
+                className="button upload"
+                type="button"
+                onClick={() =>
+                  document.getElementById("link-to-map-view").click()
+                }
+              >
+                Map Customize Tool
+              </button>
+              <Link
+                id="link-to-map-view"
+                to="/MapView/"
+                onClick={() => handleCustomizeTool()}>
+                Map Customize Tool
+              </Link>
+            </div>
+            }
           </div>
-
           <div className="button-section">
             <input
               type="file"
               id="creatmap-fileInput"
               accept=".zip,.kml,.geojson"
-              onChange={handleUploadFile()}
+              onChange={handleUploadFile}
             />
 
             <button
@@ -155,12 +234,12 @@ export default function DashboardCreateOrEditMapView() {
             >
               Fork Map
             </button>
-            <p class="file-types">↑ Available on SHP/DBF, GeoJSON, KML</p>
+            <p className="file-types">↑ Available on SHP/DBF, GeoJSON, KML</p>
           </div>
         </div>
         <div className="create-content">
-          <div class="property-bar">
-            <label for="key">Property</label>
+          <div className="property-bar">
+            <label>Property</label>
             <input
               type="text"
               id="key"
@@ -175,23 +254,22 @@ export default function DashboardCreateOrEditMapView() {
               value={propertyValue}
               onChange={handlePropertyValueChange}
             />
-            <button class="attach-btn" onClick={() => handleAttachProperty()}>
+            <button className="attach-btn" onClick={() => handleAttachProperty()}>
               Attach
             </button>
-            <div class="icons">
-              <button class="icon-link" onClick={() => handleUndo()}>
+            <div className="icons">
+              <button className="icon-link" onClick={() => handleUndo()}>
                 ↩
               </button>
-              <button class="icon-search" onClick={() => handleRedo()}>
+              <button className="icon-search" onClick={() => handleRedo()}>
                 ↪
               </button>
             </div>
           </div>
         </div>
-
-        <MapComponent handleUploadFile={() => handleUploadFile()} />
-
-        <div class="create-map-bottom-bar">
+        <MapComponent mapData={mapData} />
+        {errorMessage && <p className="error-message" style={{color:"red"}}>{errorMessage}</p>}
+        <div className="create-map-bottom-bar">
           <input
             type="text"
             id="map-name"
@@ -202,16 +280,13 @@ export default function DashboardCreateOrEditMapView() {
           <button id="cancel-button" onClick={() => handleCancel()}>
             Cancel
           </button>
-          <button id="create-button" onClick={() => handleCreateMap()}>
-            Create Map
-          </button>
-          <button
-            id="edit-button"
-            type="button"
-            onClick={() => handleEditMap()}
-          >
-            Edit Map
-          </button>
+          {auth_store.isCreatePage 
+            ? <button id="create-button" onClick={() => handleCreateMap()}>
+              Create Map
+              </button>
+            : <button id="edit-button" onClick={() => handleEditMap()}>
+              Edit Map
+              </button>}
         </div>
       </div>
     </div>

@@ -13,28 +13,36 @@ const createUser = (name, phone, id, email, password, passwordVerify) => {
         username : name,
         email : email,
         password : password,
-        passwordVerify: passwordVerify
+        passwordVerify: passwordVerify,
+        phone: phone
     })
 };
 //Change the profile user const onChangeInformation = async (userData) => {...
 //function to handle change password process const onChangePassword = async () => ?
-const updateUser = (name, phone, id, password) => {
-    return api.put('', {
+const updateUser = (name, email, phone, password) => {
+    console.log('email: ', email);
+    return api.put(`/Dashboard/${email}`, { 
         username : name,
+        email: email,
         phone : phone,
-        id : id,
-        password : password
+        password : password 
     })
 };
 ///All map list in Admin dashboard const getMaps = async () => { ?
 const getAllMaps = () => api.get('');
-const getMap = () => api.get('');
+const getMap = (mapId) => {
+    return api.post('/getMap/', {
+        mapId : mapId,
+    })
+};
 //function to handle the create a new map process const onCreateMap = async (map) => { ?
-const createMap = (id, name, file) => {
-    return api.post('', {
-        id : id,
-        username : name,
-        file : file,
+const createMap = (mapData, mapTitle, user) => {
+    // Serialize the data
+    const serializedData = JSON.stringify(mapData);
+    return api.post('/createMap/', {
+        email : user.email,
+        mapTitle : mapTitle,
+        mapData : serializedData,
     })
 };
 const updateMap = (id_, name, phone, id, email, password) => {
@@ -56,12 +64,25 @@ const loggedIn = (email, password) => {
         password : password
     })
 };
+
 // Logs out the user
 const onLogout = () => api.get('/logout/')
+
 //function to handle verification process 
-const onVerification = () => {}
+const onVerification = (username, email, phone) => {
+  return api.post("/forgetPassword/", {
+    username: username,
+    email: email,
+    phone: phone
+  });
+};
 //function to handle the edit map process 
-const onEditMap = (map) => {}
+const onEditMap = (title, _id) => {
+    return api.post("/editMap/", {
+        _id: _id,
+        title: title
+      });
+}
 //function to handle the fork map process 
 const onForkMap = (map) => {}
 //function to handle the attach property process 

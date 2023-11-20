@@ -38,29 +38,42 @@ export default function AppBanner() {
         </div>
         <div className="logo">CUSTOMAP</div>
         <div className="links">
-          <div>
+          <div className="banner-button" id="banner-home">
             <Link
+              typle="button"
               to="/"
               style={{ color: "white", textDecoration: "none" }}
-              onClick={() => openHome()}>
+              onClick={() => openHome()}
+            >
               Home{" "}
             </Link>
           </div>
-          <div>
-            <Link
-              to="/Dashboard/"
-              style={{ color: "white", textDecoration: "none" }}
-              onClick={() => openMyPage()}>
-              MyPage{" "}
-            </Link>
-          </div>
+
+          {auth_store.loggedIn ? (
+            <div className="banner-button" id="banner-mypage">
+              <Link
+                type="button"
+                to="/Dashboard/"
+                style={{ color: "white", textDecoration: "none" }}
+                onClick={() => openMyPage()}
+              >
+                MyPage{" "}
+              </Link>
+            </div>
+          ) : (
+            <div></div>
+          )}
+
           {auth_store.loggedIn ? (
             <div>
-              <p>{auth_store.user.username}</p>
+              {/* <div style ={{ marginRight:"10px" }}>{auth_store.user.username}</div> */}
               <Link
+                type="button"
                 to="/"
+                className="login"
                 style={{ color: "white", textDecoration: "none" }}
-                onClick={() => handleLogout()}>
+                onClick={() => handleLogout()}
+              >
                 Sign out
               </Link>
             </div>
@@ -70,7 +83,8 @@ export default function AppBanner() {
                 to="/login/"
                 className="login"
                 style={{ color: "white", textDecoration: "none" }}
-                onClick={() => handleLogin()}>
+                onClick={() => handleLogin()}
+              >
                 Sign in
               </Link>
             </div>
