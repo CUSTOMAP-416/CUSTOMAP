@@ -185,9 +185,11 @@ function AuthStoreContextProvider(props) {
     //function to handle the create a new map process const onCreateMap = async (map) => { ?
     auth_store.createMap= async function (mapData, mapTitle) {
         await apis.createMap(mapData, mapTitle, auth_store.user).then(response => {
+            const user = this.user
+            user.maps.push(response.data.map)
             setAuthStore((prevAuthStore) => ({
                 ...prevAuthStore,
-                errorMessage: response.data.message
+                user: user,
             }));
         })
         .catch(error => {
