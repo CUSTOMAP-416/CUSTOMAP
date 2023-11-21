@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import L from "leaflet";
+import L, { marker } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./styles/Discuss.css";
 
@@ -10,6 +10,7 @@ class MapComponent extends Component {
       map: null,
       geojsonLayer: null, // Store the GeoJSON layer
       selectedLayer: null,
+      changedText: '',
       selectedColor: "#ffffff", // default: white
       paintedLayers: {},
     };
@@ -61,7 +62,6 @@ class MapComponent extends Component {
     }
   };
 
-  // 마우스가 폴리곤에서 벗어났을 때 스타일 초기화
   resetHighlight = (e) => {
     const layer = e.target;
     if (!this.state.paintedLayers[L.stamp(layer)]) {
@@ -77,11 +77,30 @@ class MapComponent extends Component {
   handleSelectColor = (event) => {
     this.setState({ selectedColor: event.target.value });
   };
+
+
+
   onEachFeature = (feature, layer) => {
+    if (feature.properties.admin != null) {
+      const label = L.divIcon({
+        className: "label",
+        html: `<div>${feature.properties.admin}</div>`,
+    });
+    
+    // Create a marker with the label and add it to the map
+    var marker = L.marker(layer.getBounds().getCenter(), {
+      icon: label,
+    });
+
+    // Add the marker to the map
+    // marker.addTo(this.state.map);
+    this.state.map.addLayer(marker)
+  }
     layer.on({
       mouseover: this.highlightFeature,
       mouseout: this.resetHighlight,
       click: (e) => {
+        
         const currentLayer = e.target;
         const layerId = L.stamp(currentLayer); // Unique ID for each polygon
 
@@ -109,9 +128,30 @@ class MapComponent extends Component {
             },
           }));
         }
+        this.updateLabel(currentLayer, marker, feature, this.props.changedText);
+
       },
     });
   };
+
+  updateLabel = (layer, marker, feature, text) => {
+    if (text) {
+      this.state.map.removeLayer(marker)
+      if (feature.properties.admin != null) {
+        const label = L.divIcon({
+          className: "label",
+          html: `<div style="color: black;">${text}</div>`,
+      });
+      
+      const marker = L.marker(layer.getBounds().getCenter(), {
+        icon: label,
+      });
+      marker.addTo(this.state.map);
+    }
+    }
+  };
+
+
   renderMap = () => {
     const { map, geojsonLayer } = this.state;
     if (map && geojsonLayer && geojsonLayer.type === "FeatureCollection") {

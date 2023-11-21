@@ -18,7 +18,13 @@ export default function MapView(){
     }
 
     const [showDiscussionForum, setShowDiscussionForum] = useState(false);
+    const [changedText, setChangedText] = useState('');
     const [selectedColor, setSelectedColor] = useState("#ffffff"); // 선택된 색상 상태
+
+    const handleTextChange = (text) => {
+      setChangedText(text);
+      console.log(text);
+    };
 
     // 색상 변경 핸들러
     const handleColorChange = (color) => {
@@ -44,12 +50,13 @@ export default function MapView(){
       <div className="MapView-page-container">
         <MapViewDiscussionForum />
         <div className="content">
-          <MapViewCustomizeToolbar onColorChange={handleColorChange} />
+          <MapViewCustomizeToolbar onTextChange={handleTextChange} onColorChange={handleColorChange} />
           <MapComponent
             width="1400px"
             height="600px"
             mapData={mapData}
             selectedColor={selectedColor}
+            changedText={changedText}
           />
         </div>
       </div>
