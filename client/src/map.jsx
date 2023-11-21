@@ -63,6 +63,7 @@ class MapComponent extends Component {
     }
   };
 
+  // Initialize the style when the mouse is out of the polygon
   resetHighlight = (e) => {
     const layer = e.target;
     if (!this.state.paintedLayers[L.stamp(layer)]) {
@@ -120,6 +121,7 @@ class MapComponent extends Component {
           currentLayer.setStyle({
             fillColor: this.props.selectedColor,
             fillOpacity: 0.3,
+            weight: 1,
           });
           this.setState((prevState) => ({
             paintedLayers: {

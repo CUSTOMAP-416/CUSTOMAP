@@ -14,23 +14,23 @@ export default function MapViewCustomizeToolbar({ onFontChange, onTextChange, on
         setShowPicker((showPicker) => !showPicker); // Toggle color picker display
     };
 
-    const handleColorChange = (e) => {
-        setColor(e.target.value);
-        setShowPicker(false); // Hide the color picker after selection
-    };
+  const handleColorChange = (e) => {
+    setColor(e.target.value);
+    setShowPicker(false); // Hide the color picker after selection
+  };
 
-    //function to handle the text process
-    const onText = (event) => {
-        auth_store.onText(event);
-    };
-    //function to handle the Color process
-    const onColor = (event) => {
-        auth_store.onColor(event);
-    };
-    //function to handle the Legend process
-    const onLegend = (event) => {
-        auth_store.onLegend(event);
-    };
+  //function to handle the text process
+  const onText = (event) => {
+    auth_store.onText(event);
+  };
+  //function to handle the Color process
+  const onColor = (event) => {
+    // auth_store.onColor(event);
+  };
+  //function to handle the Legend process
+  const onLegend = (event) => {
+    auth_store.onLegend(event);
+  };
 
     //'Text', 'Color', 'Legend'
     const [selectedTool, setSelectedTool] = useState("");

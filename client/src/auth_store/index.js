@@ -238,6 +238,10 @@ function AuthStoreContextProvider(props) {
                 type: AuthStoreActionType.LOGIN_USER,
                 payload: response.data.user,
             });
+            setAuthStore((prevAuthStore) => ({
+              ...prevAuthStore,
+              errorMessage: null,
+            }));
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
