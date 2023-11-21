@@ -19,14 +19,21 @@ export default function MapView(){
 
     const [showDiscussionForum, setShowDiscussionForum] = useState(false);
     const [changedText, setChangedText] = useState('');
-    const [selectedColor, setSelectedColor] = useState("#ffffff"); // 선택된 색상 상태
+    const [changedFont, setChangedFont] = useState('');
+    const [selectedColor, setSelectedColor] = useState("#ffffff"); 
 
-    const handleTextChange = (text) => {
-      setChangedText(text);
-      console.log(text);
+    const handleFontChange = (font) => {
+      console.log(font)
+      setChangedFont(font);
+      // this.forceUpdate();
     };
 
-    // 색상 변경 핸들러
+    const handleTextChange = (text) => {
+      
+      setChangedText(text);
+    };
+
+
     const handleColorChange = (color) => {
       setSelectedColor(color);
     };
@@ -50,13 +57,14 @@ export default function MapView(){
       <div className="MapView-page-container">
         <MapViewDiscussionForum />
         <div className="content">
-          <MapViewCustomizeToolbar onTextChange={handleTextChange} onColorChange={handleColorChange} />
+          <MapViewCustomizeToolbar onFontChange={handleFontChange} onTextChange={handleTextChange} onColorChange={handleColorChange} />
           <MapComponent
             width="1400px"
             height="600px"
             mapData={mapData}
             selectedColor={selectedColor}
             changedText={changedText}
+            changedFont={changedFont}
           />
         </div>
       </div>

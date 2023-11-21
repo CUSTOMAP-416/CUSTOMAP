@@ -11,6 +11,7 @@ class MapComponent extends Component {
       geojsonLayer: null, // Store the GeoJSON layer
       selectedLayer: null,
       changedText: '',
+      changedFont: '',
       selectedColor: "#ffffff", // default: white
       paintedLayers: {},
     };
@@ -86,7 +87,6 @@ class MapComponent extends Component {
         className: "label",
         html: `<div>${feature.properties.admin}</div>`,
     });
-    
     // Create a marker with the label and add it to the map
     var marker = L.marker(layer.getBounds().getCenter(), {
       icon: label,
@@ -196,6 +196,32 @@ class MapComponent extends Component {
   //   }
   // };
 
+  updateAllLabels = () => {
+    const { map, geojsonLayer } = this.state;
+    if (map && geojsonLayer) {
+      // 모든 마커를 제거
+      map.eachLayer((layer) => {
+        if (layer instanceof L.Marker) {
+          map.removeLayer(layer);
+        }
+      });
+  
+      geojsonLayer.eachLayer((layer) => {
+        const feature = layer.feature;
+        if (feature && feature.properties.admin) {
+          const label = L.divIcon({
+            className: "label",
+            html: `<div style="font-family: ${this.props.changedFont};">${feature.properties.admin}</div>`,
+          });
+          const newMarker = L.marker(layer.getBounds().getCenter(), { icon: label });
+          console.log("Adding new marker:", newMarker); 
+          newMarker.addTo(map);
+        }
+      });
+    }
+  };
+  
+
   clearmap = () => {
     const { map, geojsonLayer } = this.state;
     if (geojsonLayer) {
@@ -215,6 +241,30 @@ class MapComponent extends Component {
     if (prevProps.mapData !== this.props.mapData) {
       this.loadFile(this.props.mapData);
     }
+    if (prevProps.changedFont !== this.props.changedFont) {
+      this.updateAllLabels();
+    }
+  
+  }
+
+  updateMarkersFont(newFont) {
+    // 맵에 추가된 모든 마커에 대해 순회
+    this.state.map.eachLayer((layer) => {
+      if (layer instanceof L.Marker) {
+        // 기존 마커를 맵에서 제거
+        this.state.map.removeLayer(layer);
+  
+        // 새로운 스타일로 업데이트된 마커를 추가
+        const updatedLabel = L.divIcon({
+          className: "label",
+          html: `<div style="${newFont}">Hello</div>`,
+        });
+        const updatedMarker = L.marker(layer.getLatLng(), {
+          icon: updatedLabel,
+        });
+        updatedMarker.addTo(this.state.map);
+      }
+    });
   }
 
   render() {

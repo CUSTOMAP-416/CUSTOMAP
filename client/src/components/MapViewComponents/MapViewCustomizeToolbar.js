@@ -2,13 +2,13 @@ import { useContext, useState, useEffect } from 'react';
 import AuthStoreContextProvider from '../../auth_store';
 import '../../styles/MapView.css';
 
-export default function MapViewCustomizeToolbar({ onTextChange, onColorChange }) {
+export default function MapViewCustomizeToolbar({ onFontChange, onTextChange, onColorChange }) {
     const { auth_store } = useContext(AuthStoreContextProvider);
 
     const [text, setText] = useState("");
     const [color, setColor] = useState("#ffffff"); // Default color white
     const [showPicker, setShowPicker] = useState(false);
-    const [mapData, setMapData] = useState(auth_store.selectMap.mapData);
+    const [font, setFont] = useState('');
 
     const handleButtonClick = () => {
         setShowPicker((showPicker) => !showPicker); // Toggle color picker display
@@ -36,14 +36,17 @@ export default function MapViewCustomizeToolbar({ onTextChange, onColorChange })
     const [selectedTool, setSelectedTool] = useState("");
 
     //Handle show font list.
-    const handleShowFonts = () => {};
+    const handleShowFonts = (e) => {
+        // onFontChange(e);
+    };
     //Handle the text button click.
     const handleText = (event) => {
         setSelectedTool(event);
     };
     //Handle the Select Font button click.
     const handleSelectFont = (event) => {
-        onText(event);
+        setFont(event.target.value);
+        onFontChange(event.target.value);
     };
     //Handle show color list.
     const handleShowColors = () => {};
@@ -92,14 +95,13 @@ export default function MapViewCustomizeToolbar({ onTextChange, onColorChange })
         return (
             <div>
                 <div class="customize-toolbar">
-
-                    
-                    {/* <select type="buton" id="text-select">
-                        <option value="text1">Text</option>
-                        <option value="text2">Anek Devanagari</option>
-                        <option value="text3">Anek Gujarati</option>
-                        <option value="text4">Anek Gurmukhi</option>
-                    </select> */}
+                    <select type="buton" id="text-select" onChange={(e)=>{handleSelectFont(e)}}>
+                        <option value="none">Font</option>
+                        <option value="Arial" style={{fontFamily: "Arial"}}>Arial</option>
+                        <option value="Comic Sans MS" style={{fontFamily: "Comic Sans MS"}}>Comic Sans MS</option>
+                        <option value="Brush Script MT" style={{fontFamily: "Brush Script MT"}}>Brush Script MT</option>
+                        <option value="Times New Roman" style={{fontFamily: "Times New Roman"}}>Times New Roman</option>
+                    </select>
 
             <div id="color-button" className="color-picker-container">
             <button
