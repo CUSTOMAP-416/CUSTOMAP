@@ -23,6 +23,7 @@ function AuthStoreContextProvider(props) {
       isCreatePage: true,
       errorMessage: null,
       successMessage: null,
+      customizeColor: null,
     });
 
     const history = useNavigate();
@@ -364,12 +365,16 @@ function AuthStoreContextProvider(props) {
         });
     }
     //function to handle the Color process 
-    auth_store.onColor= async function () {
-        await apis.onColor().then(response => {
+    auth_store.onColor= async function (state) {
+        await apis.onColor(state).then(response => {
             auth_storeReducer({
                 type: AuthStoreActionType.null,
                 payload: null,
             });
+            return setAuthStore((prevAuthStore) => ({
+                ...prevAuthStore,
+                customizeColor: response.data.customizeColor,
+            }));
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)

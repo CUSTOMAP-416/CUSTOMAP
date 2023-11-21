@@ -3,13 +3,14 @@ import AuthStoreContextProvider from '../../auth_store';
 import '../../styles/MapView.css';
 
 export default function MapViewCustomizeToolbar() {
+    const [text, setText] = useState('');
     const [color, setColor] = useState('#ffffff'); // Default color white
     const [showPicker, setShowPicker] = useState(false);
-  
+
     const handleButtonClick = () => {
       setShowPicker(showPicker => !showPicker); // Toggle color picker display
     };
-  
+
     const handleColorChange = (e) => {
       setColor(e.target.value);
       setShowPicker(false); // Hide the color picker after selection
@@ -24,7 +25,9 @@ export default function MapViewCustomizeToolbar() {
     }
     //function to handle the Color process 
     const onColor = (event) => {
-        auth_store.onColor(event)
+        auth_store.onColor(event);
+        console.log(auth_store.color);
+        // console.log(auth_store.)
     }
     //function to handle the Legend process 
     const onLegend = (event) => {
@@ -54,7 +57,8 @@ export default function MapViewCustomizeToolbar() {
     }
     //Handle the Select Color button click. 
     const handleSelectColor = (event) => {
-        onColor(event)
+        setColor(event.target.value);
+        onColor(event);
     }
     //Handle show legend list.
     const handleShowLegends = () => {
@@ -68,18 +72,37 @@ export default function MapViewCustomizeToolbar() {
         onLegend(event)
     }
 
+    const handleSave = (event) => {
+        setSelectedTool(event)
+    }
+
+    // const updateCountryLabel = (countryName, newLabel) => {
+    //     const newGeojson = { ...mapData };
+    //     newGeojson.features = newGeojson.features.map(feature => {
+    //         if (feature.properties.name === countryName) {
+    //             feature.properties.name = newLabel; // Update the label
+    //         }
+    //         return feature;
+    //     });
+    //     setGeojson(newGeojson);
+    // };
+
+    // // Call this function to update the label of China, for example
+    // const handleUpdateLabel = () => {
+    //     updateCountryLabel('China', text); // 'text' contains the new label
+    // };
     
     return (
         <div>
             <div class="customize-toolbar">
 
                 
-                <select type="buton" id="text-select">
+                {/* <select type="buton" id="text-select">
                     <option value="text1">Text</option>
                     <option value="text2">Anek Devanagari</option>
                     <option value="text3">Anek Gujarati</option>
                     <option value="text4">Anek Gurmukhi</option>
-                </select>
+                </select> */}
                 
             
                 <div  id="color-button" className="color-picker-container">
@@ -99,8 +122,12 @@ export default function MapViewCustomizeToolbar() {
                         />
                     )}
                 </div>
-
                 <button id="legend-button" type="button" onClick={() => handleLegend()}>Legend</button>
+                <input style={{backgroundColor: "rgb(218, 237, 213)"}}></input>
+                <button id="save-button" type="button"  onChange={()=>handleText()}>Applied Change</button>
+                <button id="save-button" type="button" onClick={() => handleSave()}>
+                    SAVE
+                </button>
             </div>
         </div>
     )

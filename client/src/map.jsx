@@ -35,7 +35,7 @@ class MapComponent extends Component {
       this.mapInitialized = true;
     }
   }
-
+  
   loadFile = (geojson) => {
     this.clearmap()
     this.setState({ geojsonLayer: geojson });
@@ -45,7 +45,7 @@ class MapComponent extends Component {
   renderMap = () => {
     // Changed
     const { map, geojsonLayer } = this.state;
-    if (map && geojsonLayer && geojsonLayer.type == 'FeatureCollection') {
+    if (map && geojsonLayer && geojsonLayer.type === 'FeatureCollection') {
       const layer = L.geoJSON(geojsonLayer, {
         onEachFeature: (feature, layer) => {
           // Access feature properties and create a label
@@ -54,7 +54,7 @@ class MapComponent extends Component {
               className: "label",
               html: `<div>${feature.properties.admin}</div>`,
             });
-
+            
             // Create a marker with the label and add it to the map
             const marker = L.marker(layer.getBounds().getCenter(), {
               icon: label,
@@ -88,6 +88,7 @@ class MapComponent extends Component {
       this.setState({ geojsonLayer: null });
     }
   };
+
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.mapData !== this.props.mapData) {
