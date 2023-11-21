@@ -23,7 +23,6 @@ function AuthStoreContextProvider(props) {
       isCreatePage: true,
       errorMessage: null,
       successMessage: null,
-      customizeColor: null,
     });
 
     const history = useNavigate();
@@ -371,10 +370,6 @@ function AuthStoreContextProvider(props) {
                 type: AuthStoreActionType.null,
                 payload: null,
             });
-            return setAuthStore((prevAuthStore) => ({
-                ...prevAuthStore,
-                customizeColor: response.data.customizeColor,
-            }));
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)

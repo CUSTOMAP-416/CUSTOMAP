@@ -18,7 +18,12 @@ export default function MapView(){
     }
 
     const [showDiscussionForum, setShowDiscussionForum] = useState(false);
+    const [selectedColor, setSelectedColor] = useState("#ffffff"); // 선택된 색상 상태
 
+    // 색상 변경 핸들러
+    const handleColorChange = (color) => {
+      setSelectedColor(color);
+    };
     //Handle the discussion forum button click. 
     const handleDiscussionForum = () => {
         if(showDiscussionForum){
@@ -36,12 +41,17 @@ export default function MapView(){
     }, [auth_store.selectMap]);
     
     return (
-        <div className="MapView-page-container">
-            <MapViewDiscussionForum /> 
-            <div className="content">
-                <MapViewCustomizeToolbar />
-                <MapComponent width="1400px" height="600px" mapData={mapData}/>
-            </div>
+      <div className="MapView-page-container">
+        <MapViewDiscussionForum />
+        <div className="content">
+          <MapViewCustomizeToolbar onColorChange={handleColorChange} />
+          <MapComponent
+            width="1400px"
+            height="600px"
+            mapData={mapData}
+            selectedColor={selectedColor}
+          />
         </div>
-    )
+      </div>
+    );
 }

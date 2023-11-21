@@ -9,6 +9,9 @@ class MapComponent extends Component {
     this.state = {
       map: null,
       geojsonLayer: null, // Store the GeoJSON layer
+      selectedLayer: null,
+      selectedColor: "#ffffff", // default: white
+      paintedLayers: {},
     };
     this.mapContainerRef = React.createRef();
     this.mapInitialized = false; // Track if the map has been initialized
@@ -17,7 +20,10 @@ class MapComponent extends Component {
   componentDidMount() {
     if (!this.mapInitialized) {
       // Initialize Leaflet map only if it hasn't been initialized
-      const map = L.map(this.mapContainerRef.current).setView([40.915734,286.87721],13)
+      const map = L.map(this.mapContainerRef.current).setView(
+        [40.915734, 286.87721],
+        13
+      );
       map.removeControl(map.zoomControl);
       // Add a tile layer (you can choose a suitable one)
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -35,44 +41,120 @@ class MapComponent extends Component {
       this.mapInitialized = true;
     }
   }
-  
+
   loadFile = (geojson) => {
-    this.clearmap()
+    this.clearmap();
     this.setState({ geojsonLayer: geojson });
-    setTimeout(() => {this.renderMap()}, 100);
+    setTimeout(() => {
+      this.renderMap();
+    }, 100);
   };
-
-  renderMap = () => {
-    // Changed
-    const { map, geojsonLayer } = this.state;
-    if (map && geojsonLayer && geojsonLayer.type === 'FeatureCollection') {
-      const layer = L.geoJSON(geojsonLayer, {
-        onEachFeature: (feature, layer) => {
-          // Access feature properties and create a label
-          if(feature.properties.admin != null){
-            const label = L.divIcon({
-              className: "label",
-              html: `<div>${feature.properties.admin}</div>`,
-            });
-            
-            // Create a marker with the label and add it to the map
-            const marker = L.marker(layer.getBounds().getCenter(), {
-              icon: label,
-            });
-
-            // Add the marker to the map
-            marker.addTo(this.state.map);
-          }
-        },
+  highlightFeature = (e) => {
+    const layer = e.target;
+    if (!this.state.paintedLayers[L.stamp(layer)]) {
+      layer.setStyle({
+        weight: 5,
+        color: "#666",
+        dashArray: "",
+        fillOpacity: 0.3,
       });
-      // Add the new GeoJSON layer to the map
-      layer.addTo(map);
-
-      // Fit the map bounds to the GeoJSON layer
-      map.fitBounds(layer.getBounds());
-      this.setState({geojsonLayer: layer});
     }
   };
+
+  // 마우스가 폴리곤에서 벗어났을 때 스타일 초기화
+  resetHighlight = (e) => {
+    const layer = e.target;
+    if (!this.state.paintedLayers[L.stamp(layer)]) {
+      layer.setStyle({
+        weight: 2,
+        color: "#3388ff",
+        fillColor: "#3388ff",
+        fillOpacity: 0.2,
+      });
+    }
+  };
+
+  handleSelectColor = (event) => {
+    this.setState({ selectedColor: event.target.value });
+  };
+  onEachFeature = (feature, layer) => {
+    layer.on({
+      mouseover: this.highlightFeature,
+      mouseout: this.resetHighlight,
+      click: (e) => {
+        const currentLayer = e.target;
+        const layerId = L.stamp(currentLayer); // Unique ID for each polygon
+
+        if (this.state.paintedLayers[layerId]) {
+          // Remove color if already painted polygon is clicked
+          currentLayer.setStyle({
+            fillColor: "", // remove Fill color
+            fillOpacity: 0, // Fill opacity 0
+          });
+          this.setState((prevState) => {
+            const newPaintedLayers = { ...prevState.paintedLayers };
+            delete newPaintedLayers[layerId];
+            return { paintedLayers: newPaintedLayers };
+          });
+        } else {
+          // If you click on a new polygon, apply the selected color
+          currentLayer.setStyle({
+            fillColor: this.props.selectedColor,
+            fillOpacity: 0.3,
+          });
+          this.setState((prevState) => ({
+            paintedLayers: {
+              ...prevState.paintedLayers,
+              [layerId]: this.props.selectedColor,
+            },
+          }));
+        }
+      },
+    });
+  };
+  renderMap = () => {
+    const { map, geojsonLayer } = this.state;
+    if (map && geojsonLayer && geojsonLayer.type === "FeatureCollection") {
+      const layer = L.geoJSON(geojsonLayer, {
+        onEachFeature: this.onEachFeature,
+      });
+      layer.addTo(map);
+      map.fitBounds(layer.getBounds());
+      this.setState({ geojsonLayer: layer });
+    }
+  };
+
+  // csrenderMap = () => {
+  //   // Changed
+  //   const { map, geojsonLayer } = this.state;
+  //   if (map && geojsonLayer && geojsonLayer.type === "FeatureCollection") {
+  //     const layer = L.geoJSON(geojsonLayer, {
+  //       onEachFeature: (feature, layer) => {
+  //         // Access feature properties and create a label
+  //         if (feature.properties.admin != null) {
+  //           const label = L.divIcon({
+  //             className: "label",
+  //             html: `<div>${feature.properties.admin}</div>`,
+  //           });
+
+  //           // Create a marker with the label and add it to the map
+  //           const marker = L.marker(layer.getBounds().getCenter(), {
+  //             icon: label,
+  //           });
+
+  //           // Add the marker to the map
+  //           marker.addTo(this.state.map);
+  //         }
+  //       },
+  //     });
+  //     // Add the new GeoJSON layer to the map
+  //     layer.addTo(map);
+
+  //     // Fit the map bounds to the GeoJSON layer
+  //     map.fitBounds(layer.getBounds());
+  //     this.setState({ geojsonLayer: layer });
+  //   }
+  // };
 
   clearmap = () => {
     const { map, geojsonLayer } = this.state;
@@ -89,17 +171,18 @@ class MapComponent extends Component {
     }
   };
 
-
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.mapData !== this.props.mapData) {
       this.loadFile(this.props.mapData);
     }
   }
 
-
   render() {
     const { style, width, height } = this.props;
-    const mapStyle = style || { height: height || "500px", width: width || "1050px" };
+    const mapStyle = style || {
+      height: height || "500px",
+      width: width || "1050px",
+    };
     return (
       <div id="map-container">
         <>
