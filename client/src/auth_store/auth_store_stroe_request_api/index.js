@@ -56,7 +56,17 @@ const updateMap = (id_, name, phone, id, email, password) => {
     })
 };
 //function to handle delete map process. const onDeleteMap = async (map) => { ?
-const deleteMap = (id) => api.delete('')
+const deleteMap = (id) => {
+    return api.post('/deleteMap/', {
+        _id : id,
+    })
+};
+const shareMap = (mapId, email) => {
+    return api.post('/shareMap/', {
+        mapId : mapId,
+        email : email,
+    })
+};
 // Logs in the user const onLogin = async (userData) => { ?
 const loggedIn = (email, password) => {
     return api.post('/login/', {
@@ -84,7 +94,11 @@ const onEditMap = (title, _id) => {
       });
 }
 //function to handle the fork map process 
-const onForkMap = (map) => {}
+const onForkMap = (name) => {
+    return api.post("/forkMap/", {
+        name: name,
+    });
+}
 //function to handle the attach property process 
 const onAttachProperty = (map) => {}
 //function to handle the Discussion process 
@@ -95,8 +109,18 @@ const onText = (map) => {}
 const onColor = (map) => {}
 //function to handle the Legend process 
 const onLegend = (map) => {}
-//function to handle the search process 
-const onSearch = () => {}
+//function to handle the search process
+const changeVisibility = (mapId, visibility) => {
+    return api.post("/changeVisibility/", {
+        mapId: mapId, 
+        visibility: visibility,
+    });
+} 
+const onSearch = (searchTerm) => {
+    return api.post("/searchMap/", {
+        searchTerm: searchTerm,
+    });
+}
 //function to handle get the Array Discussions. 
 const getArrayDiscussions = (map) => {}
 //function to handle getting the list of user's created maps. 
@@ -112,6 +136,7 @@ const apis = {
     createMap,
     updateMap,
     deleteMap,
+    shareMap,
     loggedIn,
     onLogout,
     onVerification,
@@ -125,6 +150,7 @@ const apis = {
     onSearch,
     getArrayDiscussions,
     getUserMaps,
+    changeVisibility,
 }
 
 export default apis
