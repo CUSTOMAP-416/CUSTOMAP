@@ -7,6 +7,7 @@ import '../../styles/Dashboard.css';
 import toGeoJSON from "@mapbox/togeojson"; // Updated import for toGeoJSON
 import * as shapefile from "shapefile";
 import JSZip from 'jszip';
+import { timeout } from "async";
 
 export default function DashboardCreateOrEditMapView() {
   const { auth_store } = useContext(AuthStoreContextProvider);
@@ -73,7 +74,6 @@ export default function DashboardCreateOrEditMapView() {
   const handleUploadFile = (event) => {
     const file = event.target.files[0]
     if (file) {
-      console.log(typeof file)
       if (file.name.endsWith(".zip")) {
         const reader = new FileReader();
         reader.onload = async (e) => {
@@ -143,7 +143,11 @@ export default function DashboardCreateOrEditMapView() {
   };
   //Handles the fork map button click.
   const handleForkMap = () => {
-    onForkMap();
+    setIsForkOpen(!isForkOpen)
+  };
+  const [isForkOpen, setIsForkOpen] = useState(false);
+  const handleForkContent = (name) => {
+    auth_store.onForkMap(name);
   };
   //Handles the undo button click.
   const handleUndo = () => {
@@ -175,16 +179,47 @@ export default function DashboardCreateOrEditMapView() {
     }
     alert("Success Changed!")
   };
+  //share map
+  const shareMap = () => {
+    auth_store.shareMap(auth_store.selectMap._id, parseInt(shareEmail, 10))
+    setIsShareOpen(!isShareOpen)
+  };
+  const [isShareOpen, setIsShareOpen] = useState(false);
+  const [shareEmail, setShareEmail] = useState('');
+  const handleShareEmailChange = (event) => {
+    setShareEmail(event.target.value);
+  };
+  const handleShareMap = () => {
+    setIsShareOpen(!isShareOpen)
+  }
+  //change visbility
+  const changeVisibility = () => {
+    if(visibility === 'private'){
+      setVisibility('public')
+      auth_store.selectMap.visibility = 'public'
+      auth_store.changeVisibility(auth_store.selectMap._id, 'public')
+    }
+    else{
+      setVisibility('private')
+      auth_store.selectMap.visibility = 'private'
+      auth_store.changeVisibility(auth_store.selectMap._id, 'private')
+    }
+  };
+  const [visibility, setVisibility] = useState('');
 
   useEffect(() => {
-    if(!auth_store.isCreatePage){
+    if(!auth_store.isCreatePage && auth_store.selectMap != null){
       setTimeout(function() {
         setMapData(auth_store.selectMap.mapData)
         setMapTitle(auth_store.selectMap.title)
+        setVisibility(auth_store.selectMap.visibility)
       }, 100);
     }
   }, [auth_store.selectMap]);
 
+  useEffect(() => {
+      setMapData(auth_store.forkMap)
+  }, [auth_store.forkMap]);
 
   return (
     <div className="createEditAll">
@@ -233,11 +268,32 @@ export default function DashboardCreateOrEditMapView() {
             <button
               className="button fork"
               type="button"
-              onClick={() => handleForkMap()}
-            >
+              onClick={() => handleForkMap()}>
               Fork Map
             </button>
             <p className="file-types">↑ Available on SHP/DBF, GeoJSON, KML</p>
+            {isForkOpen && (
+              <div className="fork-content">
+                <a onClick={() => handleForkContent("North America")}>North America</a>
+                <a onClick={() => handleForkContent("South America")}>South America</a>
+                <a onClick={() => handleForkContent("Oceania")}>Oceania</a>
+                <a onClick={() => handleForkContent("Europe")}>Europe</a>
+                <a onClick={() => handleForkContent("Africa")}>Africa</a>
+                <a onClick={() => handleForkContent("Asia")}>Asia</a>
+                <a onClick={() => handleForkContent("World")}>World</a>
+              </div>
+            )}
+            {auth_store.isCreatePage ? "":
+            <div>
+              <button type="button" onClick={() => handleShareMap()}>Share Map</button>
+              {isShareOpen && (
+                <div className="fork-content">
+                  <input type="text" value={shareEmail} onChange={handleShareEmailChange}/>
+                  <button onClick={() => shareMap()}>Share</button>
+                </div>
+              )}
+              <button type="button" onClick={() => changeVisibility()}>{visibility}</button>
+            </div>}
           </div>
         </div>
         <div className="create-content">
