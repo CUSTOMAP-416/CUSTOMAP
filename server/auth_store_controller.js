@@ -3,6 +3,7 @@ const User = require('./models/user')
 const Profile = require('./models/profile')
 const Map = require('./models/map')
 const bcrypt = require('bcryptjs')
+const fs = require('fs');
 
 getLoggedIn = async (req, res) => {
     try {
@@ -306,7 +307,7 @@ createMap = async (req, res) => {
         console.log("create map: " + email + " " + mapTitle);
         //console.log(deserializedData);
         const user = await User.findOne({ email: email });
-        const userID = user._id;
+        const userID = [user._id];
         const newMap = new Map({
             title: mapTitle, owner: userID, mapData: deserializedData
         });
@@ -361,6 +362,160 @@ editMap= async (req, res) => {
     }
 }
 
+forkMap = (req, res) => {
+    const { name } = req.body;
+    let filePath = '';
+    if(name === "North America"){
+        filePath = "./fork_map/North America.geojson"
+    }
+    else if(name === "South America"){
+        filePath= "./fork_map/South America.geojson"
+    }
+    else if(name === "Oceania"){
+        filePath = "./fork_map/Oceania.geojson"
+    }
+    else if(name === "Europe"){
+        filePath = "./fork_map/Europe.geojson"
+    }
+    else if(name === "Africa"){
+        filePath = "./fork_map/Africa.geojson"
+    }
+    else if(name === "Asia"){
+        filePath = "./fork_map/Asia.geojson"
+    }
+    else{
+        filePath = "./fork_map/World.geojson"
+    }
+    console.log("fork: " + name);
+    //console.log('Current working directory:', process.cwd());
+    fs.readFile(filePath, 'utf8', (err, data) => {
+      if (err) {
+        res.status(500).send({ errorMessage: err });
+        return;
+      }
+  
+      try {
+        const geojson = JSON.parse(data);
+        console.log("forked");
+        return res.json({
+            geojson: geojson,
+        });
+      } catch (parseError) {
+        res.status(500).send({ errorMessage: parseError });
+      }
+    })
+}
+
+deleteMap = async (req, res) => {
+    try {
+        const { _id } = req.body;
+        console.log("delete map: " + _id);
+        //user
+        const map = await Map.findById(_id);
+        for(let i=0; i<map.owner.length; i++){
+            const user = await User.findById(map.owner[i]);
+            let maps =[]
+            for(let j=0; j<user.maps.length; j++){
+                if(user.maps[j]._id != _id){
+                    maps.push(user.maps[j])
+                }
+            }
+            await User.updateOne(
+                {"_id": map.owner[i]},
+                {$set: {"maps": maps}})
+            console.log("user updated, name: " + user.username);
+        }
+        //map
+        await Map.deleteOne({_id: _id});
+        console.log("map deleted");
+        res.status(200).send();
+    } catch (err) {
+        console.log("err: " + err);
+        res.json(false);
+    }
+}
+shareMap = async (req, res) => {
+    try {
+        const { mapId, email } = req.body;
+        console.log("share map: " + mapId + " " + email);
+        //map
+        const user = await User.findOne({ email: email });
+        const map = await Map.findById(mapId);
+        let owner = map.owner
+        owner.push(user._id)
+        await Map.updateOne(
+            {"_id": mapId},
+            {$set: {"owner": owner}})
+        console.log("map updated");
+        //user
+        const maps = user.maps;
+        maps.push(mapId);
+        await User.updateOne(
+            {"_id": user._id},
+            {$set: {"maps": maps}})
+        console.log("user updated");
+        console.log("map shared");
+        res.status(200).send();
+    } catch (err) {
+        console.log("err: " + err);
+        res.json(false);
+    }
+}
+changeVisibility = async (req, res) => {
+    try {
+        const { mapId, visibility } = req.body;
+        console.log("change visibility: " + mapId +" "+ visibility);
+        //map
+        await Map.updateOne(
+            {"_id": mapId},
+            {$set: {"visibility": visibility}})
+        console.log("map updated");
+        res.status(200).send();
+    } catch (err) {
+        console.log("err: " + err);
+        res.json(false);
+    }
+}
+
+searchMap = async (req, res) => {
+    try {
+        const { searchTerm } = req.body;
+        console.log("search map: " + searchTerm);
+        const searchQuery = {
+            $and: [
+              { visibility: 'public' }, // Map must have visibility set to 'public'
+              {
+                $or: [
+                  { title: { $regex: searchTerm, $options: 'i' } }, // Case-insensitive name search
+                  { description: { $regex: searchTerm, $options: 'i' } }, // Case-insensitive description search
+                ]
+              }
+            ]
+        };
+        Map.find(searchQuery, (err, maps) => {
+            if (err) {
+              console.error('Error searching for maps:', err);
+              return;
+            }
+            console.log("map searched");
+            const maps1 = []
+            for(let i=0; i<maps.length; i++){
+                maps1.push({
+                    _id: maps[i]._id,
+                    title: maps[i].title,
+                    createdDate: maps[i].createdDate,
+                })
+            }
+            res.status(200).json({
+                maps: maps1,
+            })
+        });
+    } catch (err) {
+        console.log("err: " + err);
+        res.json(false);
+    }
+}
+
 module.exports = {
   getLoggedIn,
   registerUser,
@@ -371,4 +526,9 @@ module.exports = {
   createMap,
   getMap,
   editMap,
+  forkMap,
+  deleteMap,
+  shareMap,
+  changeVisibility,
+  searchMap,
 };
