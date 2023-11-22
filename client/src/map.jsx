@@ -10,8 +10,8 @@ class MapComponent extends Component {
       map: null,
       geojsonLayer: null, // Store the GeoJSON layer
       selectedLayer: null,
-      changedText: '',
-      changedFont: '',
+      changedText: "",
+      changedFont: "",
       selectedColor: "#ffffff", // default: white
       paintedLayers: {},
     };
@@ -51,6 +51,7 @@ class MapComponent extends Component {
       this.renderMap();
     }, 100);
   };
+  //-------------------color mouse hover --------------------
   highlightFeature = (e) => {
     const layer = e.target;
     if (!this.state.paintedLayers[L.stamp(layer)]) {
@@ -79,32 +80,29 @@ class MapComponent extends Component {
   handleSelectColor = (event) => {
     this.setState({ selectedColor: event.target.value });
   };
-
-
-
+  //-------------------onEachFeature --------------------
   onEachFeature = (feature, layer) => {
     if (feature.properties.admin != null) {
       const label = L.divIcon({
         className: "label",
         html: `<div>${feature.properties.admin}</div>`,
-    });
-    // Create a marker with the label and add it to the map
-    var marker = L.marker(layer.getBounds().getCenter(), {
-      icon: label,
-    });
+      });
+      // Create a marker with the label and add it to the map
+      var marker = L.marker(layer.getBounds().getCenter(), {
+        icon: label,
+      });
 
-    // Add the marker to the map
-    // marker.addTo(this.state.map);
-    this.state.map.addLayer(marker)
-  }
+      // Add the marker to the map
+      // marker.addTo(this.state.map);
+      this.state.map.addLayer(marker);
+
+    }
     layer.on({
       mouseover: this.highlightFeature,
       mouseout: this.resetHighlight,
       click: (e) => {
-        
         const currentLayer = e.target;
         const layerId = L.stamp(currentLayer); // Unique ID for each polygon
-
         if (this.state.paintedLayers[layerId]) {
           // Remove color if already painted polygon is clicked
           currentLayer.setStyle({
@@ -130,29 +128,30 @@ class MapComponent extends Component {
             },
           }));
         }
-        this.updateLabel(currentLayer, marker, feature, this.props.changedText);
 
+        this.updateLabel(currentLayer, marker, feature, this.props.changedText);
       },
     });
   };
 
   updateLabel = (layer, marker, feature, text) => {
     if (text) {
-      this.state.map.removeLayer(marker)
+      
       if (feature.properties.admin != null) {
+        // this.state.map.removeLayer(marker);
         const label = L.divIcon({
           className: "label",
           html: `<div style="color: black;">${text}</div>`,
-      });
-      
-      const marker = L.marker(layer.getBounds().getCenter(), {
-        icon: label,
-      });
-      marker.addTo(this.state.map);
-    }
+        });
+        // const marker = L.marker(layer.getBounds().getCenter(), {
+        //   icon: label,
+        // });
+        marker.setIcon(label);
+        // marker.addTo(this.state.map);
+      }
+      feature.properties.admin = text;
     }
   };
-
 
   renderMap = () => {
     const { map, geojsonLayer } = this.state;
@@ -201,28 +200,39 @@ class MapComponent extends Component {
   updateAllLabels = () => {
     const { map, geojsonLayer } = this.state;
     if (map && geojsonLayer) {
-      // 모든 마커를 제거
       map.eachLayer((layer) => {
         if (layer instanceof L.Marker) {
           map.removeLayer(layer);
         }
       });
-  
+
       geojsonLayer.eachLayer((layer) => {
         const feature = layer.feature;
-        if (feature && feature.properties.admin) {
+        if (feature && feature.properties.admin !== this.props.changedText) {
           const label = L.divIcon({
             className: "label",
             html: `<div style="font-family: ${this.props.changedFont};">${feature.properties.admin}</div>`,
           });
-          const newMarker = L.marker(layer.getBounds().getCenter(), { icon: label });
-          console.log("Adding new marker:", newMarker); 
+          const newMarker = L.marker(layer.getBounds().getCenter(), {
+            icon: label,
+          });
+          console.log("Adding new marker:", newMarker);
+          newMarker.addTo(map);
+        }
+        if (feature && feature.properties.admin === this.props.changedText) {
+          const label = L.divIcon({
+            className: "label",
+            html: `<div style="font-family: ${this.props.changedFont};">${this.props.changedText}</div>`,
+          });
+          const newMarker = L.marker(layer.getBounds().getCenter(), {
+            icon: label,
+          });
+          console.log("Adding new marker:", newMarker);
           newMarker.addTo(map);
         }
       });
     }
   };
-  
 
   clearmap = () => {
     const { map, geojsonLayer } = this.state;
@@ -246,27 +256,6 @@ class MapComponent extends Component {
     if (prevProps.changedFont !== this.props.changedFont) {
       this.updateAllLabels();
     }
-  
-  }
-
-  updateMarkersFont(newFont) {
-    // 맵에 추가된 모든 마커에 대해 순회
-    this.state.map.eachLayer((layer) => {
-      if (layer instanceof L.Marker) {
-        // 기존 마커를 맵에서 제거
-        this.state.map.removeLayer(layer);
-  
-        // 새로운 스타일로 업데이트된 마커를 추가
-        const updatedLabel = L.divIcon({
-          className: "label",
-          html: `<div style="${newFont}">Hello</div>`,
-        });
-        const updatedMarker = L.marker(layer.getLatLng(), {
-          icon: updatedLabel,
-        });
-        updatedMarker.addTo(this.state.map);
-      }
-    });
   }
 
   render() {
