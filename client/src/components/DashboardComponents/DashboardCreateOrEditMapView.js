@@ -137,6 +137,9 @@ export default function DashboardCreateOrEditMapView() {
     };
     onAttachProperty(state);
   };
+
+  
+
   //Handles the map customization button click.
   const handleCustomizeTool = () => {
     openCustomizeTool(auth_store.selectMap);
@@ -265,12 +268,23 @@ export default function DashboardCreateOrEditMapView() {
               Upload File
             </button>
 
+           
+
             <button
               className="button fork"
               type="button"
               onClick={() => handleForkMap()}>
               Fork Map
             </button>
+
+            <button
+              className="button upload"
+              type="button"
+              id="saveButton"
+            >
+              Export Map
+            </button>
+
             <p className="file-types">↑ Available on SHP/DBF, GeoJSON, KML</p>
             {isForkOpen && (
               <div className="fork-content">
@@ -282,6 +296,7 @@ export default function DashboardCreateOrEditMapView() {
                 <a onClick={() => handleForkContent("Asia")}>Asia</a>
                 <a onClick={() => handleForkContent("World")}>World</a>
               </div>
+
             )}
             {auth_store.isCreatePage ? "":
             <div>

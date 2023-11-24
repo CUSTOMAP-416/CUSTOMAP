@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import L, { marker } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./styles/Discuss.css";
+import 'leaflet-easyprint';
 
 class MapComponent extends Component {
   constructor(props) {
@@ -34,7 +35,6 @@ class MapComponent extends Component {
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(map);
 
-      L.marker([40.915734, 286.87721]).addTo(map);
 
       // Set the map object in the component state
       this.setState({ map });
@@ -153,6 +153,8 @@ class MapComponent extends Component {
     }
   };
 
+  
+
   renderMap = () => {
     const { map, geojsonLayer } = this.state;
     if (map && geojsonLayer && geojsonLayer.type === "FeatureCollection") {
@@ -163,6 +165,18 @@ class MapComponent extends Component {
       map.fitBounds(layer.getBounds());
       this.setState({ geojsonLayer: layer });
     }
+    function manualPrint() {
+      var printer = L.easyPrint({
+        sizeModes: ['Current', 'A4Landscape', 'A4Portrait'],
+        filename: 'myMap',
+        exportOnly: true,
+        hideControlContainer: true,
+      }).addTo(map);
+      printer.printMap('CurrentSize', 'MyManualPrint')
+    }
+    
+
+    document.getElementById("saveButton").addEventListener("click", manualPrint);
   };
 
   // csrenderMap = () => {
