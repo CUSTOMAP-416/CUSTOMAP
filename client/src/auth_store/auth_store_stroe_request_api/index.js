@@ -6,7 +6,7 @@ const api = axios.create({
 
 const getUser = () => api.get('/loggedIn/');
 //All user list in Admin dashboard const getUsers = async () => { ?
-const getAllUsers = () => api.get('');
+const getAllUsers = () => api.get('/users/');
 // Registers the user const onSignUp = async (userData) => ?
 const createUser = (name, phone, id, email, password, passwordVerify) => {
     return api.post('/register/', {

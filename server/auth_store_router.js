@@ -2,6 +2,8 @@ const express = require('express')
 const authStoreRouter = express.Router()
 const AuthStoreController = require('./auth_store_controller')
 
+authStoreRouter.get("/users", AuthStoreController.getAllusers);
+authStoreRouter.get("/maps", AuthStoreController.getAllmaps);
 authStoreRouter.post('/register', AuthStoreController.registerUser)
 authStoreRouter.post('/login', AuthStoreController.loginUser)
 authStoreRouter.get('/logout', AuthStoreController.logoutUser)

@@ -8,6 +8,32 @@ const Legend = require('./models/legend')
 const bcrypt = require('bcryptjs')
 const fs = require('fs');
 
+getAllusers = async (req, res) => {
+  console.log("getAllUsers")
+  try {
+    const users = await User.find()
+    .then((users) => {
+        console.log(users);
+        res.status(200).json({ users });
+    })
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).send();
+  }
+};
+getAllmaps = async (req, res) => {
+  try {
+    const maps = await Map.find();
+    if (maps) {
+      res.status(200).json(maps);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send();
+  }
+};
+
 getLoggedIn = async (req, res) => {
     try {
         let userId = auth.verifyUser(req);
@@ -671,6 +697,8 @@ deleteLegend = async (req, res) => {
 }
 
 module.exports = {
+  getAllusers,
+  getAllmaps,
   getLoggedIn,
   registerUser,
   loginUser,
