@@ -2,6 +2,9 @@ const auth = require('./auth')
 const User = require('./models/user')
 const Profile = require('./models/profile')
 const Map = require('./models/map')
+const Text = require('./models/text')
+const Color = require('./models/color')
+const Legend = require('./models/legend')
 const bcrypt = require('bcryptjs')
 const fs = require('fs');
 
@@ -25,6 +28,7 @@ getLoggedIn = async (req, res) => {
             maps.push({
                 _id: map._id,
                 title: map.title,
+                description: map.description,
                 createdDate: map.createdDate,
             })
         }
@@ -87,6 +91,7 @@ loginUser = async (req, res) => {
             maps.push({
                 _id: map._id,
                 title: map.title,
+                description: map.description,
                 createdDate: map.createdDate,
             })
         }
@@ -280,6 +285,7 @@ editUserInfo = async (req, res) => {
             maps.push({
                 _id: map._id,
                 title: map.title,
+                description: map.description,
                 createdDate: map.createdDate,
             })
         }
@@ -302,14 +308,14 @@ editUserInfo = async (req, res) => {
 
 createMap = async (req, res) => {
     try {
-        const { email, mapTitle, mapData} = req.body;
+        const { email, mapTitle, mapDescription, mapData} = req.body;
         let deserializedData = JSON.parse(mapData);
-        console.log("create map: " + email + " " + mapTitle);
+        console.log("create map: " + email + " " + mapTitle + " " + mapDescription);
         //console.log(deserializedData);
         const user = await User.findOne({ email: email });
         const userID = [user._id];
         const newMap = new Map({
-            title: mapTitle, owner: userID, mapData: deserializedData
+            title: mapTitle, owner: userID, mapData: deserializedData, description: mapDescription
         });
         const savedMap = await newMap.save();
         console.log("new map saved: " + savedMap._id);
@@ -323,6 +329,7 @@ createMap = async (req, res) => {
             map: {
                 _id: savedMap._id,
                 title: savedMap.title,
+                description: savedMap.description,
                 createdDate: savedMap.createdDate,
             },
         })
@@ -336,8 +343,23 @@ getMap = async (req, res) => {
     try {
         const { mapId } = req.body;
         console.log("map id: " + mapId);
-        const map = await Map.findById(mapId);
-        console.log("get map: " + map.title);
+        let map = await Map.findById(mapId);
+        console.log("get map: " + map.title + " " + map.description);
+        let texts = null
+        if(map.texts.length != null){
+            texts = await Text.find({ _id: { $in: map.texts } });
+        }
+        let colors = null
+        if(map.colors.length != null){
+            colors = await Color.find({ _id: { $in: map.colors } });
+        }
+        let legends = null
+        if(map.legends.length != null){
+            legends = await Legend.find({ _id: { $in: map.legends } });
+        }
+        map.texts = texts;
+        map.colors = colors;
+        map.legends = legends;
         return res.status(200).json({
             map: map,
         })
@@ -349,12 +371,12 @@ getMap = async (req, res) => {
 
 editMap= async (req, res) => {
     try {
-        const { _id, title } = req.body;
-        console.log("map: " + _id + " " + title);
+        const { _id, title, description } = req.body;
+        console.log("map: " + _id + " " + title + " " + description);
         await Map.updateOne(
             {"_id": _id},
-            {$set: {"title": title}})
-        console.log("map updated");
+            {$set: {"title": title, "description": description}})
+        console.log("edit map updated");
         res.status(200).send();
     } catch (err) {
         console.log("err: " + err);
@@ -446,14 +468,14 @@ shareMap = async (req, res) => {
         await Map.updateOne(
             {"_id": mapId},
             {$set: {"owner": owner}})
-        console.log("map updated");
+        console.log("share map updated");
         //user
         const maps = user.maps;
         maps.push(mapId);
         await User.updateOne(
             {"_id": user._id},
             {$set: {"maps": maps}})
-        console.log("user updated");
+        console.log("share user updated");
         console.log("map shared");
         res.status(200).send();
     } catch (err) {
@@ -469,7 +491,7 @@ changeVisibility = async (req, res) => {
         await Map.updateOne(
             {"_id": mapId},
             {$set: {"visibility": visibility}})
-        console.log("map updated");
+        console.log("change visibility map updated");
         res.status(200).send();
     } catch (err) {
         console.log("err: " + err);
@@ -503,6 +525,7 @@ searchMap = async (req, res) => {
                 maps1.push({
                     _id: maps[i]._id,
                     title: maps[i].title,
+                    description: maps[i].description,
                     createdDate: maps[i].createdDate,
                 })
             }
@@ -510,6 +533,137 @@ searchMap = async (req, res) => {
                 maps: maps1,
             })
         });
+    } catch (err) {
+        console.log("err: " + err);
+        res.json(false);
+    }
+}
+onText = async (req, res) => {
+    try {
+        const { array, mapId } = req.body;
+        const map = await Map.findById(mapId);
+        let texts = map.texts
+        const oldTexts = await Text.find({ _id: { $in: texts } });
+        for(let index=0; index<array.length; index++){
+            console.log("Text: " + array[index].text +" "+ mapId);
+            //save new text
+            const newText = new Text({
+                text: array[index].text,
+                x: array[index].x,
+                y: array[index].y,
+            });
+            const savedText = await newText.save();
+            console.log("text saved");
+            //clean old text
+            if(texts.length != 0){
+                for (let i = oldTexts.length - 1; i >= 0; i--) {
+                    if (oldTexts[i].x == savedText.x && oldTexts[i].y == savedText.y) {
+                        await Text.deleteOne({_id: oldTexts[i]._id});
+                        console.log("text deleted");
+                        texts = texts.filter(text => text !== oldTexts[i]._id);
+                        break;
+                    }
+                }
+            }
+            //update map
+            texts.push(savedText._id)
+        }
+        await Map.updateOne(
+            {"_id": mapId},
+            {$set: {"texts": texts}})
+        console.log("text map updated");
+        res.status(200).send();
+    } catch (err) {
+        console.log("err: " + err);
+        res.json(false);
+    }
+}
+onColor = async (req, res) => {
+    try {
+        const { array, mapId } = req.body;
+        const map = await Map.findById(mapId);
+        let colors = map.colors
+        const oldColors = await Color.find({ _id: { $in: colors } });
+        for(let index=0; index<array.length; index++){
+            console.log("Color: " + array[index].color +" "+ mapId);
+            //save new color
+            const newColor = new Color({
+                color: array[index].color,
+                x: array[index].x,
+                y: array[index].y,
+            });
+            const savedColor = await newColor.save();
+            console.log("color saved");
+            //clean old legend
+            if(colors.length != 0){
+                for (let i = oldColors.length - 1; i >= 0; i--) {
+                    if (oldColors[i].x == savedColor.x && oldColors[i].y == savedColor.y) {
+                        await Color.deleteOne({_id: oldColors[i]._id});
+                        console.log("color deleted");
+                        colors = colors.filter(color => color !== oldColors[i]._id);
+                        break;
+                    }
+                }
+            }
+            //update map
+            colors.push(savedColor._id)
+        }
+        await Map.updateOne(
+            {"_id": mapId},
+            {$set: {"colors": colors}})
+        console.log("color map updated");
+        res.status(200).send();
+    } catch (err) {
+        console.log("err: " + err);
+        res.json(false);
+    }
+}
+onLegend = async (req, res) => {
+    try {
+        const { array, mapId } = req.body;
+        const map = await Map.findById(mapId);
+        let legends = map.legends
+        for(let index=0; index<array.length; index++){
+            console.log("Legend: " + array[index].color +" "+ array[index].label +" "+ mapId);
+            //save new legend
+            const newLegend = new Legend({
+                color: array[index].color,
+                label: array[index].label,
+            });
+            const savedLegend = await newLegend.save();
+            console.log("legend saved");
+            //update map
+            legends.push(savedLegend._id)
+        }
+        await Map.updateOne(
+            {"_id": mapId},
+            {$set: {"legends": legends}})
+        console.log("legend map updated");
+        res.status(200).send();
+    } catch (err) {
+        console.log("err: " + err);
+        res.json(false);
+    }
+}
+
+deleteLegend = async (req, res) => {
+    try {
+        const { legendId, mapId } = req.body;
+        console.log("delete legend: " + legendId);
+        await Legend.deleteOne({_id: legendId});
+        console.log("legend deleted");
+        const map = await Map.findById(mapId);
+        let legends = map.legends
+        for(let index=0; index<legends.length; index++){
+            if(legendId == legends[index]){
+                legends.splice(index, 1);
+            }
+        }
+        await Map.updateOne(
+            {"_id": mapId},
+            {$set: {"legends": legends}})
+        console.log("delete legend map updated");
+        res.status(200).send();
     } catch (err) {
         console.log("err: " + err);
         res.json(false);
@@ -531,4 +685,8 @@ module.exports = {
   shareMap,
   changeVisibility,
   searchMap,
+  onText,
+  onColor,
+  onLegend,
+  deleteLegend,
 };

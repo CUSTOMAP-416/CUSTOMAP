@@ -16,5 +16,9 @@ authStoreRouter.post("/deleteMap", AuthStoreController.deleteMap)
 authStoreRouter.post("/shareMap", AuthStoreController.shareMap)
 authStoreRouter.post("/changeVisibility", AuthStoreController.changeVisibility)
 authStoreRouter.post("/searchMap", AuthStoreController.searchMap)
+authStoreRouter.post("/onText", AuthStoreController.onText)
+authStoreRouter.post("/onColor", AuthStoreController.onColor)
+authStoreRouter.post("/onLegend", AuthStoreController.onLegend)
+authStoreRouter.post("/deleteLegend", AuthStoreController.deleteLegend)
 
 module.exports = authStoreRouter
