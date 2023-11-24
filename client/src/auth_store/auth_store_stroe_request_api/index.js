@@ -36,12 +36,13 @@ const getMap = (mapId) => {
     })
 };
 //function to handle the create a new map process const onCreateMap = async (map) => { ?
-const createMap = (mapData, mapTitle, user) => {
+const createMap = (mapData, mapTitle, mapDescription, user) => {
     // Serialize the data
     const serializedData = JSON.stringify(mapData);
     return api.post('/createMap/', {
         email : user.email,
         mapTitle : mapTitle,
+        mapDescription: mapDescription,
         mapData : serializedData,
     })
 };
@@ -87,10 +88,11 @@ const onVerification = (username, email, phone) => {
   });
 };
 //function to handle the edit map process 
-const onEditMap = (title, _id) => {
+const onEditMap = (title, description, _id) => {
     return api.post("/editMap/", {
         _id: _id,
-        title: title
+        title: title,
+        description: description
       });
 }
 //function to handle the fork map process 
@@ -104,11 +106,32 @@ const onAttachProperty = (map) => {}
 //function to handle the Discussion process 
 const onDiscussion = (map, user) => {}
 //function to handle the text process 
-const onText = (map) => {}
+const onText = (array, mapId) => {
+    return api.post("/onText/", {
+        array: array,
+        mapId: mapId, 
+    });
+}
 //function to handle the Color process 
-const onColor = (map) => {}
+const onColor = (array, mapId) => {
+    return api.post("/onColor/", {
+        array: array,
+        mapId: mapId, 
+    });
+}
 //function to handle the Legend process 
-const onLegend = (map) => {}
+const onLegend = (array, mapId) => {
+    return api.post("/onLegend/", {
+        array: array,
+        mapId: mapId, 
+    });
+}
+const deleteLegend = (legendId, mapId) => {
+    return api.post("/deleteLegend/", {
+        legendId: legendId,
+        mapId: mapId, 
+    });
+}
 //function to handle the search process
 const changeVisibility = (mapId, visibility) => {
     return api.post("/changeVisibility/", {
@@ -151,6 +174,7 @@ const apis = {
     getArrayDiscussions,
     getUserMaps,
     changeVisibility,
+    deleteLegend,
 }
 
 export default apis

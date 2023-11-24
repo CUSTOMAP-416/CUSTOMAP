@@ -12,47 +12,31 @@ import { timeout } from "async";
 export default function DashboardCreateOrEditMapView() {
   const { auth_store } = useContext(AuthStoreContextProvider);
 
-  const [history, setHistory] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
 
   //function to handle the create a new map process
   const onCreateMap = () => {
-    auth_store.createMap(mapData, mapTitle);
+    auth_store.createMap(mapData, mapTitle, mapDescription);
     alert("Created successfully!")
     setMapData(null)
     setMapTitle('')
+    setMapDescription('')
   };
-  //function to handle the fork map process
-  const onForkMap = () => {
-    auth_store.onForkMap();
-  };
-  //function to handle the attach property process
-  const onAttachProperty = (state) => {
-    auth_store.onAttachProperty(state);
-  };
-  //function to handle the redo process.
-  const onRedo = () => {
-    auth_store.onRedo();
-  };
-  //function to handle the undo process.
-  const onUndo = () => {
-    auth_store.onUndo();
-  };
+
   //function to handle open customize tool Screen.
   const openCustomizeTool = (map) => {
     auth_store.openCustomizeTool(map);
   };
 
+  const [texts, setTexts] = useState([]);
+  const [colors, setColors] = useState([]);
+  const [legends, setLegends] = useState([]);
   //Stores the map data.
   const [mapData, setMapData] = useState(null);
   //Stores the map title input.
   const [mapTitle, setMapTitle] = useState("");
   //Stores the map description input.
   const [mapDescription, setMapDescription] = useState("");
-  //Stores the property key input.
-  const [propertyKey, setPropertyKey] = useState("");
-  //Stores the property value input.
-  const [propertyValue, setPropertyValue] = useState("");
 
   //Handles map title changes.
   const handleMapTitleChange = (event) => {
@@ -61,14 +45,6 @@ export default function DashboardCreateOrEditMapView() {
   //Handles map description changes.
   const handleMapDescriptionChange = (event) => {
     setMapDescription(event.target.value);
-  };
-  //Handles Property Key changes.
-  const handlePropertyKeyChange = (event) => {
-    setPropertyKey(event.target.value);
-  };
-  //Handles Property Value changes.
-  const handlePropertyValueChange = (event) => {
-    setPropertyValue(event.target.value);
   };
   //Handles file uploads.
   const handleUploadFile = (event) => {
@@ -129,16 +105,6 @@ export default function DashboardCreateOrEditMapView() {
       }
     }
   };
-  //Handles attach property button click.
-  const handleAttachProperty = () => {
-    const state = {
-      key: propertyKey,
-      value: propertyValue,
-    };
-    onAttachProperty(state);
-  };
-
-  
 
   //Handles the map customization button click.
   const handleCustomizeTool = () => {
@@ -152,16 +118,12 @@ export default function DashboardCreateOrEditMapView() {
   const handleForkContent = (name) => {
     auth_store.onForkMap(name);
   };
-  //Handles the undo button click.
-  const handleUndo = () => {
-    onUndo();
-  };
-  //Handles the redo button click.
-  const handleRedo = () => {
-    onRedo();
-  };
   //Handles cancel button click.
-  const handleCancel = () => {};
+  const handleCancel = () => {
+    setMapData(null)
+    setMapTitle('')
+    setMapDescription('')
+  };
   //Handles map create button click.
   const handleCreateMap = () => {
     if(mapData == null || mapTitle == ""){
@@ -176,9 +138,9 @@ export default function DashboardCreateOrEditMapView() {
   };
   //Handles map Edit button click.
   const handleEditMap = () => {
-    if(mapTitle != auth_store.selectMap.title){
+    if(mapTitle != auth_store.selectMap.title || mapDescription != auth_store.selectMap.description){
       //function to handle the edit map process
-      auth_store.onEditMap(mapTitle);
+      auth_store.onEditMap(mapTitle, mapDescription);
     }
     alert("Success Changed!")
   };
@@ -214,7 +176,11 @@ export default function DashboardCreateOrEditMapView() {
     if(!auth_store.isCreatePage && auth_store.selectMap != null){
       setTimeout(function() {
         setMapData(auth_store.selectMap.mapData)
+        setTexts(auth_store.selectMap.texts)
+        setColors(auth_store.selectMap.colors)
+        setLegends(auth_store.selectMap.legends)
         setMapTitle(auth_store.selectMap.title)
+        setMapDescription(auth_store.selectMap.description)
         setVisibility(auth_store.selectMap.visibility)
       }, 100);
     }
@@ -247,6 +213,13 @@ export default function DashboardCreateOrEditMapView() {
                 onClick={() => handleCustomizeTool()}>
                 Map Customize Tool
               </Link>
+              <button
+               className="button upload"
+               type="button"
+               id="saveButton"
+              >
+               Export Map
+              </button>
             </div>
             }
           </div>
@@ -268,23 +241,12 @@ export default function DashboardCreateOrEditMapView() {
               Upload File
             </button>
 
-           
-
             <button
               className="button fork"
               type="button"
               onClick={() => handleForkMap()}>
               Fork Map
             </button>
-
-            <button
-              className="button upload"
-              type="button"
-              id="saveButton"
-            >
-              Export Map
-            </button>
-
             <p className="file-types">↑ Available on SHP/DBF, GeoJSON, KML</p>
             {isForkOpen && (
               <div className="fork-content">
@@ -296,7 +258,6 @@ export default function DashboardCreateOrEditMapView() {
                 <a onClick={() => handleForkContent("Asia")}>Asia</a>
                 <a onClick={() => handleForkContent("World")}>World</a>
               </div>
-
             )}
             {auth_store.isCreatePage ? "":
             <div>
@@ -313,35 +274,21 @@ export default function DashboardCreateOrEditMapView() {
         </div>
         <div className="create-content">
           <div className="property-bar">
-            <label>Property</label>
+            <label>Map Description</label>
             <input
               type="text"
-              id="key"
-              placeholder="Property Key"
-              value={propertyValue}
-              onChange={handlePropertyValueChange}
+              placeholder="Description"
+              value={mapDescription}
+              onChange={handleMapDescriptionChange }
             />
-            <input
-              type="text"
-              id="value"
-              placeholder="Property Value"
-              value={propertyValue}
-              onChange={handlePropertyValueChange}
-            />
-            <button className="attach-btn" onClick={() => handleAttachProperty()}>
-              Attach
-            </button>
-            <div className="icons">
-              <button className="icon-link" onClick={() => handleUndo()}>
-                ↩
-              </button>
-              <button className="icon-search" onClick={() => handleRedo()}>
-                ↪
-              </button>
-            </div>
           </div>
         </div>
-        <MapComponent mapData={mapData} />
+        <MapComponent 
+          mapData={mapData}
+          texts={texts}
+          colors={colors}
+          legends={legends} 
+        />
         {errorMessage && <p className="error-message" style={{color:"red"}}>{errorMessage}</p>}
         <div className="create-map-bottom-bar">
           <input

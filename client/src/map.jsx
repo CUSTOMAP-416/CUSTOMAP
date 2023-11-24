@@ -21,6 +21,9 @@ class MapComponent extends Component {
   }
 
   componentDidMount() {
+    this.setState({
+      legendItems: this.props.legends,
+    })
     if (!this.mapInitialized) {
       // Initialize Leaflet map only if it hasn't been initialized
       const map = L.map(this.mapContainerRef.current).setView(
@@ -35,6 +38,7 @@ class MapComponent extends Component {
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(map);
 
+      L.marker([40.915734, 286.87721]).addTo(map);
 
       // Set the map object in the component state
       this.setState({ map });
@@ -80,80 +84,133 @@ class MapComponent extends Component {
   handleSelectColor = (event) => {
     this.setState({ selectedColor: event.target.value });
   };
-  //-------------------onEachFeature --------------------
+//-------------------onEachFeature --------------------
   onEachFeature = (feature, layer) => {
     if (feature.properties.admin != null) {
+      let text = feature.properties.admin
+      for(let i=0; i<this.props.texts.length; i++){
+        if(this.props.texts[i].x==feature.properties.label_x && this.props.texts[i].y==feature.properties.label_y){
+          text = this.props.texts[i].text;
+          break;
+        }
+      }
       const label = L.divIcon({
         className: "label",
-        html: `<div>${feature.properties.admin}</div>`,
+        html: `<div>${text}</div>`,
       });
       // Create a marker with the label and add it to the map
-      var marker = L.marker(layer.getBounds().getCenter(), {
-        icon: label,
-      });
-
+      var marker = L.marker([feature.properties.label_y, feature.properties.label_x], {
+                        icon: label,
+                    });
       // Add the marker to the map
-      // marker.addTo(this.state.map);
-      this.state.map.addLayer(marker);
-
+      this.state.map.addLayer(marker)
     }
-    layer.on({
-      mouseover: this.highlightFeature,
-      mouseout: this.resetHighlight,
-      click: (e) => {
-        const currentLayer = e.target;
-        const layerId = L.stamp(currentLayer); // Unique ID for each polygon
-        if (this.state.paintedLayers[layerId]) {
-          // Remove color if already painted polygon is clicked
-          currentLayer.setStyle({
-            fillColor: "", // remove Fill color
-            fillOpacity: 0, // Fill opacity 0
-          });
-          this.setState((prevState) => {
-            const newPaintedLayers = { ...prevState.paintedLayers };
-            delete newPaintedLayers[layerId];
-            return { paintedLayers: newPaintedLayers };
-          });
-        } else {
-          // If you click on a new polygon, apply the selected color
-          currentLayer.setStyle({
-            fillColor: this.props.selectedColor,
-            fillOpacity: 0.3,
-            weight: 1,
-          });
-          this.setState((prevState) => ({
-            paintedLayers: {
-              ...prevState.paintedLayers,
-              [layerId]: this.props.selectedColor,
-            },
-          }));
-        }
 
-        this.updateLabel(currentLayer, marker, feature, this.props.changedText);
-      },
-    });
+    for(let i=0; i<this.props.colors.length; i++){
+      if(this.props.colors[i].x==feature.properties.label_x && this.props.colors[i].y==feature.properties.label_y){
+        layer.setStyle({
+          fillColor: this.props.colors[i].color,
+          fillOpacity: 0.2,
+          weight: 1,
+        });
+        this.setState((prevState) => {
+          return {paintedLayers: {
+            ...prevState.paintedLayers,
+            [L.stamp(layer)]: true,
+          }};
+        });
+        break;
+      }
+    }
+    if(!this.props.isCreatePage){
+      layer.on({
+        mouseover: this.highlightFeature,
+        mouseout: this.resetHighlight,
+        click: (e) => {
+          const currentLayer = e.target;
+          const layerId = L.stamp(currentLayer); // Unique ID for each polygon
+          let state = null;
+
+          if (currentLayer.options.fillOpacity === 0.2) {
+            let state = {
+              type: 'color',
+              id: layerId,
+              previous: currentLayer.options.fillColor,
+              value: {
+                color: "",
+                x: feature.properties.label_x,
+                y: feature.properties.label_y,
+              }
+            }
+            this.props.handleCustomization(state)
+            // Remove color if already painted polygon is clicked
+            currentLayer.setStyle({
+              fillColor: "", // remove Fill color
+              fillOpacity: 0, // Fill opacity 0
+            });
+            this.setState((prevState) => {
+              return {paintedLayers: { 
+                ...prevState.paintedLayers,
+                [layerId]: false,
+              }};
+            });
+          } 
+          else {
+            state = {
+              type: 'color',
+              id: layerId,
+              previous: currentLayer.options.fillColor,
+              value: {
+                color: this.props.selectedColor,
+                x: feature.properties.label_x,
+                y: feature.properties.label_y,
+              }
+            }
+            this.props.handleCustomization(state)
+            // If you click on a new polygon, apply the selected color
+            currentLayer.setStyle({
+              fillColor: this.props.selectedColor,
+              fillOpacity: 0.2,
+              weight: 1,
+            });
+            this.setState((prevState) => {
+              return {paintedLayers: {
+                ...prevState.paintedLayers,
+                [layerId]: true,
+              }};
+            });
+          }
+
+          if(this.props.changedText && marker._icon.innerText != this.props.changedText){
+            state = {
+              type: 'text',
+              id: marker._leaflet_id,
+              previous: marker._icon.innerText,
+              value: {
+                text: this.props.changedText,
+                x: feature.properties.label_x,
+                y: feature.properties.label_y,
+              }
+            }
+            this.props.handleCustomization(state)
+            this.updateLabel(currentLayer, marker, feature, this.props.changedText);
+          }
+        },
+      });
+    }
   };
 
   updateLabel = (layer, marker, feature, text) => {
-    if (text) {
-      
       if (feature.properties.admin != null) {
-        // this.state.map.removeLayer(marker);
         const label = L.divIcon({
           className: "label",
-          html: `<div style="color: black;">${text}</div>`,
-        });
-        // const marker = L.marker(layer.getBounds().getCenter(), {
-        //   icon: label,
-        // });
-        marker.setIcon(label);
-        // marker.addTo(this.state.map);
+          html: `<div>${text}</div>`,
+      });
+      
+      marker.setIcon(label);
       }
-      feature.properties.admin = text;
-    }
   };
 
-  
 
   renderMap = () => {
     const { map, geojsonLayer } = this.state;
@@ -174,79 +231,21 @@ class MapComponent extends Component {
       }).addTo(map);
       printer.printMap('CurrentSize', 'MyManualPrint')
     }
-    
+
 
     document.getElementById("saveButton").addEventListener("click", manualPrint);
   };
+  
+  
+  updateFont = () => {
+    const elements = document.getElementsByClassName("label");
 
-  // csrenderMap = () => {
-  //   // Changed
-  //   const { map, geojsonLayer } = this.state;
-  //   if (map && geojsonLayer && geojsonLayer.type === "FeatureCollection") {
-  //     const layer = L.geoJSON(geojsonLayer, {
-  //       onEachFeature: (feature, layer) => {
-  //         // Access feature properties and create a label
-  //         if (feature.properties.admin != null) {
-  //           const label = L.divIcon({
-  //             className: "label",
-  //             html: `<div>${feature.properties.admin}</div>`,
-  //           });
-
-  //           // Create a marker with the label and add it to the map
-  //           const marker = L.marker(layer.getBounds().getCenter(), {
-  //             icon: label,
-  //           });
-
-  //           // Add the marker to the map
-  //           marker.addTo(this.state.map);
-  //         }
-  //       },
-  //     });
-  //     // Add the new GeoJSON layer to the map
-  //     layer.addTo(map);
-
-  //     // Fit the map bounds to the GeoJSON layer
-  //     map.fitBounds(layer.getBounds());
-  //     this.setState({ geojsonLayer: layer });
-  //   }
-  // };
-
-  updateAllLabels = () => {
-    const { map, geojsonLayer } = this.state;
-    if (map && geojsonLayer) {
-      map.eachLayer((layer) => {
-        if (layer instanceof L.Marker) {
-          map.removeLayer(layer);
-        }
-      });
-
-      geojsonLayer.eachLayer((layer) => {
-        const feature = layer.feature;
-        if (feature && feature.properties.admin !== this.props.changedText) {
-          const label = L.divIcon({
-            className: "label",
-            html: `<div style="font-family: ${this.props.changedFont};">${feature.properties.admin}</div>`,
-          });
-          const newMarker = L.marker(layer.getBounds().getCenter(), {
-            icon: label,
-          });
-          console.log("Adding new marker:", newMarker);
-          newMarker.addTo(map);
-        }
-        if (feature && feature.properties.admin === this.props.changedText) {
-          const label = L.divIcon({
-            className: "label",
-            html: `<div style="font-family: ${this.props.changedFont};">${this.props.changedText}</div>`,
-          });
-          const newMarker = L.marker(layer.getBounds().getCenter(), {
-            icon: label,
-          });
-          console.log("Adding new marker:", newMarker);
-          newMarker.addTo(map);
-        }
-      });
+    // Loop through each element and change the font-family style
+    for (let i = 0; i < elements.length; i++) {
+      elements[i].style.fontFamily = this.props.changedFont;
     }
   };
+  
 
   clearmap = () => {
     const { map, geojsonLayer } = this.state;
@@ -263,14 +262,113 @@ class MapComponent extends Component {
     }
   };
 
+  undo = (customization) => {
+    if(customization.type == 'color'){
+      let layer=this.state.geojsonLayer.getLayer(customization.id)
+      if(customization.previous == "#3388ff" || customization.value.color == "#ffffff" || customization.previous == null){
+        layer.setStyle({
+          fillColor: "",
+          fillOpacity: 0,
+        });
+        this.setState((prevState) => {
+          return {paintedLayers: { 
+            ...prevState.paintedLayers,
+            [L.stamp(layer)]: false,
+          }};
+        });
+      }
+      else{
+        layer.setStyle({
+          fillColor: customization.previous,
+          fillOpacity: 0.2,
+          weight: 1,
+        });
+        this.setState((prevState) => {
+          return {paintedLayers: {
+            ...prevState.paintedLayers,
+            [L.stamp(layer)]: true,
+          }};
+        });
+      }
+    }
+    else if(customization.type == 'text'){
+      const id = customization.id
+      const text = customization.previous
+      this.state.map.eachLayer(function(layer){
+        if(layer._leaflet_id == id){
+          const label = L.divIcon({
+            className: "label",
+            html: `<div>${text}</div>`,
+          });
+          layer.setIcon(label);
+          return;
+        }
+      });
+    }
+  }
+
+  redo = (customization) => {
+    if(customization.type == 'color'){
+      let layer=this.state.geojsonLayer.getLayer(customization.id)
+      if(customization.value.color == "#3388ff" || customization.value.color == "#ffffff" || customization.value.color == null){
+        layer.setStyle({
+          fillColor: "",
+          fillOpacity: 0,
+        });
+        this.setState((prevState) => {
+          return {paintedLayers: { 
+            ...prevState.paintedLayers,
+            [L.stamp(layer)]: false,
+          }};
+        });
+      }
+      else{
+        layer.setStyle({
+          fillColor: customization.value.color,
+          fillOpacity: 0.2,
+          weight: 1,
+        });
+        this.setState((prevState) => {
+          return {paintedLayers: {
+            ...prevState.paintedLayers,
+            [L.stamp(layer)]: true,
+          }};
+        });
+      }
+    }
+    else if(customization.type == 'text'){
+      const id = customization.id
+      const text = customization.value.color
+      this.state.map.eachLayer(function(layer){
+        if(layer._leaflet_id == id){
+          const label = L.divIcon({
+            className: "label",
+            html: `<div>${text}</div>`,
+          });
+          layer.setIcon(label);
+          return;
+        }
+      });
+    }
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.mapData !== this.props.mapData) {
       this.loadFile(this.props.mapData);
     }
     if (prevProps.changedFont !== this.props.changedFont) {
-      this.updateAllLabels();
+      this.updateFont();
     }
+    if (prevProps.customization !== this.props.customization){
+      if(this.props.customization.redoUndo == 'redo'){
+        this.redo(this.props.customization.custom)
+      }
+      else if(this.props.customization.redoUndo == 'undo'){
+        this.undo(this.props.customization.custom)
+      }
+    } 
   }
+
 
   render() {
     const { style, width, height } = this.props;

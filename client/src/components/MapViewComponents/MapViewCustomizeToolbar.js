@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from 'react';
 import AuthStoreContextProvider from '../../auth_store';
 import '../../styles/MapView.css';
 
-export default function MapViewCustomizeToolbar({ onFontChange, onTextChange, onColorChange }) {
+export default function MapViewCustomizeToolbar({ onFontChange, onTextChange, onColorChange, onUndo, onRedo, onSave}) {
     const { auth_store } = useContext(AuthStoreContextProvider);
 
     const [text, setText] = useState("");
@@ -63,7 +63,7 @@ export default function MapViewCustomizeToolbar({ onFontChange, onTextChange, on
 
     const handleAppliedTextChange = () => {
         onTextChange(text);
-        onText(text);
+        //onText(text);
     }
 
     //Handle the Select Color button click.
@@ -75,26 +75,13 @@ export default function MapViewCustomizeToolbar({ onFontChange, onTextChange, on
         const newColor = event.target.value;
         setColor(newColor);
         onColorChange(newColor); 
-        onColor(event);
-    };
-    //Handle show legend list.
-    const handleShowLegends = () => {};
-    //Handle the legend button click.
-    const handleLegend = (event) => {
-        setSelectedTool(event);
-    };
-    //Handle the Change Legend button click.
-    const handleChangeLegend = (event) => {
-        onLegend(event);
+        //onColor(event);
     };
 
-    const handleSave = (event) => {
-        setSelectedTool(event);
-    };
         
         return (
             <div>
-                <div class="customize-toolbar">
+                <div className="customize-toolbar">
                     <select type="buton" id="text-select" onChange={(e)=>{handleSelectFont(e)}}>
                         <option value="none">Font</option>
                         <option value="Arial" style={{fontFamily: "Arial"}}>Arial</option>
@@ -103,34 +90,39 @@ export default function MapViewCustomizeToolbar({ onFontChange, onTextChange, on
                         <option value="Times New Roman" style={{fontFamily: "Times New Roman"}}>Times New Roman</option>
                     </select>
 
-            <div id="color-button" className="color-picker-container">
-            <button
-                className="color-picker-button"
-                style={{ backgroundColor: color }}
-                onClick={handleButtonClick}
-            >
-                Pick a Color
-            </button>
-            {showPicker && (
-                <input
-                type="color"
-                className="color-picker"
-                value={color}
-                onChange={handleSelectColor}
-                />
-            )}
+                    <div id="color-button" className="color-picker-container">
+                    <button
+                        className="color-picker-button"
+                        style={{ backgroundColor: color }}
+                        onClick={handleButtonClick}
+                    >
+                        Pick a Color
+                    </button>
+                    {showPicker && (
+                        <input
+                        type="color"
+                        className="color-picker"
+                        value={color}
+                        onChange={handleSelectColor}
+                        />
+                    )}
+                </div>
+                <input style={{ backgroundColor: "rgb(218, 237, 213)" }} onChange={(event)=>handleTextChange(event)}></input>
+                <button id="save-button" type="button" onClick={() => handleAppliedTextChange()}>
+                Applied Text Change
+                </button>
+                <button id="save-button" type="button" onClick={() => onSave()}>
+                SAVE
+                </button>
             </div>
-            <button id="legend-button" type="button" onClick={() => handleLegend()}>
-            Legend
-            </button>
-            <input style={{ backgroundColor: "rgb(218, 237, 213)" }} onChange={(event)=>handleTextChange(event)}></input>
-            <button id="save-button" type="button" onClick={() => handleAppliedTextChange()}>
-            Applied Change
-            </button>
-            <button id="save-button" type="button" onClick={() => handleSave()}>
-            SAVE
-            </button>
-        </div>
+            <div className="icons">
+                <button className="icon-link" onClick={() => onUndo()}>
+                ↩
+                </button>
+                <button className="icon-search" onClick={() => onRedo()}>
+                ↪
+                </button>
+            </div>
         </div>
     );
 }
