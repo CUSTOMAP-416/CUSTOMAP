@@ -107,6 +107,7 @@ function AuthStoreContextProvider(props) {
                 type: AuthStoreActionType.null,
                 payload: null,
             });
+            return response.data.users;
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)

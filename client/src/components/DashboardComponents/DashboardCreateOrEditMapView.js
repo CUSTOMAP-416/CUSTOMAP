@@ -195,7 +195,7 @@ export default function DashboardCreateOrEditMapView() {
       <div>
         <div className="creat-banner">
           <div className="title-section">
-            <div className="dashboard-header">{auth_store.isCreatePage ? 'Creat Map' : 'Edit Map'}</div>
+            <div className="dashboard-header">{auth_store.isCreatePage ? 'Create Map' : 'Edit Map'}</div>
             {auth_store.isCreatePage ?'':
             <div>
               <button
@@ -280,6 +280,7 @@ export default function DashboardCreateOrEditMapView() {
             <label>Map Description</label>
             <input
               type="text"
+              data-cy="create_discrip"
               placeholder="Description"
               value={mapDescription}
               onChange={handleMapDescriptionChange }
@@ -296,6 +297,7 @@ export default function DashboardCreateOrEditMapView() {
         <div className="create-map-bottom-bar">
           <input
             type="text"
+            data-cy="create_mapname"
             id="map-name"
             placeholder="Map Name"
             value={mapTitle}
@@ -305,10 +307,10 @@ export default function DashboardCreateOrEditMapView() {
             Cancel
           </button>
           {auth_store.isCreatePage 
-            ? <button id="create-button" onClick={() => handleCreateMap()}>
+            ? <button id="create-button" data-cy="create_but" onClick={() => handleCreateMap()}>
               Create Map
               </button>
-            : <button id="edit-button" onClick={() => handleEditMap()}>
+            : <button id="edit-button" data-cy="create_edit"onClick={() => handleEditMap()}>
               Edit Map
               </button>}
         </div>

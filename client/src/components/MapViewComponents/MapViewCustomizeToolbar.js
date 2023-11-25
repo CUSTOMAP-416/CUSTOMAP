@@ -107,7 +107,7 @@ export default function MapViewCustomizeToolbar({ onFontChange, onTextChange, on
                         />
                     )}
                 </div>
-                <input style={{ backgroundColor: "rgb(218, 237, 213)" }} onChange={(event)=>handleTextChange(event)}></input>
+                <input data-cy="custom_text" style={{ backgroundColor: "rgb(218, 237, 213)" }} onChange={(event)=>handleTextChange(event)}></input>
                 <button id="save-button" type="button" onClick={() => handleAppliedTextChange()}>
                 Applied Text Change
                 </button>
