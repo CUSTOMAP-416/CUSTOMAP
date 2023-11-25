@@ -411,7 +411,27 @@ margin-bottom: 20px;
     border-radius: 4px;
     width: 60%;
   }
-
+  
+  .fork-content {
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 150px;
+    min-height: 5px;
+  }
+  
+  .fork-content a {
+    float: none;
+    color: black;
+    padding: 5px 10px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+  }
+  
+  .fork-content a:hover {
+    background-color: #ddd;
+  }
+  
   
   /* Adjustments for small screens */
   @media screen and (max-width: 600px) {

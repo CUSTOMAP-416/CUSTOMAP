@@ -74,7 +74,9 @@ export default function DashboardMyProfileView(){
     return (
       <div className="myprofile_all">
         <div className="myprofile_H">My Profile</div>
-        <div style={{color: "grey", paddingTop: "20px", paddingLeft: "10px"}}>User email cannot be changed</div>
+        <div style={{ color: "grey", paddingTop: "20px", paddingLeft: "10px" }}>
+          User email cannot be changed
+        </div>
         <div className="profi_bottoms">
           <div className="profi_content">
             <div className="profile_left">
@@ -106,6 +108,7 @@ export default function DashboardMyProfileView(){
               <div>
                 <input
                   type="text"
+                  data-cy="profile_phone"
                   className="profile_input"
                   value={phone}
                   onChange={handlePhoneChange}

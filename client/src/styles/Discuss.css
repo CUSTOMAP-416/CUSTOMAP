@@ -65,3 +65,7 @@
     font-weight: 700;
 
   }
+  .label {
+    font-family: Arial;
+    color: black;
+  }

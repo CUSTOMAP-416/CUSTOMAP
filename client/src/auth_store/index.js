@@ -23,6 +23,8 @@ function AuthStoreContextProvider(props) {
       isCreatePage: true,
       errorMessage: null,
       successMessage: null,
+      forkMap: null,
+      searchMaps: null,
     });
 
     const history = useNavigate();
@@ -105,6 +107,7 @@ function AuthStoreContextProvider(props) {
                 type: AuthStoreActionType.null,
                 payload: null,
             });
+            return response.data.users;
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
@@ -183,8 +186,8 @@ function AuthStoreContextProvider(props) {
         });
     }
     //function to handle the create a new map process const onCreateMap = async (map) => { ?
-    auth_store.createMap= async function (mapData, mapTitle) {
-        await apis.createMap(mapData, mapTitle, auth_store.user).then(response => {
+    auth_store.createMap= async function (mapData, mapTitle, mapDescription) {
+        await apis.createMap(mapData, mapTitle, mapDescription, auth_store.user).then(response => {
             const user = this.user
             user.maps.push(response.data.map)
             setAuthStore((prevAuthStore) => ({
@@ -216,12 +219,28 @@ function AuthStoreContextProvider(props) {
         });
     }
     //function to handle delete map process. const onDeleteMap = async (map) => { ?
-    auth_store.deleteMap= async function () {
-        await apis.deleteMap().then(response => {
-            auth_storeReducer({
-                type: AuthStoreActionType.null,
-                payload: null,
-            });
+    auth_store.deleteMap= async function (id) {
+        let maps =[]
+        for(let i=0; i<this.user.maps.length; i++){
+            if(this.user.maps[i]._id != id){
+                maps.push(this.user.maps[i])
+            }
+        }
+        this.user.maps = maps
+        await apis.deleteMap(id).then(response => {
+            return ''
+        })
+        .catch(error => {
+            console.log(error.response.data.errorMessage)
+            return setAuthStore((prevAuthStore) => ({
+                ...prevAuthStore,
+                errorMessage: error.response.data.errorMessage
+            }));
+        });
+    }
+    auth_store.shareMap= async function (mapId, email) {
+        await apis.shareMap(mapId, email).then(response => {
+            return ''
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
@@ -238,6 +257,10 @@ function AuthStoreContextProvider(props) {
                 type: AuthStoreActionType.LOGIN_USER,
                 payload: response.data.user,
             });
+            setAuthStore((prevAuthStore) => ({
+                ...prevAuthStore,
+                errorMessage: null,
+              }));
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
@@ -280,15 +303,17 @@ function AuthStoreContextProvider(props) {
         });
     }
     //function to handle the edit map process 
-    auth_store.onEditMap= async function (title) {
+    auth_store.onEditMap= async function (title, description) {
         for(let i=0; i<this.user.maps.length; i++){
             if(this.user.maps[i]._id == this.selectMap._id){
                 this.user.maps[i].title = title
                 this.selectMap.title = title;
+                this.user.maps[i].description = description
+                this.selectMap.description = description;
                 break;
             }
         }
-        await apis.onEditMap(title, this.selectMap._id).then(response => {
+        await apis.onEditMap(title, description, this.selectMap._id).then(response => {
             return ''
         })
         .catch(error => {
@@ -300,12 +325,12 @@ function AuthStoreContextProvider(props) {
         });
     }
     //function to handle the fork map process 
-    auth_store.onForkMap= async function () {
-        await apis.onForkMap().then(response => {
-            auth_storeReducer({
-                type: AuthStoreActionType.null,
-                payload: null,
-            });
+    auth_store.onForkMap= async function (name) {
+        await apis.onForkMap(name).then(response => {
+            return setAuthStore((prevAuthStore) => ({
+                ...prevAuthStore,
+                forkMap: response.data.geojson,
+            }))
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
@@ -348,12 +373,9 @@ function AuthStoreContextProvider(props) {
         });
     }
     //function to handle the text process 
-    auth_store.onText= async function () {
-        await apis.onText().then(response => {
-            auth_storeReducer({
-                type: AuthStoreActionType.null,
-                payload: null,
-            });
+    auth_store.onText= async function (array) {
+        await apis.onText(array, this.selectMap._id).then(response => {
+            return
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
@@ -364,12 +386,9 @@ function AuthStoreContextProvider(props) {
         });
     }
     //function to handle the Color process 
-    auth_store.onColor= async function () {
-        await apis.onColor().then(response => {
-            auth_storeReducer({
-                type: AuthStoreActionType.null,
-                payload: null,
-            });
+    auth_store.onColor= async function (array) {
+        await apis.onColor(array, this.selectMap._id).then(response => {
+            return
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
@@ -380,12 +399,21 @@ function AuthStoreContextProvider(props) {
         });
     }
     //function to handle the Legend process 
-    auth_store.onLegend= async function () {
-        await apis.onLegend().then(response => {
-            auth_storeReducer({
-                type: AuthStoreActionType.null,
-                payload: null,
-            });
+    auth_store.onLegend= async function (array) {
+        await apis.onLegend(array, this.selectMap._id).then(response => {
+            return
+        })
+        .catch(error => {
+            console.log(error.response.data.errorMessage)
+            return setAuthStore((prevAuthStore) => ({
+                ...prevAuthStore,
+                errorMessage: error.response.data.errorMessage
+            }));
+        });
+    }
+    auth_store.deleteLegend= async function (legendId) {
+        await apis.deleteLegend(legendId, this.selectMap._id).then(response => {
+            return
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
@@ -396,12 +424,24 @@ function AuthStoreContextProvider(props) {
         });
     }
     //function to handle the search process 
-    auth_store.onSearch= async function () {
-        await apis.onSearch().then(response => {
-            auth_storeReducer({
-                type: AuthStoreActionType.null,
-                payload: null,
-            });
+    auth_store.changeVisibility= async function (mapId, visibility) {
+        await apis.changeVisibility(mapId, visibility).then(response => {
+            return ''
+        })
+        .catch(error => {
+            console.log(error.response.data.errorMessage)
+            return setAuthStore((prevAuthStore) => ({
+                ...prevAuthStore,
+                errorMessage: error.response.data.errorMessage
+            }));
+        });
+    }
+    auth_store.onSearch= async function (searchTerm) {
+        await apis.onSearch(searchTerm).then(response => {
+            return setAuthStore((prevAuthStore) => ({
+                ...prevAuthStore,
+                searchMaps: response.data.maps
+            }));
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)

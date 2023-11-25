@@ -110,6 +110,7 @@ export default function ForgetPassword(){
           <div>
             <input
               className="f_input"
+              data-cy="forget_name"
               type="text"
               value={name}
               onChange={handleNameChange}
@@ -118,6 +119,7 @@ export default function ForgetPassword(){
           <div>
             <input
               className="f_input"
+              data-cy="forget_email"
               type="text"
               value={email}
               onChange={handleEmailChange}
@@ -126,6 +128,7 @@ export default function ForgetPassword(){
           <div>
             <input
               className="f_input"
+              data-cy="forget_phone"
               type="text"
               value={phone}
               onChange={handlePhoneChange}

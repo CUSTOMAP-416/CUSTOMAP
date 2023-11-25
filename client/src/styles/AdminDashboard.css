@@ -109,7 +109,24 @@ body {
 .right-align{
     text-align: right;
 }
+.sort-tool{
+    width: 60px;
+    padding: 5px 5px;
+    background: #1F8505;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 1px 1px 1px black;
+    font-family: DM Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    color: #FFFFFF;
+}
 
+.sort-tool:active {
+    box-shadow: 0px 0px 1px black; /* 그림자 크기 변경 */
+}
 .sort-button {
     font-size: 16px;
     font-weight: bold;
@@ -137,3 +154,4 @@ body {
     background-color: #B8D6B0;
     border-color: #B8D6B0;
 }
+

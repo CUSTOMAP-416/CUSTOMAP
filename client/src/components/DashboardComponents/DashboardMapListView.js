@@ -49,7 +49,7 @@ export default function DashboardMapListView({ handleEditView }){
                     <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
                         <div className='map-name'>{mapsId[i].title}</div>
                         <button className="delete" onClick={() => handleEdit(mapsId[i]._id)}>Edit</button>
-                        <button className="delete" onClick={() => handleDeleteMap()}>X</button>
+                        <button className="delete" onClick={() => handleDeleteMap(mapsId[i]._id)}>X</button>
                     </div>
                     <Link to="/MapView/" onClick={() => handleMapSelect(mapsId[i]._id)}>
                         <img className="map" src={map} alt="My SVG" />
@@ -61,7 +61,8 @@ export default function DashboardMapListView({ handleEditView }){
     }
     //Handles map delete button click. 
     const handleDeleteMap = (event) => {
-        deleteMap(event)
+        auth_store.deleteMap(event)
+        handleSortingChange("Recent Date")
     }
     //Handles map edit button click. 
     const handleEdit = (id) => {
@@ -79,7 +80,7 @@ export default function DashboardMapListView({ handleEditView }){
                     <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
                         <div className='map-name'>{auth_store.user.maps[i].title}</div>
                         <button className="delete" onClick={() => handleEdit(auth_store.user.maps[i]._id)}>Edit</button>
-                        <button className="delete" onClick={() => handleDeleteMap()}>X</button>
+                        <button className="delete" onClick={() => handleDeleteMap(auth_store.user.maps[i]._id)}>X</button>
                     </div>
                     <Link to="/MapView/" onClick={() => handleMapSelect(auth_store.user.maps[i]._id)}>
                         <img className="map" src={map} alt="My SVG" />
