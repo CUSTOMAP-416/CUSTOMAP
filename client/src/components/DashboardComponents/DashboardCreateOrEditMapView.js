@@ -224,30 +224,33 @@ export default function DashboardCreateOrEditMapView() {
             }
           </div>
           <div className="button-section">
-            <input
-              type="file"
-              id="creatmap-fileInput"
-              accept=".zip,.kml,.geojson"
-              onChange={handleUploadFile}
-            />
+            {auth_store.isCreatePage ?
+            <div>
+              <input
+                type="file"
+                id="creatmap-fileInput"
+                accept=".zip,.kml,.geojson"
+                onChange={handleUploadFile}
+              />
 
-            <button
-              className="button upload"
-              type="button"
-              onClick={() =>
-                document.getElementById("creatmap-fileInput").click()
-              }
-            >
-              Upload File
-            </button>
+              <button
+                className="button upload"
+                type="button"
+                onClick={() =>
+                  document.getElementById("creatmap-fileInput").click()
+                }
+              >
+                Upload File
+              </button>
 
-            <button
-              className="button fork"
-              type="button"
-              onClick={() => handleForkMap()}>
-              Fork Map
-            </button>
-            <p className="file-types">↑ Available on SHP/DBF, GeoJSON, KML</p>
+              <button
+                className="button fork"
+                type="button"
+                onClick={() => handleForkMap()}>
+                Fork Map
+              </button>
+              <p className="file-types">↑ Available on SHP/DBF, GeoJSON, KML</p> 
+            </div>: ''}
             {isForkOpen && (
               <div className="fork-content">
                 <a onClick={() => handleForkContent("North America")}>North America</a>
