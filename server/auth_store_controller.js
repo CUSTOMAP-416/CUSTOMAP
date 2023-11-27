@@ -22,6 +22,7 @@ getAllusers = async (req, res) => {
     res.status(500).send();
   }
 };
+
 getAllmaps = async (req, res) => {
   try {
     const maps = await Map.find();
@@ -149,7 +150,9 @@ logoutUser = async (req, res) => {
         expires: new Date(0),
         secure: true,
         sameSite: "none"
-    }).send();
+    })
+    .status(200)
+    .send();
 }
 
 registerUser = async (req, res) => {
