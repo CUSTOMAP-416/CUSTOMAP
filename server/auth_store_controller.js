@@ -22,6 +22,7 @@ getAllusers = async (req, res) => {
     res.status(500).send();
   }
 };
+
 getAllmaps = async (req, res) => {
   try {
     const maps = await Map.find();
@@ -149,7 +150,9 @@ logoutUser = async (req, res) => {
         expires: new Date(0),
         secure: true,
         sameSite: "none"
-    }).send();
+    })
+    .status(200)
+    .send();
 }
 
 registerUser = async (req, res) => {
@@ -288,16 +291,25 @@ editUserInfo = async (req, res) => {
         if (!userToUpdate) {
             return res.status(404).json({ errorMessage: "User not found." });
         }
-
-        const saltRounds = 10;
-        const salt = await bcrypt.genSalt(saltRounds);
-        const passwordHash = await bcrypt.hash(password, salt);
-        console.log("passwordHash: " + passwordHash);
-        await User.updateOne(
-            {"_id": userToUpdate._id},
-            {$set: {"username": username, "email":email, "passwordHash":passwordHash}}
-        )
-        console.log("user updated");
+        if(password === '********'){
+            await User.updateOne(
+                {"_id": userToUpdate._id},
+                {$set: {"username": username, "email":email}}
+            )
+            console.log("user updated");
+        }
+        else{
+            const saltRounds = 10;
+            const salt = await bcrypt.genSalt(saltRounds);
+            const passwordHash = await bcrypt.hash(password, salt);
+            console.log("passwordHash: " + passwordHash);
+            await User.updateOne(
+                {"_id": userToUpdate._id},
+                {$set: {"username": username, "email":email, "passwordHash":passwordHash}}
+            )
+            console.log("user updated");
+        }
+        
         const profile = await Profile.findById(userToUpdate.profile);
         await Profile.updateOne(
             {"_id": profile._id},

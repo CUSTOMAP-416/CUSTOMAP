@@ -307,10 +307,10 @@ export default function DashboardCreateOrEditMapView() {
             Cancel
           </button>
           {auth_store.isCreatePage 
-            ? <button id="create-button" data-cy="create_but" onClick={() => handleCreateMap()}>
+            ? <button id="create-button" onClick={() => handleCreateMap()}>
               Create Map
               </button>
-            : <button id="edit-button" data-cy="create_edit"onClick={() => handleEditMap()}>
+            : <button id="edit-button" onClick={() => handleEditMap()}>
               Edit Map
               </button>}
         </div>
