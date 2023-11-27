@@ -160,6 +160,7 @@ export default function ForgetPassword(){
           <div>
             <input
               className="f_input"
+              data-cy="forget_newpwd"
               type="text"
               value={newPassword}
               onChange={handleNewPasswordChange}
@@ -168,6 +169,7 @@ export default function ForgetPassword(){
           <div>
             <input
               className="f_input"
+              data-cy="forget_newagain"
               type="text"
               value={newPasswordAgain}
               onChange={handleNewPasswordAgainChange}
