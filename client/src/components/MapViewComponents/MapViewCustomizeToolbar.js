@@ -82,6 +82,7 @@ export default function MapViewCustomizeToolbar({ onFontChange, onTextChange, on
         return (
             <div>
                 <div className="customize-toolbar">
+
                     <select type="buton" id="text-select" onChange={(e)=>{handleSelectFont(e)}}>
                         <option value="none">Font</option>
                         <option value="Arial" style={{fontFamily: "Arial"}}>Arial</option>
@@ -91,38 +92,44 @@ export default function MapViewCustomizeToolbar({ onFontChange, onTextChange, on
                     </select>
 
                     <div id="color-button" className="color-picker-container">
-                    <button
-                        className="color-picker-button"
-                        style={{ backgroundColor: color }}
-                        onClick={handleButtonClick}
-                    >
-                        Pick a Color
+                        <button
+                            className="color-picker-button"
+                            onClick={handleButtonClick}
+                        >
+                            Pick a Color
+                        </button>
+                        <div id="color">
+                        {showPicker && (
+                            <input
+                            type="color"
+                            className="color-picker"
+                            value={color}
+                            onChange={handleSelectColor}
+                            />
+                            )}
+                        </div>
+                    </div>
+
+                    <input data-cy="custom_text" style={{backgroundColor: "rgb(218, 237, 213)"}} onChange={(event) => handleTextChange(event)}></input>
+                    <button id="text-save-button" type="button" onClick={() => handleAppliedTextChange()}>
+                    Applied Text Change
                     </button>
-                    {showPicker && (
-                        <input
-                        type="color"
-                        className="color-picker"
-                        value={color}
-                        onChange={handleSelectColor}
-                        />
-                    )}
+
+                    <div className="icons">
+                        <button className="icon-link" onClick={() => onUndo()}>
+                        ↩
+                        </button>
+                            
+                        <button className="icon-link" onClick={() => onRedo()}>
+                        ↪
+                        </button>    
+                    </div>
+
+                    <button id="save-button" type="button" onClick={() => onSave()}>
+                    SAVE
+                    </button>
+                
                 </div>
-                <input data-cy="custom_text" style={{ backgroundColor: "rgb(218, 237, 213)" }} onChange={(event)=>handleTextChange(event)}></input>
-                <button id="save-button" type="button" onClick={() => handleAppliedTextChange()}>
-                Applied Text Change
-                </button>
-                <button id="save-button" type="button" onClick={() => onSave()}>
-                SAVE
-                </button>
-            </div>
-            <div className="icons">
-                <button className="icon-link" onClick={() => onUndo()}>
-                ↩
-                </button>
-                <button className="icon-search" onClick={() => onRedo()}>
-                ↪
-                </button>
-            </div>
         </div>
     );
 }

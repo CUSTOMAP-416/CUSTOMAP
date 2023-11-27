@@ -222,18 +222,19 @@ class MapComponent extends Component {
       map.fitBounds(layer.getBounds());
       this.setState({ geojsonLayer: layer });
     }
-    function manualPrint() {
-      var printer = L.easyPrint({
-        sizeModes: ['Current', 'A4Landscape', 'A4Portrait'],
-        filename: 'myMap',
-        exportOnly: true,
-        hideControlContainer: true,
-      }).addTo(map);
-      printer.printMap('CurrentSize', 'MyManualPrint')
+
+    if(!this.props.isCreatePage){
+      function manualPrint() {
+        var printer = L.easyPrint({
+          sizeModes: ['Current', 'A4Landscape', 'A4Portrait'],
+          filename: 'myMap',
+          exportOnly: true,
+          hideControlContainer: true,
+        }).addTo(map);
+        printer.printMap('CurrentSize', 'MyManualPrint')
+      }
+      document.getElementById("saveButton").addEventListener("click", manualPrint);
     }
-
-
-    document.getElementById("saveButton").addEventListener("click", manualPrint);
   };
   
   

@@ -209,10 +209,10 @@ export default function MapView(){
                 Legend
           </button>
           {isLegendsOpen && (
-            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+            <div className="legendsContainer" style={{ display: 'flex', flexWrap: 'wrap' }}>
               {/* Legend items */}
               {legendItems.map((item, index) => (
-                <div key={index} style={{ display: 'flex', alignItems: 'center', marginRight: '32px', marginBottom: '8px', width: '200px' }}>
+                <div key={index} style={{ display: 'flex', alignItems: 'center', marginRight: '30px', marginBottom: '8px', marginleft: '8px',margintop: '10px', width: '200px' }}>
                   {item.color && <div style={{ width: '20px', height: '20px', backgroundColor: item.color, marginRight: '8px' }}></div>}
                   <span>{item.label}</span>
                   {auth_store.isCreatePage ? '':<button onClick={() => handleDeleteLegend(index, item._id)}>Delete</button>}
@@ -220,15 +220,16 @@ export default function MapView(){
               ))}
         
               {/* Add Legend section */}
-              {auth_store.isCreatePage ? '': <div style={{ marginTop: '16px' }}>
+              {auth_store.isCreatePage ? '': <div className="legends-Adder" >
                 <input type="color" value={newLegend.color} onChange={handleNewLegendColorChang} />
                 <input type="text" placeholder="Legend Label" value={newLegend.label} onChange={handleNewLegendLabelChange} />
                 <button onClick={handleAddLegend}>Add Legend</button>
               </div>}
             </div>
           )}
+          <div id="mapview">
           <MapComponent
-            width="1400px"
+            width="1850px"
             height="600px"
             mapData={mapData}
             selectedColor={selectedColor}
@@ -239,7 +240,8 @@ export default function MapView(){
             colors={colors}
             isCreatePage={auth_store.isCreatePage}
             handleCustomization={handleCustomization}
-          />
+            />
+          </div>
         </div>
       </div>
     );

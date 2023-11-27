@@ -195,9 +195,21 @@ export default function DashboardCreateOrEditMapView() {
       <div>
         <div className="creat-banner">
           <div className="title-section">
+          {isForkOpen && (
+              <div className="fork-content">
+                <a className="fork" onClick={() => handleForkContent("North America")}>North America</a>
+                <a className="fork" onClick={() => handleForkContent("South America")}>South America</a>
+                <a className="fork" onClick={() => handleForkContent("Oceania")}>Oceania</a>
+                <a className="fork" onClick={() => handleForkContent("Europe")}>Europe</a>
+                <a className="fork" onClick={() => handleForkContent("Africa")}>Africa</a>
+                <a className="fork" onClick={() => handleForkContent("Asia")}>Asia</a>
+                <a className="fork" onClick={() => handleForkContent("World")}>World</a>
+              </div>
+            )}
             <div className="dashboard-header">{auth_store.isCreatePage ? 'Create Map' : 'Edit Map'}</div>
             {auth_store.isCreatePage ?'':
-            <div>
+              <div>
+                
               <button
                 className="button upload"
                 type="button"
@@ -251,33 +263,22 @@ export default function DashboardCreateOrEditMapView() {
               </button>
               <p className="file-types">↑ Available on SHP/DBF, GeoJSON, KML</p> 
             </div>: ''}
-            {isForkOpen && (
-              <div className="fork-content">
-                <a onClick={() => handleForkContent("North America")}>North America</a>
-                <a onClick={() => handleForkContent("South America")}>South America</a>
-                <a onClick={() => handleForkContent("Oceania")}>Oceania</a>
-                <a onClick={() => handleForkContent("Europe")}>Europe</a>
-                <a onClick={() => handleForkContent("Africa")}>Africa</a>
-                <a onClick={() => handleForkContent("Asia")}>Asia</a>
-                <a onClick={() => handleForkContent("World")}>World</a>
-              </div>
-            )}
             {auth_store.isCreatePage ? "":
             <div>
-              <button type="button" onClick={() => handleShareMap()}>Share Map</button>
+              <button className="button upload" type="button" onClick={() => handleShareMap()}>Share Map</button>
               {isShareOpen && (
                 <div className="fork-content">
                   <input type="text" value={shareEmail} onChange={handleShareEmailChange}/>
                   <button onClick={() => shareMap()}>Share</button>
                 </div>
               )}
-              <button type="button" onClick={() => changeVisibility()}>{visibility}</button>
+              <button className="button upload" type="button" onClick={() => changeVisibility()}>{visibility}</button>
             </div>}
           </div>
         </div>
         <div className="create-content">
           <div className="property-bar">
-            <label>Map Description</label>
+            <label className="MD">Map Description</label>
             <input
               type="text"
               data-cy="create_discrip"
@@ -307,10 +308,10 @@ export default function DashboardCreateOrEditMapView() {
             Cancel
           </button>
           {auth_store.isCreatePage 
-            ? <button id="create-button" data-cy="create_but" onClick={() => handleCreateMap()}>
+            ? <button id="create-button" onClick={() => handleCreateMap()}>
               Create Map
               </button>
-            : <button id="edit-button" data-cy="create_edit"onClick={() => handleEditMap()}>
+            : <button id="edit-button" onClick={() => handleEditMap()}>
               Edit Map
               </button>}
         </div>
