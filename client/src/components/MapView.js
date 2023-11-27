@@ -227,8 +227,9 @@ export default function MapView(){
               </div>}
             </div>
           )}
+          <div id="mapview">
           <MapComponent
-            width="1800px"
+            width="1850px"
             height="600px"
             mapData={mapData}
             selectedColor={selectedColor}
@@ -239,7 +240,8 @@ export default function MapView(){
             colors={colors}
             isCreatePage={auth_store.isCreatePage}
             handleCustomization={handleCustomization}
-          />
+            />
+          </div>
         </div>
       </div>
     );

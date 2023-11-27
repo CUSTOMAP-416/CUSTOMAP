@@ -59,6 +59,9 @@
     text-align: center; /* Center the buttons container */
     padding: 20px;
     height: 50px;
+    background-color: #5c5b5b;
+    margin-bottom:20px;
+    border-radius: 16px;
   }
 
   .tool-btn {
@@ -147,4 +150,8 @@
     display:felx;
     flex-wrap: wrap;
     background-color: #a2cca4;
+  }
+  #mapview{
+    border:2px;
+    border-color: black;
   }
