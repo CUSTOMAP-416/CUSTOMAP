@@ -32,9 +32,9 @@ jobs:
     needs: build
     steps:
       - name: Deploy to Heroku
-        uses: akhileshns/heroku-deploy@v3.12.12
+        uses: akhileshns/heroku-deploy@master
         with:
           heroku_api_key: ${{ secrets.HEROKU }}
           heroku_app_name: 'customap416client'
           heroku_email: 'shihao.wen@stonybrook.edu'
-          branch: test
+          appdir: "./client"
