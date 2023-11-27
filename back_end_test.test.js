@@ -3,7 +3,7 @@ const cookieParser = require('cookie')
 const {app, db} = require('./server/index.js');
 
 beforeAll(async () => {
-  await db.collection('users').drop();
+    await db.collection('users').drop();
 });
 
 const userData = {
@@ -434,13 +434,13 @@ describe('POST /auth_store/changeVisibility', () => {
 })
 
 describe('POST /auth_store/searchMap', () => {
-    test('check searchMap (searchTerm exist)', async () => {
+    test('searchTerm exist', async () => {
         await request(app)
             .post('/auth_store/searchMap')
             .send({searchTerm: 'my'}) 
             .expect(200);
     });
-    test('check searchMap (searchTerm none)', async () => {
+    test('searchTerm none', async () => {
         await request(app)
             .post('/auth_store/searchMap')
             .send({searchTerm: ''}) 
@@ -449,25 +449,25 @@ describe('POST /auth_store/searchMap', () => {
 })
 
 describe('POST /auth_store/onText', () => {
-    test('check onText(blank text)', async () => {
+    test('blank text', async () => {
         await request(app)
             .post('/auth_store/onText')
             .send({array: [], mapId}) 
             .expect(200);
     });
-    test('check onText(exist text)', async () => {
+    test('exist text', async () => {
         await request(app)
             .post('/auth_store/onText')
             .send({array: 'Hello', mapId}) 
             .expect(200);
     });
-    test('check onText(non-character)', async () => {
+    test('non-character', async () => {
         await request(app)
             .post('/auth_store/onText')
             .send({array: 1, mapId}) 
             .expect(200);
     });
-    test('check onText(text change twice)', async () => {
+    test('text change twice', async () => {
         await request(app)
             .post('/auth_store/onText')
             .send({array: 'Hey', mapId}) 
@@ -476,19 +476,19 @@ describe('POST /auth_store/onText', () => {
 })
 
 describe('POST /auth_store/onColor', () => {
-    test('check onColor(unselected color)', async () => {
+    test('unselected color', async () => {
         await request(app)
             .post('/auth_store/onColor')
             .send({array: ""}) 
             .expect(200);
     });
-    test('check onColor(exist color)', async () => {
+    test('exist color', async () => {
         await request(app)
             .post('/auth_store/onColor')
             .send({array: "#d92020"}) 
             .expect(200);
     });
-    test('check onColor(color change twice)', async () => {
+    test('color change twice', async () => {
         await request(app)
             .post('/auth_store/onColor')
             .send({array: "#1d1cc9"}) 
@@ -498,21 +498,21 @@ describe('POST /auth_store/onColor', () => {
 
 let legendId = ''
 describe('POST /auth_store/onLegend', () => {
-    test('check onLegend(non-provided legend)', async () => {
+    test('non-provided legend', async () => {
         const response = await request(app)
             .post('/auth_store/onLegend')
             .send({array: []}) 
             .expect(200);
         legendId = response.body._id
     });
-    test('check onLegend(existing provided legend)', async () => {
+    test('existing provided legend', async () => {
         const response = await request(app)
             .post('/auth_store/onLegend')
             .send({array: ["##188c1f", "Mountain"]}) 
             .expect(200);
         legendId = response.body._id
     });
-    test('check onLegend(change legend twice)', async () => {
+    test('change legend twice', async () => {
         const response = await request(app)
             .post('/auth_store/onLegend')
             .send({array: ["##188c", "Mountain"]}) 
