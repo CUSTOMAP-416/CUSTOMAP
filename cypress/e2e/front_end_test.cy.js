@@ -192,6 +192,8 @@ describe("7. Edit map Test", () => {
     cy.get('input.log_input[type="password"]').type("testpassword");
     cy.contains("Log in").click();
     cy.wait(1000);
+    cy.url().should("include", "/login");
+    cy.wait(1000);
 
     cy.contains("Edit").should("exist");
     cy.contains("Edit").click();
