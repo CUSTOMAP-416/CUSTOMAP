@@ -37,3 +37,4 @@ jobs:
           heroku_api_key: ${{ secrets.HEROKU }}
           heroku_app_name: 'customap416client'
           heroku_email: 'shihao.wen@stonybrook.edu'
+          justlogin: true
