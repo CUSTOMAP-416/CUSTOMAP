@@ -264,14 +264,14 @@ export default function DashboardCreateOrEditMapView() {
             )}
             {auth_store.isCreatePage ? "":
             <div>
-              <button type="button" onClick={() => handleShareMap()}>Share Map</button>
+              <button className="button upload" type="button" onClick={() => handleShareMap()}>Share Map</button>
               {isShareOpen && (
                 <div className="fork-content">
                   <input type="text" value={shareEmail} onChange={handleShareEmailChange}/>
                   <button onClick={() => shareMap()}>Share</button>
                 </div>
               )}
-              <button type="button" onClick={() => changeVisibility()}>{visibility}</button>
+              <button className="button upload" type="button" onClick={() => changeVisibility()}>{visibility}</button>
             </div>}
           </div>
         </div>
