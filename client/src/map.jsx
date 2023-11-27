@@ -339,7 +339,7 @@ class MapComponent extends Component {
     }
     else if(customization.type == 'text'){
       const id = customization.id
-      const text = customization.value.color
+      const text = customization.value.text
       this.state.map.eachLayer(function(layer){
         if(layer._leaflet_id == id){
           const label = L.divIcon({
