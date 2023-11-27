@@ -92,18 +92,18 @@ describe("3. Forget Password page input and errormessage test", () => {
 
     cy.contains("New Password").should("exist");
 
-  //  cy.contains('[data-cy="forget_newpwd"]').should("exist");
-  //  cy.get('[data-cy="forget_newpwd"]').type("changepassword");
-  //  cy.get('[data-cy="forget_newpwd"]').should("have.value", "changepassword");
+   cy.get('[data-cy="forget_newpwd"]').should("exist");
+   cy.get('[data-cy="forget_newpwd"]').type("changepassword");
+   cy.get('[data-cy="forget_newpwd"]').should("have.value", "changepassword");
 
-  //  cy.contains('[data-cy="forget_email"]').should("exist");
-  //  cy.get('[data-cy="forget_newagain"]').type("changepassword");
-  //  cy.get('[data-cy="forget_newagain"]').should(
-  //    "have.value",
-  //    "changepassword"
-  //  );
-  //  cy.contains("Change Password").should("exist");
-  //  cy.contains("Change Password").click();
+   cy.get('[data-cy="forget_newagain"]').should("exist");
+   cy.get('[data-cy="forget_newagain"]').type("changepassword");
+   cy.get('[data-cy="forget_newagain"]').should(
+     "have.value",
+     "changepassword"
+   );
+   cy.contains("Change Password").should("exist");
+   cy.contains("Change Password").click();
   });
  });
 
@@ -117,10 +117,10 @@ describe("4. Login test", () => {
     cy.get('[data-cy="log_email"]').should("have.value", "test@gmail.com");
 
     cy.get('input.log_input[type="password"]').should("exist");
-    cy.get('input.log_input[type="password"]').type("testpassword");
+    cy.get('input.log_input[type="password"]').type("changepassword");
     cy.get('input.log_input[type="password"]').should(
       "have.value",
-      "testpassword"
+      "changepassword"
     );
     cy.contains("Log in").should("exist");
     cy.contains("Log in").click();
@@ -135,7 +135,7 @@ describe("5. My Profile test", () => {
     cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/login");
     cy.url().should("include", "/login");
     cy.get('[data-cy="log_email"]').type("test@gmail.com");
-    cy.get('input.log_input[type="password"]').type("testpassword");
+    cy.get('input.log_input[type="password"]').type("changepassword");
     cy.contains("Log in").click();
     cy.url().should("include", "/Dashboard");
     cy.wait(1000);
@@ -146,8 +146,11 @@ describe("5. My Profile test", () => {
 
     cy.get('[data-cy="profile_phone"]').clear().type('87654321');
 
+    cy.get(".profile_input").eq(3).clear().type("testpassword");
+    cy.get(".profile_input").eq(4).clear().type("testpassword");
+
     cy.contains("Change Information").should("exist");
-    // cy.contains("Change Information").click();
+    cy.contains("Change Information").click();
   });
  });
 
