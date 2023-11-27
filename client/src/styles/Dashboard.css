@@ -300,6 +300,7 @@ margin-bottom: 20px;
     border-radius: 5px 0 0 5px;
     color: white;
     margin-right: 5px;
+    height:20px;
   }
   
   .property-bar input {
@@ -313,6 +314,8 @@ margin-bottom: 20px;
     outline: none;
     border-color: #49c14d;
   }
+
+ 
   
   .attach-btn {
     background-color: #3d853e;
@@ -414,10 +417,13 @@ margin-bottom: 20px;
   }
   
   .fork-content {
+    height:150px;
+    border:solid;
     position: absolute;
-    background-color: #f9f9f9;
+    background-color: #caeeca;
     min-width: 150px;
     min-height: 5px;
+    margin-left:600px;
   }
   
   .fork-content a {
@@ -425,12 +431,18 @@ margin-bottom: 20px;
     color: black;
     padding: 5px 10px;
     text-decoration: none;
-    display: block;
+    display: flex;
+    text-align: left;
+    height:10px;
+  }
+
+  .fork{
+    
     text-align: left;
   }
   
   .fork-content a:hover {
-    background-color: #ddd;
+    background-color: rgb(228, 244, 229);
   }
   
   
