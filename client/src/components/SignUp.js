@@ -17,6 +17,8 @@ export default function SignUp(){
     useEffect(() => {
       if (auth_store.loggedIn) {
         if(auth_store.user.role == "admin"){
+          auth_store.getAllUsers()
+          auth_store.getAllMaps()
           navigate("/AdminDashboard/");
         }
         else{
