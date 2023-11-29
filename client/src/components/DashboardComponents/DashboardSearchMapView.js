@@ -80,6 +80,10 @@ export default function DashboardSearchMapView(){
         }
     }, [auth_store.searchMaps])
 
+    useEffect(() => {
+        auth_store.onSearch('')
+    }, [])
+
     return(
         <div>
         <div className='dashboard-header'>
