@@ -516,6 +516,34 @@ deleteMap = async (req, res) => {
                 console.log("user updated, name: " + user.username);
             }
         }
+        //discussions
+        for(let i=0; i<map.discussions.length; i++){
+            for(let j=0; j<map.discussions.length; j++){
+                await Discussion.deleteOne({_id: map.discussions[i]});
+            }
+        }
+        console.log("discussions deleted");
+        //texts
+        for(let i=0; i<map.texts.length; i++){
+            for(let j=0; j<map.texts.length; j++){
+                await Text.deleteOne({_id: map.texts[i]});
+            }
+        }
+        console.log("texts deleted");
+        //colors
+        for(let i=0; i<map.colors.length; i++){
+            for(let j=0; j<map.colors.length; j++){
+                await Color.deleteOne({_id: map.colors[i]});
+            }
+        }
+        console.log("colors deleted");
+        //legends
+        for(let i=0; i<map.legends.length; i++){
+            for(let j=0; j<map.legends.length; j++){
+                await Legend.deleteOne({_id: map.legends[i]});
+            }
+        }
+        console.log("Discussion deleted");
         //map
         await Map.deleteOne({_id: _id});
         console.log("map deleted");
@@ -525,6 +553,7 @@ deleteMap = async (req, res) => {
         res.json(false);
     }
 }
+
 shareMap = async (req, res) => {
     try {
         const { mapId, email } = req.body;
