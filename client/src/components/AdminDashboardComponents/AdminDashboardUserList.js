@@ -104,7 +104,7 @@ export default function AdminDashboardUserList(){
                 {/* {<div style={{color: "black"}}>{allUsers}</div> } */}
                 <div style={{color: "black"}}>
                     {allUsers.length > 0 && allUsers.map(user => (
-                        <div key={user._id} className="box">
+                        <div key={user._id}>
                             <div class="user-item">
                                 <div style={{display: "flex", alignItems: "center"}}> 
                                     <img className="user" src={UserIcon} style={{paddingRight:"20px"}} alt="My SVG" />
