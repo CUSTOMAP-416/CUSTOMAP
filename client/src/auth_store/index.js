@@ -25,6 +25,7 @@ function AuthStoreContextProvider(props) {
       successMessage: null,
       forkMap: null,
       searchMaps: null,
+      selectName: null,
       users: [],
       maps: [],
     });
@@ -118,6 +119,7 @@ function AuthStoreContextProvider(props) {
             }));
         });
     }
+    console.log(auth_store)
     // Registers the user const onSignUp = async (userData) => ?
     auth_store.createUser = async function (state) {
         await apis.createUser(state.name, state.phone, state.id, state.email, state.password, state.passwordVerify).then(response => {
@@ -175,7 +177,8 @@ function AuthStoreContextProvider(props) {
         await apis.getMap(mapId).then(response => {
             return setAuthStore((prevAuthStore) => ({
                 ...prevAuthStore,
-                selectMap: response.data.map
+                selectMap: response.data.map,
+                selectName: response.data.ownerName
             }));
         })
         .catch(error => {
