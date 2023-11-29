@@ -38,7 +38,7 @@ class MapComponent extends Component {
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(map);
 
-      L.marker([40.915734, 286.87721]).addTo(map);
+      // L.marker([40.915734, 286.87721]).addTo(map);
 
       // Set the map object in the component state
       this.setState({ map });

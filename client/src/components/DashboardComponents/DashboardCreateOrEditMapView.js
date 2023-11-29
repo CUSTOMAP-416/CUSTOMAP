@@ -244,7 +244,12 @@ export default function DashboardCreateOrEditMapView() {
                 accept=".zip,.kml,.geojson"
                 onChange={handleUploadFile}
               />
-
+              <button
+                className="button fork"
+                type="button"
+                onClick={() => handleForkMap()}>
+                Fork Map
+              </button>
               <button
                 className="button upload"
                 type="button"
@@ -254,14 +259,7 @@ export default function DashboardCreateOrEditMapView() {
               >
                 Upload File
               </button>
-
-              <button
-                className="button fork"
-                type="button"
-                onClick={() => handleForkMap()}>
-                Fork Map
-              </button>
-              <p className="file-types">↑ Available on SHP/DBF, GeoJSON, KML</p> 
+              <p className="file-types"> Available on SHP/DBF, GeoJSON, KML </p> 
             </div>: ''}
             {auth_store.isCreatePage ? "":
             <div>

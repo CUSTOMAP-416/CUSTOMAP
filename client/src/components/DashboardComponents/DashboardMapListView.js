@@ -92,14 +92,12 @@ export default function DashboardMapListView({ handleEditView }){
     }, []);
 
     return (
-        <div>
-            <div className='dashboard-header'>
-                Dashboard
-            </div>
-            <div className='description-and-sorting'>
-                <div className='description'>Maps you have participated in</div>
-            <div className='sort-buttons'>
-                <button className='arrow-button'  onClick={() => handleSortingChange("Ascending")}>
+      <div>
+        <div className="dashboard-header">Dashboard</div>
+        <div className="description-and-sorting">
+          <div className="description">Maps you have participated in</div>
+          <div className="sort-buttons">
+            {/* <button className='arrow-button'  onClick={() => handleSortingChange("Ascending")}>
                     <img className="arrow" src={arrow} alt="My SVG" />
                 </button>
                 <button className="sort-button" onClick={() => handleSortingChange("Ascending")}>Ascending</button>
@@ -110,12 +108,18 @@ export default function DashboardMapListView({ handleEditView }){
                 <button className='arrow-button' onClick={() => handleSortingChange("Recent Date")}>
                     <img className="arrow" src={arrow} alt="My SVG" />
                 </button>
-                <button className="sort-button" onClick={() => handleSortingChange("Recent Date")}>Recent Date</button>
+                <button className="sort-button" onClick={() => handleSortingChange("Recent Date")}>Recent Date</button> */}
+            <div className="sort-dropdown">
+              <select onChange={(e) => handleSortingChange(e.target.value)}>
+                <option value="defult">SORT</option>
+                <option value="Ascending">Ascending</option>
+                <option value="Descending">Descending</option>
+                <option value="Recent Date">Recent Date</option>
+              </select>
             </div>
-            </div>
-            <div className="box-container">
-                {userMaps}
-            </div>
+          </div>
         </div>
-            )
+        <div className="box-container">{userMaps}</div>
+      </div>
+    );
 }

@@ -92,7 +92,7 @@ export default function DashboardSearchMapView(){
         </div>
         <div className='description-and-sorting' style={{justifyContent: "end"}}>
         <div className='sort-buttons'>
-            <button className='arrow-button'  onClick={() => handleSortingChange("Ascending")}>
+            {/* <button className='arrow-button'  onClick={() => handleSortingChange("Ascending")}>
                 <img className="arrow" src={arrow} alt="My SVG" />
             </button>
             <button className="sort-button" onClick={() => handleSortingChange("Ascending")}>Ascending</button>
@@ -103,7 +103,15 @@ export default function DashboardSearchMapView(){
             <button className='arrow-button' onClick={() => handleSortingChange("Recent Date")}>
                 <img className="arrow" src={arrow} alt="My SVG" />
             </button>
-            <button className="sort-button" onClick={() => handleSortingChange("Recent Date")}>Recent Date</button>
+            <button className="sort-button" onClick={() => handleSortingChange("Recent Date")}>Recent Date</button> */}
+            <div className="sort-dropdown">
+              <select onChange={(e) => handleSortingChange(e.target.value)}>
+                <option value="defult">SORT</option>
+                <option value="Ascending">Ascending</option>
+                <option value="Descending">Descending</option>
+                <option value="Recent Date">Recent Date</option>
+              </select>
+            </div>
         </div>
         </div>
         <div className="box-container">
