@@ -3,7 +3,7 @@ import '../../styles/AdminDashboard.css';
 import { useContext, useState, useEffect } from 'react';
 import AuthStoreContextProvider from '../../auth_store';
 
-import user from "../../assets_img/adminDashboard_user.svg";
+import UserIcon from "../../assets_img/adminDashboard_user.svg";
 import arrow from "../../assets_img/dashboard_arrow.svg";
 
 export default function AdminDashboardUserList(){
@@ -14,27 +14,37 @@ export default function AdminDashboardUserList(){
     const [toolOpen, setToolOpen] = useState(false);
 
     // function to handle get the array of user objects 
-    useEffect(() => {
-        const users = []
-        for(let i=0; i<auth_store.users.length; i++){
-            users.push(
-                <div key={auth_store.users[i]._id} className="box">
-                    <div class="user-item">
-                    <div style={{display: "flex", alignItems: "center"}}> 
-                        <img className="user" src={user} style={{paddingRight:"20px"}} alt="My SVG" />
-                        <span>{auth_store.users[i].username}</span>
-                    </div>
-                    <div>
-                        <button className="map">Map</button>
-                        <button className="edit">Edit</button>
-                        <button className="delete">Delete</button>
-                    </div>
-                </div>
-                </div>
-            )
-        }
-        setAllUsers(users)
-    }, [auth_store.users]);
+    
+
+    useEffect(()=>{
+        auth_store.getAllUsers().then(() => {
+            setAllUsers(auth_store.users)
+        })
+    }, [])
+
+    // useEffect(() => {
+    //     const users = []
+    //     for(let i=0; i<auth_store.users.length; i++){
+    //         console.log("auth_store.users[i] ", auth_store.users)
+    //         users.push(
+    //             <div key={auth_store.users[i]._id} className="box">
+    //                 <div class="user-item">
+    //                     <div style={{display: "flex", alignItems: "center"}}> 
+    //                         <img className="user" src={user} style={{paddingRight:"20px"}} alt="My SVG" />
+    //                         <span>{auth_store.users[i].username}</span>
+    //                     </div>
+    //                     <div>
+    //                         <button className="map">Map</button>
+    //                         <button className="edit">Edit</button>
+    //                         <button className="delete">Delete</button>
+    //                     </div>
+    //                 </div>
+    //             </div>
+    //         )
+    //     }
+    //     console.log(users)
+    //     setAllUsers(users)
+    // }, []);
 
     //Handle changes in user sorting change.
     const handleUserSortingChange = (option) => {
@@ -91,7 +101,24 @@ export default function AdminDashboardUserList(){
                         <button className="delete">Delete</button>
                     </div>
                 </div> */}
-                {<div style={{color: "black"}}>{allUsers}</div> }
+                {/* {<div style={{color: "black"}}>{allUsers}</div> } */}
+                <div style={{color: "black"}}>
+                    {allUsers.length > 0 && allUsers.map(user => (
+                        <div key={user._id} className="box">
+                            <div class="user-item">
+                                <div style={{display: "flex", alignItems: "center"}}> 
+                                    <img className="user" src={UserIcon} style={{paddingRight:"20px"}} alt="My SVG" />
+                                    <span>{user.username}</span>
+                                </div>
+                                <div>
+                                    <button className="map">Map</button>
+                                    <button className="edit">Edit</button>
+                                    <button className="delete">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
             </div>
     )
