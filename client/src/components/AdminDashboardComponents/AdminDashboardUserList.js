@@ -1,42 +1,41 @@
 import '../../styles/AdminDashboard.css';
 
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import AuthStoreContextProvider from '../../auth_store';
 
 import user from "../../assets_img/adminDashboard_user.svg";
 import arrow from "../../assets_img/dashboard_arrow.svg";
 
 export default function AdminDashboardUserList(){
-    const { auth_store } = useContext(AuthStoreContextProvider);
+    const {auth_store} = useContext(AuthStoreContextProvider);
 
     const [userSortingOption, setUserSortingOption] = useState('');
     const [allUsers, setAllUsers] = useState([]);
     const [toolOpen, setToolOpen] = useState(false);
 
-    //function to handle get the array of user objects 
-    const getAllUsers = () => {
-        setAllUsers(auth_store.getAllUsers())
-        console.log(allUsers)
-    }
+    // function to handle get the array of user objects 
+    useEffect(() => {
+        const users = []
+        for(let i=0; i<auth_store.users.length; i++){
+            users.push(
+                <div key={auth_store.users[i]._id} className="box">
+                    <div class="user-item">
+                    <div style={{display: "flex", alignItems: "center"}}> 
+                        <img className="user" src={user} style={{paddingRight:"20px"}} alt="My SVG" />
+                        <span>{auth_store.users[i].username}</span>
+                    </div>
+                    <div>
+                        <button className="map">Map</button>
+                        <button className="edit">Edit</button>
+                        <button className="delete">Delete</button>
+                    </div>
+                </div>
+                </div>
+            )
+        }
+        setAllUsers(users)
+    }, [auth_store.users]);
 
-    // useEffect(() => {
-    //     const maps = []
-    //     for(let i=0; i<auth_store.user.maps.length; i++){
-    //         maps.push(
-    //             <div key={auth_store.user.maps[i]._id} className="box">
-    //                 <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
-    //                     <div className='map-name'>{auth_store.user.maps[i].title}</div>
-    //                     <button className="delete" onClick={() => handleEdit(auth_store.user.maps[i]._id)}>Edit</button>
-    //                     <button className="delete" onClick={() => handleDeleteMap(auth_store.user.maps[i]._id)}>X</button>
-    //                 </div>
-    //                 <Link to="/MapView/" onClick={() => handleMapSelect(auth_store.user.maps[i]._id)}>
-    //                     <img className="map" src={map} alt="My SVG" />
-    //                 </Link>
-    //             </div>
-    //         )
-    //     }
-    //     setUserMaps(maps)
-    // }, []);
     //Handle changes in user sorting change.
     const handleUserSortingChange = (option) => {
         setUserSortingOption(option)
@@ -68,8 +67,8 @@ export default function AdminDashboardUserList(){
             <div class="user-list">
                 <div className='sort-buttons'>
                     <button className='sort-tool' onClick={()=>{handleToolBar()}}> TOOL </button>
-                    <button className='sort-tool' onClick={()=>{getAllUsers();}}> TOOL </button>
-
+                    {/* <button className='sort-tool' onClick={()=>{getAllUsers()}}> TOOL </button> */}
+                    <button className='sort-tool' > TOOL </button>
                 </div>
                 <div className='sort-buttons'>
                     
@@ -79,38 +78,20 @@ export default function AdminDashboardUserList(){
                     <button className='arrow-button' onClick={() => handleUserSortingChange()}><img className="arrow" src={arrow} alt="My SVG" /></button><button class="sort-button" onClick={() => handleUserSortingChange()}>Descending</button>
                     <button className='arrow-button' onClick={() => handleUserSortingChange()}><img className="arrow" src={arrow} alt="My SVG" /></button><button class="sort-button" onClick={() => handleUserSortingChange()}>Date</button>
                     </>}
-                    
                 </div>
-                <div class="user-item">
-                <div style={{display: "flex", alignItems: "center"}}> 
-                <img className="user" src={user} style={{paddingRight:"20px"}} alt="My SVG" />
-                    <span>User Name 1</span></div>
+                
+                {/* <div class="user-item">
+                    <div style={{display: "flex", alignItems: "center"}}> 
+                        <img className="user" src={user} style={{paddingRight:"20px"}} alt="My SVG" />
+                        <span></span>
+                    </div>
                     <div>
                         <button className="map">Map</button>
                         <button className="edit">Edit</button>
                         <button className="delete">Delete</button>
                     </div>
-                </div>
-                <div className="user-item">
-                <div style={{display: "flex", alignItems: "center"}}> 
-                <img className="user" src={user} style={{paddingRight:"20px"}} alt="My SVG" />
-                    <span>User Name 2</span></div>
-                    <div>
-                        <button className="edit">Edit</button>
-                        <button className="delete">Delete</button>
-                    </div>
-                </div>
-                <div className="user-item">
-                    <div style={{display: "flex", alignItems: "center"}}> 
-                <img className="user" src={user} style={{paddingRight:"20px"}} alt="My SVG" />
-                    <span>User Name 3</span>
-                    </div>
-                    <div>
-                        
-                        <button className="edit">Edit</button>
-                        <button className="delete">Delete</button>
-                    </div>
-                </div>
+                </div> */}
+                {<div style={{color: "black"}}>{allUsers}</div> }
             </div>
             </div>
     )

@@ -16,7 +16,12 @@ export default function SignUp(){
 
     useEffect(() => {
       if (auth_store.loggedIn) {
-        navigate("/Dashboard/");
+        if(auth_store.user.role == "admin"){
+          navigate("/AdminDashboard/");
+        }
+        else{
+          navigate("/Dashboard/");
+        }
       }
       //checking state for login
     }, [auth_store.loggedIn, auth_store.errMessage]);

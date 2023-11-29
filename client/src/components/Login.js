@@ -11,7 +11,14 @@ export default function Login() {
   useEffect(() => {
     auth_store.successMessage = null
     if (auth_store.loggedIn) {
-      navigate("/Dashboard/");
+      if(auth_store.user.role == "admin"){
+        auth_store.getAllUsers()
+        auth_store.getAllMaps()
+        navigate("/AdminDashboard/");
+      }
+      else{
+        navigate("/Dashboard/");
+      }
     }
     //checking state for login
   }, [auth_store.loggedIn]);
