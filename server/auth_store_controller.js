@@ -364,6 +364,22 @@ editUserInfo = async (req, res) => {
     }
 }
 
+deleteUser = async (req, res) => {
+    try {
+        const userToDelete = await User.deleteOne({email: req.params.email});
+        if (!userToDelete) {
+            return res.status(404).json({ errorMessage: "User not found." });
+        }
+        return res.status(200).json({
+            success: true,
+            message: "Delete User"
+        })
+    } catch (err) {
+        console.log("err: " + err);
+        res.json(false);
+    }
+}
+
 createMap = async (req, res) => {
     try {
         const { email, mapTitle, mapDescription, mapData} = req.body;
@@ -777,6 +793,7 @@ module.exports = {
   logoutUser,
   forgetPassword,
   editUserInfo,
+  deleteUser,
   createMap,
   getMap,
   editMap,

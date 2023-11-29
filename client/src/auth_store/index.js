@@ -157,6 +157,28 @@ function AuthStoreContextProvider(props) {
             }));
         });
     }
+
+    ///User Delete in Admin dashboard
+    auth_store.deleteUser = async function (state) {
+        await apis.deleteUser(state.email).then(response => {
+            auth_storeReducer({
+                type: AuthStoreActionType.REGISTER_USER,
+                payload: response.data.user,
+            });
+            return setAuthStore((prevAuthStore) => ({
+                ...prevAuthStore,
+                successMessage: response.data.message,
+            }));
+        })
+        .catch(error => {
+            console.log(error.response.data.errorMessage)
+            return setAuthStore((prevAuthStore) => ({
+                ...prevAuthStore,
+                errorMessage: error.response.data.errorMessage
+            }));
+        });
+    }
+
     ///All map list in Admin dashboard const getMaps = async () => { ?
     auth_store.getAllMaps = async function () {
         await apis.getAllMaps().then(response => {
