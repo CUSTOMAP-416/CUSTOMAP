@@ -129,7 +129,13 @@
     border: solid #1F8505;
     padding: 20px 30px;
     cursor: pointer;
-    box-shadow: 2px 2px 2px 2px gray ;
+    box-shadow: 2px 2px 0 0 gray ;
+}
+.box:hover{
+  border: solid #1F8505;
+  padding: 20px 30px;
+  cursor: pointer;
+  box-shadow: 3px 3px 3px 3px gray ;
 }
 
 .map-name{
