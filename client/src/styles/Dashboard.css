@@ -405,7 +405,9 @@
     justify-content: space-around;
     align-items: center;
   }
-  
+  .create-map-bottom-bar input:hover{
+    border: 2px solid #888;
+  }
   #create-button {
     background-color: #4CAF50; /* Green */
     border: none;
@@ -463,7 +465,9 @@
     border-radius: 4px;
     width: 60%;
   }
-  
+  #map-name:hover{
+    border: 2px solid #888;
+  }
   .fork-content {
     height:150px;
     border:solid;
