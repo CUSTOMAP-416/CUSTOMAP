@@ -157,6 +157,17 @@
     background-color: #DAEDD5;
 }
 
+.delete:hover{
+  padding: 5px 10px;
+  margin-right: 5px;
+  color: white;
+  text-shadow: -1px 0px green, 0px 1px green, 1px 0px green, 0px -1px green;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  background-color: #b6d2af;
+}
+
 .glass{
     position:absolute;
     z-index: 1;
