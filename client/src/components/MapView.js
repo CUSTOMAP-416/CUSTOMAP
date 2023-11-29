@@ -180,6 +180,7 @@ export default function MapView(){
       if(saveLegends.length != 0){
         auth_store.onLegend(saveLegends)
       }
+      alert("Saved successfully!")
     }
 
     useEffect(() => {
