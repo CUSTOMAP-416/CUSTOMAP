@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import L, { marker } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./styles/Discuss.css";
+import "./styles/MapView.css";
 import 'leaflet-easyprint';
 
 class MapComponent extends Component {
@@ -395,6 +396,7 @@ class MapComponent extends Component {
           ></script>
         </>
         <div id="main-map" ref={this.mapContainerRef} style={mapStyle}></div>
+        
       </div>
     );
   }

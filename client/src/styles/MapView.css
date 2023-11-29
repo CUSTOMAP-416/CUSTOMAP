@@ -53,16 +53,37 @@
     }
   }
 
+  .customize-all{
+    padding: 20px 20px 0px;
+    background-color: white;
+    border: solid 3px #a2cca4;
+    margin-bottom:15px;
+    border-radius: 16px;
+  }
+  .customize-title{
+    font-family: Changa One;
+    font-size: 30px;
+    color: #155A03;
+  }
+  .hr {
+  background-color: #fff;
+  padding: 0;
+  margin: 80px;
+}
+
+hr.hr-1 {
+  border: 0;
+  height: 0;
+  border-top: 2px solid #a2cca4;
+}
 
   .customize-toolbar{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    /* display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr; */
+    display:flex;
+    justify-content: space-evenly;
     text-align: center; /* Center the buttons container */
-    padding: 20px;
-    height: 50px;
-    background-color: #5c5b5b;
-    margin-bottom:20px;
-    border-radius: 16px;
+    margin: 13px;
   }
 
   .tool-btn {
@@ -72,12 +93,60 @@
   cursor: pointer; /* Change the cursor on hover */
   text-align: center;/* Change cursor to pointer on hover */
   }
-
+  /* Map view for public------------------ */
+.mapview-contain{
+  display: flex;
+  justify-content: space-evenly;
+  border: solid 3px #a2cca4;
+  margin-bottom:15px;
+  border-radius: 16px;
+  padding: 15px;
+  font-family: DM Sans;
+  font-size: 18px;
+  font-weight: lighter;
+}
+.mapview-title{
+  display: flex;
+  align-items: center;
+}
+.mapview-disc{
+  display: flex;
+}
+.mapview-header{
+  font-family: Changa One;
+  font-size: 25px;
+  color: #155A03;
+}
+/* Sort dropdown button ------------------*/
   #text-select{
     width:100px;
+    height:50px;
     margin-left:50px;
   }
 
+  .sort-dropdown{
+    margin-right: 30px;
+  }
+  .sort-dropdown select {
+    padding: 8px 15px;
+    border: 2px solid #ccc;
+    color: #155A03;
+    font-weight: bold;
+    border-radius: 5px;
+    background-color: #ffffff;
+    font-size: 16px;
+    cursor: pointer;
+    outline: none;
+}
+
+.sort-dropdown select:hover {
+    border-color: #888;
+}
+
+.sort-dropdown select:focus {
+    border-color: #888;
+}
+/*  ------------------------------------------*/
   #color-button{
     display:grid;
     width:150px;
@@ -94,9 +163,13 @@
     grid-template-columns: 1fr 1fr;
   }
 
+  #color-button:hover{
+    background-color: rgb(50, 114, 52);
+  }
+
   #legend-button{
-    margin-left:70px;
-    width:100px;
+    width: 300px;
+    height: 40px;
     background-color: #4CAF50;
     color: white;
     border: none;
@@ -106,6 +179,29 @@
     font-size: 1em;
     transition: background-color 0.3s;
   }
+
+  #legend-button:hover{
+    background-color: rgb(50, 114, 52);
+  }
+
+  .rightside-for-legend{
+    padding: 20px;
+    background-color: #eeeded;
+    width: 15%;
+    border-radius: 10px;
+  }
+  .custom-textinput{
+    background-color: rgb(218, 237, 213);
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    margin-left: 30px;
+    font-size: 15px;
+  }
+
+  .custom-textinput:hover {
+    border-color: #888;
+}
+/*  save button ------------------------------------ */
   #text-save-button{
     width:200px;
     background-color: #4CAF50;
@@ -117,6 +213,9 @@
     cursor: pointer;
     font-size: 1em;
     transition: background-color 0.3s;
+  }
+  #text-save-button:hover{
+    background-color: rgb(50, 114, 52);
   }
   #save-button{
     width:100px;
@@ -130,29 +229,79 @@
     font-size: 1em;
     transition: background-color 0.3s;
   }
-  .color-picker-button{
+  #save-button:hover{
+    background-color: rgb(50, 114, 52);
+  }
+  /* color picker------------------------------------ */
+ .color-picker-button{
     font-size: 1em;
     border: 0;
-    background-color: #4CAF50;
+    background-color: transparent;
     color:white;
     width:100px;
-
+    cursor: pointer;
   }
 
+  .color-picker-button:hover{
+    background-color: transparent;
+  }
+  /* redo undo------------------------------------------ */
   .icons{
     padding-right:100px;
   }
-
+  .icon-link:hover{
+    background-color: rgb(50, 114, 52);
+  }
   .legendsContainer{
     border-radius: 10px;
     margin-top:20px;
     margin-bottom:20px;
-    padding-left:50px;
-    display:felx;
-    flex-wrap: wrap;
-    background-color: #a2cca4;
+    padding-left: 10px;
   }
+
+  .legends-Adder{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 7px
+  }
+
+  .customize-legend-button{
+    background-color: rgb(50, 114, 52);
+    color: white;
+    font-family: DM Sans;
+    border: rgb(50, 114, 52);
+    padding: 2px;
+    border-radius: 5px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+
+  .customize-legend-button:hover{
+    background-color: #4CAF50;
+  }
+
+  .customize-legend-del-button{
+    background-color: rgb(159, 34, 34);
+    color: white;
+    font-family: DM Sans;
+    border: rgb(159, 34, 34);
+    padding: 2px;
+    border-radius: 5px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+
+  .customize-legend-del-button:hover{
+    background-color: #f92727;
+  }
+
+  .customize-text-box{
+    width: 70%;
+  }
+
   #mapview{
     border:2px;
     border-color: black;
   }
+

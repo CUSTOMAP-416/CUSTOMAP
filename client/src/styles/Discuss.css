@@ -24,6 +24,10 @@
     padding: 10px 20px;
     cursor: pointer;
   }
+
+  .toggle-button:hover{
+    background-color: #367b38
+  }
   
   .sidebar-content {
     padding: 10px;
