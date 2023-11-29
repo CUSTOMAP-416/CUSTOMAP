@@ -132,6 +132,7 @@ margin-bottom: 20px;
     border: solid #1F8505;
     padding: 20px 30px;
     cursor: pointer;
+    box-shadow: 2px 2px 2px 2px gray ;
 }
 
 .map-name{
@@ -215,7 +216,7 @@ margin-bottom: 20px;
 
 
   .createEditAll{
-    padding: 10px;
+    padding: 10px 20px;
   }
   .creat-banner {
     display: flex;
@@ -294,11 +295,11 @@ margin-bottom: 20px;
     border-radius: 5px;
   }
   
-  .property-bar label {
-    background-color: #4CAF50;
+  .create-map-bottom-bar label {
     padding: 5px 10px;
-    border-radius: 5px 0 0 5px;
-    color: white;
+    border-radius: 5px 5px 5px 5px;
+    color: rgb(21, 59, 22);
+    font-weight: bolder;
     margin-right: 5px;
     height:20px;
   }
@@ -308,11 +309,22 @@ margin-bottom: 20px;
     margin-right: 5px;
     border: 2px solid #ddd;
     border-radius: 5px;
+    
   }
   
   .property-bar input:focus {
     outline: none;
     border-color: #49c14d;
+  }
+
+  .create-map-bottom-bar input{
+    padding: 5px;
+    margin-right: 5px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    width: 60%;
+    height: 20px;
+    font-size: 16px;
   }
 
  

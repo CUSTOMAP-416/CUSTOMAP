@@ -193,7 +193,7 @@ export default function DashboardCreateOrEditMapView() {
   return (
     <div className="createEditAll">
       <div>
-        <div className="creat-banner">
+        <div className="creat-banner" style={{paddingBottom: "0px"}}>
           <div className="title-section">
           {isForkOpen && (
               <div className="fork-content">
@@ -278,14 +278,14 @@ export default function DashboardCreateOrEditMapView() {
         </div>
         <div className="create-content">
           <div className="property-bar">
-            <label className="MD">Map Description</label>
-            <input
-              type="text"
-              data-cy="create_discrip"
-              placeholder="Description"
-              value={mapDescription}
-              onChange={handleMapDescriptionChange }
-            />
+            <label className="MD" style={{padding: "0px 10px", fontWeight: "bolder"}}>Map Name:</label><input
+            type="text"
+            data-cy="create_mapname"
+            id="map-name"
+            placeholder="Map Name"
+            value={mapTitle}
+            onChange={handleMapTitleChange}
+          />
           </div>
         </div>
         <MapComponent 
@@ -296,14 +296,17 @@ export default function DashboardCreateOrEditMapView() {
         />
         {errorMessage && <p className="error-message" style={{color:"red"}}>{errorMessage}</p>}
         <div className="create-map-bottom-bar">
+          <div style={{ width: "70%", paddingLeft:"20px"}}>
+        <label className="MD">Map Description:</label>
           <input
-            type="text"
-            data-cy="create_mapname"
-            id="map-name"
-            placeholder="Map Name"
-            value={mapTitle}
-            onChange={handleMapTitleChange}
-          />
+              type="text"
+              data-cy="create_discrip"
+              placeholder="Description"
+              value={mapDescription}
+              onChange={handleMapDescriptionChange }
+            />
+            </div>
+          <div style={{display: "flex", justifyContent: "space-around", paddingRight: "20px"}}>
           <button id="cancel-button" onClick={() => handleCancel()}>
             Cancel
           </button>
@@ -314,6 +317,7 @@ export default function DashboardCreateOrEditMapView() {
             : <button id="edit-button" onClick={() => handleEditMap()}>
               Edit Map
               </button>}
+              </div>
         </div>
       </div>
     </div>
