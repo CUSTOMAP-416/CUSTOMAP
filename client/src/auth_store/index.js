@@ -25,6 +25,8 @@ function AuthStoreContextProvider(props) {
       successMessage: null,
       forkMap: null,
       searchMaps: null,
+      users: [],
+      maps: [],
     });
 
     const history = useNavigate();
@@ -103,11 +105,10 @@ function AuthStoreContextProvider(props) {
     //All user list in Admin dashboard const getUsers = async () => { ?
     auth_store.getAllUsers = async function () {
         await apis.getAllUsers().then(response => {
-            auth_storeReducer({
-                type: AuthStoreActionType.null,
-                payload: null,
-            });
-            return response.data.users;
+            return setAuthStore((prevAuthStore) => ({
+                ...prevAuthStore,
+                users: response.data.users
+            }));
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
@@ -157,10 +158,10 @@ function AuthStoreContextProvider(props) {
     ///All map list in Admin dashboard const getMaps = async () => { ?
     auth_store.getAllMaps = async function () {
         await apis.getAllMaps().then(response => {
-            auth_storeReducer({
-                type: AuthStoreActionType.null,
-                payload: null,
-            });
+            return setAuthStore((prevAuthStore) => ({
+                ...prevAuthStore,
+                maps: response.data.maps
+            }));
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)

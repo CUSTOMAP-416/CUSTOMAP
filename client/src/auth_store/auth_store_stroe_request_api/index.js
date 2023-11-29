@@ -29,7 +29,7 @@ const updateUser = (name, email, phone, password) => {
     })
 };
 ///All map list in Admin dashboard const getMaps = async () => { ?
-const getAllMaps = () => api.get('');
+const getAllMaps = () => api.get('/maps/');
 const getMap = (mapId) => {
     return api.post('/getMap/', {
         mapId : mapId,
