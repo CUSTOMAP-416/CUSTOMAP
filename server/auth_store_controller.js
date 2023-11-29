@@ -12,6 +12,7 @@ getAllusers = async (req, res) => {
   console.log("getAllUsers")
   try {
     const users = await User.find({})
+    console.log(users)
     return res.status(200).json({
         users: users
     })
@@ -414,11 +415,20 @@ getMap = async (req, res) => {
         if(map.legends.length != null){
             legends = await Legend.find({ _id: { $in: map.legends } });
         }
+        let owner = null
+        if(map.owner.length != null){
+            // owner = await User.findOne({ _id: { $in: map.owner } });
+            owner = await User.findById(map.owner)
+            console.log(map.owner)
+        }
         map.texts = texts;
         map.colors = colors;
         map.legends = legends;
+        const ownerName = owner.username;
+        console.log(ownerName);
         return res.status(200).json({
             map: map,
+            ownerName: ownerName
         })
     } catch (err) {
         console.log("err: " + err);
