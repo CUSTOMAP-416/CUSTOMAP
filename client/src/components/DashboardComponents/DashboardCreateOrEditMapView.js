@@ -131,9 +131,6 @@ export default function DashboardCreateOrEditMapView() {
     }
     else{
       onCreateMap();
-      setErrorMessage(
-        auth_store.errorMessage
-      );
     }
   };
   //Handles map Edit button click.
