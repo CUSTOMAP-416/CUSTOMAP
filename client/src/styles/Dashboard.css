@@ -8,12 +8,6 @@
     /* width:200; */
 }
 
-.search-box{
-    position: relative;
-    margin: 0px 60px 20px 60px;
-    width: 85%;
-}
-
 .sidebar {
     background-color: #E8E8E8;
     padding: 20px;
@@ -156,6 +150,13 @@
     border-radius: 10px;
     background-color: #DAEDD5;
 }
+/* Search Map View ------------------------------------*/
+
+.search-box{
+    position: relative;
+    margin: 0px 60px 20px 60px;
+    width: 85%;
+}
 
 .delete:hover{
   padding: 5px 10px;
@@ -176,41 +177,50 @@
 }
 
 .search-button{
-    color: white;
-    background-color: green;
-    border-color: green;
-    border-radius: 10px;
-    position: absolute;
-    z-index: 1;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 5px 15px;
-    cursor: pointer;
+  height: 35px;
+  width: 85px;
+  font-weight: bolder;
+  font-size: 1em;
+  color: white;
+  background-color: green;
+  border-color: green;
+  border-radius: 10px;
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 5px 15px;
+  cursor: pointer;
 }
+.search-button:hover {
+  background-color: #4CAF50;
+}
+.search-input{
+  font-size: 1.2em;
+}
+/* ----------------------------------------------------*/
 .modal {
-    display: none; /* 默认隐藏 */
+    display: none; 
     position: fixed;
-    z-index: 1; /* 在内容之上 */
+    z-index: 1; 
     left: 0;
     top: 0;
-    width: 100%; /* 全宽 */
-    height: 100%; /* 全高 */
-    overflow: auto; /* 如果需要滚动 */
-    background-color: rgb(0,0,0); /* 背景颜色 */
-    background-color: rgba(0,0,0,0.4); /* 黑色 w/ opacity */
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); /* w/ opacity */
   }
   
-  /* 弹窗内容 */
   .modal-content {
     background-color: #bf6b6b;
-    margin: 15% auto; /* 15% 从顶部和中间 */
+    margin: 15% auto; 
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* 可以调整宽度 */
+    width: 80%; 
   }
   
-  /* 关闭按钮 */
   .close {
     color: #aaa;
     float: right;
@@ -284,7 +294,7 @@
     transition: background-color 0.3s;
   }
   .button:hover {
-    background-color: #45a049;
+    background-color: green;
   }
   
   .file-types {
@@ -404,7 +414,9 @@
     cursor: pointer;
     border-radius: 4px;
   }
-  
+  #create-button:hover {
+    background-color: green;
+  }
   #edit-button{
     background-color: #4CAF50; /* Green */
     border: none;
@@ -419,7 +431,9 @@
     cursor: pointer;
     border-radius: 4px;
   }
-
+  #edit-button:hover {
+    background-color: green;
+  }
   #cancel-button {
     background-color: #7dae7d; /* Red */
     border: none;
@@ -433,7 +447,9 @@
     cursor: pointer;
     border-radius: 4px;
   }
-  
+  #cancel-button:hover {
+    background-color: green;
+  }
   #map-name {
     padding: 10px;
     font-size: 16px;
@@ -463,13 +479,24 @@
   }
 
   .fork{
-    
     text-align: left;
   }
   
   .fork-content a:hover {
     background-color: rgb(228, 244, 229);
   }
+
+  .fork-select {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 9px 15px;
+  margin: 0 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s;
+}
 
   /* Sort dropdown button ------------------*/
 

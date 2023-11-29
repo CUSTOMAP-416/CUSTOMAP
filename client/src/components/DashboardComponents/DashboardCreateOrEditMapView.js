@@ -193,9 +193,9 @@ export default function DashboardCreateOrEditMapView() {
   return (
     <div className="createEditAll">
       <div>
-        <div className="creat-banner" style={{paddingBottom: "0px"}}>
+        <div className="creat-banner" style={{ paddingBottom: "0px" }}>
           <div className="title-section">
-          {isForkOpen && (
+            {/* {isForkOpen && (
               <div className="fork-content">
                 <a className="fork" onClick={() => handleForkContent("North America")}>North America</a>
                 <a className="fork" onClick={() => handleForkContent("South America")}>South America</a>
@@ -205,7 +205,7 @@ export default function DashboardCreateOrEditMapView() {
                 <a className="fork" onClick={() => handleForkContent("Asia")}>Asia</a>
                 <a className="fork" onClick={() => handleForkContent("World")}>World</a>
               </div>
-            )}
+            )} */}
             <div className="dashboard-header">{auth_store.isCreatePage ? 'Create Map' : 'Edit Map'}</div>
             {auth_store.isCreatePage ?'':
               <div style={{paddingBottom: "10px"}}>
@@ -236,86 +236,144 @@ export default function DashboardCreateOrEditMapView() {
             }
           </div>
           <div className="button-section">
-            {auth_store.isCreatePage ?
-            <div>
-              <input
-                type="file"
-                id="creatmap-fileInput"
-                accept=".zip,.kml,.geojson"
-                onChange={handleUploadFile}
-              />
-              <button
-                className="button fork"
-                type="button"
-                onClick={() => handleForkMap()}>
-                Fork Map
-              </button>
-              <button
-                className="button upload"
-                type="button"
-                onClick={() =>
-                  document.getElementById("creatmap-fileInput").click()
-                }
-              >
-                Upload File
-              </button>
-              <p className="file-types"> Available on SHP/DBF, GeoJSON, KML </p> 
-            </div>: ''}
-            {auth_store.isCreatePage ? "":
-            <div>
-              <button className="button upload" type="button" onClick={() => handleShareMap()}>Share Map</button>
-              {isShareOpen && (
-                <div className="fork-content">
-                  <input type="text" value={shareEmail} onChange={handleShareEmailChange}/>
-                  <button onClick={() => shareMap()}>Share</button>
-                </div>
-              )}
-              <button className="button upload" type="button" onClick={() => changeVisibility()}>{visibility}</button>
-            </div>}
+            {auth_store.isCreatePage ? (
+              <div>
+                <input
+                  type="file"
+                  id="creatmap-fileInput"
+                  accept=".zip,.kml,.geojson"
+                  onChange={handleUploadFile}
+                />
+                {/* <button
+                  className="button fork"
+                  type="button"
+                  onClick={() => handleForkMap()}
+                >
+                  Fork Map
+                </button> */}
+
+                <select
+                  className="button fork fork-select"
+                  onChange={(e) => handleForkContent(e.target.value)}
+                >
+                  <option value="default">Fork Map</option>
+                  <option value="North America">North America</option>
+                  <option value="South America">South America</option>
+                  <option value="Oceania">Oceania</option>
+                  <option value="Europe">Europe</option>
+                  <option value="Africa">Africa</option>
+                  <option value="Asia">Asia</option>
+                  <option value="World">World</option>
+                </select>
+                <button
+                  className="button upload"
+                  type="button"
+                  onClick={() =>
+                    document.getElementById("creatmap-fileInput").click()
+                  }
+                >
+                  Upload File
+                </button>
+                <p className="file-types">
+                  {" "}
+                  Available on SHP/DBF, GeoJSON, KML{" "}
+                </p>
+              </div>
+            ) : (
+              ""
+            )}
+            {auth_store.isCreatePage ? (
+              ""
+            ) : (
+              <div>
+                <button
+                  className="button upload"
+                  type="button"
+                  onClick={() => handleShareMap()}
+                >
+                  Share Map
+                </button>
+                {isShareOpen && (
+                  <div className="fork-content">
+                    <input
+                      type="text"
+                      value={shareEmail}
+                      onChange={handleShareEmailChange}
+                    />
+                    <button onClick={() => shareMap()}>Share</button>
+                  </div>
+                )}
+                <button
+                  className="button upload"
+                  type="button"
+                  onClick={() => changeVisibility()}
+                >
+                  {visibility}
+                </button>
+              </div>
+            )}
           </div>
         </div>
         <div className="create-content">
           <div className="property-bar">
-            <label className="MD" style={{padding: "0px 10px", fontWeight: "bolder"}}>Map Name:</label><input
-            type="text"
-            data-cy="create_mapname"
-            id="map-name"
-            placeholder="Map Name"
-            value={mapTitle}
-            onChange={handleMapTitleChange}
-          />
+            <label
+              className="MD"
+              style={{ padding: "0px 10px", fontWeight: "bolder" }}
+            >
+              Map Name:
+            </label>
+            <input
+              type="text"
+              data-cy="create_mapname"
+              id="map-name"
+              placeholder="Map Name"
+              value={mapTitle}
+              onChange={handleMapTitleChange}
+            />
           </div>
         </div>
-        <MapComponent 
+        <MapComponent
           mapData={mapData}
           texts={texts}
           colors={colors}
-          legends={legends} 
+          legends={legends}
         />
-        {errorMessage && <p className="error-message" style={{color:"red"}}>{errorMessage}</p>}
+        {errorMessage && (
+          <p className="error-message" style={{ color: "red" }}>
+            {errorMessage}
+          </p>
+        )}
         <div className="create-map-bottom-bar">
-          <div style={{ width: "70%", paddingLeft:"20px"}}>
-        <label className="MD">Map Description:</label>
-          <input
+          <div style={{ width: "70%", paddingLeft: "20px" }}>
+            <label className="MD">Map Description:</label>
+            <input
               type="text"
               data-cy="create_discrip"
               placeholder="Description"
               value={mapDescription}
-              onChange={handleMapDescriptionChange }
+              onChange={handleMapDescriptionChange}
             />
-            </div>
-          <div style={{display: "flex", justifyContent: "space-around", paddingRight: "20px"}}>
-          <button id="cancel-button" onClick={() => handleCancel()}>
-            Cancel
-          </button>
-          {auth_store.isCreatePage 
-            ? <button id="create-button" onClick={() => handleCreateMap()}>
-              Create Map
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-around",
+              paddingRight: "20px",
+            }}
+          >
+            <button id="cancel-button" onClick={() => handleCancel()}>
+              Cancel
+            </button>
+            {auth_store.isCreatePage ? (
+              <button id="create-button" onClick={() => handleCreateMap()}>
+                Create Map
               </button>
-            : <button id="edit-button" onClick={() => handleEditMap()}>
-              Edit Map
-              </button>}
-              </div>
+            ) : (
+              <button id="edit-button" onClick={() => handleEditMap()}>
+                Edit Map
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

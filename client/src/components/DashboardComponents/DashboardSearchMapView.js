@@ -87,7 +87,7 @@ export default function DashboardSearchMapView(){
         </div>
         <div className='search-box'>
             <img className="glass" src={glass} alt="My SVG" />
-            <input type="text" value={searchKeyword} onChange={handleSearchChange} style={{backgroundColor: "#DAEDD5", border:"#DAEDD5", borderRadius: "2px", width: "97%", height: "50px", paddingLeft: "50px"}}></input>
+            <input className ='search-input' type="text" value={searchKeyword} onChange={handleSearchChange} style={{backgroundColor: "#DAEDD5", border:"#DAEDD5", borderRadius: "2px", width: "97%", height: "50px", paddingLeft: "50px"}}></input>
             <button className="search-button" onClick={() => handleSearch()}>Search</button>
         </div>
         <div className='description-and-sorting' style={{justifyContent: "end"}}>
