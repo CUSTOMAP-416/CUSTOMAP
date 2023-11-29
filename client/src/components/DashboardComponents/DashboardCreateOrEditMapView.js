@@ -208,7 +208,7 @@ export default function DashboardCreateOrEditMapView() {
             )}
             <div className="dashboard-header">{auth_store.isCreatePage ? 'Create Map' : 'Edit Map'}</div>
             {auth_store.isCreatePage ?'':
-              <div>
+              <div style={{paddingBottom: "10px"}}>
                 
               <button
                 className="button upload"

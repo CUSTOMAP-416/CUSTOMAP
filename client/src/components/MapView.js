@@ -230,7 +230,7 @@ export default function MapView(){
           )}
           <div id="mapview">
           <MapComponent
-            width="1850px"
+            width="100%"
             height="600px"
             mapData={mapData}
             selectedColor={selectedColor}

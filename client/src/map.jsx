@@ -375,7 +375,7 @@ class MapComponent extends Component {
     const { style, width, height } = this.props;
     const mapStyle = style || {
       height: height || "500px",
-      width: width || "1050px",
+      width: width || "100%",
     };
     return (
       <div id="map-container">
