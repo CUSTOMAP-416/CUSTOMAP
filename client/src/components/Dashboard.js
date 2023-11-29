@@ -50,7 +50,7 @@ export default function Dashboard(){
                 <button type="button" onClick={() => handleSelectedViewChange(<DashboardSearchMapView />)}>Search Map</button>
                 </div>
             </div>
-            <div className='selectedDashbord'>{selectedView}</div>
+            <div className='selectedDashbord' style={{overflowX: "hidden"}}>{selectedView}</div>
         </div>
 
     )

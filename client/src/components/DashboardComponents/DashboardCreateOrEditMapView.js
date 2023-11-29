@@ -206,7 +206,7 @@ export default function DashboardCreateOrEditMapView() {
                 <a className="fork" onClick={() => handleForkContent("World")}>World</a>
               </div>
             )} */}
-            <div className="dashboard-header">{auth_store.isCreatePage ? 'Create Map' : 'Edit Map'}</div>
+            <div className="dashboard-header" style={{padding: "40px 30px"}}>{auth_store.isCreatePage ? 'Create Map' : 'Edit Map'}</div>
             {auth_store.isCreatePage ?'':
               <div style={{paddingBottom: "10px"}}>
                 
