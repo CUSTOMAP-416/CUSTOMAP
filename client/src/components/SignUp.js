@@ -85,7 +85,7 @@ export default function SignUp(){
     return (
       <div className="inup">
         <div className="head">
-          <img className="logo" src={logo} alt="My SVG" />
+          <img className="sign-logo" src={logo} alt="My SVG" />
           <h1>Make New Account</h1>
         </div>
         <div className="bodys">
