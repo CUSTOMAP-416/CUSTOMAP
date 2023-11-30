@@ -159,8 +159,8 @@ function AuthStoreContextProvider(props) {
     }
 
     ///User Delete in Admin dashboard
-    auth_store.deleteUser = async function (state) {
-        await apis.deleteUser(state.email).then(response => {
+    auth_store.deleteUser = async function () {
+        await apis.deleteUser().then(response => {
             auth_storeReducer({
                 type: AuthStoreActionType.REGISTER_USER,
                 payload: response.data.user,
