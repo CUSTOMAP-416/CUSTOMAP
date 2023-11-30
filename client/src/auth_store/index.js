@@ -161,7 +161,7 @@ function AuthStoreContextProvider(props) {
     auth_store.deleteUser = async function (state) {
         await apis.deleteUser(state).then(response => {
             auth_storeReducer({
-                type: AuthStoreActionType.REGISTER_USER,
+                type: AuthStoreActionType.null,
                 payload: response.data.user,
             });
             console.log("Email in auth_store: ", state)

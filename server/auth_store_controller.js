@@ -9,7 +9,6 @@ const bcrypt = require('bcryptjs')
 const fs = require('fs');
 
 getAllusers = async (req, res) => {
-  console.log("getAllUsers")
   try {
     const users = await User.find({})
     const userlist = [];

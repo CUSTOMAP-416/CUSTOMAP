@@ -19,7 +19,7 @@ export default function AdminDashboardUserList(){
       auth_store.getAllUsers().then(() => {
         setAllUsers(auth_store.users);
       });
-    }, []);
+    }, [auth_store.users]);
     useEffect(() => {
       auth_store.maps.forEach((mapId) =>
         setMapDetails((prevDetails) => ({
