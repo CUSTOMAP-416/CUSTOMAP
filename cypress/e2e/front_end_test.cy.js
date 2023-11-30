@@ -185,8 +185,6 @@ describe("6. Create Map test", () => {
   });
 });
 
-//-------------Success----------------------------------------------------------------
-
 describe("7. Edit map Test", () => {
   it("Log-in and edit map test", () => {
     cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/login");
@@ -299,39 +297,116 @@ describe("10. Legend test", () => {
     cy.contains("Legend").click();
     cy.get('input[placeholder="Legend Label"]').type("new label");
 
-   cy.contains("Add Legend").should("exist");
-    cy.contains("Add Legend").click();
+   cy.contains("+").should("exist");
+    cy.contains("+").click();
 
     cy.contains("SAVE").should("exist");
     cy.contains("SAVE").click();
   });
  });
 
-
-//----------Future Plan-------------------------------------------------------
-
-// describe("9. Import Map test", () => {
+// describe("11. Import Map test", () => {
 //   it("", () => {
 //     cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/");
 //   });
 // });
 
-// describe("10. Search Map test", () => {
-//   it("", () => {
-//   });
-// });
+describe("11. Search Map test", () => {
+  it("", () => {
+    cy.contains("Map List").should("exist");
+    cy.contains("Map List").click();
 
-// describe("11. Admin Log-in Test", () => {
-//   it("", () => {
-//   });
-// });
+    cy.get('[data-cy="admin-searchbox"]').should("exist");
+    cy.get('[data-cy="admin-searchbox"]').type("Front Test Map (2)");
+    cy.get('[data-cy="admin-searchbox"]').should(
+      "have.value",
+      "Front Test Map (2)"
+    );
 
-// describe("12. Admin User delete Test", () => {
-//   it("", () => {
-//   });
-// });
+    cy.contains("Search").should("exist");
+    cy.contains("Search").click();
 
-// describe("13. Admin Map Delete Test", () => {
-//   it("", () => {
-//   });
-// });
+    cy.contains("Front Test Map (2)").should("exist");
+  });
+});
+
+
+describe("12. Map View test", () => {
+  it("Search and cilck map to check view page with legend", () => {
+    cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/login");
+    cy.url().should("include", "/login");
+    cy.get('[data-cy="log_email"]').type("test@gmail.com");
+    cy.get('input.log_input[type="password"]').type("testpassword");
+    cy.contains("Log in").click();
+    cy.wait(1000);
+
+    cy.contains("Search Map").should("exist");
+    cy.contains("Search Map").click();
+    cy.wait(1000);
+
+    cy.get('[data-cy="admin-searchbox"]').should("exist");
+    cy.get('[data-cy="admin-searchbox"]').type("Front Test Map (2)");
+    cy.get('[data-cy="admin-searchbox"]').should(
+      "have.value",
+      "Front Test Map (2)"
+    );
+
+    cy.get('img[alt="My SVG"]').click();
+    
+    cy.contains("TITLE :").should("exist");
+    cy.contains("Description :").should("exist");
+
+    cy.contains("Legend").should("exist");
+    cy.contains("Legend").click();
+
+    cy.contains("new label").should("exist");
+  });
+});
+
+describe("13. Sort button test", () => {
+  it("Sort button test with search map page", () => {
+    cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/login");
+    cy.url().should("include", "/login");
+    cy.get('[data-cy="log_email"]').type("test@gmail.com");
+    cy.get('input.log_input[type="password"]').type("testpassword");
+    cy.contains("Log in").click();
+    cy.wait(1000);
+
+    cy.contains("Search Map").should("exist");
+    cy.contains("Search Map").click();
+    cy.wait(1000);
+
+    let initialList = [];
+
+    cy.get("[data-cy=list-item]")
+      .each(($el) => {
+        initialList.push($el.text());
+      })
+      .then(() => {
+        cy.contains("SORT").click();
+        cy.contains("Ascending").click();
+
+        cy.get("[data-cy=list-item]").should(($listItems) => {
+          let sortedListAsc = $listItems
+            .map((index, html) => Cypress.$(html).text())
+            .get();
+          expect(sortedListAsc).to.deep.equal([...initialList].sort());
+        });
+
+
+        cy.contains("Ascending").click();
+        cy.contains("Descending").click();
+
+        cy.get("[data-cy=list-item]").should(($listItems) => {
+          let sortedListDesc = $listItems
+            .map((index, html) => Cypress.$(html).text())
+            .get();
+
+          expect(sortedListDesc).to.deep.equal(
+            [...initialList].sort().reverse()
+          );
+        });
+      });
+  });
+});
+

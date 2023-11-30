@@ -51,7 +51,7 @@ export default function DashboardSearchMapView(){
             maps.push(
                 <div key={mapsId[i]._id} className="box">
                     <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
-                        <div className='map-name'>{mapsId[i].title}</div>
+                        <div className='map-name' data-cy='list-item'>{mapsId[i].title}</div>
                     </div>
                     <Link to="/MapView/" onClick={() => handleMapSelect(mapsId[i]._id)}>
                         <img className="map" src={map} alt="My SVG" />

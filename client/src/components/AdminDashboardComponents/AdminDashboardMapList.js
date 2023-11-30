@@ -108,6 +108,7 @@ export default function AdminDashboardMapList(){
           <img className="glass" src={glass} alt="My SVG" />
           <input
             type="text"
+            data-cy="admin-searchbox"
             value={searchKeyword}
             onChange={handleSearchChange}
             style={{
