@@ -71,17 +71,20 @@ body {
 .user-list {
     padding: 0px 30px
 }
-
-.user-item {
-    background-color: #ffffff;
-    padding: 15px;
-    margin-bottom: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.user-box{
     border-radius: 10px;
     border: 2px solid;
     border-color:#1F8505;
+    margin-bottom: 15px;
+    padding: 15px;
+
+}
+.user-item {
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
     font-family: DM Sans;
     font-size: 20px;
     font-style: normal;
@@ -102,7 +105,10 @@ body {
 .user-item button:hover {
     background-color: #b6d2af
 }
-
+.small-email{
+    font-size: 15px;
+    color: rgb(84, 84, 84);
+}
 .sort-buttons {
     padding: 10px;
     display: flex;

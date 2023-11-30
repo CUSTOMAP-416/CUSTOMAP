@@ -12,9 +12,16 @@ getAllusers = async (req, res) => {
   console.log("getAllUsers")
   try {
     const users = await User.find({})
-    console.log(users)
+    const userlist = [];
+    if(users){
+        for(let i=0; i<users.length; i++){
+            if(users[i].role === "user"){
+                userlist.push(users[i])
+            }
+        }
+    }
     return res.status(200).json({
-        users: users
+        users: userlist
     })
   } catch (error) {
     console.error(error);
@@ -23,7 +30,6 @@ getAllusers = async (req, res) => {
 };
 
 getAllmaps = async (req, res) => {
-  console.log("getAllMaps")
   try {
     const allMaps = await Map.find({});
     const maps = []
