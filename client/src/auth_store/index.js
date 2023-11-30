@@ -119,7 +119,6 @@ function AuthStoreContextProvider(props) {
             }));
         });
     }
-    console.log(auth_store)
     // Registers the user const onSignUp = async (userData) => ?
     auth_store.createUser = async function (state) {
         await apis.createUser(state.name, state.phone, state.id, state.email, state.password, state.passwordVerify).then(response => {
@@ -159,12 +158,13 @@ function AuthStoreContextProvider(props) {
     }
 
     ///User Delete in Admin dashboard
-    auth_store.deleteUser = async function () {
-        await apis.deleteUser().then(response => {
+    auth_store.deleteUser = async function (state) {
+        await apis.deleteUser(state).then(response => {
             auth_storeReducer({
                 type: AuthStoreActionType.REGISTER_USER,
                 payload: response.data.user,
             });
+            console.log("Email in auth_store: ", state)
             return setAuthStore((prevAuthStore) => ({
                 ...prevAuthStore,
                 successMessage: response.data.message,

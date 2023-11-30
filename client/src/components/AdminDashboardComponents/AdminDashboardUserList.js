@@ -51,10 +51,12 @@ export default function AdminDashboardUserList(){
         setUserSortingOption(option)
     }
     //Handle the user edit button click. 
-    const handleUserEdit = (event) => {
+    const handleUserDelete = (email) => {
+        deleteUser(email)
+        console.log(email)
     }
-    //Handle the user delete button click. 
-    const handleUserDelete = (event) => {
+    const deleteUser = (email) => {
+        auth_store.deleteUser(email)
     }
     const handleToolBar = (event) =>{
         if(toolOpen){
@@ -113,7 +115,7 @@ export default function AdminDashboardUserList(){
                                 <div>
                                     <button className="map">Map</button>
                                     <button className="edit">Edit</button>
-                                    <button className="delete">Delete</button>
+                                    <button className="delete" onClick={()=>handleUserDelete(user.email)}>Delete</button>
                                 </div>
                             </div>
                         </div>
