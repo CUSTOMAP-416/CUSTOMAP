@@ -164,3 +164,31 @@ body {
     border-color: #B8D6B0;
 }
 
+.hidden-maplist{
+    font-family: DM Sans;
+}
+.hidden-head{
+    margin-left: 10px;
+    font-weight: 600;
+    font-size: 18px;
+    font-family: DM Sans ;
+    color: rgb(1, 75, 1);
+}
+/* li{
+    margin: 10px;
+} */
+.small-ul{
+    font-weight: 600;
+}
+li {
+  list-style-type:none;
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+  color: #333;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  padding: 10px 15px;
+  transition: all 0.3s ease;
+}

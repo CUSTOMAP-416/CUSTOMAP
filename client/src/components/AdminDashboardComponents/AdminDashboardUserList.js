@@ -19,7 +19,7 @@ export default function AdminDashboardUserList(){
       auth_store.getAllUsers().then(() => {
         setAllUsers(auth_store.users);
       });
-    }, [auth_store.users]);
+    }, []);
     useEffect(() => {
       auth_store.maps.forEach((mapId) =>
         setMapDetails((prevDetails) => ({
@@ -103,7 +103,6 @@ export default function AdminDashboardUserList(){
                       >
                         Map
                       </button>
-                      <button className="edit">Edit</button>
                       <button
                         className="delete"
                         onClick={() => handleUserDelete(user.email)}
@@ -115,12 +114,13 @@ export default function AdminDashboardUserList(){
                   {userMaplistOpen[user._id] && (
                     <div className="hidden-maplist">
                       <hr className="hr-1"></hr>
-                      <div>Map List</div>
+                      <div className='hidden-head'>Map List</div>
                       <ul>
                         {user.maps.map((mapId) => (
                           <li key={mapId}>
-                            <div>{mapDetails[mapId].title}</div>
-                            <div>{mapDetails[mapId].description}</div>
+                            <spen className='small-ul'>Title: </spen>
+                            <spen>{mapDetails[mapId].title}</spen>
+                            <div>Description: {mapDetails[mapId].description || "< none >"}</div>
                           </li>
                         ))}
                       </ul>
