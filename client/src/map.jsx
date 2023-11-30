@@ -74,10 +74,10 @@ class MapComponent extends Component {
     const layer = e.target;
     if (!this.state.paintedLayers[L.stamp(layer)]) {
       layer.setStyle({
-        weight: 2,
-        color: "#3388ff",
-        fillColor: "#3388ff",
-        fillOpacity: 0.2,
+        weight: 1,
+        color: "#808080",
+        fillColor: "",
+        fillOpacity: 0,
       });
     }
   };
@@ -218,6 +218,9 @@ class MapComponent extends Component {
     if (map && geojsonLayer && geojsonLayer.type === "FeatureCollection") {
       const layer = L.geoJSON(geojsonLayer, {
         onEachFeature: this.onEachFeature,
+        color: "#808080",
+        weight: 1,
+        fillOpacity: 0,
       });
       layer.addTo(map);
       map.fitBounds(layer.getBounds());
@@ -267,7 +270,7 @@ class MapComponent extends Component {
   undo = (customization) => {
     if(customization.type == 'color'){
       let layer=this.state.geojsonLayer.getLayer(customization.id)
-      if(customization.previous == "#3388ff" || customization.value.color == "#ffffff" || customization.previous == null){
+      if(customization.previous == "#808080" || customization.value.color == "#ffffff" || customization.previous == null){
         layer.setStyle({
           fillColor: "",
           fillOpacity: 0,
@@ -282,7 +285,7 @@ class MapComponent extends Component {
       else{
         layer.setStyle({
           fillColor: customization.previous,
-          fillOpacity: 0.2,
+          fillOpacity: 0,
           weight: 1,
         });
         this.setState((prevState) => {
@@ -312,7 +315,7 @@ class MapComponent extends Component {
   redo = (customization) => {
     if(customization.type == 'color'){
       let layer=this.state.geojsonLayer.getLayer(customization.id)
-      if(customization.value.color == "#3388ff" || customization.value.color == "#ffffff" || customization.value.color == null){
+      if(customization.value.color == "#808080" || customization.value.color == "#ffffff" || customization.value.color == null){
         layer.setStyle({
           fillColor: "",
           fillOpacity: 0,
