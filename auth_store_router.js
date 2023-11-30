@@ -10,6 +10,7 @@ authStoreRouter.get('/logout', AuthStoreController.logoutUser)
 authStoreRouter.get('/loggedIn', AuthStoreController.getLoggedIn)
 authStoreRouter.post("/forgetPassword", AuthStoreController.forgetPassword)
 authStoreRouter.put("/Dashboard/:email", AuthStoreController.editUserInfo);
+authStoreRouter.post("/Dashboard/:email", AuthStoreController.deleteUser);
 authStoreRouter.post("/createMap", AuthStoreController.createMap)
 authStoreRouter.post("/getMap", AuthStoreController.getMap)
 authStoreRouter.post("/editMap", AuthStoreController.editMap)

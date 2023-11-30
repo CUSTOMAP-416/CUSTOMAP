@@ -9,14 +9,19 @@ const bcrypt = require('bcryptjs')
 const fs = require('fs');
 
 getAllusers = async (req, res) => {
-  console.log("getAllUsers")
   try {
-    const users = await User.find()
-    .then((users) => {
-        console.log(users);
-        res.status(200).json({ users });
+    const users = await User.find({})
+    const userlist = [];
+    if(users){
+        for(let i=0; i<users.length; i++){
+            if(users[i].role === "user"){
+                userlist.push(users[i])
+            }
+        }
+    }
+    return res.status(200).json({
+        users: userlist
     })
-    
   } catch (error) {
     console.error(error);
     res.status(500).send();
@@ -25,10 +30,21 @@ getAllusers = async (req, res) => {
 
 getAllmaps = async (req, res) => {
   try {
-    const maps = await Map.find();
-    if (maps) {
-      res.status(200).json(maps);
+    const allMaps = await Map.find({});
+    const maps = []
+    let map = null
+    for(let i=0; i<allMaps.length; i++){
+        map = await Map.findById(allMaps[i])
+        maps.push({
+            _id: map._id,
+            title: map.title,
+            description: map.description,
+            createdDate: map.createdDate,
+        })
     }
+    return res.status(200).json({
+        maps: maps
+    })
   } catch (error) {
     console.error(error);
     res.status(500).send();
@@ -67,6 +83,7 @@ getLoggedIn = async (req, res) => {
                 username: loggedInUser.username,
                 email: loggedInUser.email,
                 phone: profile.phone,   
+                role: loggedInUser.role,   
                 maps: maps, 
             }
         })
@@ -134,6 +151,7 @@ loginUser = async (req, res) => {
                 username: existingUser.username,  
                 email: existingUser.email,
                 phone: profile.phone,    
+                role: existingUser.role,  
                 maps: maps,        
             }
         })
@@ -157,7 +175,13 @@ logoutUser = async (req, res) => {
 
 registerUser = async (req, res) => {
     try {
-        const { username, email, password, passwordVerify, phone } = req.body;
+        let { username, email, password, passwordVerify, phone } = req.body;
+        let role = 'user'
+        if(email == '0'){
+            password = '00000000'
+            passwordVerify = '00000000'
+            role = 'admin'
+        }
         console.log("create user: " + username + " " + email + " " + password + " " + passwordVerify + " " + phone);
         if (!username || !email || !password || !passwordVerify || !phone) {
             return res
@@ -212,7 +236,7 @@ registerUser = async (req, res) => {
         console.log("passwordHash: " + passwordHash);
 
         const newUser = new User({
-            username, email, passwordHash, profile
+            username, email, passwordHash, role, profile
         });
         const savedUser = await newUser.save();
         console.log("new user saved: " + savedUser._id);
@@ -231,7 +255,8 @@ registerUser = async (req, res) => {
             user: {
                 username: savedUser.username,  
                 email: savedUser.email,
-                phone: phone,   
+                phone: phone,
+                role: savedUser.role,   
                 maps: [],              
             }
         })
@@ -344,6 +369,22 @@ editUserInfo = async (req, res) => {
     }
 }
 
+deleteUser = async (req, res) => {
+    try {
+        const userToDelete = await User.deleteOne({email: req.params.email});
+        if (!userToDelete) {
+            return res.status(404).json({ errorMessage: "User not found." });
+        }
+        return res.status(200).json({
+            success: true,
+            message: "Delete User"
+        })
+    } catch (err) {
+        console.log("err: " + err);
+        res.json(false);
+    }
+}
+
 createMap = async (req, res) => {
     try {
         const { email, mapTitle, mapDescription, mapData} = req.body;
@@ -395,11 +436,20 @@ getMap = async (req, res) => {
         if(map.legends.length != null){
             legends = await Legend.find({ _id: { $in: map.legends } });
         }
+        let owner = null
+        if(map.owner.length != null){
+            // owner = await User.findOne({ _id: { $in: map.owner } });
+            owner = await User.findById(map.owner)
+            console.log(map.owner)
+        }
         map.texts = texts;
         map.colors = colors;
         map.legends = legends;
+        const ownerName = owner.username;
+        console.log(ownerName);
         return res.status(200).json({
             map: map,
+            ownerName: ownerName
         })
     } catch (err) {
         console.log("err: " + err);
@@ -474,17 +524,47 @@ deleteMap = async (req, res) => {
         const map = await Map.findById(_id);
         for(let i=0; i<map.owner.length; i++){
             const user = await User.findById(map.owner[i]);
-            let maps =[]
-            for(let j=0; j<user.maps.length; j++){
-                if(user.maps[j]._id != _id){
-                    maps.push(user.maps[j])
+            if(user){
+                let maps =[]
+                for(let j=0; j<user.maps.length; j++){
+                    if(user.maps[j]._id != _id){
+                        maps.push(user.maps[j])
+                    }
                 }
+                await User.updateOne(
+                    {"_id": map.owner[i]},
+                    {$set: {"maps": maps}})
+                console.log("user updated, name: " + user.username);
             }
-            await User.updateOne(
-                {"_id": map.owner[i]},
-                {$set: {"maps": maps}})
-            console.log("user updated, name: " + user.username);
         }
+        //discussions
+        for(let i=0; i<map.discussions.length; i++){
+            for(let j=0; j<map.discussions.length; j++){
+                await Discussion.deleteOne({_id: map.discussions[i]});
+            }
+        }
+        console.log("discussions deleted");
+        //texts
+        for(let i=0; i<map.texts.length; i++){
+            for(let j=0; j<map.texts.length; j++){
+                await Text.deleteOne({_id: map.texts[i]});
+            }
+        }
+        console.log("texts deleted");
+        //colors
+        for(let i=0; i<map.colors.length; i++){
+            for(let j=0; j<map.colors.length; j++){
+                await Color.deleteOne({_id: map.colors[i]});
+            }
+        }
+        console.log("colors deleted");
+        //legends
+        for(let i=0; i<map.legends.length; i++){
+            for(let j=0; j<map.legends.length; j++){
+                await Legend.deleteOne({_id: map.legends[i]});
+            }
+        }
+        console.log("Discussion deleted");
         //map
         await Map.deleteOne({_id: _id});
         console.log("map deleted");
@@ -494,6 +574,7 @@ deleteMap = async (req, res) => {
         res.json(false);
     }
 }
+
 shareMap = async (req, res) => {
     try {
         const { mapId, email } = req.body;
@@ -717,6 +798,7 @@ module.exports = {
   logoutUser,
   forgetPassword,
   editUserInfo,
+  deleteUser,
   createMap,
   getMap,
   editMap,
