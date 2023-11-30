@@ -296,8 +296,9 @@ export default function DashboardCreateOrEditMapView() {
                       type="text"
                       value={shareEmail}
                       onChange={handleShareEmailChange}
+                      placeholder="Enter recipient's email"
                     />
-                    <button onClick={() => shareMap()}>Share</button>
+                    <button className="shareB" onClick={() => shareMap()}>Share</button>
                   </div>
                 )}
                 <button

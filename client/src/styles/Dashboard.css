@@ -468,32 +468,52 @@
   #map-name:hover{
     border: 2px solid #888;
   }
+
+  
   .fork-content {
-    height:150px;
-    border:solid;
     position: absolute;
-    background-color: #caeeca;
-    min-width: 150px;
-    min-height: 5px;
-    margin-left:600px;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f5f5f5c3;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    gap: 7px;
+    margin-right: 10px
   }
   
-  .fork-content a {
-    float: none;
-    color: black;
-    padding: 5px 10px;
+  .fork-content input[type="text"] {
+    padding: 6px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    font-size: 13px;
+    width: 70%;
+    box-sizing: border-box; 
+    font-style:italic
+  }
+  
+  .fork-content .shareB {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 6px 15px;
+    text-align: center;
     text-decoration: none;
-    display: flex;
-    text-align: left;
-    height:10px;
+    display: inline-block;
+    font-size: 13px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .fork-content .shareB:hover {
+    background-color: #347838;
   }
 
   .fork{
     text-align: left;
-  }
-  
-  .fork-content a:hover {
-    background-color: rgb(228, 244, 229);
   }
 
   .fork-select {
