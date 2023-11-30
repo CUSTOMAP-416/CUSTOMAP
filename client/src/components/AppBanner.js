@@ -50,16 +50,27 @@ export default function AppBanner() {
           </div>
 
           {auth_store.loggedIn ? (
-            <div className="banner-button" id="banner-mypage">
-              <Link
-                type="button"
-                to="/Dashboard/"
-                style={{ color: "white", textDecoration: "none" }}
-                onClick={() => openMyPage()}
-              >
-                MyPage{" "}
-              </Link>
-            </div>
+            auth_store.user.role == "admin" ?
+              <div className="banner-button" id="banner-mypage">
+                <Link
+                  type="button"
+                  to="/AdminDashboard/"
+                  style={{ color: "white", textDecoration: "none" }}
+                  onClick={() => openMyPage()}
+                >
+                  MyPage{" "}
+                </Link>
+              </div>
+              :<div className="banner-button" id="banner-mypage">
+                <Link
+                  type="button"
+                  to="/Dashboard/"
+                  style={{ color: "white", textDecoration: "none" }}
+                  onClick={() => openMyPage()}
+                >
+                  MyPage{" "}
+                </Link>
+              </div>
           ) : (
             <div></div>
           )}
