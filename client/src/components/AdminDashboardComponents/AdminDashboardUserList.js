@@ -1,117 +1,135 @@
 import '../../styles/AdminDashboard.css';
 
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import AuthStoreContextProvider from '../../auth_store';
 
-import user from "../../assets_img/adminDashboard_user.svg";
+import UserIcon from "../../assets_img/adminDashboard_user.svg";
 import arrow from "../../assets_img/dashboard_arrow.svg";
 
 export default function AdminDashboardUserList(){
-    const { auth_store } = useContext(AuthStoreContextProvider);
+    const {auth_store} = useContext(AuthStoreContextProvider);
 
-    const [userSortingOption, setUserSortingOption] = useState('');
+    const [userMaplistOpen, setUserMaplistOpen] = useState({});
     const [allUsers, setAllUsers] = useState([]);
     const [toolOpen, setToolOpen] = useState(false);
 
-    //function to handle get the array of user objects 
-    const getAllUsers = () => {
-        setAllUsers(auth_store.getAllUsers())
-        console.log(allUsers)
-    }
+    const [mapDetails, setMapDetails] = useState({});
 
-    // useEffect(() => {
-    //     const maps = []
-    //     for(let i=0; i<auth_store.user.maps.length; i++){
-    //         maps.push(
-    //             <div key={auth_store.user.maps[i]._id} className="box">
-    //                 <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
-    //                     <div className='map-name'>{auth_store.user.maps[i].title}</div>
-    //                     <button className="delete" onClick={() => handleEdit(auth_store.user.maps[i]._id)}>Edit</button>
-    //                     <button className="delete" onClick={() => handleDeleteMap(auth_store.user.maps[i]._id)}>X</button>
-    //                 </div>
-    //                 <Link to="/MapView/" onClick={() => handleMapSelect(auth_store.user.maps[i]._id)}>
-    //                     <img className="map" src={map} alt="My SVG" />
-    //                 </Link>
-    //             </div>
-    //         )
-    //     }
-    //     setUserMaps(maps)
-    // }, []);
-    //Handle changes in user sorting change.
-    const handleUserSortingChange = (option) => {
-        setUserSortingOption(option)
+    useEffect(() => {
+      auth_store.getAllUsers().then(() => {
+        setAllUsers(auth_store.users);
+      });
+    }, [auth_store.users]);
+    useEffect(() => {
+      auth_store.maps.forEach((mapId) =>
+        setMapDetails((prevDetails) => ({
+          ...prevDetails,
+          [mapId._id]: {
+            title: mapId.title,
+            description: mapId.description,
+          },
+        }))
+      );
+    }, [auth_store.maps]);
+
+    const handleUserMaplistOpen = (userId) => {
+      setUserMaplistOpen((prevState) => ({
+        ...prevState,
+        [userId]: !prevState[userId],
+      }));      
+    };
+    const handleSortingChange = (event) => {
+        const userSort = [...allUsers]
+        if(event == "Ascending"){
+            userSort.sort((a, b) => a.username.localeCompare(b.username));
+        }
+        else if(event == "Descending"){
+            userSort.sort((a, b) => b.username.localeCompare(a.username));
+        }
+        else if(event == "Recent Date"){
+            userSort.sort((a, b) => a.createdDate - b.createdDate);
+        }
+
+        setAllUsers(userSort);
     }
     //Handle the user edit button click. 
-    const handleUserEdit = (event) => {
+    const handleUserDelete = (email) => {
+        deleteUser(email)
+        console.log(email)
     }
-    //Handle the user delete button click. 
-    const handleUserDelete = (event) => {
+    const deleteUser = (email) => {
+        auth_store.deleteUser(email)
     }
-    const handleToolBar = (event) =>{
-        if(toolOpen){
-            setToolOpen(false);
-        }
-        else{
-            setToolOpen(true);
-        }
-    }
-    return (
-        // <div>
-        //     <button type="button" onClick={() => handleUserSortingChange()}>Sorting</button>
-        //     <button type="button" onClick={() => handleUserEdit()}>User Edit</button>
-        //     <button type="button" onClick={() => handleUserDelete()}>User Delete</button>
-        // </div>
-        <div className='right-body'>
-            <div className="admin-header">
-                <h1 className='header-font'>Admin Dashboard</h1>
-            </div>
-            <div class="user-list">
-                <div className='sort-buttons'>
-                    <button className='sort-tool' onClick={()=>{handleToolBar()}}> TOOL </button>
-                    <button className='sort-tool' onClick={()=>{getAllUsers();}}> TOOL </button>
+    
 
-                </div>
-                <div className='sort-buttons'>
-                    
-                    {toolOpen && 
-                    <>
-                    <button className='arrow-button' onClick={() => handleUserSortingChange()}><img className="arrow" src={arrow} alt="My SVG" /></button><button class="sort-button" onClick={() => handleUserSortingChange()}>Ascending</button>
-                    <button className='arrow-button' onClick={() => handleUserSortingChange()}><img className="arrow" src={arrow} alt="My SVG" /></button><button class="sort-button" onClick={() => handleUserSortingChange()}>Descending</button>
-                    <button className='arrow-button' onClick={() => handleUserSortingChange()}><img className="arrow" src={arrow} alt="My SVG" /></button><button class="sort-button" onClick={() => handleUserSortingChange()}>Date</button>
-                    </>}
-                    
-                </div>
-                <div class="user-item">
-                <div style={{display: "flex", alignItems: "center"}}> 
-                <img className="user" src={user} style={{paddingRight:"20px"}} alt="My SVG" />
-                    <span>User Name 1</span></div>
-                    <div>
-                        <button className="map">Map</button>
-                        <button className="edit">Edit</button>
-                        <button className="delete">Delete</button>
-                    </div>
-                </div>
-                <div className="user-item">
-                <div style={{display: "flex", alignItems: "center"}}> 
-                <img className="user" src={user} style={{paddingRight:"20px"}} alt="My SVG" />
-                    <span>User Name 2</span></div>
-                    <div>
-                        <button className="edit">Edit</button>
-                        <button className="delete">Delete</button>
-                    </div>
-                </div>
-                <div className="user-item">
-                    <div style={{display: "flex", alignItems: "center"}}> 
-                <img className="user" src={user} style={{paddingRight:"20px"}} alt="My SVG" />
-                    <span>User Name 3</span>
-                    </div>
-                    <div>
-                        
-                        <button className="edit">Edit</button>
-                        <button className="delete">Delete</button>
-                    </div>
-                </div>
+    return (
+      <div className="right-body">
+        <div className="admin-header">
+          <h1 className="header-font">Admin Dashboard</h1>
+        </div>
+        <div class="user-list">
+
+          <div className="sort-buttons">
+            <div className="sort-dropdown">
+              <select onChange={(e) => handleSortingChange(e.target.value)}>
+                <option value="defult">SORT</option>
+                <option value="Ascending">Ascending</option>
+                <option value="Descending">Descending</option>
+                <option value="Recent Date">Recent Date</option>
+              </select>
             </div>
-            </div>
-    )
+          </div>
+          <div style={{ color: "black" }}>
+            {allUsers.length > 0 &&
+              allUsers.map((user) => (
+                <div key={user._id} className="user-box">
+                  <div className="user-item">
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <img
+                        className="user"
+                        src={UserIcon}
+                        style={{ paddingRight: "20px" }}
+                        alt="My SVG"
+                      />
+                      <span>
+                        {user.username}
+                        <div className="small-email">{user.email}</div>
+                      </span>
+                    </div>
+                    <div>
+                      <button
+                        className="map"
+                        onClick={() => handleUserMaplistOpen(user._id)}
+                      >
+                        Map
+                      </button>
+                      <button
+                        className="delete"
+                        onClick={() => handleUserDelete(user.email)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                  {userMaplistOpen[user._id] && (
+                    <div className="hidden-maplist">
+                      <hr className="hr-1"></hr>
+                      <div className='hidden-head'>Map List</div>
+                      <ul>
+                        {user.maps.map((mapId) => (
+                          <li key={mapId}>
+                            <spen className='small-ul'>Title: </spen>
+                            <spen>{mapDetails[mapId].title}</spen>
+                            <div>Description: {mapDetails[mapId].description || "< none >"}</div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              ))}
+          </div>
+        </div>
+      </div>
+    );
 }

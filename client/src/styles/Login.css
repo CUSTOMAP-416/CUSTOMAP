@@ -24,6 +24,11 @@
     border-radius: 15px;
     border: 1px solid #1F8505;
     margin: 8px;
+    font-size: 1rem;
+}
+.log_input:hover {
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
+    transition: box-shadow 0.3s ease; /* 부드러운 전환 효과 */
 }
 .smallWelcome{
     height: 50px;
@@ -44,6 +49,13 @@
     color: #0B2E02;
     text-decoration: none;
 }
+.forgetText:hover {
+    color: #1F8505; 
+    text-decoration: underline; 
+    font-weight: bold;
+    transition: color 0.2s ease, font-weight 0.2s ease; 
+}
+
 .signin{
     display: flex;
     justify-content: center;
@@ -63,6 +75,15 @@
     color: #FFFFFF;
     text-decoration: none;
 
+}
+.signin:hover {
+    background-color: #2FAF07; 
+    cursor: pointer; 
+}
+
+.signup:hover {
+    border-color: #2FAF07; 
+    cursor: pointer; 
 }
 .signup{
     display: flex;

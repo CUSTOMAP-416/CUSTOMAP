@@ -9,7 +9,8 @@ input.profile_input, textarea {
     height: 30px;
     width: 100%;
     margin: 10px;
-    
+    font-size: 17px;
+    padding:10px;
 }
 
 .myprofile_H{
@@ -22,7 +23,6 @@ input.profile_input, textarea {
 }
 
 .profi_bottoms{
-    padding-left: 40px;
     display:flex;
     align-items: center;
     flex-direction: column;
@@ -33,6 +33,10 @@ input.profile_input, textarea {
     align-items: center;
     justify-content: center;
     width: 100%;
+}
+
+.profile_left h2{
+    margin: 43px 0px
 }
 
 .profile_right{
@@ -50,7 +54,7 @@ input.profile_input, textarea {
     background: #1F8505;
     border: 0px;
     border-radius: 50px;
-
+    cursor: pointer;
     width: 270px;
     height: 40px;
 
@@ -61,6 +65,13 @@ input.profile_input, textarea {
 
     color: #FFFFFF;
     text-decoration: none;
+}
+
+.changeInfo_btn:hover{
+    background-color: #2FAF07; 
+    cursor: pointer; 
+    border-radius: 50px;
+    
 }
 
 @media screen and (max-width:996px){

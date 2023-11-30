@@ -28,8 +28,15 @@ const updateUser = (name, email, phone, password) => {
         password : password 
     })
 };
+
+const deleteUser = (email) => {
+    console.log('email in delete: ', email);
+    return api.post(`/Dashboard/${email}`, { 
+    })
+};
+
 ///All map list in Admin dashboard const getMaps = async () => { ?
-const getAllMaps = () => api.get('');
+const getAllMaps = () => api.get('/maps/');
 const getMap = (mapId) => {
     return api.post('/getMap/', {
         mapId : mapId,
@@ -154,6 +161,7 @@ const apis = {
     getAllUsers,
     createUser,
     updateUser,
+    deleteUser,
     getAllMaps,
     getMap,
     createMap,

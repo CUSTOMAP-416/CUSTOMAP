@@ -89,7 +89,8 @@ export default function MapView(){
         })
       }
     };
-
+    const [mapname, setMapname] = useState('');
+    const [mapdiscript, setMapdiscript] = useState('');
     const [texts, setTexts] = useState([]);
     const [colors, setColors] = useState([]);
     const [isLegendsOpen, setIsLegendsOpen] = useState(false);
@@ -124,12 +125,12 @@ export default function MapView(){
       let colors = []
       let texts = []
       for(let i=0; i<customizations.length; i++){
-        if(customizations[i].type == 'color'){
-          if(customizations[i].value.color != "#3388ff" && customizations[i].value.color != "#ffffff" && customizations[i].value.color != null){
+        if(customizations[i].type === 'color'){
+          if(customizations[i].value.color !== "#3388ff" && customizations[i].value.color != "#ffffff" && customizations[i].value.color != null){
             colors.push(customizations[i])
           }
         }
-        else if(customizations[i].type == 'text'){
+        else if(customizations[i].type === 'text'){
           texts.push(customizations[i])
         }
       }
@@ -138,7 +139,7 @@ export default function MapView(){
       for(let i=colors.length-1; i>=0; i--){
         color = colors[i].value
         for(let j=0; j<saveColors.length; j++){
-          if(color.x == saveColors[j].x && color.y == saveColors[j].y){
+          if(color.x === saveColors[j].x && color.y === saveColors[j].y){
             color = null
             break
           }
@@ -154,7 +155,7 @@ export default function MapView(){
       for(let i=texts.length-1; i>=0; i--){
         text = texts[i].value
         for(let j=0; j<saveTexts.length; j++){
-          if(text.x == saveTexts[j].x && text.y == saveTexts[j].y){
+          if(text.x === saveTexts[j].x && text.y === saveTexts[j].y){
             text = null
             break
           }
@@ -164,30 +165,33 @@ export default function MapView(){
           saveTexts.push(text)
         }
       }
-      if(saveColors.length != 0){
+      if(saveColors.length !== 0){
         auth_store.onColor(saveColors)
       }
-      if(saveTexts.length != 0){
+      if(saveTexts.length !== 0){
         auth_store.onText(saveTexts)
       }
 
       let saveLegends = []
       for(let i=0; i<legendItems.length; i++){
-        if(legendItems[i]._id == null){
+        if(legendItems[i]._id === null){
           saveLegends.push(legendItems[i])
         }
       }
-      if(saveLegends.length != 0){
+      if(saveLegends.length !== 0){
         auth_store.onLegend(saveLegends)
       }
+      alert("Saved successfully!")
     }
 
     useEffect(() => {
-      if(auth_store.selectMap != null){
+      if(auth_store.selectMap !== null){
         setMapData(auth_store.selectMap.mapData)
         setTexts(auth_store.selectMap.texts)
         setColors(auth_store.selectMap.colors)
         setLegendItems(auth_store.selectMap.legends)
+        setMapname(auth_store.selectMap.title)
+        setMapdiscript(auth_store.selectMap.description)
       }
     }, [auth_store.selectMap]);
     
@@ -195,7 +199,22 @@ export default function MapView(){
       <div className="MapView-page-container">
         <MapViewDiscussionForum />
           <div className="content">
-          {auth_store.isCreatePage ?'':
+          {auth_store.isCreatePage ?
+            <div className='mapview-contain'>
+              <div className='mapview-title'>
+                <div className='mapview-header'>TITLE : &nbsp;&nbsp;&nbsp;&nbsp;</div>
+                {mapname}
+              </div>
+              <div className='mapview-disc'>
+                <div className='mapview-header'>Description : &nbsp;&nbsp;&nbsp;&nbsp;</div>
+                {mapdiscript}
+              </div>
+              <div className='mapview-title'>
+                <div className='mapview-header'>By : &nbsp;&nbsp;&nbsp;&nbsp;</div>
+                {auth_store.selectName}
+              </div>
+            </div>
+            :
             <MapViewCustomizeToolbar 
               onFontChange={handleFontChange} 
               onTextChange={handleTextChange} 
@@ -205,42 +224,70 @@ export default function MapView(){
               onSave={handleSave}
             />
           }
-          <button id="legend-button" type="button" onClick={() => handleShowLegends()}>
-                Legend
-          </button>
-          {isLegendsOpen && (
-            <div className="legendsContainer" style={{ display: 'flex', flexWrap: 'wrap' }}>
+          
+          {/* {isLegendsOpen && (
+            <div className="legendsContainer" style={{ display: 'flex', flexWrap: 'wrap' }}> */}
               {/* Legend items */}
-              {legendItems.map((item, index) => (
+              {/* {legendItems.map((item, index) => (
                 <div key={index} style={{ display: 'flex', alignItems: 'center', marginRight: '30px', marginBottom: '8px', marginleft: '8px',margintop: '10px', width: '200px' }}>
                   {item.color && <div style={{ width: '20px', height: '20px', backgroundColor: item.color, marginRight: '8px' }}></div>}
                   <span>{item.label}</span>
                   {auth_store.isCreatePage ? '':<button onClick={() => handleDeleteLegend(index, item._id)}>Delete</button>}
                 </div>
-              ))}
+              ))} */}
         
               {/* Add Legend section */}
-              {auth_store.isCreatePage ? '': <div className="legends-Adder" >
+              {/* {auth_store.isCreatePage ? '': <div className="legends-Adder" >
                 <input type="color" value={newLegend.color} onChange={handleNewLegendColorChang} />
                 <input type="text" placeholder="Legend Label" value={newLegend.label} onChange={handleNewLegendLabelChange} />
                 <button onClick={handleAddLegend}>Add Legend</button>
               </div>}
             </div>
-          )}
-          <div id="mapview">
-          <MapComponent
-            width="1850px"
-            height="600px"
-            mapData={mapData}
-            selectedColor={selectedColor}
-            changedText={changedText}
-            changedFont={changedFont}
-            customization={customization}
-            texts={texts}
-            colors={colors}
-            isCreatePage={auth_store.isCreatePage}
-            handleCustomization={handleCustomization}
-            />
+          )} */}
+          <div style={{display: "flex", gap: "20px"}}>
+            <div id="mapview" style={{width: "80%"}}>
+              <MapComponent
+                width="100%"
+                height="600px"
+                mapData={mapData}
+                selectedColor={selectedColor}
+                changedText={changedText}
+                changedFont={changedFont}
+                customization={customization}
+                texts={texts}
+                colors={colors}
+                isCreatePage={auth_store.isCreatePage}
+                handleCustomization={handleCustomization}
+                handleShowLegends={handleShowLegends}
+                />
+            </div>
+            <div className='rightside-for-legend'>
+              <div style={{display: "flex", justifyContent:"center"}}>
+              <button id="legend-button" type="button" onClick={() => handleShowLegends()}>
+                  Legend
+              </button>
+            </div>
+
+            {isLegendsOpen && (
+              <div className="legendsContainer" style={{ display: 'flex', flexWrap: 'wrap'}}>
+                {/* Legend items */}
+                {legendItems.map((item, index) => (
+                  <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '8px', marginleft: '10px',margintop: '10px', width: '200px', justifyContent: "space-between" }}>
+                    {item.color && <div style={{ width: '20px', height: '20px', backgroundColor: item.color, marginRight: '8px' }}></div>}
+                    <span style={{fontSize: "15px"}}>{item.label}</span>
+                    {auth_store.isCreatePage ? '':<button className='customize-legend-del-button' style={{width: "17%", height: "28px", fontSize:"15px", fontWeight: "bolder", fontFamily: "Arial"}} onClick={() => handleDeleteLegend(index, item._id)}>-</button>}
+                  </div>
+                ))}
+          
+                {/* Add Legend section */}
+                {auth_store.isCreatePage ? '': <div className="legends-Adder" >
+                  <input className="customize-color"  style={{width: "16%"}} type="color" value={newLegend.color} onChange={handleNewLegendColorChang} />
+                  <input className="customize-text-box" type="text" placeholder="Legend Label" value={newLegend.label} onChange={handleNewLegendLabelChange} />
+                  <button  className='customize-legend-button' onClick={handleAddLegend} style={{width: "20%", height: "28px", fontSize:"15px", fontWeight: "bolder", fontFamily: "Arial"}}>+</button>
+                </div>}
+              </div>
+            )}
+            </div>
           </div>
         </div>
       </div>

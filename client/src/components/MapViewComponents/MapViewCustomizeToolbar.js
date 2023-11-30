@@ -80,17 +80,19 @@ export default function MapViewCustomizeToolbar({ onFontChange, onTextChange, on
 
         
         return (
-            <div>
+            <div className="customize-all">
+                <div className="customize-title">Customize Tools</div>
+                <hr className="hr-1"></hr>
                 <div className="customize-toolbar">
-
-                    <select type="buton" id="text-select" onChange={(e)=>{handleSelectFont(e)}}>
-                        <option value="none">Font</option>
-                        <option value="Arial" style={{fontFamily: "Arial"}}>Arial</option>
-                        <option value="Comic Sans MS" style={{fontFamily: "Comic Sans MS"}}>Comic Sans MS</option>
-                        <option value="Brush Script MT" style={{fontFamily: "Brush Script MT"}}>Brush Script MT</option>
-                        <option value="Times New Roman" style={{fontFamily: "Times New Roman"}}>Times New Roman</option>
-                    </select>
-
+                    <div className="sort-dropdown">
+                        <select type="buton" id="text-select" onChange={(e)=>{handleSelectFont(e)}}>
+                            <option value="none">Font</option>
+                            <option value="Arial" style={{fontFamily: "Arial"}}>Arial</option>
+                            <option value="Comic Sans MS" style={{fontFamily: "Comic Sans MS"}}>Comic Sans MS</option>
+                            <option value="Brush Script MT" style={{fontFamily: "Brush Script MT"}}>Brush Script MT</option>
+                            <option value="Times New Roman" style={{fontFamily: "Times New Roman"}}>Times New Roman</option>
+                        </select>
+                    </div>
                     <div id="color-button" className="color-picker-container">
                         <button
                             className="color-picker-button"
@@ -110,7 +112,7 @@ export default function MapViewCustomizeToolbar({ onFontChange, onTextChange, on
                         </div>
                     </div>
 
-                    <input data-cy="custom_text" style={{backgroundColor: "rgb(218, 237, 213)"}} onChange={(event) => handleTextChange(event)}></input>
+                    <input data-cy="custom_text" className="custom-textinput" onChange={(event) => handleTextChange(event)}></input>
                     <button id="text-save-button" type="button" onClick={() => handleAppliedTextChange()}>
                     Applied Text Change
                     </button>

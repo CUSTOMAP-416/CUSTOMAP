@@ -16,7 +16,14 @@ export default function SignUp(){
 
     useEffect(() => {
       if (auth_store.loggedIn) {
-        navigate("/Dashboard/");
+        if(auth_store.user.role == "admin"){
+          auth_store.getAllUsers()
+          auth_store.getAllMaps()
+          navigate("/AdminDashboard/");
+        }
+        else{
+          navigate("/Dashboard/");
+        }
       }
       //checking state for login
     }, [auth_store.loggedIn, auth_store.errMessage]);
@@ -78,7 +85,7 @@ export default function SignUp(){
     return (
       <div className="inup">
         <div className="head">
-          <img className="logo" src={logo} alt="My SVG" />
+          <img className="sign-logo" src={logo} alt="My SVG" />
           <h1>Make New Account</h1>
         </div>
         <div className="bodys">

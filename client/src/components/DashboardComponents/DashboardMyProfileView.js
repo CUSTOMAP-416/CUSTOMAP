@@ -102,7 +102,9 @@ export default function DashboardMyProfileView(){
                   className="profile_input"
                   value={email}
                   onChange={handleEmailChange}
-                  readOnly
+                  style={{backgroundColor: "white", border: "3px solid #DAEDD5"}}
+                  // readOnly
+                  disabled
                 ></input>
               </div>
               <div>

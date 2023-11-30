@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import L, { marker } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./styles/Discuss.css";
+import "./styles/MapView.css";
 import 'leaflet-easyprint';
 
 class MapComponent extends Component {
@@ -38,7 +39,7 @@ class MapComponent extends Component {
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(map);
 
-      L.marker([40.915734, 286.87721]).addTo(map);
+      // L.marker([40.915734, 286.87721]).addTo(map);
 
       // Set the map object in the component state
       this.setState({ map });
@@ -73,10 +74,10 @@ class MapComponent extends Component {
     const layer = e.target;
     if (!this.state.paintedLayers[L.stamp(layer)]) {
       layer.setStyle({
-        weight: 2,
-        color: "#3388ff",
-        fillColor: "#3388ff",
-        fillOpacity: 0.2,
+        weight: 1,
+        color: "#808080",
+        fillColor: "",
+        fillOpacity: 0,
       });
     }
   };
@@ -217,6 +218,9 @@ class MapComponent extends Component {
     if (map && geojsonLayer && geojsonLayer.type === "FeatureCollection") {
       const layer = L.geoJSON(geojsonLayer, {
         onEachFeature: this.onEachFeature,
+        color: "#808080",
+        weight: 1,
+        fillOpacity: 0,
       });
       layer.addTo(map);
       map.fitBounds(layer.getBounds());
@@ -266,7 +270,7 @@ class MapComponent extends Component {
   undo = (customization) => {
     if(customization.type == 'color'){
       let layer=this.state.geojsonLayer.getLayer(customization.id)
-      if(customization.previous == "#3388ff" || customization.value.color == "#ffffff" || customization.previous == null){
+      if(customization.previous == "#808080" || customization.value.color == "#ffffff" || customization.previous == null){
         layer.setStyle({
           fillColor: "",
           fillOpacity: 0,
@@ -281,7 +285,7 @@ class MapComponent extends Component {
       else{
         layer.setStyle({
           fillColor: customization.previous,
-          fillOpacity: 0.2,
+          fillOpacity: 0,
           weight: 1,
         });
         this.setState((prevState) => {
@@ -311,7 +315,7 @@ class MapComponent extends Component {
   redo = (customization) => {
     if(customization.type == 'color'){
       let layer=this.state.geojsonLayer.getLayer(customization.id)
-      if(customization.value.color == "#3388ff" || customization.value.color == "#ffffff" || customization.value.color == null){
+      if(customization.value.color == "#808080" || customization.value.color == "#ffffff" || customization.value.color == null){
         layer.setStyle({
           fillColor: "",
           fillOpacity: 0,
@@ -339,7 +343,7 @@ class MapComponent extends Component {
     }
     else if(customization.type == 'text'){
       const id = customization.id
-      const text = customization.value.color
+      const text = customization.value.text
       this.state.map.eachLayer(function(layer){
         if(layer._leaflet_id == id){
           const label = L.divIcon({
@@ -375,7 +379,7 @@ class MapComponent extends Component {
     const { style, width, height } = this.props;
     const mapStyle = style || {
       height: height || "500px",
-      width: width || "1050px",
+      width: width || "100%",
     };
     return (
       <div id="map-container">
@@ -395,6 +399,7 @@ class MapComponent extends Component {
           ></script>
         </>
         <div id="main-map" ref={this.mapContainerRef} style={mapStyle}></div>
+        
       </div>
     );
   }

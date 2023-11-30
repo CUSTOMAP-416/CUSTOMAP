@@ -14,7 +14,7 @@ h1{
     font-size: 40px;
     letter-spacing: 3px;
 }
-.logo{
+.sign-logo{
     width: 70px;
     margin-right: 15px;
 }
@@ -60,3 +60,20 @@ color: #FFFFFF;
 text-decoration: none;
 
 }
+
+.createB:hover{
+    background-color: #2FAF07;
+}
+
+@keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  
+  .sign-logo {
+    animation: bounce 1s 2;
+  }

@@ -51,7 +51,7 @@ export default function DashboardSearchMapView(){
             maps.push(
                 <div key={mapsId[i]._id} className="box">
                     <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
-                        <div className='map-name'>{mapsId[i].title}</div>
+                        <div className='map-name' data-cy='list-item'>{mapsId[i].title}</div>
                     </div>
                     <Link to="/MapView/" onClick={() => handleMapSelect(mapsId[i]._id)}>
                         <img className="map" src={map} alt="My SVG" />
@@ -80,6 +80,10 @@ export default function DashboardSearchMapView(){
         }
     }, [auth_store.searchMaps])
 
+    useEffect(() => {
+        auth_store.onSearch('')
+    }, [])
+
     return(
         <div>
         <div className='dashboard-header'>
@@ -87,12 +91,12 @@ export default function DashboardSearchMapView(){
         </div>
         <div className='search-box'>
             <img className="glass" src={glass} alt="My SVG" />
-            <input type="text" value={searchKeyword} onChange={handleSearchChange} style={{backgroundColor: "#DAEDD5", border:"#DAEDD5", borderRadius: "2px", width: "97%", height: "50px", paddingLeft: "50px"}}></input>
+            <input className ='search-input' type="text" value={searchKeyword} onChange={handleSearchChange} style={{backgroundColor: "#DAEDD5", border:"#DAEDD5", borderRadius: "2px", width: "97%", height: "50px", paddingLeft: "50px"}}></input>
             <button className="search-button" onClick={() => handleSearch()}>Search</button>
         </div>
         <div className='description-and-sorting' style={{justifyContent: "end"}}>
         <div className='sort-buttons'>
-            <button className='arrow-button'  onClick={() => handleSortingChange("Ascending")}>
+            {/* <button className='arrow-button'  onClick={() => handleSortingChange("Ascending")}>
                 <img className="arrow" src={arrow} alt="My SVG" />
             </button>
             <button className="sort-button" onClick={() => handleSortingChange("Ascending")}>Ascending</button>
@@ -103,7 +107,15 @@ export default function DashboardSearchMapView(){
             <button className='arrow-button' onClick={() => handleSortingChange("Recent Date")}>
                 <img className="arrow" src={arrow} alt="My SVG" />
             </button>
-            <button className="sort-button" onClick={() => handleSortingChange("Recent Date")}>Recent Date</button>
+            <button className="sort-button" onClick={() => handleSortingChange("Recent Date")}>Recent Date</button> */}
+            <div className="sort-dropdown">
+              <select onChange={(e) => handleSortingChange(e.target.value)}>
+                <option value="defult">SORT</option>
+                <option value="Ascending">Ascending</option>
+                <option value="Descending">Descending</option>
+                <option value="Recent Date">Recent Date</option>
+              </select>
+            </div>
         </div>
         </div>
         <div className="box-container">
