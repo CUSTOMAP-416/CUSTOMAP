@@ -85,6 +85,23 @@ describe('POST /auth_store/register', () => {
     });
 });
 
+const adminData = {
+    username: 'admin', 
+    email: '0', 
+    phone: '0',
+    password: '00000000',
+    passwordVerify: '00000000'
+};
+
+describe('POST /auth_store/register', () => {
+    test('creates admin account', async () => {
+        const response = await request(app)
+            .post('/auth_store/register')
+            .send(adminData)
+            .expect(200);
+    });
+})
+
 describe('POST /auth_store/login', () => {
     test('400 Missing required fields', async () => {
         await request(app)
@@ -292,6 +309,27 @@ describe(`PUT /auth_store/Dashboard/:email`, () => {
             .expect(404);
     });
 })
+
+describe(`POST /auth_store/Dashboard/:email`, () => {
+    test('delete user', async () => {
+    const userDataforDelete = {
+        username: 'testDelete', 
+        email: 'testDelete', 
+        phone: '1',
+        password: 'testDelete',
+        passwordVerify: 'testDelete'
+    }
+        const response = await request(app)
+        .post('/auth_store/register')
+        .send(userDataforDelete)
+        .expect(200);
+
+    await request(app)
+        .post('/auth_store/Dashboard/testDelete')
+        .send({email: 'testDelete'})
+        .expect(200);
+    })
+});
 
 describe('GET /auth_store/users', () => {
     test('check all users', async () => {
