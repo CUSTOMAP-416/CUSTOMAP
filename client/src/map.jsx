@@ -230,15 +230,61 @@ class MapComponent extends Component {
     if(!this.props.isCreatePage){
       function manualPrint() {
         var printer = L.easyPrint({
-          sizeModes: ['Current', 'A4Landscape', 'A4Portrait'],
           filename: 'myMap',
           exportOnly: true,
           hideControlContainer: true,
+          hidden: true,
         }).addTo(map);
         printer.printMap('CurrentSize', 'MyManualPrint')
       }
-      document.getElementById("saveButton").addEventListener("click", manualPrint);
+      document.getElementById("png-option").addEventListener("click", manualPrint);
     }
+    if(!this.props.isCreatePage){
+      function manualPrintpdf() {
+        var printer = L.easyPrint({
+          filename: 'myMap',
+          hidden: true,
+        }).addTo(map);
+        printer.printMap('CurrentSize', 'MyManualPrint')
+      }
+      document.getElementById("pdf-option").addEventListener("click", manualPrintpdf);
+    }
+
+    if (!this.props.isCreatePage) {
+      
+      function manualExportJson() {
+        exportMapToJson(map, geojsonLayer);
+      }
+    
+      document.getElementById("json-option").addEventListener("click", manualExportJson);
+    }
+    
+    
+    const exportMapToJson = (map, geojsonLayer) => {
+      if (map && geojsonLayer && geojsonLayer.type === "FeatureCollection") {
+       
+        const geojsonStr = JSON.stringify(geojsonLayer);
+    
+       
+        const blob = new Blob([geojsonStr], { type: "application/json" });
+    
+        // 生成一个下载链接
+        const url = URL.createObjectURL(blob);
+    
+       
+        const downloadLink = document.createElement("a");
+        downloadLink.href = url;
+        downloadLink.download = "mapData.json";
+    
+        
+        downloadLink.click();
+    
+        
+        URL.revokeObjectURL(url);
+      }
+    };
+
+    
   };
   
   
