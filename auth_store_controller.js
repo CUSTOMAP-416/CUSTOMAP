@@ -5,6 +5,7 @@ const Map = require('./models/map')
 const Text = require('./models/text')
 const Color = require('./models/color')
 const Legend = require('./models/legend')
+const Discussion = require('./models/discussion')
 const bcrypt = require('bcryptjs')
 const fs = require('fs');
 
@@ -404,11 +405,25 @@ createMap = async (req, res) => {
             {"_id": userID},
             {$set: {"maps": maps}})
         console.log("user updated");
+
+        const newDiscussion = new Discussion({
+            user: userID,
+            map: savedMap._id, 
+            content: 'post comment here'
+        })
+        const savedDiscussion = await newDiscussion.save();
+        const mapDiscussions = [savedDiscussion._id]
+        await Map.updateOne(
+            {"_id": savedMap._id},
+            {$set: {"discussions": mapDiscussions}})
+        console.log("map updated");
+
         return res.status(200).json({
             map: {
                 _id: savedMap._id,
                 title: savedMap.title,
                 description: savedMap.description,
+                discussions: [newDiscussion],
                 createdDate: savedMap.createdDate,
             },
         })
@@ -439,14 +454,21 @@ getMap = async (req, res) => {
         let owner = null
         if(map.owner.length != null){
             // owner = await User.findOne({ _id: { $in: map.owner } });
-            owner = await User.findById(map.owner)
+            owner = await User.findById(map.owner[0])
             console.log(map.owner)
         }
+        const discussions = await Discussion.find({ _id: { $in: map.discussions } });
+
         map.texts = texts;
         map.colors = colors;
         map.legends = legends;
-        const ownerName = owner.username;
-        console.log(ownerName);
+        map.discussions = discussions;
+
+        let ownerName = '';
+        if(owner){
+            ownerName = owner.username;
+        }
+
         return res.status(200).json({
             map: map,
             ownerName: ownerName
