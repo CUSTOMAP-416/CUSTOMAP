@@ -185,7 +185,7 @@ export default function DashboardCreateOrEditMapView() {
 
   useEffect(() => {
       setMapData(auth_store.forkMap)
-  }, [auth_store.forkMap]);
+  },[auth_store.forkMap]);
 
   return (
     <div className="createEditAll">
@@ -222,13 +222,14 @@ export default function DashboardCreateOrEditMapView() {
                 onClick={() => handleCustomizeTool()}>
                 Map Customize Tool
               </Link>
-              <button
-               className="button upload"
-               type="button"
-               id="saveButton"
-              >
-               Export Map
-              </button>
+                
+                <button className="button upload" id="export-map">Export Map</button>
+                
+                  <button className='export-options' id="pdf-option" value="pdf">.PDF</button>
+                  <button className='export-options' id="png-option" value="png">.PNG</button>
+                  <button className='export-options' id="json-option" value="json">.JSON</button>
+                  
+                
             </div>
             }
           </div>

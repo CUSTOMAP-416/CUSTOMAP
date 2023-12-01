@@ -28,13 +28,13 @@ export default function MapViewDiscussionForum(){
         onDiscussion()
     }
 
-  
+  ////////////// side bar show control////////////////
         const [isOpen, setIsOpen] = useState(false);
       
         const toggleSidebar = () => {
           setIsOpen(!isOpen);
         };
-
+///////////////////////////////////////////////////
     return (
         <div>
             <div className={`sidebar-container ${isOpen ? 'open' : ''}`}>
@@ -45,14 +45,6 @@ export default function MapViewDiscussionForum(){
                     <div className="message-container">
                         <div className="username">Jack</div>
                         <div className="message">Hey, your map has an error!</div>
-                    </div>
-                    <div className="message-container">
-                        <div className="username">Anny</div>
-                        <div className="message">We will fix it later, Thank you!</div>
-                    </div>
-                    <div className="message-container">
-                        <div className="username">Stark</div>
-                        <div className="message">Great map!</div>
                     </div>
                 
                     <div className="sidebar-footer">
