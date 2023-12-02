@@ -3,7 +3,6 @@ const cookieParser = require('cookie')
 const {app, db} = require('./server/index.js');
 
 beforeAll(async () => {
-    await db.collection('users').drop();
 });
 
 const userData = {
@@ -92,15 +91,6 @@ const adminData = {
     password: '00000000',
     passwordVerify: '00000000'
 };
-
-describe('POST /auth_store/register', () => {
-    test('creates admin account', async () => {
-        const response = await request(app)
-            .post('/auth_store/register')
-            .send(adminData)
-            .expect(200);
-    });
-})
 
 describe('POST /auth_store/login', () => {
     test('400 Missing required fields', async () => {
@@ -310,27 +300,6 @@ describe(`PUT /auth_store/Dashboard/:email`, () => {
     });
 })
 
-describe(`POST /auth_store/Dashboard/:email`, () => {
-    test('delete user', async () => {
-    const userDataforDelete = {
-        username: 'testDelete', 
-        email: 'testDelete', 
-        phone: '1',
-        password: 'testDelete',
-        passwordVerify: 'testDelete'
-    }
-        const response = await request(app)
-        .post('/auth_store/register')
-        .send(userDataforDelete)
-        .expect(200);
-
-    await request(app)
-        .post('/auth_store/Dashboard/testDelete')
-        .send({email: 'testDelete'})
-        .expect(200);
-    })
-});
-
 describe('GET /auth_store/users', () => {
     test('check all users', async () => {
     await request(app)
@@ -339,18 +308,19 @@ describe('GET /auth_store/users', () => {
     })
 });
 
+// -----------------------Map Test-----------------------
+
 const testMapFilePath = './server/fork_map/Asia.geojson'
 const fs = require('fs');
 const mapData = fs.readFileSync(testMapFilePath, 'utf8')
 
 const mapInfo = {
     email: 'john.doe@stonybrook.edu', 
-    mapTitle: 'MyMap1',
+    mapTitle: 'backendTestMap',
     mapData: mapData,
     mapDescription: ''
 }
 
-console.log("MY MAPDATA: ", mapInfo.mapData)
 let mapId = ''
 
 describe('POST /auth_store/createMap', () => {
@@ -359,7 +329,7 @@ describe('POST /auth_store/createMap', () => {
             .post('/auth_store/createMap')
             .send(mapInfo) 
             .expect(200);
-        mapId = response.body.mapId
+        mapId = response.body.map['_id']
 
         expect(mapInfo['mapTitle']).toEqual(response.body.map['title'])
         expect(mapInfo['mapDescription']).toEqual(response.body.map['description'])
@@ -411,15 +381,7 @@ describe('POST /auth_store/editMap', () => {
     });
 })
 
-describe('DELETE /auth_store/deleteMap', () => {
-    test('check deleteMap', async () => {
-        await request(app)
-            .post('/auth_store/deleteMap')
-            .send(mapId) 
-            .expect(200);
-    });
-})
-
+let sharedMapId = ''
 describe('POST /auth_store/shareMap', () => {
     test('check shareMap', async () => {
         const anotherUser = {
@@ -490,25 +452,25 @@ describe('POST /auth_store/onText', () => {
     test('blank text', async () => {
         await request(app)
             .post('/auth_store/onText')
-            .send({array: [], mapId}) 
+            .send({array: [ { text: ' ', x: 104.150405, y: 45.997488 } ], mapId}) 
             .expect(200);
     });
     test('exist text', async () => {
         await request(app)
             .post('/auth_store/onText')
-            .send({array: 'Hello', mapId}) 
+            .send({array: [ { text: 'text test', x: 104.150405, y: 45.997488 } ], mapId}) 
             .expect(200);
     });
     test('non-character', async () => {
         await request(app)
             .post('/auth_store/onText')
-            .send({array: 1, mapId}) 
+            .send({array: [ { text: '1', x: 106.337289, y: 32.498178 } ], mapId}) 
             .expect(200);
     });
-    test('text change twice', async () => {
+    test('text change twice in same place', async () => {
         await request(app)
             .post('/auth_store/onText')
-            .send({array: 'Hey', mapId}) 
+            .send({array: [ { text: 'second text test', x: 104.150405, y: 45.997488 } ], mapId}) 
             .expect(200);
     });
 })
@@ -517,56 +479,70 @@ describe('POST /auth_store/onColor', () => {
     test('unselected color', async () => {
         await request(app)
             .post('/auth_store/onColor')
-            .send({array: ""}) 
+            .send({array: [ { color: '#000000', x: 106.337289, y: 32.498178 } ], mapId}) 
             .expect(200);
     });
     test('exist color', async () => {
         await request(app)
             .post('/auth_store/onColor')
-            .send({array: "#d92020"}) 
+            .send({array: [ { color: '#d92020', x: 54.931495, y: 32.166225 } ], mapId}) 
             .expect(200);
     });
     test('color change twice', async () => {
         await request(app)
             .post('/auth_store/onColor')
-            .send({array: "#1d1cc9"}) 
+            .send({array: [ { color: "#1d1cc9", x: 54.931495, y: 32.166225 } ], mapId}) 
             .expect(200);
     });
 })
 
-let legendId = ''
 describe('POST /auth_store/onLegend', () => {
     test('non-provided legend', async () => {
         const response = await request(app)
             .post('/auth_store/onLegend')
-            .send({array: []}) 
+            .send({array: [{ color: "#000000", label: 'non-provided legend' }], mapId}) 
             .expect(200);
-        legendId = response.body._id
     });
     test('existing provided legend', async () => {
         const response = await request(app)
             .post('/auth_store/onLegend')
-            .send({array: ["##188c1f", "Mountain"]}) 
+            .send({array: [{ color: "##188c1f", label: 'test-Mountain' }], mapId}) 
             .expect(200);
-        legendId = response.body._id
     });
     test('change legend twice', async () => {
         const response = await request(app)
             .post('/auth_store/onLegend')
-            .send({array: ["##188c", "Mountain"]}) 
+            .send({array: [{ color: "##188c", label: 'test-Mountain' }], mapId}) 
             .expect(200);
-        legendId = response.body._id
     });
 })
 
-describe('DELETE /auth_store/deleteLegend', () => {
-    test('check delete legend', async () => {
+
+describe('DELETE /auth_store/deleteMap', () => {
+    test('check deleteMap', async () => {
         await request(app)
-            .post('/auth_store/deleteLegend')
-            .send({legendId, mapId}) 
+            .post('/auth_store/deleteMap')
+            .send({_id: mapId}) 
             .expect(200);
     });
 })
+
+describe(`POST /auth_store/Dashboard/:email`, () => {
+    test('delete user', async () => {
+    await request(app)
+        .post('/auth_store/Dashboard/john.doe@stonybrook.edu')
+        .send({email: 'john.doe@stonybrook.edu'})
+        .expect(200);
+    
+    await request(app)
+        .post('/auth_store/Dashboard/jan.doe@stonybrook.edu')
+        .send({email: 'jan.doe@stonybrook.edu'})
+        .expect(200);
+    })
+});
+
+
+
 
 afterAll(async () => {
     if (db && db.close) {
