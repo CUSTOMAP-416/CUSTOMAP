@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const discussionSchema = new Schema({
         user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+        username: String,
         map: { type: Schema.Types.ObjectId, ref: 'Map', required: true }, 
         content: String,
         createdDate: { type: Date, default: Date.now },

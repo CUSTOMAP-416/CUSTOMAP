@@ -23,6 +23,6 @@ authStoreRouter.post("/onText", AuthStoreController.onText)
 authStoreRouter.post("/onColor", AuthStoreController.onColor)
 authStoreRouter.post("/onLegend", AuthStoreController.onLegend)
 authStoreRouter.post("/deleteLegend",AuthStoreController.deleteLegend)
-
+authStoreRouter.post("/discussion", AuthStoreController.onDiscussion)
 
 module.exports = authStoreRouter

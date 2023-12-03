@@ -408,6 +408,7 @@ createMap = async (req, res) => {
 
         const newDiscussion = new Discussion({
             user: userID,
+            usernmae: '',
             map: savedMap._id, 
             content: 'post comment here'
         })
@@ -457,7 +458,6 @@ getMap = async (req, res) => {
           console.log("owner", owner);
         }
         const discussions = await Discussion.find({ _id: { $in: map.discussions } });
-
         map.texts = texts;
         map.colors = colors;
         map.legends = legends;
@@ -809,6 +809,34 @@ deleteLegend = async (req, res) => {
     }
 }
 
+onDiscussion = async (req, res) => {
+    try {
+        const { mapId, email, content } = req.body;
+        console.log("discussion: " + mapId +' '+ email +' '+ content);
+        const user = await User.findOne({ email: email });
+        //save discussion
+        const newDiscussion = new Discussion({
+            user: user._id,
+            username: user.username,
+            map: mapId,
+            content: content
+        })
+        const savedDiscussion = await newDiscussion.save();
+        //update map
+        const map = await Map.findById(mapId);
+        let mapDiscussions = map.discussions;
+        mapDiscussions.push(savedDiscussion._id)
+        await Map.updateOne(
+            {"_id": mapId},
+            {$set: {"discussions": mapDiscussions}})
+        console.log("map updated");
+        res.status(200).send();
+    } catch (err) {
+        console.log("err: " + err);
+        res.json(false);
+    }
+}
+
 module.exports = {
   getAllusers,
   getAllmaps,
@@ -831,4 +859,5 @@ module.exports = {
   onColor,
   onLegend,
   deleteLegend,
+  onDiscussion,
 };
