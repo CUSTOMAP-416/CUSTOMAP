@@ -112,16 +112,13 @@ const onForkMap = (name) => {
 const onAttachProperty = (map) => {}
 
 //function to handle the Discussion process 
-const onDiscussion = (map,user,content) => {
-}
-
-//function to handle get the Array Discussions. 
-const getArrayDiscussions = (map) => {
+const onDiscussion = (mapId, email, content) => {
     return api.post("/discussion/", {
-        map: map,
-      });
+        mapId: mapId,
+        email: email,
+        content: content,
+    });
 }
-
 
 //function to handle the text process 
 const onText = (array, mapId) => {
@@ -189,7 +186,6 @@ const apis = {
     onColor,
     onLegend,
     onSearch,
-    getArrayDiscussions,
     getUserMaps,
     changeVisibility,
     deleteLegend,

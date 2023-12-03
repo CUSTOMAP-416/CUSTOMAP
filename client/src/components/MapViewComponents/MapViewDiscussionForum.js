@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import AuthStoreContextProvider from '../../auth_store';
 import '../../styles/Discuss.css';
 
@@ -9,42 +9,45 @@ export default function MapViewDiscussionForum(){
     const [discussions, setDiscussions] = useState([]);
     const [newDiscussion, setNewDiscussion] = useState('');
 
-    const user = auth_store.user
-    //function to handle get the Array Discussions. 
-    const getArrayDiscussions = (map) => {
-        setDiscussions(auth_store.getArrayDiscussions(map))
-    }
-    //function to handle the Discussion process 
-    const onDiscussion = () => {
-        auth_store.onDiscussion(newDiscussion)
-    }
-
     //Handle discussion input changes.
     const handleNewDiscussionChange = (event) => {
         setNewDiscussion(event.target.value);
     }
     //Handle the discussion send button click. 
-    const handleDiscussionSubmit = (map) => {
-        const success = onDiscussion(newDiscussion);
-        if (success) {
-            getArrayDiscussions(map);
-            setNewDiscussion('');
-        }
+    const handleDiscussionSubmit = () => {
+        let discussionShow = [...discussions]
+        discussionShow.push(
+            <div key={'discussions'+discussionShow.length} className="message-container">
+                <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
+                    <div className='username'>{auth_store.user.usernmae}</div>
+                    <button className="message">{newDiscussion}</button>
+                </div>
+            </div>
+        )
+        setDiscussions(discussionShow)
+        setNewDiscussion('');
+        //function to handle the Discussion process 
+        auth_store.onDiscussion(newDiscussion)
     }
 
-     /*const discussionsArray =[...auth_store.user.map.discussionsArray]
-   const discussionShow = []
-        for(let i=0; discussionsArray.length; i++){
-            discussionShow.push(
-                <div key={discussionsArray[i].user} className="message-container">
-                    <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
-                        <div className='username'>{discussionsArray[i].user}</div>
-                        <button className="message">{discussionsArray[i].content}</button>
-                       
+    useEffect(() => {
+        if(auth_store.selectMap !== null){
+            let discussionShow = []
+            for(let i=0; i<auth_store.selectMap.discussions.length; i++){
+                discussionShow.push(
+                    <div key={'discussions'+i} className="message-container">
+                        <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
+                            <div className='username'>{auth_store.selectMap.discussions[i].username}</div>
+                            <button className="message">{auth_store.selectMap.discussions[i].content}</button>
+                        </div>
                     </div>
-                </div>
-            )
-    }*/
+                )
+            }
+            setDiscussions(discussionShow)
+        }
+    }, [auth_store.selectMap]);
+
+
     
 
   ////////////// side bar show control////////////////
@@ -61,11 +64,7 @@ export default function MapViewDiscussionForum(){
                     {isOpen ? '<' : '>'}
                 </button>
                 <div className="sidebar-content">
-                    <div className="message-container">
-                        <div className="username">Jack</div>
-                        <div className="message">Hey, your map has an error!</div>
-                    </div>
-                
+                    {discussions}
                     <div className="sidebar-footer">
                         <input
                             type="text"
