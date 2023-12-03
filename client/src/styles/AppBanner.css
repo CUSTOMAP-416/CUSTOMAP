@@ -53,6 +53,9 @@
   background-color: #0a8201; 
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); 
 }
+.login-container{
+  margin-top:10px;
+}
 
 
 .banner-button {
@@ -74,6 +77,28 @@
 }
 
 #banner-home{
-margin-right:10px
+  padding-top:15px;
+  line-height: 20px;
+  text-align: center;
+  height: 30px;
+  width: 100px;
+  display: inline-block; 
+  background-color: #1f8505; 
+  border-radius: 20px; 
+  transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s;
+  
+  
+}
+#banner-mypage{
+  padding-top:15px;
+  line-height: 20px;
+  text-align: center;
+  height: 30px;
+  width: 100px;
+  display: inline-block; 
+  background-color: #1f8505; 
+  border-radius: 20px; 
+  transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s;
+  margin-bottom:10px;
 }
 

@@ -38,8 +38,10 @@ export default function AppBanner() {
         </div>
         <div className="logo">CUSTOMAP</div>
         <div className="links">
-          <div className="banner-button" id="banner-home"onClick={() => openHome()}>
+          <div id="banner-home" onClick={() => openHome()}>
             <Link
+              id="banner-home"
+              className="banner-button"
               typle="button"
               to="/"
               style={{ color: "white", textDecoration: "none" }}
@@ -51,8 +53,10 @@ export default function AppBanner() {
 
           {auth_store.loggedIn ? (
             auth_store.user.role == "admin" ?
-              <div className="banner-button" id="banner-mypage" onClick={() => openMyPage()}>
+              <div id="banner-mypage" onClick={() => openMyPage()}>
                 <Link
+                  id="banner-mypage"
+                  className="banner-button"
                   type="button"
                   to="/AdminDashboard/"
                   style={{ color: "white", textDecoration: "none" }}
@@ -61,8 +65,10 @@ export default function AppBanner() {
                   MyPage{" "}
                 </Link>
               </div>
-              :<div to="/Dashboard/" className="banner-button" id="banner-mypage"  onClick={() => openMyPage()}>
+              :<div id="banner-mypage"  onClick={() => openMyPage()}>
                 <Link
+                  className="banner-button"
+                  id="banner-mypage"
                   type="button"
                   to="/Dashboard/"
                   style={{ color: "white", textDecoration: "none" }}
@@ -76,7 +82,7 @@ export default function AppBanner() {
           )}
 
           {auth_store.loggedIn ? (
-            <div>
+            <div className="login-container">
               {/* <div style ={{ marginRight:"10px" }}>{auth_store.user.username}</div> */}
               <Link
                 type="button"
@@ -89,7 +95,7 @@ export default function AppBanner() {
               </Link>
             </div>
           ) : (
-            <div>
+            <div className="login-container">
               <Link
                 to="/login/"
                 className="login"
