@@ -89,6 +89,7 @@ export default function MapView(){
         })
       }
     };
+    const [selectUser, setSelectUser] = useState("No User");
     const [mapname, setMapname] = useState('');
     const [mapdiscript, setMapdiscript] = useState('');
     const [texts, setTexts] = useState([]);
@@ -192,6 +193,8 @@ export default function MapView(){
         setLegendItems(auth_store.selectMap.legends)
         setMapname(auth_store.selectMap.title)
         setMapdiscript(auth_store.selectMap.description)
+        setSelectUser(auth_store.selectName);
+
       }
     }, [auth_store.selectMap]);
     
@@ -203,15 +206,15 @@ export default function MapView(){
             <div className='mapview-contain'>
               <div className='mapview-title'>
                 <div className='mapview-header'>TITLE : &nbsp;&nbsp;&nbsp;&nbsp;</div>
-                {mapname}
+                {mapname || "No Name"}
               </div>
               <div className='mapview-disc'>
                 <div className='mapview-header'>Description : &nbsp;&nbsp;&nbsp;&nbsp;</div>
-                {mapdiscript}
+                {mapdiscript || "No Discript"}
               </div>
               <div className='mapview-title'>
                 <div className='mapview-header'>By : &nbsp;&nbsp;&nbsp;&nbsp;</div>
-                {auth_store.selectName}
+                {selectUser|| "No User"}
               </div>
             </div>
             :
