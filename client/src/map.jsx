@@ -268,7 +268,6 @@ class MapComponent extends Component {
        
         const blob = new Blob([geojsonStr], { type: "application/json" });
     
-        // 生成一个下载链接
         const url = URL.createObjectURL(blob);
     
        

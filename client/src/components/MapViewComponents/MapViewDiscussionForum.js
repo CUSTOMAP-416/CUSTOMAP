@@ -24,9 +24,28 @@ export default function MapViewDiscussionForum(){
         setNewDiscussion(event.target.value);
     }
     //Handle the discussion send button click. 
-    const handleDiscussionSubmit = () => {
-        onDiscussion()
+    const handleDiscussionSubmit = (map) => {
+        const success = onDiscussion(newDiscussion);
+        if (success) {
+            getArrayDiscussions(map);
+            setNewDiscussion('');
+        }
     }
+
+     /*const discussionsArray =[...auth_store.user.map.discussionsArray]
+   const discussionShow = []
+        for(let i=0; discussionsArray.length; i++){
+            discussionShow.push(
+                <div key={discussionsArray[i].user} className="message-container">
+                    <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
+                        <div className='username'>{discussionsArray[i].user}</div>
+                        <button className="message">{discussionsArray[i].content}</button>
+                       
+                    </div>
+                </div>
+            )
+    }*/
+    
 
   ////////////// side bar show control////////////////
         const [isOpen, setIsOpen] = useState(false);
