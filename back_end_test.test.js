@@ -379,6 +379,32 @@ describe('POST /auth_store/editMap', () => {
             .send(newMapInfo) 
             .expect(200);
     });
+
+    test('error: does not provide mapId', async () => {
+        try{
+            const errorMapInfo = { 
+                title: mapInfo.title, 
+                description: 'Asia'
+            }
+            await request(app)
+                .post('/auth_store/editMap')
+                .send(errorMapInfo);
+            
+        } catch (err){
+            expect(err).toBe(false);
+        }
+        
+    });
+})
+
+describe('POST /auth_store/forkMap', () => {
+    process.chdir('./server')
+    test('fork map', async () => {
+        await request(app)
+            .post('/auth_store/forkMap')
+            .send({name: "Europe"}) 
+            .expect(200);
+    });
 })
 
 let sharedMapId = ''
