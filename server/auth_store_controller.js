@@ -6,6 +6,12 @@ const Text = require('./models/text')
 const Color = require('./models/color')
 const Legend = require('./models/legend')
 const Discussion = require('./models/discussion')
+const Heat = require('./models/heat')
+const Point = require('./models/point')
+const Route = require('./models/route')
+const Bubble = require('./models/bubble')
+const Thematic = require('./models/thematic')
+const Choropleth = require('./models/choropleth')
 const bcrypt = require('bcryptjs')
 const fs = require('fs');
 
@@ -40,6 +46,7 @@ getAllmaps = async (req, res) => {
             _id: map._id,
             title: map.title,
             description: map.description,
+            mapType: map.mapType,
             createdDate: map.createdDate,
         })
     }
@@ -73,6 +80,7 @@ getLoggedIn = async (req, res) => {
                 _id: map._id,
                 title: map.title,
                 description: map.description,
+                mapType: map.mapType,
                 createdDate: map.createdDate,
             })
         }
@@ -137,6 +145,7 @@ loginUser = async (req, res) => {
                 _id: map._id,
                 title: map.title,
                 description: map.description,
+                mapType: map.mapType,
                 createdDate: map.createdDate,
             })
         }
@@ -350,6 +359,7 @@ editUserInfo = async (req, res) => {
                 _id: map._id,
                 title: map.title,
                 description: map.description,
+                mapType: map.mapType,
                 createdDate: map.createdDate,
             })
         }
@@ -391,14 +401,14 @@ deleteUser = async (req, res) => {
 
 createMap = async (req, res) => {
     try {
-        const { email, mapTitle, mapDescription, mapData} = req.body;
+        const { email, mapTitle, mapDescription, mapData, mapType} = req.body;
         let deserializedData = JSON.parse(mapData);
         console.log("create map: " + email + " " + mapTitle + " " + mapDescription);
         //console.log(deserializedData);
         const user = await User.findOne({ email: email });
         const userID = [user._id];
         const newMap = new Map({
-            title: mapTitle, owner: userID, mapData: deserializedData, description: mapDescription
+            title: mapTitle, owner: userID, mapData: deserializedData, description: mapDescription, mapType: mapType
         });
         const savedMap = await newMap.save();
         console.log("new map saved: " + savedMap._id);
@@ -428,6 +438,7 @@ createMap = async (req, res) => {
                 title: savedMap.title,
                 description: savedMap.description,
                 discussions: [newDiscussion],
+                mapType: savedMap.mapType,
                 createdDate: savedMap.createdDate,
             },
         })
@@ -456,20 +467,23 @@ getMap = async (req, res) => {
             legends = await Legend.find({ _id: { $in: map.legends } });
         }
         let owner = null
-        if (map.owner && map.owner.length > 0) {
-          owner = await User.findById(map.owner[0]);
-          console.log("owner", owner);
+        if(map.owner.length != null){
+            // owner = await User.findOne({ _id: { $in: map.owner } });
+            owner = await User.findById(map.owner[0])
+            console.log(map.owner)
         }
         const discussions = await Discussion.find({ _id: { $in: map.discussions } });
+
         map.texts = texts;
         map.colors = colors;
         map.legends = legends;
         map.discussions = discussions;
 
-        let ownerName = 'No User';
-        if (owner && owner.username) {
-          ownerName = owner.username;
+        let ownerName = '';
+        if(owner){
+            ownerName = owner.username;
         }
+
         return res.status(200).json({
             map: map,
             ownerName: ownerName
@@ -668,6 +682,7 @@ searchMap = async (req, res) => {
                     _id: maps[i]._id,
                     title: maps[i].title,
                     description: maps[i].description,
+                    mapType: maps[i].mapType,
                     createdDate: maps[i].createdDate,
                 })
             }
