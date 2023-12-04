@@ -33,7 +33,7 @@ export default function Main() {
         <div className="main-content">
             Start on a journey of discovery and creativity with our innovative web application. At CUSTOMAP, we transcend the boundaries of conventional map-making, offering a dynamic platform for creating, editing, and sharing custom map graphics.
         </div>
-        <img className="main-laptop" src={laptop} style={{padding: "10px 350px", height: "460px"}} alt="My SVG" />
+        <img className="main-laptop" src={laptop} alt="My SVG" />
     </div>
     <div className="main-header" style={{textAlign: "left", paddingTop: "30px"}}>Why Choose CUSTOMAP?</div>
     <div className='main-flex'>

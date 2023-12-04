@@ -69,11 +69,9 @@
   }
   .banner {
     background-color: #1f8505;
-    width: 110%;
+    width: 100%;
   }
-  .login-container{
-   margin-right:40px
-  }
+ 
 }
 
 
