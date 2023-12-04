@@ -453,7 +453,7 @@ getMap = async (req, res) => {
         const { mapId } = req.body;
         console.log("map id: " + mapId);
         let map = await Map.findById(mapId);
-        console.log("get map: " + map.title + " " + map.description);
+        console.log("get map: " + map.title + " " + map.description + " " + map.mapType);
         let texts = null
         if(map.texts.length != null){
             texts = await Text.find({ _id: { $in: map.texts } });
@@ -467,23 +467,20 @@ getMap = async (req, res) => {
             legends = await Legend.find({ _id: { $in: map.legends } });
         }
         let owner = null
-        if(map.owner.length != null){
-            // owner = await User.findOne({ _id: { $in: map.owner } });
-            owner = await User.findById(map.owner[0])
-            console.log(map.owner)
+        if (map.owner && map.owner.length > 0) {
+          owner = await User.findById(map.owner[0]);
+          console.log("owner", owner);
         }
         const discussions = await Discussion.find({ _id: { $in: map.discussions } });
-
         map.texts = texts;
         map.colors = colors;
         map.legends = legends;
         map.discussions = discussions;
 
-        let ownerName = '';
-        if(owner){
-            ownerName = owner.username;
+        let ownerName = 'No User';
+        if (owner && owner.username) {
+          ownerName = owner.username;
         }
-
         return res.status(200).json({
             map: map,
             ownerName: ownerName
