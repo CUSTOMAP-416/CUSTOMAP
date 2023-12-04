@@ -5,7 +5,7 @@
 .flexbox {
   display: flex;
   align-items: center;
-    width: 100%;
+  width: 100%;
 }
 .icon {
   width: 40px;
@@ -13,11 +13,16 @@
   padding: 20px;
 }
 .logo {
+  width: 100px;
   text-shadow: 3px 4px 2px #000000;
+  text-align: center;
   font-family: "Changa One", sans-serif;
   font-size: 40px;
   color: white;
-  text-shadow: px 2px 4px #000000;
+}
+.logo-cotainer {
+  width: 200px;
+  
 }
 .links {
   display: flex;
@@ -53,6 +58,23 @@
   background-color: #0a8201; 
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); 
 }
+.login-container{
+  margin-top:10px;
+}
+
+@media screen and (max-width: 600px) {
+  .flexbox {
+    flex-direction: column;
+    width: 100%;
+  }
+  .banner {
+    background-color: #1f8505;
+    width: 110%;
+  }
+  .login-container{
+   margin-right:40px
+  }
+}
 
 
 .banner-button {
@@ -74,6 +96,28 @@
 }
 
 #banner-home{
-margin-right:10px
+  padding-top:15px;
+  line-height: 20px;
+  text-align: center;
+  height: 30px;
+  width: 100px;
+  display: inline-block; 
+  background-color: #1f8505; 
+  border-radius: 20px; 
+  transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s;
+  
+  
+}
+#banner-mypage{
+  padding-top:15px;
+  line-height: 20px;
+  text-align: center;
+  height: 30px;
+  width: 100px;
+  display: inline-block; 
+  background-color: #1f8505; 
+  border-radius: 20px; 
+  transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s;
+  margin-bottom:10px;
 }
 

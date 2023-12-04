@@ -383,12 +383,9 @@ function AuthStoreContextProvider(props) {
         });
     }
     //function to handle the Discussion process 
-    auth_store.onDiscussion= async function () {
-        await apis.onDiscussion().then(response => {
-            auth_storeReducer({
-                type: AuthStoreActionType.null,
-                payload: null,
-            });
+    auth_store.onDiscussion= async function (content) {
+        await apis.onDiscussion(this.selectMap._id, this.user.email, content).then(response => {
+            return
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
@@ -468,22 +465,6 @@ function AuthStoreContextProvider(props) {
                 ...prevAuthStore,
                 searchMaps: response.data.maps
             }));
-        })
-        .catch(error => {
-            console.log(error.response.data.errorMessage)
-            return setAuthStore((prevAuthStore) => ({
-                ...prevAuthStore,
-                errorMessage: error.response.data.errorMessage
-            }));
-        });
-    }
-    //function to handle get the Array Discussions. 
-    auth_store.getArrayDiscussions= async function () {
-        await apis.getArrayDiscussions().then(response => {
-            auth_storeReducer({
-                type: AuthStoreActionType.null,
-                payload: null,
-            });
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)

@@ -187,6 +187,16 @@ export default function DashboardCreateOrEditMapView() {
       setMapData(auth_store.forkMap)
   },[auth_store.forkMap]);
 
+  const showExportPage = () => {
+    const user = document.getElementById('export-modal');
+    user.style.display = 'block';
+  }
+
+  const hideExportPage = () => {
+    const user = document.getElementById('export-modal');
+    user.style.display = 'none';
+  }
+
   return (
     <div className="createEditAll">
       <div>
@@ -223,14 +233,21 @@ export default function DashboardCreateOrEditMapView() {
                 Map Customize Tool
               </Link>
                 
-                <button className="button upload" id="export-map">Export Map</button>
+                <button className="button upload" id="export-map" onClick={() => showExportPage()}>Export Map</button>
                 
-                  <button className='export-options' id="pdf-option" value="pdf">.PDF</button>
-                  <button className='export-options' id="png-option" value="png">.PNG</button>
-                  <button className='export-options' id="json-option" value="json">.JSON</button>
-                  
+          
                 
-            </div>
+              <div id="export-modal">
+                <button className='button upload' id="pdf-option" value="pdf">.PDF</button>
+                <button className='button upload' id="png-option" value="png">.PNG</button>
+                <button className='button upload' id="json-option" value="json">.JSON</button>
+                <button id="close" onClick={() => hideExportPage()}>x</button>
+              </div>
+
+              
+              </div>
+
+              
             }
           </div>
           <div className="button-section">
@@ -343,7 +360,7 @@ export default function DashboardCreateOrEditMapView() {
           </p>
         )}
         <div className="create-map-bottom-bar">
-          <div style={{ width: "70%", paddingLeft: "20px" }}>
+          <div className="MD-container" style={{ width: "70%", paddingLeft: "20px" }}>
             <label className="MD">Map Description:</label>
             <input
               type="text"

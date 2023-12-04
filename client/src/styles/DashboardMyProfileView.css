@@ -74,13 +74,13 @@ input.profile_input, textarea {
     
 }
 
-@media screen and (max-width:996px){
+@media screen and (max-width:600px){
     input.profile_input, textarea { 
     background: #DAEDD5; 
     border: 0px white;
     border-radius: 5px;
     height: 30px;
-    width: 100%;
+    width: 70%;
     margin: 15px;
     
 }

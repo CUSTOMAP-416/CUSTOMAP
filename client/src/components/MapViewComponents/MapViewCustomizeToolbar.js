@@ -84,52 +84,57 @@ export default function MapViewCustomizeToolbar({ onFontChange, onTextChange, on
                 <div className="customize-title">Customize Tools</div>
                 <hr className="hr-1"></hr>
                 <div className="customize-toolbar">
-                    <div className="sort-dropdown">
-                        <select type="buton" id="text-select" onChange={(e)=>{handleSelectFont(e)}}>
-                            <option value="none">Font</option>
-                            <option value="Arial" style={{fontFamily: "Arial"}}>Arial</option>
-                            <option value="Comic Sans MS" style={{fontFamily: "Comic Sans MS"}}>Comic Sans MS</option>
-                            <option value="Brush Script MT" style={{fontFamily: "Brush Script MT"}}>Brush Script MT</option>
-                            <option value="Times New Roman" style={{fontFamily: "Times New Roman"}}>Times New Roman</option>
-                        </select>
-                    </div>
-                    <div id="color-button" className="color-picker-container">
-                        <button
-                            className="color-picker-button"
-                            onClick={handleButtonClick}
-                        >
-                            Pick a Color
-                        </button>
-                        <div id="color">
-                        {showPicker && (
-                            <input
-                            type="color"
-                            className="color-picker"
-                            value={color}
-                            onChange={handleSelectColor}
-                            />
-                            )}
+                    <div className="text-color">
+                        <div className="sort-dropdown">
+                            <select type="buton" id="text-select" onChange={(e)=>{handleSelectFont(e)}}>
+                                <option value="none">Font</option>
+                                <option value="Arial" style={{fontFamily: "Arial"}}>Arial</option>
+                                <option value="Comic Sans MS" style={{fontFamily: "Comic Sans MS"}}>Comic Sans MS</option>
+                                <option value="Brush Script MT" style={{fontFamily: "Brush Script MT"}}>Brush Script MT</option>
+                                <option value="Times New Roman" style={{fontFamily: "Times New Roman"}}>Times New Roman</option>
+                            </select>
+                        </div>
+                        <div id="color-button" className="color-picker-container">
+                            <button
+                                className="color-picker-button"
+                                onClick={handleButtonClick}
+                            >
+                                Pick a Color
+                            </button>
+                            <div id="color">
+                            {showPicker && (
+                                <input
+                                type="color"
+                                className="color-picker"
+                                value={color}
+                                onChange={handleSelectColor}
+                                />
+                                )}
+                            </div>
                         </div>
                     </div>
+                    
 
                     <input data-cy="custom_text" className="custom-textinput" onChange={(event) => handleTextChange(event)}></input>
                     <button id="text-save-button" type="button" onClick={() => handleAppliedTextChange()}>
                     Applied Text Change
                     </button>
+                        <div className="save-option">
+                            <div className="icons">
+                            <button className="icon-link" onClick={() => onUndo()}>
+                            ↩
+                            </button>
+                                
+                            <button className="icon-link" onClick={() => onRedo()}>
+                            ↪
+                            </button>    
+                        </div>
 
-                    <div className="icons">
-                        <button className="icon-link" onClick={() => onUndo()}>
-                        ↩
+                        <button id="save-button" type="button" onClick={() => onSave()}>
+                        SAVE
                         </button>
-                            
-                        <button className="icon-link" onClick={() => onRedo()}>
-                        ↪
-                        </button>    
                     </div>
-
-                    <button id="save-button" type="button" onClick={() => onSave()}>
-                    SAVE
-                    </button>
+                   
                 
                 </div>
         </div>
