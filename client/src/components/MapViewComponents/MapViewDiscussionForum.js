@@ -18,8 +18,8 @@ export default function MapViewDiscussionForum(){
         let discussionShow = [...discussions]
         discussionShow.push(
             <div key={'discussions'+discussionShow.length} className="message-container">
-                <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
-                    <div className='username'>{auth_store.user.usernmae}</div>
+                <div style={{display: "flex", flexWrap: "wrap", justifyContent: "flex-start", paddingBottom:"10px"}}>
+                    <div className='username'>{auth_store.user.username}:</div>
                     <button className="message">{newDiscussion}</button>
                 </div>
             </div>
@@ -36,9 +36,9 @@ export default function MapViewDiscussionForum(){
             for(let i=0; i<auth_store.selectMap.discussions.length; i++){
                 discussionShow.push(
                     <div key={'discussions'+i} className="message-container">
-                        <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
-                            <div className='username'>{auth_store.selectMap.discussions[i].username}</div>
-                            <button className="message">{auth_store.selectMap.discussions[i].content}</button>
+                        <div style={{display: "flex", flexDirection: "column",justifyContent: "flex-start", paddingBottom:"10px"}}>
+                            <div className='username'style={{ flex: "1", minWidth: "100%", wordBreak: "break-all" }}>{auth_store.selectMap.discussions[i].username}</div>
+                            <button className="message" style={{ flex: "1", minWidth: "100%", wordBreak: "break-all" }}>{auth_store.selectMap.discussions[i].content}</button>
                         </div>
                     </div>
                 )
@@ -47,7 +47,7 @@ export default function MapViewDiscussionForum(){
         }
     }, [auth_store.selectMap]);
 
-
+//style={{width:"100%"}}
     
 
   ////////////// side bar show control////////////////
