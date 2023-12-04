@@ -372,7 +372,10 @@ editUserInfo = async (req, res) => {
 
 deleteUser = async (req, res) => {
     try {
-        const userToDelete = await User.deleteOne({email: req.params.email});
+        const userToDelete = await User.findOne({email: req.params.email})
+        await User.deleteOne({email: req.params.email});
+        await Profile.findByIdAndDelete(userToDelete.profile);
+
         if (!userToDelete) {
             return res.status(404).json({ errorMessage: "User not found." });
         }
@@ -408,6 +411,7 @@ createMap = async (req, res) => {
 
         const newDiscussion = new Discussion({
             user: userID,
+            usernmae: '',
             map: savedMap._id, 
             content: 'post comment here'
         })
@@ -452,23 +456,20 @@ getMap = async (req, res) => {
             legends = await Legend.find({ _id: { $in: map.legends } });
         }
         let owner = null
-        if(map.owner.length != null){
-            // owner = await User.findOne({ _id: { $in: map.owner } });
-            owner = await User.findById(map.owner[0])
-            console.log(map.owner)
+        if (map.owner && map.owner.length > 0) {
+          owner = await User.findById(map.owner[0]);
+          console.log("owner", owner);
         }
         const discussions = await Discussion.find({ _id: { $in: map.discussions } });
-
         map.texts = texts;
         map.colors = colors;
         map.legends = legends;
         map.discussions = discussions;
 
-        let ownerName = '';
-        if(owner){
-            ownerName = owner.username;
+        let ownerName = 'No User';
+        if (owner && owner.username) {
+          ownerName = owner.username;
         }
-
         return res.status(200).json({
             map: map,
             ownerName: ownerName
@@ -811,6 +812,34 @@ deleteLegend = async (req, res) => {
     }
 }
 
+onDiscussion = async (req, res) => {
+    try {
+        const { mapId, email, content } = req.body;
+        console.log("discussion: " + mapId +' '+ email +' '+ content);
+        const user = await User.findOne({ email: email });
+        //save discussion
+        const newDiscussion = new Discussion({
+            user: user._id,
+            username: user.username,
+            map: mapId,
+            content: content
+        })
+        const savedDiscussion = await newDiscussion.save();
+        //update map
+        const map = await Map.findById(mapId);
+        let mapDiscussions = map.discussions;
+        mapDiscussions.push(savedDiscussion._id)
+        await Map.updateOne(
+            {"_id": mapId},
+            {$set: {"discussions": mapDiscussions}})
+        console.log("map updated");
+        res.status(200).send();
+    } catch (err) {
+        console.log("err: " + err);
+        res.json(false);
+    }
+}
+
 module.exports = {
   getAllusers,
   getAllmaps,
@@ -833,4 +862,5 @@ module.exports = {
   onColor,
   onLegend,
   deleteLegend,
+  onDiscussion,
 };
