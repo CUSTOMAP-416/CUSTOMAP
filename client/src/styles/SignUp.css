@@ -77,3 +77,14 @@ text-decoration: none;
   .sign-logo {
     animation: bounce 1s 2;
   }
+
+
+  @media (max-width: 600px) {
+    .signup_input{
+        width: 80%;
+    }
+    .sign-logo {
+        animation: bounce 1s 2;
+        margin-left:50px;
+      }
+  }
