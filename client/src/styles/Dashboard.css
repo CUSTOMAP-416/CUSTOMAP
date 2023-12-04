@@ -225,12 +225,22 @@
   transform: translateY(-50%);
   padding: 5px 15px;
   cursor: pointer;
+  margin-right:5px;
 }
 .search-button:hover {
   background-color: #4CAF50;
 }
 .search-input{
+  width:100%;
   font-size: 1.2em;
+}
+
+@media (max-width: 600px) {
+  .search-box{
+    margin-left:50px;
+    display:flex;
+    width: 80%;
+  }
 }
 /* ----------------------------------------------------*/
 .modal {
