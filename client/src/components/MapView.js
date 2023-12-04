@@ -247,7 +247,7 @@ export default function MapView(){
               </div>}
             </div>
           )} */}
-          <div style={{display: "flex", gap: "20px"}}>
+          <div id="mapview-container" style={{display: "flex", gap: "20px"}}>
             <div id="mapview" style={{width: "80%"}}>
               <MapComponent
                 width="100%"
@@ -266,30 +266,30 @@ export default function MapView(){
             </div>
             <div className='rightside-for-legend'>
               <div style={{display: "flex", justifyContent:"center"}}>
-              <button id="legend-button" type="button" onClick={() => handleShowLegends()}>
-                  Legend
-              </button>
-            </div>
-
-            {isLegendsOpen && (
-              <div className="legendsContainer" style={{ display: 'flex', flexWrap: 'wrap'}}>
-                {/* Legend items */}
-                {legendItems.map((item, index) => (
-                  <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '8px', marginleft: '10px',margintop: '10px', width: '200px', justifyContent: "space-between" }}>
-                    {item.color && <div style={{ width: '20px', height: '20px', backgroundColor: item.color, marginRight: '8px' }}></div>}
-                    <span style={{fontSize: "15px"}}>{item.label}</span>
-                    {auth_store.isCreatePage ? '':<button className='customize-legend-del-button' style={{width: "17%", height: "28px", fontSize:"15px", fontWeight: "bolder", fontFamily: "Arial"}} onClick={() => handleDeleteLegend(index, item._id)}>-</button>}
-                  </div>
-                ))}
-          
-                {/* Add Legend section */}
-                {auth_store.isCreatePage ? '': <div className="legends-Adder" >
-                  <input className="customize-color"  style={{width: "16%"}} type="color" value={newLegend.color} onChange={handleNewLegendColorChang} />
-                  <input className="customize-text-box" type="text" placeholder="Legend Label" value={newLegend.label} onChange={handleNewLegendLabelChange} />
-                  <button  className='customize-legend-button' onClick={handleAddLegend} style={{width: "20%", height: "28px", fontSize:"15px", fontWeight: "bolder", fontFamily: "Arial"}}>+</button>
-                </div>}
+                <button id="legend-button" type="button" onClick={() => handleShowLegends()}>
+                    Legend
+                </button>
               </div>
-            )}
+
+              {isLegendsOpen && (
+                <div className="legendsContainer" style={{ display: 'flex', flexWrap: 'wrap'}}>
+                  {/* Legend items */}
+                  {legendItems.map((item, index) => (
+                    <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '8px', marginleft: '10px',margintop: '10px', width: '200px', justifyContent: "space-between" }}>
+                      {item.color && <div style={{ width: '20px', height: '20px', backgroundColor: item.color, marginRight: '8px' }}></div>}
+                      <span style={{fontSize: "15px"}}>{item.label}</span>
+                      {auth_store.isCreatePage ? '':<button className='customize-legend-del-button' style={{width: "17%", height: "28px", fontSize:"15px", fontWeight: "bolder", fontFamily: "Arial"}} onClick={() => handleDeleteLegend(index, item._id)}>-</button>}
+                    </div>
+                  ))}
+            
+                  {/* Add Legend section */}
+                  {auth_store.isCreatePage ? '': <div className="legends-Adder" >
+                    <input className="customize-color"  style={{width: "16%"}} type="color" value={newLegend.color} onChange={handleNewLegendColorChang} />
+                    <input className="customize-text-box" type="text" placeholder="Legend Label" value={newLegend.label} onChange={handleNewLegendLabelChange} />
+                    <button  className='customize-legend-button' onClick={handleAddLegend} style={{width: "20%", height: "28px", fontSize:"15px", fontWeight: "bolder", fontFamily: "Arial"}}>+</button>
+                  </div>}
+                </div>
+              )}
             </div>
           </div>
         </div>

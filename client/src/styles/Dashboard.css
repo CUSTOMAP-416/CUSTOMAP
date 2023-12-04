@@ -600,6 +600,41 @@
       width: 90%;
       margin-bottom: 10px;
     }
+    .button {
+      margin-top:5px;
+    }
+    .creat-banner {
+      flex-direction: column;
+    }
+    .createEditAll{
+      width:90%;
+      
+    }
+    .dashboard-header {
+      text-align: center;
+    }
+    .sidebar{
+      width: 91%;
+      height: auto;
+    }
+    .MD-container{
+      flex-direction: row;
+    }
+    #edit-button{
+      margin-bottom: 10px;
+    }
+  }
+
+  #export-modal {
+    display:none;
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #5c8937;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    z-index: 9999;
   }
 
   .darkmodebutton{

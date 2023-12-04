@@ -5,7 +5,7 @@
 .flexbox {
   display: flex;
   align-items: center;
-    width: 100%;
+  width: 100%;
 }
 .icon {
   width: 40px;
@@ -65,8 +65,15 @@
 @media screen and (max-width: 600px) {
   .flexbox {
     flex-direction: column;
+    width: 100%;
   }
-
+  .banner {
+    background-color: #1f8505;
+    width: 110%;
+  }
+  .login-container{
+   margin-right:40px
+  }
 }
 
 
