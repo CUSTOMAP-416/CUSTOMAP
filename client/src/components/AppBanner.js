@@ -36,7 +36,10 @@ export default function AppBanner() {
         <div>
           <img className="icon" src={icon} alt="My SVG" />
         </div>
-        <div className="logo">CUSTOMAP</div>
+        <div className='logo-cotainer'>
+          <div className="logo">CUSTOMAP</div>
+        </div>
+        
         <div className="links">
           <div id="banner-home" onClick={() => openHome()}>
             <Link
