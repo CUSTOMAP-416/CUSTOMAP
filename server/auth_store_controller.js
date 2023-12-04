@@ -372,7 +372,10 @@ editUserInfo = async (req, res) => {
 
 deleteUser = async (req, res) => {
     try {
-        const userToDelete = await User.deleteOne({email: req.params.email});
+        const userToDelete = await User.findOne({email: req.params.email})
+        await User.deleteOne({email: req.params.email});
+        await Profile.findByIdAndDelete(userToDelete.profile);
+
         if (!userToDelete) {
             return res.status(404).json({ errorMessage: "User not found." });
         }
