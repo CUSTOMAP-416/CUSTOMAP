@@ -169,6 +169,13 @@ export default function DashboardCreateOrEditMapView() {
   };
   const [visibility, setVisibility] = useState('');
 
+  //map type
+  const [selectedMapType, setSelectedMapType] = useState('');
+
+  const handleMapTypeChange = (event) => {
+    setSelectedMapType(event.target.value);
+  };
+
   useEffect(() => {
     if(!auth_store.isCreatePage && auth_store.selectMap != null){
       setTimeout(function() {
@@ -251,6 +258,16 @@ export default function DashboardCreateOrEditMapView() {
             }
           </div>
           <div className="button-section">
+          <label>Select Map type:</label>
+            <select onChange={handleMapTypeChange}>
+              <option value="">Default Map</option>
+              <option value="heat">Heat Map</option>
+              <option value="point">Point Map</option>
+              <option value="route">Route Map</option>
+              <option value="bubble">Bubble Map</option>
+              <option value="thematic">Thematic Map</option>
+              <option value="choropleth">Choropleth Map</option>
+            </select>
             {auth_store.isCreatePage ? (
               <div>
                 <input
@@ -349,10 +366,10 @@ export default function DashboardCreateOrEditMapView() {
           </div>
         </div>
         <MapComponent
+          mapType={selectedMapType}
           mapData={mapData}
           texts={texts}
           colors={colors}
-          legends={legends}
         />
         {errorMessage && (
           <p className="error-message" style={{ color: "red" }}>
