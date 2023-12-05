@@ -43,7 +43,7 @@ const getMap = (mapId) => {
     })
 };
 //function to handle the create a new map process const onCreateMap = async (map) => { ?
-const createMap = (mapData, mapTitle, mapDescription, user) => {
+const createMap = (mapData, mapTitle, mapDescription, mapType, user) => {
     // Serialize the data
     const serializedData = JSON.stringify(mapData);
     return api.post('/createMap/', {
@@ -51,6 +51,7 @@ const createMap = (mapData, mapTitle, mapDescription, user) => {
         mapTitle : mapTitle,
         mapDescription: mapDescription,
         mapData : serializedData,
+        mapType: mapType,
     })
 };
 const updateMap = (id_, name, phone, id, email, password) => {
