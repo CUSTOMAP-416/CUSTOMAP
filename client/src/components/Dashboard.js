@@ -32,14 +32,7 @@ export default function Dashboard(){
     //Stores the currently selected view (Dash Board, My Profile, Create Map, Search Map)
     const [selectedView, setSelectedView] = useState(<DashboardMapListView handleEditView={handleEditView}/>);
 
-
-    
-   
-
-    
-    const [isDarkMode, setIsDarkMode] = useState(false); // 默认为false
-
-    // 切换暗黑模式状态的处理函数
+    const [isDarkMode, setIsDarkMode] = useState(false); 
     const handleToggle = () => {
       setIsDarkMode(!isDarkMode);
     };
@@ -48,21 +41,29 @@ export default function Dashboard(){
         <div className='container'>
             <div className={`sidebar ${isDarkMode ? 'sidebar-dark' : 'sidebar-bright'}`}>
             <img className="bear" src={bear} style={{padding:"30px 0px"}}alt="My SVG" />
-                <div className='profile'>Hello {auth_store.user.username}</div>
+                <div className={`profile ${isDarkMode ? 'profile-dark' : ''}`}>Hello {auth_store.user.username}</div>
                 <div className="sidebar-buttons">
-                <button type="button" onClick={() => handleSelectedViewChange(<DashboardMapListView handleEditView={handleEditView}/>)}>Dashboard</button>
+                    <button
+                        className={`sidebar-buttons ${isDarkMode ? 'sidebar-buttons-dark' : 'sidebar-buttons'}`}
+                        onClick={() => handleSelectedViewChange(<DashboardMapListView handleEditView={handleEditView} />)}>Dashboard</button>
                 </div>
                 <div className="sidebar-buttons">
-                <button type="button" onClick={() => handleSelectedViewChange(<DashboardMyProfileView />)}>My Profile</button>
+                    <button
+                        className={`sidebar-buttons ${isDarkMode ? 'sidebar-buttons-dark' : 'sidebar-buttons'}`}
+                        onClick={() => handleSelectedViewChange(<DashboardMyProfileView />)}>My Profile</button>
                 </div>
                 <div className="sidebar-buttons">
-                <button type="button" onClick={() => handleSelectedViewChange(<DashboardCreateOrEditMapView />)}>Create Map</button>
+                    <button
+                        className={`sidebar-buttons ${isDarkMode ? 'sidebar-buttons-dark' : 'sidebar-buttons'}`} o
+                        nClick={() => handleSelectedViewChange(<DashboardCreateOrEditMapView />)}>Create Map</button>
                 </div>
                 <div className="sidebar-buttons">
-                <button type="button" onClick={() => handleSelectedViewChange(<DashboardSearchMapView />)}>Search Map</button>
+                    <button
+                        className={`sidebar-buttons ${isDarkMode ? 'sidebar-buttons-dark' : 'sidebar-buttons'}`}
+                        onClick={() => handleSelectedViewChange(<DashboardSearchMapView />)}>Search Map</button>
                 </div>
                 <div className="darkmodebutton">
-                    <div>Dark Mode</div>
+                    <div className={`sidebar-buttons ${isDarkMode ? 'sidebar-buttons-dark' : 'sidebar-buttons'}`}>Dark Mode</div>
                     <label className="switch">
                         <input
                             type="checkbox"
@@ -73,7 +74,7 @@ export default function Dashboard(){
                     </label>
                 </div>
             </div>
-            <div className={`selectedDashboard ${isDarkMode ? 'selectedDashbord-dark' : 'selectedDashbord-bright'}`} style={{ overflowX: "hidden" }}>{selectedView}</div>
+            <div className={`selectedDashboard ${isDarkMode ? 'selectedDashbord-dark' : 'selectedDashbord'}`} style={{ overflowX: "hidden" }}>{selectedView}</div>
         </div>
 
     )

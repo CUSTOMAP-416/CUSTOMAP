@@ -16,23 +16,46 @@
     text-align: center;
     height: 100vh;
 }
+
+.sidebar-dark {
+  width:100%;
+  background-color: #504f4f;
+}
+
+
 .sidebar-buttons{
     padding-top: 30px;
 }
 
-.sidebar button {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 5px;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    color: #000;
 
-    font-family: DM Sans;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 700;
+.sidebar-buttons {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 5px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #000;
+
+  font-family: DM Sans;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.sidebar-buttons-dark {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 5px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #f9f6f6;
+
+  font-family: DM Sans;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
 }
 
 .sidebar button:hover {
@@ -44,11 +67,6 @@
 .sidebar-bright {
   width:100%;
   background-color: #E8E8E8;
-}
-
-.sidebar-dark {
-  width:100%;
-  background-color: #908e8e;
 }
 
 
@@ -64,7 +82,7 @@
 
 .selectedDashbord-dark {
   width:100%;
-  background-color: rgb(186, 182, 143);
+  background-color: rgb(184, 181, 151);
 }
 
 .profile{
@@ -75,6 +93,16 @@
     font-size: 28px;
     font-style: normal;
     font-weight: 700;
+}
+
+.profile-dark{
+  border-bottom: solid #1F8505;
+  padding: 20px;
+  color: #faf9f9;
+  font-family: DM Sans;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 700;
 }
 
 /* Style for the dashboard header */
@@ -241,6 +269,8 @@
     display:flex;
     width: 80%;
   }
+
+  
 }
 /* ----------------------------------------------------*/
 .modal {
