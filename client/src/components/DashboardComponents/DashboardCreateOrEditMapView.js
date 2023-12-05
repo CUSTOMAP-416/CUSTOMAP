@@ -16,7 +16,7 @@ export default function DashboardCreateOrEditMapView() {
 
   //function to handle the create a new map process
   const onCreateMap = () => {
-    auth_store.createMap(mapData, mapTitle, mapDescription);
+    auth_store.createMap(mapData, mapTitle, mapDescription, selectedMapType);
     alert("Created successfully!")
     setMapData(null)
     setMapTitle('')
