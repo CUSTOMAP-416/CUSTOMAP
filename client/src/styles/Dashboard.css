@@ -335,7 +335,13 @@
     color: #006400;
     font-size: 1.2em;
   }
-  
+
+  .create_detail{
+    font-family: DM Sans;
+    color: gray;
+    margin-left: 13px;
+    margin-bottom: 15px;
+  }
   .button-section {
     text-align: right;
   }
@@ -536,7 +542,12 @@
     border: 2px solid #888;
   }
 
-  
+  .maptype{
+    font-family: DM Sans;
+    font-weight: 100;
+    color: rgb(168, 168, 168);
+    font-size: 25px;
+  }
   .fork-content {
     position: absolute;
     margin-top: 8px;
@@ -756,3 +767,4 @@ input:checked + .slider:before {
   padding: 10px;
   color: gray;
 }
+
