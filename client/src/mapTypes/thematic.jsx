@@ -54,13 +54,20 @@ class ThematicMap extends Component {
       if(this.props.props.layerItems[i].x==feature.properties.label_x && this.props.props.layerItems[i].y==feature.properties.label_y){
         let index = ''
         for(let j=7; j>0; j--){
-          if(parseFloat(this.props.props.layerItems[i].value) > parseFloat(this.props.props.legendItems[j].value)){
-            index=j
-            break;
+          if(this.props.props.legendItems[j].visibility){
+            if(parseFloat(this.props.props.layerItems[i].number) > parseFloat(this.props.props.legendItems[j].value)){
+              index=j
+              break;
+            }
           }
         }
         if(index === ''){
-          index = 0
+          for(let j=0; j<8; j++){
+            if(this.props.props.legendItems[j].visibility){
+              index = j
+              break;
+            }
+          }
         }
         layer.setStyle({
           fillColor: this.props.props.legendItems[index].color,
@@ -118,20 +125,32 @@ class ThematicMap extends Component {
     for(let i=0; i<this.props.props.layerItems.length; i++){
       let index = ''
       for(let j=7; j>0; j--){
-        if(parseFloat(this.props.props.layerItems[i].value) > parseFloat(this.props.props.legendItems[j].value)){
-          index=j
-          break;
+        if(this.props.props.legendItems[j].visibility){
+          if(parseFloat(this.props.props.layerItems[i].number) > parseFloat(this.props.props.legendItems[j].value)){
+            index=j
+            break;
+          }
         }
       }
       if(index === ''){
-        index = 0
+        for(let j=0; j<8; j++){
+          if(this.props.props.legendItems[j].visibility){
+            index = j
+            break;
+          }
+        }
       }
-      const layer=this.props.geojsonLayer.getLayer(this.props.props.layerItems[i].id)
-      layer.setStyle({
-        fillColor: this.props.props.legendItems[index].color,
-        color: 'white',
-        fillOpacity: this.props.props.legendItems[index].opacity,
-        weight: 1,
+      this.props.geojsonLayer.eachLayer((layer) => {
+        if(layer.feature){
+          if(layer.feature.properties.label_y === this.props.props.layerItems[i].y && layer.feature.properties.label_x === this.props.props.layerItems[i].x){
+            layer.setStyle({
+              fillColor: this.props.props.legendItems[index].color,
+              color: 'white',
+              fillOpacity: this.props.props.legendItems[index].opacity,
+              weight: 1,
+            });
+          }
+        }
       });
     }
   };
@@ -179,32 +198,78 @@ class ThematicMap extends Component {
               update: function () {
                 this._container.innerHTML = ''
                 if(legendItems[0].visibility){
+                  let value='inf'
+                  for(let i=1; i<8; i++){
+                    if(legendItems[i].visibility){
+                      value = legendItems[i].value
+                      break
+                    }
+                  }
                   this._container.innerHTML +=
-                  `<li style="background: ${hexToRGBA(legendItems[0].color, legendItems[0].opacity)}">< ${legendItems[1].value}</li>`
+                  `<li style="background: ${hexToRGBA(legendItems[0].color, legendItems[0].opacity)}">< ${value}</li>`
                 }
                 if(legendItems[1].visibility){
+                  let value='inf'
+                  for(let i=2; i<8; i++){
+                    if(legendItems[i].visibility){
+                      value = legendItems[i].value
+                      break
+                    }
+                  }
                   this._container.innerHTML +=
-                  `<li style="background: ${hexToRGBA(legendItems[1].color, legendItems[1].opacity)}">${legendItems[1].value} - ${legendItems[2].value}</li>`
+                  `<li style="background: ${hexToRGBA(legendItems[1].color, legendItems[1].opacity)}">${legendItems[1].value} - ${value}</li>`
                 }
                 if(legendItems[2].visibility){
+                  let value='inf'
+                  for(let i=3; i<8; i++){
+                    if(legendItems[i].visibility){
+                      value = legendItems[i].value
+                      break
+                    }
+                  }
                   this._container.innerHTML +=
-                  `<li style="background: ${hexToRGBA(legendItems[2].color, legendItems[2].opacity)}">${legendItems[2].value} - ${legendItems[3].value}</li>`
+                  `<li style="background: ${hexToRGBA(legendItems[2].color, legendItems[2].opacity)}">${legendItems[2].value} - ${value}</li>`
                 }
                 if(legendItems[3].visibility){
+                  let value='inf'
+                  for(let i=4; i<8; i++){
+                    if(legendItems[i].visibility){
+                      value = legendItems[i].value
+                      break
+                    }
+                  }
                   this._container.innerHTML +=
-                  `<li style="background: ${hexToRGBA(legendItems[3].color, legendItems[3].opacity)}">${legendItems[3].value} - ${legendItems[4].value}</li>`
+                  `<li style="background: ${hexToRGBA(legendItems[3].color, legendItems[3].opacity)}">${legendItems[3].value} - ${value}</li>`
                 }
                 if(legendItems[4].visibility){
+                  let value='inf'
+                  for(let i=5; i<8; i++){
+                    if(legendItems[i].visibility){
+                      value = legendItems[i].value
+                      break
+                    }
+                  }
                   this._container.innerHTML +=
-                  `<li style="background: ${hexToRGBA(legendItems[4].color, legendItems[4].opacity)}">${legendItems[4].value} - ${legendItems[5].value}</li>`
+                  `<li style="background: ${hexToRGBA(legendItems[4].color, legendItems[4].opacity)}">${legendItems[4].value} - ${value}</li>`
                 }
                 if(legendItems[5].visibility){
+                  let value='inf'
+                  for(let i=6; i<8; i++){
+                    if(legendItems[i].visibility){
+                      value = legendItems[i].value
+                      break
+                    }
+                  }
                   this._container.innerHTML +=
-                  `<li style="background: ${hexToRGBA(legendItems[5].color, legendItems[5].opacity)}">${legendItems[5].value} - ${legendItems[6].value}</li>`
+                  `<li style="background: ${hexToRGBA(legendItems[5].color, legendItems[5].opacity)}">${legendItems[5].value} - ${value}</li>`
                 }
                 if(legendItems[6].visibility){
+                  let value='inf'
+                  if(legendItems[7].visibility){
+                    value = legendItems[7].value
+                  }
                   this._container.innerHTML +=
-                  `<li style="background: ${hexToRGBA(legendItems[6].color, legendItems[6].opacity)}">${legendItems[6].value} - ${legendItems[7].value}</li>`
+                  `<li style="background: ${hexToRGBA(legendItems[6].color, legendItems[6].opacity)}">${legendItems[6].value} - ${value}</li>`
                 }
                 if(legendItems[7].visibility){
                   this._container.innerHTML +=
@@ -242,13 +307,20 @@ class ThematicMap extends Component {
     const layer=this.props.geojsonLayer.getLayer(id)
     let index = ''
     for(let j=7; j>0; j--){
-      if(parseFloat(value) > parseFloat(this.props.props.legendItems[j].value)){
-        index=j
-        break;
+      if(this.props.props.legendItems[j].visibility){
+        if(parseFloat(value) > parseFloat(this.props.props.legendItems[j].value)){
+          index=j
+          break;
+        }
       }
     }
     if(index === ''){
-      index = 0
+      for(let j=0; j<8; j++){
+        if(this.props.props.legendItems[j].visibility){
+          index = j
+          break;
+        }
+      }
     }
     layer.setStyle({
       fillColor: this.props.props.legendItems[index].color,
@@ -278,10 +350,47 @@ class ThematicMap extends Component {
     });
   }
 
+  addByLatlng = (y, x, value) => {
+    this.props.geojsonLayer.eachLayer((layer) => {
+      if(layer.feature){
+        if(layer.feature.properties.label_y === y && layer.feature.properties.label_x === x){
+          let index = ''
+          for(let j=7; j>0; j--){
+            if(this.props.props.legendItems[j].visibility){
+              if(parseFloat(value) > parseFloat(this.props.props.legendItems[j].value)){
+                index=j
+                break;
+              }
+            }
+          }
+          if(index === ''){
+            for(let j=0; j<8; j++){
+              if(this.props.props.legendItems[j].visibility){
+                index = j
+                break;
+              }
+            }
+          }
+          layer.setStyle({
+            fillColor: this.props.props.legendItems[index].color,
+            color: 'white',
+            fillOpacity: this.props.props.legendItems[index].opacity,
+            weight: 1,
+          });
+          this.setState((prevState) => {
+            return {paintedLayers: {
+              ...prevState.paintedLayers,
+              [L.stamp(layer)]: true,
+            }};
+          });
+        }
+      }
+    });
+  }
+
   deleteByLatlng = (y, x) => {
     this.props.geojsonLayer.eachLayer((layer) => {
       if(layer.feature){
-        console.log(layer.feature.properties.label_y, y)
         if(layer.feature.properties.label_y === y && layer.feature.properties.label_x === x){
           layer.setStyle({
             fillColor: "",
@@ -303,13 +412,13 @@ class ThematicMap extends Component {
       this.deleteByLatlng(customization.value.y, customization.value.x)
     }
     else if(customization.type == 'delete'){
-      this.add(customization.value.id, customization.value.number)
+      this.addByLatlng(customization.value.y, customization.value.x, customization.value.number)
     }
   }
 
   redo = (customization) => {
     if(customization.type == 'add'){
-      this.add(customization.value.id, customization.value.number)
+      this.addByLatlng(customization.value.y, customization.value.x, customization.value.number)
     }
     else if(customization.type == 'delete'){
       this.deleteByLatlng(customization.value.y, customization.value.x)
@@ -331,7 +440,7 @@ class ThematicMap extends Component {
         this.updateLegend()
       }
       else if(this.props.props.customization.redoUndo == 'add'){
-        this.add(this.props.props.customization.custom.id, this.props.props.customization.custom.number)
+        this.addByLatlng(this.props.props.customization.custom.y, this.props.props.customization.custom.x, this.props.props.customization.custom.number)
       }
       else if(this.props.props.customization.redoUndo == 'delete'){
         this.deleteByLatlng(this.props.props.customization.custom.y, this.props.props.customization.custom.x)

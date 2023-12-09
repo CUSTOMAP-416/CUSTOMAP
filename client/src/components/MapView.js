@@ -584,7 +584,6 @@ export default function MapView(){
                       <label>Opacity:<input type="number" min="0" max="1" step="0.01" value={item.opacity}
                           onChange={(e) => handleLegendOpacityChange(index, e.target.value)}/>
                       </label>
-                      <button type="button" onClick={() => handleLegendVisibilityChange(index)}>{item.visibility?'display':'hide'}</button>
                     </div>
             }
             return  <div key={index}>

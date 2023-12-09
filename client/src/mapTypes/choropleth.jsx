@@ -162,6 +162,27 @@ class ChoroplethMap extends Component {
     });
   }
 
+  addByLatlng = (y, x, color, ID, Statistic) => {
+    this.props.geojsonLayer.eachLayer((layer) => {
+      if(layer.feature){
+        if(layer.feature.properties.label_y === y && layer.feature.properties.label_x === x){
+          layer.setStyle({
+            fillColor: color,
+            fillOpacity: 0.2,
+            weight: 1,
+          });
+          layer.bindPopup('ID: ' + ID + '<br>Statistic: ' + Statistic);
+          this.setState((prevState) => {
+            return {paintedLayers: {
+              ...prevState.paintedLayers,
+              [L.stamp(layer)]: true,
+            }};
+          });
+        }
+      }
+    });
+  }
+
   deleteByLatlng = (y, x) => {
     this.props.geojsonLayer.eachLayer((layer) => {
       if(layer.feature){
@@ -187,13 +208,13 @@ class ChoroplethMap extends Component {
       this.deleteByLatlng(customization.value.y, customization.value.x)
     }
     else if(customization.type == 'delete'){
-      this.add(customization.value.id, customization.value.color, customization.value.value, customization.value.string)
+      this.addByLatlng(customization.value.y, customization.value.x, customization.value.color, customization.value.value, customization.value.string)
     }
   }
 
   redo = (customization) => {
     if(customization.type == 'add'){
-      this.add(customization.value.id, customization.value.color, customization.value.value, customization.value.string)
+      this.addByLatlng(customization.value.y, customization.value.x, customization.value.color, customization.value.value, customization.value.string)
     }
     else if(customization.type == 'delete'){
       this.deleteByLatlng(customization.value.y, customization.value.x)
@@ -212,7 +233,7 @@ class ChoroplethMap extends Component {
         this.undo(this.props.props.customization.custom)
       }
       else if(this.props.props.customization.redoUndo == 'add'){
-        this.add(this.props.props.customization.custom.id, this.props.props.customization.custom.color, this.props.props.customization.custom.value, this.props.props.customization.custom.string)
+        this.addByLatlng(this.props.props.customization.custom.y, this.props.props.customization.custom.x, this.props.props.customization.custom.color, this.props.props.customization.custom.value, this.props.props.customization.custom.string)
       }
       else if(this.props.props.customization.redoUndo == 'delete'){
         this.deleteByLatlng(this.props.props.customization.custom.y, this.props.props.customization.custom.x)
