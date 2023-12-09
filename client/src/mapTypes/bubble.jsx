@@ -28,9 +28,10 @@ class BubbleMap extends Component {
     }
     if (map && geojsonLayer && geojsonLayer.type === "FeatureCollection") {
       const layer = L.geoJSON(geojsonLayer, {
+        fillColor: this.props.props.selectedColor,
         color: "#808080",
         weight: 1,
-        fillOpacity: 0,
+        fillOpacity: 0.1,
       });
       layer.addTo(map);
       map.fitBounds(layer.getBounds());
@@ -132,14 +133,16 @@ class BubbleMap extends Component {
     } 
     if(prevProps.props.selectedColor !== this.props.props.selectedColor){
       const geojsonLayer = this.props.geojsonLayer;
-      const state = {
-        type: 'background',
-        previous: geojsonLayer.getLayers()[0].options.fillColor,
-        value: {
-          background: this.props.props.selectedColor,
+      if(this.props.props.handleCustomization){
+        const state = {
+          type: 'background',
+          previous: geojsonLayer.getLayers()[0].options.fillColor,
+          value: {
+            background: this.props.props.selectedColor,
+          }
         }
+        this.props.props.handleCustomization(state)
       }
-      this.props.props.handleCustomization(state)
       geojsonLayer.setStyle({
         fillColor: this.props.props.selectedColor,
         color: "#808080",

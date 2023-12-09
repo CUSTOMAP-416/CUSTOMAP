@@ -105,7 +105,7 @@ export default function DashboardMapListView({ handleEditView }){
         </div>
     );
     return (
-      <div>
+      <div style={{height: '750px',  overflow: 'auto'}}>
         <div className="dashboard-header">Dashboard</div>
         <div className="description-and-sorting">
           <div className="description">Maps you have participated in</div>

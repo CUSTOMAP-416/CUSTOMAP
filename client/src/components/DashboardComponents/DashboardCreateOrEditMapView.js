@@ -176,6 +176,8 @@ export default function DashboardCreateOrEditMapView() {
     setSelectedMapType(event.target.value);
   };
   const [layerItems, setLayerItems] = useState([]);
+  const [selectedColor, setSelectedColor] = useState("#ffffff"); 
+  const [changedFont, setChangedFont] = useState('');
 
   useEffect(() => {
     if(!auth_store.isCreatePage && auth_store.selectMap != null){
@@ -194,6 +196,8 @@ export default function DashboardCreateOrEditMapView() {
         setVisibility(auth_store.selectMap.visibility)
         setSelectedMapType(auth_store.selectMap.mapType)
         setLayerItems(auth_store.selectMap.customs)
+        setChangedFont(auth_store.selectMap.font)
+        setSelectedColor(auth_store.selectMap.backgroundColor)
       }, 100);
     }
   }, [auth_store.selectMap]);
@@ -379,6 +383,8 @@ export default function DashboardCreateOrEditMapView() {
           colors={colors}
           legendItems={legends}
           layerItems={layerItems}
+          changedFont={changedFont}
+          selectedColor={selectedColor}
         />
         {errorMessage && (
           <p className="error-message" style={{ color: "red" }}>
