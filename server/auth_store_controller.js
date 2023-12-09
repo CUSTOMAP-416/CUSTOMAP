@@ -480,7 +480,6 @@ getMap = async (req, res) => {
         let owner = []
         if (map.owner && map.owner.length > 0) {
           owner = await User.findById(map.owner[0]);
-          console.log("owner", owner);
         }
         const discussions = await Discussion.find({ _id: { $in: map.discussions } });
         let customs = []
@@ -492,7 +491,6 @@ getMap = async (req, res) => {
         map.legends = legends;
         map.discussions = discussions;
         map.customs = customs;
-
         let ownerName = 'No User';
         if (owner && owner.username) {
           ownerName = owner.username;
@@ -867,7 +865,7 @@ onFont = async (req, res) => {
     try {
         const { mapId, font } = req.body;
         console.log("font: " + mapId +' '+ font);
-        Map.findByIdAndUpdate(mapId, { $set: { font: font } })
+        await Map.findByIdAndUpdate(mapId, { $set: { font: font } })
         console.log("map updated");
         res.status(200).send();
     } catch (err) {
@@ -879,7 +877,7 @@ onBackgroundColor = async (req, res) => {
     try {
         const { mapId, backgroundColor } = req.body;
         console.log("backgroundColor: " + mapId +' '+ backgroundColor);
-        Map.findByIdAndUpdate(mapId, { $set: { backgroundColor: backgroundColor } })
+        await Map.findByIdAndUpdate(mapId, { $set: { backgroundColor: backgroundColor } })
         console.log("map updated");
         res.status(200).send();
     } catch (err) {
@@ -936,8 +934,8 @@ onCustom = async (req, res) => {
 onThematicLegends = async (req, res) => {
     try {
         const { mapId, thematicLegends } = req.body;
-        console.log("thematicLegends: " + mapId +' '+ thematicLegends);
-        Map.findByIdAndUpdate(mapId, { $set: { thematicLegends: thematicLegends } })
+        console.log("thematicLegends: " + mapId);
+        await Map.findByIdAndUpdate(mapId, { $set: { thematicLegends: thematicLegends } })
         console.log("map updated");
         res.status(200).send();
     } catch (err) {

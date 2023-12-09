@@ -22,7 +22,7 @@ app.use('/auth_store', authStoreRouter)
 // INITIALIZE OUR DATABASE OBJECT
 const mongoose = require('mongoose')
 const mongoDB = "mongodb+srv://shihaowen:customap@cluster0.qw90kmw.mongodb.net/?retryWrites=true&w=majority";
-mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
