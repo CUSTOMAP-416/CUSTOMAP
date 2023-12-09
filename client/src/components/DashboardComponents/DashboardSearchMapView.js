@@ -85,7 +85,7 @@ export default function DashboardSearchMapView(){
     }, [])
 
     return(
-        <div>
+        <div style={{height: '750px',  overflow: 'auto'}}>
         <div className='dashboard-header'>
             Search Map
         </div>

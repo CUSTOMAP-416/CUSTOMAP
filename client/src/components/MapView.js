@@ -262,7 +262,7 @@ export default function MapView(){
 
   const [layerItems, setLayerItems] = useState([]);
   const add = (x, y, label, number, string) => {
-    if(!isNaN(y) && isFinite(y) && !isNaN(x) && isFinite(x) && y >= -90 && y <= 90 && x >= -180 && x <= 180){
+    if(!(y==='') && !isNaN(y) && isFinite(y) && !(x==='') && !isNaN(x) && isFinite(x) && y >= -90 && y <= 90 && x >= -180 && x <= 180){
       x=parseFloat(x)
       y=parseFloat(y)
       number=parseFloat(number)
@@ -513,7 +513,18 @@ export default function MapView(){
       setTexts(auth_store.selectMap.texts)
       setColors(auth_store.selectMap.colors)
       if(auth_store.selectMap.mapType == 'thematic'){
-        setLegendItems(auth_store.selectMap.thematicLegends)
+        let thematicLegends = []
+        let thematicLegend = ''
+        for (let i=0; i<8; i++){
+          thematicLegend = {
+            value: auth_store.selectMap.thematicLegends[i].value, 
+            color: auth_store.selectMap.thematicLegends[i].color, 
+            visibility: auth_store.selectMap.thematicLegends[i].visibility, 
+            opacity: auth_store.selectMap.thematicLegends[i].opacity,
+          }
+          thematicLegends.push(thematicLegend)
+        }
+        setLegendItems(thematicLegends)
       }
       else{
         setLegendItems(auth_store.selectMap.legends)

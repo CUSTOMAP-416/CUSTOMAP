@@ -63,7 +63,7 @@ export default function AdminDashboardUserList(){
     
 
     return (
-      <div className="right-body">
+      <div className="right-body" style={{height: '750px',  overflow: 'auto'}}>
         <div className="admin-header">
           <h1 className="header-font">Admin Dashboard</h1>
         </div>

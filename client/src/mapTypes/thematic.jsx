@@ -122,36 +122,38 @@ class ThematicMap extends Component {
     if (legendControl) {
         legendControl.update();
     }
-    for(let i=0; i<this.props.props.layerItems.length; i++){
-      let index = ''
-      for(let j=7; j>0; j--){
-        if(this.props.props.legendItems[j].visibility){
-          if(parseFloat(this.props.props.layerItems[i].number) > parseFloat(this.props.props.legendItems[j].value)){
-            index=j
-            break;
-          }
-        }
-      }
-      if(index === ''){
-        for(let j=0; j<8; j++){
+    if(this.props.geojsonLayer.eachLayer){
+      for(let i=0; i<this.props.props.layerItems.length; i++){
+        let index = ''
+        for(let j=7; j>0; j--){
           if(this.props.props.legendItems[j].visibility){
-            index = j
-            break;
+            if(parseFloat(this.props.props.layerItems[i].number) > parseFloat(this.props.props.legendItems[j].value)){
+              index=j
+              break;
+            }
           }
         }
+        if(index === ''){
+          for(let j=0; j<8; j++){
+            if(this.props.props.legendItems[j].visibility){
+              index = j
+              break;
+            }
+          }
+        }
+        this.props.geojsonLayer.eachLayer((layer) => {
+          if(layer.feature){
+            if(layer.feature.properties.label_y === this.props.props.layerItems[i].y && layer.feature.properties.label_x === this.props.props.layerItems[i].x){
+              layer.setStyle({
+                fillColor: this.props.props.legendItems[index].color,
+                color: 'white',
+                fillOpacity: this.props.props.legendItems[index].opacity,
+                weight: 1,
+              });
+            }
+          }
+        });
       }
-      this.props.geojsonLayer.eachLayer((layer) => {
-        if(layer.feature){
-          if(layer.feature.properties.label_y === this.props.props.layerItems[i].y && layer.feature.properties.label_x === this.props.props.layerItems[i].x){
-            layer.setStyle({
-              fillColor: this.props.props.legendItems[index].color,
-              color: 'white',
-              fillOpacity: this.props.props.legendItems[index].opacity,
-              weight: 1,
-            });
-          }
-        }
-      });
     }
   };
 

@@ -48,25 +48,32 @@ class DefaultMap extends Component {
 
 //-------------------onEachFeature --------------------
   onEachFeature = (feature, layer) => {
-    if (feature.properties.admin != null) {
-      let text = feature.properties.admin
-      for(let i=0; i<this.props.props.texts.length; i++){
-        if(this.props.props.texts[i].x==feature.properties.label_x && this.props.props.texts[i].y==feature.properties.label_y){
-          text = this.props.props.texts[i].text;
-          break;
-        }
+    let text = ''
+    for(let i=0; i<this.props.props.texts.length; i++){
+      if(this.props.props.texts[i].x==feature.properties.label_x && this.props.props.texts[i].y==feature.properties.label_y){
+        text = this.props.props.texts[i].text;
+        break;
       }
-      const label = L.divIcon({
+    }
+    let label = ''
+    if(this.props.props.changedFont){
+      label = L.divIcon({
+        className: "label",
+        html: `<div style="font-family: '${this.props.props.changedFont}'" >${text}</div>`,
+      });
+    }
+    else{
+      label = L.divIcon({
         className: "label",
         html: `<div>${text}</div>`,
       });
-      // Create a marker with the label and add it to the map
-      var marker = L.marker([feature.properties.label_y, feature.properties.label_x], {
-                        icon: label,
-                    });
-      // Add the marker to the map
-      this.props.map.addLayer(marker)
     }
+    // Create a marker with the label and add it to the map
+    var marker = L.marker([feature.properties.label_y, feature.properties.label_x], {
+                      icon: label,
+                  });
+    // Add the marker to the map
+    this.props.map.addLayer(marker)
 
     for(let i=0; i<this.props.props.colors.length; i++){
       if(this.props.props.colors[i].x==feature.properties.label_x && this.props.props.colors[i].y==feature.properties.label_y){
@@ -165,14 +172,20 @@ class DefaultMap extends Component {
   };
 
   updateLabel = (layer, marker, feature, text) => {
-      if (feature.properties.admin != null) {
-        const label = L.divIcon({
-          className: "label",
-          html: `<div>${text}</div>`,
+    let label = ''
+    if(this.props.props.changedFont){
+      label = L.divIcon({
+        className: "label",
+        html: `<div style="font-family: '${this.props.props.changedFont}'" >${text}</div>`,
       });
-      
-      marker.setIcon(label);
-      }
+    }
+    else{
+      label = L.divIcon({
+        className: "label",
+        html: `<div>${text}</div>`,
+      });
+    }
+    marker.setIcon(label);
   };
 
 
