@@ -24,5 +24,9 @@ authStoreRouter.post("/onColor", AuthStoreController.onColor)
 authStoreRouter.post("/onLegend", AuthStoreController.onLegend)
 authStoreRouter.post("/deleteLegend", AuthStoreController.deleteLegend)
 authStoreRouter.post("/discussion", AuthStoreController.onDiscussion)
+authStoreRouter.post("/onFont", AuthStoreController.onFont)
+authStoreRouter.post("/onBackgroundColor", AuthStoreController.onBackgroundColor)
+authStoreRouter.post("/onCustom", AuthStoreController.onCustom)
+authStoreRouter.post("/onThematicLegends", AuthStoreController.onThematicLegends)
 
 module.exports = authStoreRouter

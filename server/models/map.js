@@ -15,12 +15,13 @@ const mapSchema = new Schema(
         legends: [{ type: Schema.Types.ObjectId, ref: 'Legend' }], 
         font: String,
         backgroundColor: String,
-        heat: [{ type: Schema.Types.ObjectId, ref: 'Heat' }], 
-        point: [{ type: Schema.Types.ObjectId, ref: 'Point' }], 
-        route: [{ type: Schema.Types.ObjectId, ref: 'Route' }], 
-        bubble: [{ type: Schema.Types.ObjectId, ref: 'Bubble' }], 
-        thematic: [{ type: Schema.Types.ObjectId, ref: 'Thematic' }], 
-        choropleth: [{ type: Schema.Types.ObjectId, ref: 'Choropleth' }], 
+        customs: [{ type: Schema.Types.ObjectId, ref: 'Custom' }], 
+        thematicLegends: [{
+            value: { type: Number },
+            color: { type: String },
+            visibility: { type: Boolean },
+            opacity: { type: Number },
+        }],
         createdDate: { type: Date, default: Date.now },
     }
 );

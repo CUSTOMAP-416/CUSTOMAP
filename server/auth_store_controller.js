@@ -6,12 +6,7 @@ const Text = require('./models/text')
 const Color = require('./models/color')
 const Legend = require('./models/legend')
 const Discussion = require('./models/discussion')
-const Heat = require('./models/heat')
-const Point = require('./models/point')
-const Route = require('./models/route')
-const Bubble = require('./models/bubble')
-const Thematic = require('./models/thematic')
-const Choropleth = require('./models/choropleth')
+const Custom = require('./models/custom')
 const bcrypt = require('bcryptjs')
 const fs = require('fs');
 
@@ -403,7 +398,7 @@ createMap = async (req, res) => {
     try {
         const { email, mapTitle, mapDescription, mapData, mapType} = req.body;
         let deserializedData = JSON.parse(mapData);
-        console.log("create map: " + email + " " + mapTitle + " " + mapDescription);
+        console.log("create map: " + email + " " + mapTitle + " " + mapDescription + " " + mapType);
         //console.log(deserializedData);
         const user = await User.findOne({ email: email });
         const userID = [user._id];
@@ -427,9 +422,25 @@ createMap = async (req, res) => {
         })
         const savedDiscussion = await newDiscussion.save();
         const mapDiscussions = [savedDiscussion._id]
-        await Map.updateOne(
-            {"_id": savedMap._id},
-            {$set: {"discussions": mapDiscussions}})
+        if(mapType === 'thematic'){
+            const thematicLegends = [
+                {value:-Infinity, color:'#313695', visibility: true, opacity: 1},
+                {value:1, color:'#4575b4', visibility: true, opacity: 1},
+                {value:2, color:'#74add1', visibility: true, opacity: 1},
+                {value:3, color:'#abd9e9', visibility: true, opacity: 1},
+                {value:4, color:'#fee08b', visibility: true, opacity: 1},
+                {value:5, color:'#fdae61', visibility: true, opacity: 1},
+                {value:6, color:'#f46d43', visibility: true, opacity: 1},
+                {value:7, color:'#d73027', visibility: true, opacity: 1}]
+            await Map.updateOne(
+                {"_id": savedMap._id},
+                {$set: {"discussions": mapDiscussions, "thematicLegends": thematicLegends}})
+        }
+        else{
+            await Map.updateOne(
+                {"_id": savedMap._id},
+                {$set: {"discussions": mapDiscussions}})
+        }
         console.log("map updated");
 
         return res.status(200).json({
@@ -454,28 +465,33 @@ getMap = async (req, res) => {
         console.log("map id: " + mapId);
         let map = await Map.findById(mapId);
         console.log("get map: " + map.title + " " + map.description + " " + map.mapType);
-        let texts = null
-        if(map.texts.length != null){
+        let texts = []
+        if(map.texts.length != null && map.texts.length > 0){
             texts = await Text.find({ _id: { $in: map.texts } });
         }
-        let colors = null
-        if(map.colors.length != null){
+        let colors = []
+        if(map.colors.length != null && map.colors.length > 0){
             colors = await Color.find({ _id: { $in: map.colors } });
         }
-        let legends = null
-        if(map.legends.length != null){
+        let legends = []
+        if(map.legends.length != null && map.legends.length > 0){
             legends = await Legend.find({ _id: { $in: map.legends } });
         }
-        let owner = null
+        let owner = []
         if (map.owner && map.owner.length > 0) {
           owner = await User.findById(map.owner[0]);
           console.log("owner", owner);
         }
         const discussions = await Discussion.find({ _id: { $in: map.discussions } });
+        let customs = []
+        if(map.customs.length != null && map.customs.length > 0){
+            customs = await Custom.find({ _id: { $in: map.customs } });
+        }
         map.texts = texts;
         map.colors = colors;
         map.legends = legends;
         map.discussions = discussions;
+        map.customs = customs;
 
         let ownerName = 'No User';
         if (owner && owner.username) {
@@ -572,33 +588,28 @@ deleteMap = async (req, res) => {
             }
         }
         //discussions
-        for(let i=0; i<map.discussions.length; i++){
-            for(let j=0; j<map.discussions.length; j++){
-                await Discussion.deleteOne({_id: map.discussions[i]});
-            }
-        }
+        await Discussion.deleteMany({ _id: { $in: map.discussions } })
         console.log("discussions deleted");
         //texts
-        for(let i=0; i<map.texts.length; i++){
-            for(let j=0; j<map.texts.length; j++){
-                await Text.deleteOne({_id: map.texts[i]});
-            }
+        if(map.texts.length != null && map.texts.length > 0){
+            await Text.deleteMany({ _id: { $in: map.texts } })
         }
         console.log("texts deleted");
         //colors
-        for(let i=0; i<map.colors.length; i++){
-            for(let j=0; j<map.colors.length; j++){
-                await Color.deleteOne({_id: map.colors[i]});
-            }
+        if(map.colors.length != null && map.colors.length > 0){
+            await Color.deleteMany({ _id: { $in: map.colors } })
         }
         console.log("colors deleted");
         //legends
-        for(let i=0; i<map.legends.length; i++){
-            for(let j=0; j<map.legends.length; j++){
-                await Legend.deleteOne({_id: map.legends[i]});
-            }
+        if(map.legends.length != null && map.legends.length > 0){
+            await Legend.deleteMany({ _id: { $in: map.legends } })
         }
-        console.log("Discussion deleted");
+        console.log("legends deleted");
+        //customs
+        if(map.customs.length != null && map.customs.length > 0){
+            await Custom.deleteMany({ _id: { $in: map.customs } })
+        }
+        console.log("customs deleted");
         //map
         await Map.deleteOne({_id: _id});
         console.log("map deleted");
@@ -748,7 +759,7 @@ onColor = async (req, res) => {
             });
             const savedColor = await newColor.save();
             console.log("color saved");
-            //clean old legend
+            //clean old color
             if(colors.length != 0){
                 for (let i = oldColors.length - 1; i >= 0; i--) {
                     if (oldColors[i].x == savedColor.x && oldColors[i].y == savedColor.y) {
@@ -852,6 +863,89 @@ onDiscussion = async (req, res) => {
     }
 }
 
+onFont = async (req, res) => {
+    try {
+        const { mapId, font } = req.body;
+        console.log("font: " + mapId +' '+ font);
+        Map.findByIdAndUpdate(mapId, { $set: { font: font } })
+        console.log("map updated");
+        res.status(200).send();
+    } catch (err) {
+        console.log("err: " + err);
+        res.json(false);
+    }
+}
+onBackgroundColor = async (req, res) => {
+    try {
+        const { mapId, backgroundColor } = req.body;
+        console.log("backgroundColor: " + mapId +' '+ backgroundColor);
+        Map.findByIdAndUpdate(mapId, { $set: { backgroundColor: backgroundColor } })
+        console.log("map updated");
+        res.status(200).send();
+    } catch (err) {
+        console.log("err: " + err);
+        res.json(false);
+    }
+}
+onCustom = async (req, res) => {
+    try {
+        const { array, deleteCustoms, mapId } = req.body;
+        console.log("map custom: " + mapId );
+        const map = await Map.findById(mapId);
+        let customs = map.customs
+        //clean old custom
+        if(customs.length != 0 && deleteCustoms.length !== 0){
+            for(let i=0; i<deleteCustoms.length; i++){
+                await Custom.deleteOne({_id: deleteCustoms[i]._id});
+                console.log("custom deleted");
+                customs = customs.filter(custom => custom !== deleteCustoms[i]._id);
+            }
+        }
+        //save new custom
+        for(let index=0; index<array.length; index++){
+            console.log("custom: " + array[index] +" "+ mapId);
+            let number = 0
+            if(!isNaN(array[index].number)){
+                number = parseFloat(array[index].number)
+            }
+            const newCustom = new Custom({
+                number: number, 
+                string: array[index].string,
+                label: array[index].label,
+                value: array[index].value,
+                color: array[index].color,
+                x: array[index].x,
+                y: array[index].y,
+                date: array[index].date
+            });
+            const savedCustom = await newCustom.save();
+            console.log("custom saved");
+            customs.push(savedCustom._id)
+        }
+        //update map
+        await Map.updateOne(
+            {"_id": mapId},
+            {$set: {"customs": customs}})
+        console.log("custom map updated");
+        res.status(200).send();
+    } catch (err) {
+        console.log("err: " + err);
+        res.json(false);
+    }
+}
+onThematicLegends = async (req, res) => {
+    try {
+        const { mapId, thematicLegends } = req.body;
+        console.log("thematicLegends: " + mapId +' '+ thematicLegends);
+        Map.findByIdAndUpdate(mapId, { $set: { thematicLegends: thematicLegends } })
+        console.log("map updated");
+        res.status(200).send();
+    } catch (err) {
+        console.log("err: " + err);
+        res.json(false);
+    }
+}
+
 module.exports = {
   getAllusers,
   getAllmaps,
@@ -875,4 +969,8 @@ module.exports = {
   onLegend,
   deleteLegend,
   onDiscussion,
+  onFont,
+  onBackgroundColor,
+  onCustom,
+  onThematicLegends,
 };
