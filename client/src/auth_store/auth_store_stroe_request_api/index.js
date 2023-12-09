@@ -161,6 +161,32 @@ const onSearch = (searchTerm) => {
     });
 }
 
+const onFont = (mapId, font) => {
+    return api.post("/onFont/", {
+        mapId: mapId, 
+        font: font
+    });
+}
+const onBackgroundColor = (mapId, backgroundColor) => {
+    return api.post("/onBackgroundColor/", {
+        mapId: mapId,
+        backgroundColor: backgroundColor
+    });
+}
+const onCustom = (array, deleteCustoms, mapId) => {
+    return api.post("/onCustom/", {
+        array: array, 
+        deleteCustoms,
+        mapId: mapId
+    });
+}
+const onThematicLegends = (mapId, thematicLegends) => {
+    return api.post("/onThematicLegends/", {
+        mapId: mapId, 
+        thematicLegends: thematicLegends
+    });
+}
+
 //function to handle getting the list of user's created maps. 
 const getUserMaps = (user) => {}
 
@@ -190,6 +216,10 @@ const apis = {
     getUserMaps,
     changeVisibility,
     deleteLegend,
+    onFont,
+    onBackgroundColor,
+    onCustom,
+    onThematicLegends,
 }
 
 export default apis

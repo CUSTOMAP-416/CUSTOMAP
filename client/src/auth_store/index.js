@@ -459,7 +459,7 @@ function AuthStoreContextProvider(props) {
             }));
         });
     }
-    auth_store.onSearch= async function (searchTerm) {
+    auth_store.onSearch = async function (searchTerm) {
         await apis.onSearch(searchTerm).then(response => {
             return setAuthStore((prevAuthStore) => ({
                 ...prevAuthStore,
@@ -474,8 +474,58 @@ function AuthStoreContextProvider(props) {
             }));
         });
     }
+    //
+    auth_store.onFont = async function (font) {
+        await apis.onFont(this.selectMap._id, font).then(response => {
+            return
+        })
+        .catch(error => {
+            console.log(error.response.data.errorMessage)
+            return setAuthStore((prevAuthStore) => ({
+                ...prevAuthStore,
+                errorMessage: error.response.data.errorMessage
+            }));
+        });
+    }
+    auth_store.onBackgroundColor = async function (backgroundColor) {
+        await apis.onBackgroundColor(this.selectMap._id, backgroundColor).then(response => {
+            return
+        })
+        .catch(error => {
+            console.log(error.response.data.errorMessage)
+            return setAuthStore((prevAuthStore) => ({
+                ...prevAuthStore,
+                errorMessage: error.response.data.errorMessage
+            }));
+        });
+    }
+    auth_store.onCustom = async function (array, deleteCustoms) {
+        await apis.onCustom(array, deleteCustoms, this.selectMap._id).then(response => {
+            return
+        })
+        .catch(error => {
+            console.log(error.response.data.errorMessage)
+            return setAuthStore((prevAuthStore) => ({
+                ...prevAuthStore,
+                errorMessage: error.response.data.errorMessage
+            }));
+        });
+    }
+    auth_store.onThematicLegends = async function (thematicLegends) {
+        await apis.onThematicLegends(this.selectMap._id, thematicLegends).then(response => {
+            return
+        })
+        .catch(error => {
+            console.log(error.response.data.errorMessage)
+            return setAuthStore((prevAuthStore) => ({
+                ...prevAuthStore,
+                errorMessage: error.response.data.errorMessage
+            }));
+        });
+    }
+
     //function to handle getting the list of user's created maps. 
-    auth_store.getUserMaps= async function () {
+    auth_store.getUserMaps = async function () {
         await apis.getUserMaps().then(response => {
             auth_storeReducer({
                 type: AuthStoreActionType.null,

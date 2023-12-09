@@ -24,8 +24,12 @@ class PointMap extends Component {
   renderMap = () => {
     const geojsonLayer  = this.props.geojsonLayer;
     const map = this.props.map;
+    for(let i=0; i<this.props.props.layerItems.length; i++){
+      this.add(this.props.props.layerItems[i].y, this.props.props.layerItems[i].x)
+    }
     if (map && geojsonLayer && geojsonLayer.type === "FeatureCollection") {
       const layer = L.geoJSON(geojsonLayer, {
+        fillColor: '',
         color: "#808080",
         weight: 1,
         fillOpacity: 0,
@@ -33,31 +37,6 @@ class PointMap extends Component {
       layer.addTo(map);
       map.fitBounds(layer.getBounds());
       this.props.setGeojsonLayer(layer)
-    }
-
-    var points = [
-        [37.7749, -122.4194],
-        [37.7849, -122.4294],
-        // Add more points as needed
-    ];
-
-    var icon = L.icon({
-        iconUrl: bear,
-        iconSize: [50, 50],
-        iconAnchor: [25, 50],
-      });
-
-    for (var i = 0; i < points.length; i++) {
-        L.marker(points[i], { icon: icon }).addTo(map);
-    }
-  };
-  
-  updateFont = () => {
-    const elements = document.getElementsByClassName("label");
-
-    // Loop through each element and change the font-family style
-    for (let i = 0; i < elements.length; i++) {
-      elements[i].style.fontFamily = this.props.props.changedFont;
     }
   };
   
@@ -77,12 +56,67 @@ class PointMap extends Component {
     }
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.props.mapData !== this.props.props.mapData) {
-      this.loadFile(this.props.props.mapData);
+  add = (lat, lng) => {
+    const icon = L.icon({
+      iconUrl: bear,
+      iconSize: [50, 50],
+      iconAnchor: [25, 50],
+    });
+    const pointLayer = L.marker([lat, lng], { icon: icon }).addTo(this.props.map);
+    pointLayer.on('click', (e) => {
+      this.props.changeView(lat, lng)
+    });
+  }
+  delete = (lat, lng) => {
+    const map = this.props.map
+    map.eachLayer(function(layer){
+      if(layer._latlng){
+        if(layer._latlng.lat === lat && layer._latlng.lng === lng){
+          map.removeLayer(layer)
+        }
+      }
+    });
+  }
+
+  undo = (customization) => {
+    if(customization.type == 'add'){
+      this.delete(customization.value.y, customization.value.x)
     }
-    if (prevProps.props.changedFont !== this.props.props.changedFont) {
-      this.updateFont();
+    else if(customization.type == 'delete'){
+      this.add(customization.value.y, customization.value.x)
+    }
+    else if(customization.type == 'background'){
+      const geojsonLayer = this.props.geojsonLayer;
+      geojsonLayer.setStyle({
+        fillColor: customization.previous,
+        color: "#808080",
+        weight: 1,
+        fillOpacity: 0.1,
+      });
+    }
+  }
+
+  redo = (customization) => {
+    if(customization.type == 'add'){
+      this.add(customization.value.y, customization.value.x)
+    }
+    else if(customization.type == 'delete'){
+      this.delete(customization.value.y, customization.value.x)
+    }
+    else if(customization.type == 'background'){
+      const geojsonLayer = this.props.geojsonLayer;
+      geojsonLayer.setStyle({
+        fillColor: customization.value.background,
+        color: "#808080",
+        weight: 1,
+        fillOpacity: 0.1,
+      });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.props.mapData !== this.props.props.mapData || prevProps.mapType !== this.props.mapType) {
+      this.loadFile(this.props.props.mapData);
     }
     if (prevProps.props.customization !== this.props.props.customization){
       if(this.props.props.customization.redoUndo == 'redo'){
@@ -91,7 +125,30 @@ class PointMap extends Component {
       else if(this.props.props.customization.redoUndo == 'undo'){
         this.undo(this.props.props.customization.custom)
       }
+      else if(this.props.props.customization.redoUndo == 'add'){
+        this.add(this.props.props.customization.custom.y, this.props.props.customization.custom.x)
+      }
+      else if(this.props.props.customization.redoUndo == 'delete'){
+        this.delete(this.props.props.customization.custom.y, this.props.props.customization.custom.x)
+      }
     } 
+    if(prevProps.props.selectedColor !== this.props.props.selectedColor){
+      const geojsonLayer = this.props.geojsonLayer;
+      const state = {
+        type: 'background',
+        previous: geojsonLayer.getLayers()[0].options.fillColor,
+        value: {
+          background: this.props.props.selectedColor,
+        }
+      }
+      this.props.props.handleCustomization(state)
+      geojsonLayer.setStyle({
+        fillColor: this.props.props.selectedColor,
+        color: "#808080",
+        weight: 1,
+        fillOpacity: 0.1,
+      });
+    }
   }
 
 

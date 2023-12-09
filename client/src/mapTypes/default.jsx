@@ -118,29 +118,31 @@ class DefaultMap extends Component {
             });
           } 
           else {
-            state = {
-              type: 'color',
-              id: layerId,
-              previous: currentLayer.options.fillColor,
-              value: {
-                color: this.props.props.selectedColor,
-                x: feature.properties.label_x,
-                y: feature.properties.label_y,
+            if(this.props.props.handleCustomization){
+              state = {
+                type: 'color',
+                id: layerId,
+                previous: currentLayer.options.fillColor,
+                value: {
+                  color: this.props.props.selectedColor,
+                  x: feature.properties.label_x,
+                  y: feature.properties.label_y,
+                }
               }
+              this.props.props.handleCustomization(state)
+              // If you click on a new polygon, apply the selected color
+              currentLayer.setStyle({
+                fillColor: this.props.props.selectedColor,
+                fillOpacity: 0.2,
+                weight: 1,
+              });
+              this.setState((prevState) => {
+                return {paintedLayers: {
+                  ...prevState.paintedLayers,
+                  [layerId]: true,
+                }};
+              });
             }
-            this.props.props.handleCustomization(state)
-            // If you click on a new polygon, apply the selected color
-            currentLayer.setStyle({
-              fillColor: this.props.props.selectedColor,
-              fillOpacity: 0.2,
-              weight: 1,
-            });
-            this.setState((prevState) => {
-              return {paintedLayers: {
-                ...prevState.paintedLayers,
-                [layerId]: true,
-              }};
-            });
           }
 
           if(this.props.props.changedText && marker._icon.innerText != this.props.props.changedText){
@@ -233,7 +235,7 @@ class DefaultMap extends Component {
       else{
         layer.setStyle({
           fillColor: customization.previous,
-          fillOpacity: 0,
+          fillOpacity: 0.2,
           weight: 1,
         });
         this.setState((prevState) => {
@@ -306,7 +308,7 @@ class DefaultMap extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.props.mapData !== this.props.props.mapData) {
+    if (prevProps.props.mapData !== this.props.props.mapData || prevProps.mapType !== this.props.mapType) {
       this.loadFile(this.props.props.mapData);
     }
     if (prevProps.props.changedFont !== this.props.props.changedFont) {

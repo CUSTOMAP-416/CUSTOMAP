@@ -170,11 +170,12 @@ export default function DashboardCreateOrEditMapView() {
   const [visibility, setVisibility] = useState('');
 
   //map type
-  const [selectedMapType, setSelectedMapType] = useState('');
+  const [selectedMapType, setSelectedMapType] = useState('default');
 
   const handleMapTypeChange = (event) => {
     setSelectedMapType(event.target.value);
   };
+  const [layerItems, setLayerItems] = useState([]);
 
   useEffect(() => {
     if(!auth_store.isCreatePage && auth_store.selectMap != null){
@@ -182,10 +183,17 @@ export default function DashboardCreateOrEditMapView() {
         setMapData(auth_store.selectMap.mapData)
         setTexts(auth_store.selectMap.texts)
         setColors(auth_store.selectMap.colors)
-        setLegends(auth_store.selectMap.legends)
+        if(auth_store.selectMap.mapType == 'thematic'){
+          setLegends(auth_store.selectMap.thematicLegends)
+        }
+        else{
+          setLegends(auth_store.selectMap.legends)
+        }
         setMapTitle(auth_store.selectMap.title)
         setMapDescription(auth_store.selectMap.description)
         setVisibility(auth_store.selectMap.visibility)
+        setSelectedMapType(auth_store.selectMap.mapType)
+        setLayerItems(auth_store.selectMap.customs)
       }, 100);
     }
   }, [auth_store.selectMap]);
@@ -258,18 +266,17 @@ export default function DashboardCreateOrEditMapView() {
             }
           </div>
           <div className="button-section">
-          <label>Select Map type:</label>
-            <select onChange={handleMapTypeChange}>
-              <option value="">Default Map</option>
-              <option value="heat">Heat Map</option>
-              <option value="point">Point Map</option>
-              <option value="route">Route Map</option>
-              <option value="bubble">Bubble Map</option>
-              <option value="thematic">Thematic Map</option>
-              <option value="choropleth">Choropleth Map</option>
-            </select>
             {auth_store.isCreatePage ? (
               <div>
+                <label>Select Map type:</label>
+                <select onChange={handleMapTypeChange}>
+                  <option value="default">Default Map</option>
+                  <option value="heat">Heat Map</option>
+                  <option value="point">Point Map</option>
+                  <option value="bubble">Bubble Map</option>
+                  <option value="thematic">Thematic Map</option>
+                  <option value="choropleth">Choropleth Map</option>
+                </select>
                 <input
                   type="file"
                   id="creatmap-fileInput"
@@ -370,6 +377,8 @@ export default function DashboardCreateOrEditMapView() {
           mapData={mapData}
           texts={texts}
           colors={colors}
+          legendItems={legends}
+          layerItems={layerItems}
         />
         {errorMessage && (
           <p className="error-message" style={{ color: "red" }}>

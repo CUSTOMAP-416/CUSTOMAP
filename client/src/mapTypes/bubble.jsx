@@ -23,6 +23,9 @@ class BubbleMap extends Component {
   renderMap = () => {
     const geojsonLayer  = this.props.geojsonLayer;
     const map = this.props.map;
+    for(let i=0; i<this.props.props.layerItems.length; i++){
+      this.add(this.props.props.layerItems[i].y, this.props.props.layerItems[i].x, this.props.props.layerItems[i].label, this.props.props.layerItems[i].number, this.props.props.layerItems[i].string)
+    }
     if (map && geojsonLayer && geojsonLayer.type === "FeatureCollection") {
       const layer = L.geoJSON(geojsonLayer, {
         color: "#808080",
@@ -32,32 +35,6 @@ class BubbleMap extends Component {
       layer.addTo(map);
       map.fitBounds(layer.getBounds());
       this.props.setGeojsonLayer(layer)
-    }
-
-    var bubbleData = [
-        { lat: 37.7749, lng: -122.4194, radius: 1000000, popup: 'Bubble 1' },
-        { lat: 37.7849, lng: -122.4294, radius: 5000, popup: 'Bubble 2' },
-        // Add more bubble data as needed
-    ];
-    bubbleData.forEach(function (bubble) {
-        const bubbleLayer = L.circle([bubble.lat, bubble.lng], {
-            radius: bubble.radius,
-            color: 'blue',
-            fillOpacity: 0.5
-        }).bindPopup(bubble.popup).addTo(map);
-
-        bubbleLayer.on('click', (e) => {
-          map.setView([40.915734, 286.87721], 6);
-        });
-    });
-  };
-  
-  updateFont = () => {
-    const elements = document.getElementsByClassName("label");
-
-    // Loop through each element and change the font-family style
-    for (let i = 0; i < elements.length; i++) {
-      elements[i].style.fontFamily = this.props.props.changedFont;
     }
   };
   
@@ -77,12 +54,67 @@ class BubbleMap extends Component {
     }
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.props.mapData !== this.props.props.mapData) {
-      this.loadFile(this.props.props.mapData);
+  add = (lat, lng, color, radius, popup) => {
+    const bubbleLayer = L.circle([lat, lng], {
+      radius: radius,
+      color: color,
+      fillOpacity: 0.5
+    }).bindPopup(popup).addTo(this.props.map);
+
+    bubbleLayer.on('click', (e) => {
+      this.props.changeView(lat, lng)
+    });
+  }
+  delete = (lat, lng) => {
+    const map = this.props.map
+    map.eachLayer(function(layer){
+      if(layer._latlng){
+        if(layer._latlng.lat === lat && layer._latlng.lng === lng){
+          map.removeLayer(layer)
+        }
+      }
+    });
+  }
+
+  undo = (customization) => {
+    if(customization.type == 'add'){
+      this.delete(customization.value.y, customization.value.x)
     }
-    if (prevProps.props.changedFont !== this.props.props.changedFont) {
-      this.updateFont();
+    else if(customization.type == 'delete'){
+      this.add(customization.value.y, customization.value.x, customization.value.label, customization.value.number, customization.value.string)
+    }
+    else if(customization.type == 'background'){
+      const geojsonLayer = this.props.geojsonLayer;
+      geojsonLayer.setStyle({
+        fillColor: customization.previous,
+        color: "#808080",
+        weight: 1,
+        fillOpacity: 0.1,
+      });
+    }
+  }
+
+  redo = (customization) => {
+    if(customization.type == 'add'){
+      this.add(customization.value.y, customization.value.x, customization.value.label, customization.value.number, customization.value.string)
+    }
+    else if(customization.type == 'delete'){
+      this.delete(customization.value.y, customization.value.x)
+    }
+    else if(customization.type == 'background'){
+      const geojsonLayer = this.props.geojsonLayer;
+      geojsonLayer.setStyle({
+        fillColor: customization.value.background,
+        color: "#808080",
+        weight: 1,
+        fillOpacity: 0.1,
+      });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.props.mapData !== this.props.props.mapData || prevProps.mapType !== this.props.mapType) {
+      this.loadFile(this.props.props.mapData);
     }
     if (prevProps.props.customization !== this.props.props.customization){
       if(this.props.props.customization.redoUndo == 'redo'){
@@ -91,7 +123,30 @@ class BubbleMap extends Component {
       else if(this.props.props.customization.redoUndo == 'undo'){
         this.undo(this.props.props.customization.custom)
       }
+      else if(this.props.props.customization.redoUndo == 'add'){
+        this.add(this.props.props.customization.custom.y, this.props.props.customization.custom.x, this.props.props.customization.custom.label, this.props.props.customization.custom.number, this.props.props.customization.custom.string)
+      }
+      else if(this.props.props.customization.redoUndo == 'delete'){
+        this.delete(this.props.props.customization.custom.y, this.props.props.customization.custom.x)
+      }
     } 
+    if(prevProps.props.selectedColor !== this.props.props.selectedColor){
+      const geojsonLayer = this.props.geojsonLayer;
+      const state = {
+        type: 'background',
+        previous: geojsonLayer.getLayers()[0].options.fillColor,
+        value: {
+          background: this.props.props.selectedColor,
+        }
+      }
+      this.props.props.handleCustomization(state)
+      geojsonLayer.setStyle({
+        fillColor: this.props.props.selectedColor,
+        color: "#808080",
+        weight: 1,
+        fillOpacity: 0.1,
+      });
+    }
   }
 
 
