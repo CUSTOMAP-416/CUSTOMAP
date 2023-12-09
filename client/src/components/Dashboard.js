@@ -54,8 +54,8 @@ export default function Dashboard(){
                 </div>
                 <div className="sidebar-buttons">
                     <button
-                        className={`sidebar-buttons ${isDarkMode ? 'sidebar-buttons-dark' : 'sidebar-buttons'}`} o
-                        nClick={() => handleSelectedViewChange(<DashboardCreateOrEditMapView />)}>Create Map</button>
+                        className={`sidebar-buttons ${isDarkMode ? 'sidebar-buttons-dark' : 'sidebar-buttons'}`} 
+                        onClick={() => handleSelectedViewChange(<DashboardCreateOrEditMapView />)}>Create Map</button>
                 </div>
                 <div className="sidebar-buttons">
                     <button

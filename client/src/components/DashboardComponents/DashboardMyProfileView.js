@@ -66,6 +66,7 @@ export default function DashboardMyProfileView(){
             password: changePassword,
         }
         updateUser(state)
+        alert("Information Changed successfully!");
       }else{
         setErrorMessage("Please enter the same password twice.")
       }

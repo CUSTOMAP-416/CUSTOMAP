@@ -736,3 +736,23 @@ input:focus + .slider {
 input:checked + .slider:before {
   transform: translateX(26px);
 }
+
+/* Empty map view page */
+
+.emptyMap{
+  margin: auto;
+  align-items: center;
+  text-align: center;
+
+}
+.mapImage {
+  width: 25%; 
+  height: auto; 
+}
+.emptyText{
+  font-family: 'Franklin Gothic Medium';
+  font-weight: bold;
+  font-size: 25px;
+  padding: 10px;
+  color: gray;
+}

@@ -94,7 +94,7 @@ export default function AppBanner() {
                 style={{ color: "white", textDecoration: "none" }}
                 onClick={() => handleLogout()}
               >
-                Sign out
+                SignOut
               </Link>
             </div>
           ) : (
@@ -105,7 +105,7 @@ export default function AppBanner() {
                 style={{ color: "white", textDecoration: "none" }}
                 onClick={() => handleLogin()}
               >
-                Sign in
+                SignIn
               </Link>
             </div>
           )}

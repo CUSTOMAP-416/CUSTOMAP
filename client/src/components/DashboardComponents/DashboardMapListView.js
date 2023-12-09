@@ -3,7 +3,7 @@ import { useContext, useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import AuthStoreContextProvider from '../../auth_store';
 
-import arrow from "../../assets_img/dashboard_arrow.svg";
+import mapImage from "../../assets_img/mapImage.png";
 import map from "../../assets_img/dashboard_map.svg";
 
 export default function DashboardMapListView({ handleEditView }){
@@ -73,8 +73,9 @@ export default function DashboardMapListView({ handleEditView }){
     }
     
     useEffect(() => {
-        const maps = []
-        for(let i=0; i<auth_store.user.maps.length; i++){
+        const maps = [];
+        if(auth_store.user.maps.length > 0){
+                    for(let i=0; i<auth_store.user.maps.length; i++){
             maps.push(
                 <div key={auth_store.user.maps[i]._id} className="box">
                     <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
@@ -89,8 +90,20 @@ export default function DashboardMapListView({ handleEditView }){
             )
         }
         setUserMaps(maps)
+        }
+        else{
+            setUserMaps(emptyMap);
+        }
     }, []);
-
+    const emptyMap = (
+        <div className="emptyMap">
+          <img className="mapImage" src={mapImage} alt="mapImage" />
+          <div className="emptyText">
+            <div>Click the "Create Map" button</div>
+            <div>to create your own new map!</div>
+          </div>
+        </div>
+    );
     return (
       <div>
         <div className="dashboard-header">Dashboard</div>
