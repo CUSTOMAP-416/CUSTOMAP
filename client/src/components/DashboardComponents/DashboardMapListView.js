@@ -28,6 +28,7 @@ export default function DashboardMapListView({ handleEditView }){
     const handleMapSelect = (event) => {
         console.log(event)
         auth_store.getMap(event)
+        auth_store.isCreatePage = true;
     }
     //Handle changes in map sorting.
     const handleSortingChange = (event) => {
