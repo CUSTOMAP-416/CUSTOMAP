@@ -514,22 +514,23 @@ hr.hr-1 {
     }
   }
 
-/********************* HEAT MAP *******************/
+/********************* right-side legend*******************/
 
 
 .data-container{
   border-radius:10px;
-  background-color: rgb(30, 133, 37);/* rgb(99, 142, 102) */
+  background-color: rgb(150, 215, 150);/* rgb(99, 142, 102) */
   padding:10px;
   cursor: pointer;
   margin-bottom:5px;
 }
 
 .view{
-  color:#000000;/*#e9ede7*/
+  color:#f0efef;/*#e9ede7*/
   font-weight:700;
   border-radius:10px;
-  background-color: rgb(204, 236, 207);/* rgb(64, 75, 65) */
+  border-color:transparent;
+  background-color: rgb(31, 145, 42);/* rgb(64, 75, 65) */
   padding:10px;
 }
 
@@ -548,20 +549,22 @@ hr.hr-1 {
   text-decoration: none;
   display: inline-block;
   font-size: 15px;
-  margin: 4px 2px;
+  margin-bottom:8px;
   cursor: pointer;
   border-radius: 4px;
 }
 
 .thematic-container{
-  background-color: #a8e4aa;
+  font-weight:500;
+  color:white;
+  background-color: rgb(32, 161, 45);
   border-radius: 4px;
   width:500px;
   margin:4px;
   padding:5px;
 }
 .thematic-menu{
-  background-color: #298d2c;
+  background-color: rgb(199, 232, 199);
   border-radius: 4px;
   width:520px;
   margin:4px;
@@ -570,5 +573,33 @@ hr.hr-1 {
 }
 
 
- 
+.update{
+  border-style:solid;
+  border-width: 2px;
+  border-color:white;
+  background-color: #4CAF50; /* Green */
+  width:130px;
+  color: white;
+  padding: 5px 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  margin-top:5px;
+  margin-bottom:5px;
+  margin-left:5px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.update:hover{
+  background-color:rgb(145, 214, 141);
+  box-shadow: 2px 2px 2px white; 
+}
+
+.display{
+  margin-left:2px;
+  border-radius:10px;
+  background-color:rgb(178, 222, 175);
+}
   

@@ -618,14 +618,14 @@ export default function MapView(){
                       <label>Opacity:<input type="number" min="0" max="1" step="0.01" value={item.opacity}
                           onChange={(e) => handleLegendOpacityChange(index, e.target.value)}/>
                       </label>
-                      <button type="button" onClick={() => handleLegendVisibilityChange(index)}>{item.visibility?'display':'hide'}</button>
+                      <button className='display' type="button" onClick={() => handleLegendVisibilityChange(index)}>{item.visibility?'display':'hide'}</button>
                     </div>
 
               </div>
                     
           }
           )}
-          <button type="button" onClick={() => handleSetLegends()}>Undate Legends</button>
+          <button className='update' type="button" onClick={() => handleSetLegends()}>Undate Legends</button>
           </div>
           : ''
         }
