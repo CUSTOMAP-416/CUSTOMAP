@@ -128,15 +128,25 @@ export default function MapViewCustomizeToolbar({
                     <button id="save-button" type="button" onClick={() => onSave()}>SAVE</button>
                 </div>
             </div>}
-            {mapType === 'heat' && <div>
-                Map Background:<input type="color" className="color-picker" value={color} onChange={handleSelectColor}/>
-                Lat:<input type='number' value={newXY.y} onChange={handleNewYChange}/>
-                Lng:<input type='number' value={newXY.x} onChange={handleNewXChange}/>
-                Number:<input type='number' value={number} onChange={handleNumberChange}/>
-                Label:<input type='text' value={label} onChange={handleLabelChange}/>
-                <button type="button" onClick={() => add(newXY.x, newXY.y, label, number)}>Add</button>
-                <button className="icon-link" onClick={() => onUndo()}>↩</button>
-                <button className="icon-link" onClick={() => onRedo()}>↪</button>
+            {/* ---HEAT MAP-------------------------------------------- */}
+            {mapType === 'heat' && <div className='custom-texts'>
+                <div className='custom-explain'>
+                    Enter latitude and longitude directly, or click on the map to set them.
+                    Enter a number between 0 and 5000 and press ADD to display it on the map.
+                </div>
+                <span className='custom-backg'>
+                    Map Background: 
+                    <span className='colorPicker-box'>
+                        <input type="color" className="color-picker" value={color} onChange={handleSelectColor}/>
+                    </span>
+                </span>
+                Lat:<input className="custom-inputL" type='number' value={newXY.y} onChange={handleNewYChange}/>
+                Lng:<input className="custom-inputL" type='number' value={newXY.x} onChange={handleNewXChange}/>
+                Number:<input  className="custom-input" type='number' value={number} onChange={handleNumberChange}/>
+                Label:<input className="custom-input" type='text' value={label} onChange={handleLabelChange}/>
+                <button className="custom-button" type="button" onClick={() => add(newXY.x, newXY.y, label, number)}>Add</button>
+                <button className="icon-link2" onClick={() => onUndo()}>↩</button>
+                <button className="icon-link2" onClick={() => onRedo()}>↪</button>
                 <button id="save-button" type="button" onClick={() => onSave()}>SAVE</button>
             </div>}
             {mapType === 'point' && <div>
@@ -149,16 +159,28 @@ export default function MapViewCustomizeToolbar({
                 <button className="icon-link" onClick={() => onRedo()}>↪</button>
                 <button id="save-button" type="button" onClick={() => onSave()}>SAVE</button>
             </div>}
-            {mapType === 'bubble' && <div>
-                Map Background:<input type="color" className="color-picker" value={color} onChange={handleSelectColor}/>
-                Lat:<input type='number' value={newXY.y} onChange={handleNewYChange}/>
-                Lng:<input type='number' value={newXY.x} onChange={handleNewXChange}/>
-                Color:<input type='color' value={label} onChange={handleLabelChange}/>
-                Radius:<input type='number' value={number} onChange={handleNumberChange}/>
-                Popup:<input type='text' value={string} onChange={handleStringChange}/>
-                <button type="button" onClick={() => add(newXY.x, newXY.y, label, number, string)}>Add</button>
-                <button className="icon-link" onClick={() => onUndo()}>↩</button>
-                <button className="icon-link" onClick={() => onRedo()}>↪</button>
+            {/* ---BUBBLE MAP-------------------------------------------- */}
+            {mapType === 'bubble' && <div className='custom-texts'>
+                <div className='custom-explain'>
+                    Enter latitude and longitude directly, or click on the map to set them.
+                    Set Color and Enter the radius. Press ADD to display it on the map.
+                </div>
+                <span className='custom-backg'>
+                    Map Background: 
+                    <span className='colorPicker-box'>
+                        <input type="color" className="color-picker" value={color} onChange={handleSelectColor}/>
+                    </span>
+                </span>
+                Lat:<input className="custom-inputL" type='number' value={newXY.y} onChange={handleNewYChange}/>
+                Lng:<input className="custom-inputL" type='number' value={newXY.x} onChange={handleNewXChange}/>
+                <span className='custom-backg'>
+                    Color: <input type='color' value={label} onChange={handleLabelChange}/>
+                </span>
+                Radius:<input className="custom-input" type='number' value={number} onChange={handleNumberChange}/>
+                Popup:<input className="custom-input" type='text' value={string} onChange={handleStringChange}/>
+                <button className="custom-button" type="button" onClick={() => add(newXY.x, newXY.y, label, number, string)}>Add</button>
+                <button className="icon-link2" onClick={() => onUndo()}>↩</button>
+                <button className="icon-link2" onClick={() => onRedo()}>↪</button>
                 <button id="save-button" type="button" onClick={() => onSave()}>SAVE</button>
             </div>}
             {mapType === 'thematic' && <div>
