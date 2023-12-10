@@ -17,6 +17,12 @@
     display: flex;
     min-height: 100vh;
   }
+
+  .MapView-page-container-dark {
+    display: flex;
+    min-height: 100vh;
+    background-color: rgb(62, 62, 62);;
+  }
  
   .content {
     flex: 1; /* Take up the remaining width */
@@ -24,6 +30,15 @@
     background-color: white;
     width: 100%;
   }
+
+  .content-dark {
+    flex: 1; /* Take up the remaining width */
+    padding: 20px;
+    background-color: rgb(88, 87, 87);
+    width: 100%;
+  }
+
+
   
   /* Sidebar link styles */
   .sidebar a {
@@ -299,6 +314,13 @@
     margin-bottom:15px;
     border-radius: 16px;
   }
+  .customize-all-dark{
+    padding: 20px 20px 10px;
+    background-color: rgb(87, 87, 87);
+    border: solid 3px #c6c6c6;
+    margin-bottom:15px;
+    border-radius: 16px;
+  }
   .customize-title{
     font-family: Changa One;
     font-size: 30px;
@@ -348,6 +370,11 @@ hr.hr-1 {
   display: flex;
   align-items: center;
 }
+.mapview-title-dark{
+  color:white;
+  display: flex;
+  align-items: center;
+}
 .mapview-disc{
   display: flex;
 }
@@ -356,6 +383,13 @@ hr.hr-1 {
   font-size: 25px;
   color: #155A03;
 }
+
+.mapview-header-dark{
+  font-family: Changa One;
+  font-size: 25px;
+  color: #ffffff;
+}
+
 /* Sort dropdown button ------------------*/
   #text-select{
     width:100px;
@@ -426,6 +460,13 @@ hr.hr-1 {
   .rightside-for-legend{
     padding: 20px;
     background-color: #eeeded;
+    width: 15%;
+    border-radius: 10px;
+  }
+
+  .rightside-for-legend-dark{
+    padding: 20px;
+    background-color: #8c9079;
     width: 15%;
     border-radius: 10px;
   }
@@ -633,4 +674,70 @@ hr.hr-1 {
   padding:5px;
   
   cursor: pointer;
+}
+
+.mapview-dark{
+  font-family: Changa One;
+  font-size: 25px;
+  color: #155A03;
+  margin-right:5px;
+}
+
+.darkmodebutton{
+  margin-top: 0px;
+  font-family: DM Sans;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  color: #000;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #4CAF50;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #4CAF50;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
 }

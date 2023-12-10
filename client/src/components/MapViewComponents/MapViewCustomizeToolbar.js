@@ -3,7 +3,7 @@ import AuthStoreContextProvider from '../../auth_store';
 import '../../styles/MapView.css';
 
 export default function MapViewCustomizeToolbar({ 
-    onFontChange, onTextChange, onColorChange, onUndo, onRedo, onSave, mapType, newXY, setNewXY, label, setLabel, number, setNumber, string, setString, add, layerId, put
+    onFontChange, onTextChange, onColorChange, onUndo, onRedo, onSave, mapType, newXY, setNewXY, label, setLabel, number, setNumber, string, setString, add, layerId, put,isDarkMode
 }) {
     const { auth_store } = useContext(AuthStoreContextProvider);
 
@@ -97,8 +97,8 @@ export default function MapViewCustomizeToolbar({
     }
         
     return (
-        <div className="customize-all">
-            <div className="customize-title">Customize Tools</div>
+        <div className={isDarkMode ? 'customize-all-dark' : 'customize-all'}>
+            <div className={isDarkMode ? 'myprofile_H-dark' : 'myprofile_H'}>Customize Tools</div>
             <hr className="hr-1"></hr>
             {mapType === 'default' && <div className="customize-toolbar">
                 <div className="text-color">

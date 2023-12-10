@@ -547,50 +547,61 @@ export default function MapView(){
         const toggleSidebar = () => {
           setIsOpen(!isOpen);
   };
+
+  const [isDarkMode, setIsDarkMode] = useState(false); 
+    const handleToggle = () => {
+      setIsDarkMode(!isDarkMode);
+    };
   
   return (
-    <div className="MapView-page-container">
+    <div className={`MapView-page-container ${isDarkMode ? 'MapView-page-container-dark' : 'MapView-page-container'}`}>
       <MapViewDiscussionForum />
-        <div className="content">
+        <div className={`content ${isDarkMode ? 'content-dark' : 'content'}`}>
         {auth_store.isCreatePage ?
           <div className='mapview-contain'>
-            <div className='mapview-title'>
-              <div className='mapview-header'>TITLE : &nbsp;&nbsp;&nbsp;&nbsp;</div>
+            <div className={`mapview-title ${isDarkMode ? 'mapview-title-dark' : 'mapview-title'}`}>
+              <div className={`mapview-header ${isDarkMode ? 'mapview-header-dark' : 'mapview-header'}`}>TITLE : &nbsp;&nbsp;&nbsp;&nbsp;</div>
               {mapname || "No Name"}
             </div>
-            <div className='mapview-disc'>
-              <div className='mapview-header'>Description : &nbsp;&nbsp;&nbsp;&nbsp;</div>
+            <div className={`mapview-title ${isDarkMode ? 'mapview-title-dark' : 'mapview-title'}`}>
+              <div className={`mapview-header ${isDarkMode ? 'mapview-header-dark' : 'mapview-header'}`}>Description : &nbsp;&nbsp;&nbsp;&nbsp;</div>
               {mapdiscript || "No Discript"}
             </div>
-            <div className='mapview-title'>
-              <div className='mapview-header'>By : &nbsp;&nbsp;&nbsp;&nbsp;</div>
+            <div className={`mapview-title ${isDarkMode ? 'mapview-title-dark' : 'mapview-title'}`}>
+              <div className={`mapview-header ${isDarkMode ? 'mapview-header-dark' : 'mapview-header'}`}>By : &nbsp;&nbsp;&nbsp;&nbsp;</div>
               {selectUser|| "No User"}
             </div>
+            <div className={`mapview-title ${isDarkMode ? 'mapview-title-dark' : 'mapview-title'}`}>
+                </div>
           </div>
           :
+          <div>
+            <MapViewCustomizeToolbar 
+              onFontChange={handleFontChange} 
+              onTextChange={handleTextChange} 
+              onColorChange={handleColorChange} 
+              onUndo={handleUndo}
+              onRedo={handleRedo}
+              onSave={handleSave}
+              mapType={selectedMapType}
+              newXY={newXY}
+              setNewXY={setNewXY}
+              label={label} 
+              setLabel={setLabel}
+              number={number}
+              setNumber={setNumber}
+              string={string}
+              setString={setString}
+              add={add}
+              layerId={layerId}
+              put={put}
+              isDarkMode={isDarkMode}
+            />
+          </div>
           
-          <MapViewCustomizeToolbar 
-            onFontChange={handleFontChange} 
-            onTextChange={handleTextChange} 
-            onColorChange={handleColorChange} 
-            onUndo={handleUndo}
-            onRedo={handleRedo}
-            onSave={handleSave}
-            mapType={selectedMapType}
-            newXY={newXY}
-            setNewXY={setNewXY}
-            label={label} 
-            setLabel={setLabel}
-            number={number}
-            setNumber={setNumber}
-            string={string}
-            setString={setString}
-            add={add}
-            layerId={layerId}
-            put={put}
-          />
           
         }
+         
         {selectedMapType === 'thematic'  ? 
           <div className={`thematic-sidebar-container ${isOpen ? 'open' : ''}`}>
             <button className="thematic-toggle-button" onClick={toggleSidebar}>
@@ -663,7 +674,7 @@ export default function MapView(){
               layerItems={layerItems}
               />
           </div>
-          <div className='rightside-for-legend' style={{height: '550px',  overflow: 'auto'}}>
+          <div className={`rightside-for-legend ${isDarkMode ? 'rightside-for-legend-dark' : 'rightside-for-legend'}`} style={{height: '550px',  overflow: 'auto'}}>
           {selectedMapType === 'default' &&
           <div>
             <div style={{display: "flex", justifyContent:"center"}}>
@@ -745,7 +756,17 @@ export default function MapView(){
             })}</div>}
           </div>
         </div>
+        <div className={`mapview-header ${isDarkMode ? 'mapview-header-dark' : 'mapview-header'}`}>Dark Mode</div>
+                    <label className="switch">
+                        <input
+                            type="checkbox"
+                            checked={isDarkMode}
+                            onChange={handleToggle}
+                        />
+                        <span className="slider"></span>
+                    </label>
       </div>
+      
     </div>
   );
 }

@@ -29,6 +29,7 @@ export default function DashboardMapListView( props ){
         console.log(event)
         auth_store.getMap(event)
         auth_store.isCreatePage = true;
+        
     }
     //Handle changes in map sorting.
     const handleSortingChange = (event) => {
@@ -71,6 +72,7 @@ export default function DashboardMapListView( props ){
         handleMapSelect(id)
         auth_store.openEdit(false)
         props.handleEditView()
+        props.handleEditView(id, props.isDarkMode);
     }
     
     useEffect(() => {
@@ -81,10 +83,10 @@ export default function DashboardMapListView( props ){
                 <div key={auth_store.user.maps[i]._id} className={props.isDarkMode ? 'box-dark' : 'box'}>
                     <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
                         <div className={props.isDarkMode ? 'map-name-dark' : 'map-name'}>{auth_store.user.maps[i].title}</div>
-                        <button className="delete" onClick={() => handleEdit(auth_store.user.maps[i]._id)}>Edit</button>
+                        <button className="delete" onClick={() => handleEdit(auth_store.user.maps[i]._id, props.isDarkMode)}>Edit</button>
                         <button className="delete" onClick={() => handleDeleteMap(auth_store.user.maps[i]._id)}>X</button>
                     </div>
-                    <Link to="/MapView/" onClick={() => handleMapSelect(auth_store.user.maps[i]._id)}>
+                    <Link to="/MapView/" onClick={() => handleMapSelect(auth_store.user.maps[i]._id )}>
                         <img className="map" src={map} alt="My SVG" />
                     </Link>
                 </div>
@@ -95,7 +97,9 @@ export default function DashboardMapListView( props ){
         else{
             setUserMaps(emptyMap);
         }
-    }, []);
+    },[]);
+    
+    
     const emptyMap = (
         <div className="emptyMap">
           <img className="mapImage" src={mapImage} alt="mapImage" />
