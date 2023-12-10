@@ -9,7 +9,7 @@ import map from "../../assets_img/dashboard_map.svg";
 import glass from "../../assets_img/dashboard_glass.svg";
 
 
-export default function AdminDashboardMapList(){
+export default function AdminDashboardMapList(props){
     const { auth_store } = useContext(AuthStoreContextProvider);
 
     const [searchKeyword, setSearchKeyword] = useState('');
@@ -103,7 +103,7 @@ export default function AdminDashboardMapList(){
 
     return (
       <div style={{height: 'auto',  overflow: 'auto'}}>
-        <div className="dashboard-header">Search Map</div>
+        <div className={props.isDarkMode ? 'dashboard-header-dark' : 'dashboard-header'}>Search Map</div>
         <div className="search-box">
           <img className="glass" src={glass} alt="My SVG" />
           <input

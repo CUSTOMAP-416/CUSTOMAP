@@ -45,22 +45,22 @@ export default function Dashboard(){
                 <div className="sidebar-buttons">
                     <button
                         className={`sidebar-buttons ${isDarkMode ? 'sidebar-buttons-dark' : 'sidebar-buttons'}`}
-                        onClick={() => handleSelectedViewChange(<DashboardMapListView handleEditView={handleEditView} />)}>Dashboard</button>
+                        onClick={() => handleSelectedViewChange(<DashboardMapListView handleEditView={handleEditView} isDarkMode={isDarkMode} />)}>Dashboard</button>
                 </div>
                 <div className="sidebar-buttons">
                     <button
                         className={`sidebar-buttons ${isDarkMode ? 'sidebar-buttons-dark' : 'sidebar-buttons'}`}
-                        onClick={() => handleSelectedViewChange(<DashboardMyProfileView />)}>My Profile</button>
+                        onClick={() => handleSelectedViewChange(<DashboardMyProfileView isDarkMode={isDarkMode} />)}>My Profile</button>
                 </div>
                 <div className="sidebar-buttons">
                     <button
                         className={`sidebar-buttons ${isDarkMode ? 'sidebar-buttons-dark' : 'sidebar-buttons'}`} 
-                        onClick={() => handleSelectedViewChange(<DashboardCreateOrEditMapView />)}>Create Map</button>
+                        onClick={() => handleSelectedViewChange(<DashboardCreateOrEditMapView isDarkMode={isDarkMode}/>)}>Create Map</button>
                 </div>
                 <div className="sidebar-buttons">
                     <button
                         className={`sidebar-buttons ${isDarkMode ? 'sidebar-buttons-dark' : 'sidebar-buttons'}`}
-                        onClick={() => handleSelectedViewChange(<DashboardSearchMapView />)}>Search Map</button>
+                        onClick={() => handleSelectedViewChange(<DashboardSearchMapView isDarkMode={isDarkMode}/>)}>Search Map</button>
                 </div>
                 <div className="darkmodebutton">
                     <div className={`sidebar-buttons ${isDarkMode ? 'sidebar-buttons-dark' : 'sidebar-buttons'}`}>Dark Mode</div>
