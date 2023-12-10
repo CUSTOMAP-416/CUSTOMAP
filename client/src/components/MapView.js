@@ -542,6 +542,12 @@ export default function MapView(){
     }
   }, [auth_store.selectMap]);
   
+  const [isOpen, setIsOpen] = useState(false);
+      
+        const toggleSidebar = () => {
+          setIsOpen(!isOpen);
+  };
+  
   return (
     <div className="MapView-page-container">
       <MapViewDiscussionForum />
@@ -586,10 +592,13 @@ export default function MapView(){
           
         }
         {selectedMapType === 'thematic'  ? 
-          
-          <div className='thematic-menu'>
-            
-          <div></div>
+          <div className={`thematic-sidebar-container ${isOpen ? 'open' : ''}`}>
+            <button className="thematic-toggle-button" onClick={toggleSidebar}>
+                    {isOpen ? 'range <' : 'range >'}
+                </button>
+            <div className='thematic-menu'>
+             
+            <div></div>
             {legendItems.map((item,index) => {
             
             if(index == 0) {
@@ -627,6 +636,8 @@ export default function MapView(){
           )}
           <button className='update' type="button" onClick={() => handleSetLegends()}>Undate Legends</button>
           </div>
+             </div>
+          
           : ''
         }
         {errorMessage && <p className="error-message" style={{color:"red"}}>{errorMessage}</p>}

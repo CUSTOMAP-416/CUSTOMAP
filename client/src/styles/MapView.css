@@ -603,3 +603,34 @@ hr.hr-1 {
   background-color:rgb(178, 222, 175);
 }
   
+
+
+.thematic-sidebar-container {
+  position: fixed;
+  left: -533px; /* Initial position should be off-screen */
+  width: 533px; /* Adjust width as needed */
+  height: 400px;
+  
+  background-color: transparent; /* Semi-transparent background */
+  transition: left 0.3s; /* Smooth sliding effect */
+  z-index: 1000; /* Make sure it's above other content */
+}
+
+.thematic-sidebar-container.open {
+  left: 0; /* When sidebar is open, it should align with the left edge */
+}
+
+.thematic-toggle-button {
+  writing-mode: vertical-rl; /* 垂直方向从上到下 */
+  text-orientation: upright;
+  position: absolute;
+  right: -20px; /* Adjust as needed to place it just outside the sidebar */
+  top: 70%;
+  transform: translateY(-50%);
+  background-color: #727572; /* Color for the button */
+  border: none;
+  color: white;
+  padding:5px;
+  
+  cursor: pointer;
+}
