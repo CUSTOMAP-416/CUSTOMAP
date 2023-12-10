@@ -23,9 +23,6 @@ class BubbleMap extends Component {
   renderMap = () => {
     const geojsonLayer  = this.props.geojsonLayer;
     const map = this.props.map;
-    for(let i=0; i<this.props.props.layerItems.length; i++){
-      this.add(this.props.props.layerItems[i].y, this.props.props.layerItems[i].x, this.props.props.layerItems[i].label, this.props.props.layerItems[i].number, this.props.props.layerItems[i].string)
-    }
     if (map && geojsonLayer && geojsonLayer.type === "FeatureCollection") {
       const layer = L.geoJSON(geojsonLayer, {
         fillColor: this.props.props.selectedColor,
@@ -36,6 +33,9 @@ class BubbleMap extends Component {
       layer.addTo(map);
       map.fitBounds(layer.getBounds());
       this.props.setGeojsonLayer(layer)
+    }
+    for(let i=0; i<this.props.props.layerItems.length; i++){
+      this.add(this.props.props.layerItems[i].y, this.props.props.layerItems[i].x, this.props.props.layerItems[i].label, this.props.props.layerItems[i].number, this.props.props.layerItems[i].string)
     }
   };
   

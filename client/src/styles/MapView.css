@@ -52,6 +52,8 @@
   .custom-textinput:hover {
     border-color: #888;
 }
+
+
 /*  save button ------------------------------------ */
   #text-save-button{
     width:200px;
@@ -109,7 +111,21 @@
     margin-bottom:20px;
     padding-left: 10px;
   }
-
+  .icon-link2{
+    width: 35px;
+    height: 35px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+  }
+  .icon-link2:hover{
+    background-color: rgb(50, 114, 52);
+  }
   .legends-Adder{
     display: flex;
     justify-content: space-between;
@@ -155,10 +171,76 @@
     border:2px;
     border-color: black;
   }
+  .custom-inputL{
+  background-color: rgb(218, 237, 213);
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 15px;
+  margin: 10px;
+  height: 30px;
+}
+.custom-input{
+  background-color: rgb(218, 237, 213);
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 15px;
+  margin: 10px;
+  height: 30px;
+  width: 100px;
+}
+  .custom-backg{
+    border: 2px solid #a2cca4;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 5px;
+  }
+  .custom-backg2{
+    border: none;
+    font-family: DM Sans;
+    background-color:  rgb(207, 229, 208);
+    border-radius: 10px;
+    padding: 10px 30px 10px;
+    margin: 5px;
+  }
+  .custom-texts{
+    font-family: DM Sans;
+    font-size: 15px;
+  }
+  .colorPicker-box{
+    margin: 10px;
+  }
+  .custom-button{
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+  }
+  .custom-button:hover{
+    background-color: rgb(50, 114, 52);
+  }
+  .custom-explain{
+    margin: 7px;
+    font-family: DM Sans;
+    color:#555;
+    font-weight: 100;
+    font-size: 17px;
+  }
+  .custom-back-title{
+    font-weight: 600;
+    font-size: 18px;
+    color:#434343;
+  }
+  .custom-back-line{
+    color: #386f3b;
+    font-weight: 600;
+    font-size: 20px;
 
-
-  
-
+  }
   @media (max-width: 600px) {
     
     .container {
@@ -211,7 +293,7 @@
     width: 100%;
   }
   .customize-all{
-    padding: 20px 20px 0px;
+    padding: 20px 20px 10px;
     background-color: white;
     border: solid 3px #a2cca4;
     margin-bottom:15px;

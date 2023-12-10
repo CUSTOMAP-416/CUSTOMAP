@@ -66,37 +66,35 @@ class ChoroplethMap extends Component {
         break;
       }
     }
-    if(!this.props.props.isCreatePage){
-      layer.on({
-        mouseover: this.highlightFeature,
-        mouseout: this.resetHighlight,
-        click: (e) => {
-          const currentLayer = e.target;
-          const layerId = L.stamp(currentLayer);
-          if (!this.state.paintedLayers[layerId]) {
-            currentLayer.setStyle({
-              color: 'red',
-              fillOpacity: 0,
-              weight: 1,
-            });
-            this.setState((prevState) => {
-              return {paintedLayers: {
-                ...prevState.paintedLayers,
-                [layerId]: false,
-              }};
-            });
-          }
-          else{
-            this.props.changeView(feature.properties.label_y, feature.properties.label_x)
-          }
+    layer.on({
+      mouseover: this.highlightFeature,
+      mouseout: this.resetHighlight,
+      click: (e) => {
+        const currentLayer = e.target;
+        const layerId = L.stamp(currentLayer);
+        if (!this.state.paintedLayers[layerId]) {
+          currentLayer.setStyle({
+            color: 'red',
+            fillOpacity: 0,
+            weight: 1,
+          });
+          this.setState((prevState) => {
+            return {paintedLayers: {
+              ...prevState.paintedLayers,
+              [layerId]: false,
+            }};
+          });
+        }
+        else{
+          this.props.changeView(feature.properties.label_y, feature.properties.label_x)
+        }
 
-          if(this.props.props.handleNewXY){
-            this.props.props.handleNewXY(feature.properties.label_x, feature.properties.label_y)
-            this.props.props.handleLayerId(layerId, feature.properties.admin)
-          }
-        },
-      });
-    }
+        if(this.props.props.handleNewXY){
+          this.props.props.handleNewXY(feature.properties.label_x, feature.properties.label_y)
+          this.props.props.handleLayerId(layerId, feature.properties.admin)
+        }
+      },
+    });
   }
 
   renderMap = () => {
