@@ -194,6 +194,14 @@
     padding: 10px;
     margin: 5px;
   }
+  .custom-backg2{
+    border: none;
+    font-family: DM Sans;
+    background-color:  rgb(207, 229, 208);
+    border-radius: 10px;
+    padding: 10px 30px 10px;
+    margin: 5px;
+  }
   .custom-texts{
     font-family: DM Sans;
     font-size: 15px;
@@ -221,6 +229,17 @@
     color:#555;
     font-weight: 100;
     font-size: 17px;
+  }
+  .custom-back-title{
+    font-weight: 600;
+    font-size: 18px;
+    color:#434343;
+  }
+  .custom-back-line{
+    color: #386f3b;
+    font-weight: 600;
+    font-size: 20px;
+
   }
   @media (max-width: 600px) {
     

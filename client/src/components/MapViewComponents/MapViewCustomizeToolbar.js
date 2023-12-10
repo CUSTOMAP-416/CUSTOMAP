@@ -149,14 +149,24 @@ export default function MapViewCustomizeToolbar({
                 <button className="icon-link2" onClick={() => onRedo()}>↪</button>
                 <button id="save-button" type="button" onClick={() => onSave()}>SAVE</button>
             </div>}
-            {mapType === 'point' && <div>
-                Map Background:<input type="color" className="color-picker" value={color} onChange={handleSelectColor}/>
-                Lat:<input type='number' value={newXY.y} onChange={handleNewYChange}/>
-                Lng:<input type='number' value={newXY.x} onChange={handleNewXChange}/>
-                Label:<input type='text' value={label} onChange={handleLabelChange}/>
-                <button type="button" onClick={() => add(newXY.x, newXY.y, label)}>Add</button>
-                <button className="icon-link" onClick={() => onUndo()}>↩</button>
-                <button className="icon-link" onClick={() => onRedo()}>↪</button>
+            {/* ---POINT MAP-------------------------------------------- */}
+            {mapType === 'point' && <div className='custom-texts'>
+                <div className='custom-explain'>
+                    Enter latitude and longitude directly, or click on the map to set them.
+                    Press ADD to display cute Markers ʕ 'ᴥ' ʔ on the map.
+                </div>
+                <span className='custom-backg'>
+                    Map Background: 
+                    <span className='colorPicker-box'>
+                        <input type="color" className="color-picker" value={color} onChange={handleSelectColor}/>
+                    </span>
+                </span>
+                Lat:<input className="custom-inputL" type='number' value={newXY.y} onChange={handleNewYChange}/>
+                Lng:<input className="custom-inputL" type='number' value={newXY.x} onChange={handleNewXChange}/>
+                Label:<input className="custom-input" type='text' value={label} onChange={handleLabelChange}/>
+                <button className="custom-button" type="button" onClick={() => add(newXY.x, newXY.y, label)}>Add</button>
+                <button className="icon-link2" onClick={() => onUndo()}>↩</button>
+                <button className="icon-link2" onClick={() => onRedo()}>↪</button>
                 <button id="save-button" type="button" onClick={() => onSave()}>SAVE</button>
             </div>}
             {/* ---BUBBLE MAP-------------------------------------------- */}
@@ -186,19 +196,30 @@ export default function MapViewCustomizeToolbar({
             {mapType === 'thematic' && <div>
                 <div>Admin:{layerId.admin}; Lat:{newXY.y}; Lng:{newXY.x}</div>
                 Value:<input type='number' value={label} onChange={handleLabelChange}/>
-                <button type="button" onClick={() => put(label)}>Put</button>
+                <button className="custom-button" type="button" onClick={() => put(label)}>Put</button>
                 <button className="icon-link" onClick={() => onUndo()}>↩</button>
                 <button className="icon-link" onClick={() => onRedo()}>↪</button>
                 <button id="save-button" type="button" onClick={() => onSave()}>SAVE</button>
             </div>}
-            {mapType === 'choropleth' && <div>
-                <div>Admin:{layerId.admin}; Lat:{newXY.y}; Lng:{newXY.x}</div>
-                Color:<input type='color' value={label} onChange={handleLabelChange}/>
-                ID:<input type='text' value={number} onChange={handleNumberChange}/>
-                Statistic:<input type='text' value={string} onChange={handleStringChange}/>
-                <button type="button" onClick={() => put(label, number, string)}>Put</button>
-                <button className="icon-link" onClick={() => onUndo()}>↩</button>
-                <button className="icon-link" onClick={() => onRedo()}>↪</button>
+            {/* ---CHOROPLETH MAP-------------------------------------------- */}
+            {mapType === 'choropleth' && <div className='custom-texts'>
+                <div className='custom-explain'>
+                    Click on the map to set area.
+                    Set Color and enter ID and Statistic. Press PUT to change the map.
+                </div>
+                <div className='custom-backg2'>
+                    <span className='custom-back-title'> Selected Area </span>
+                    <span className='custom-back-line'> || </span>
+                    Admin : {layerId.admin} ;  Lat : {newXY.y} ;  Lng : {newXY.x}
+                </div>
+                <span className='custom-backg' >
+                    Color : <input type='color' value={label} onChange={handleLabelChange}/>
+                </span>
+                 ID : <input className="custom-inputL" type='text' value={number} onChange={handleNumberChange}/>
+                 Statistic : <input className="custom-inputL" type='text' value={string} onChange={handleStringChange}/>
+                <button className="custom-button" type="button" onClick={() => put(label, number, string)}>Put</button>
+                <button className="icon-link2" onClick={() => onUndo()}>↩</button>
+                <button className="icon-link2" onClick={() => onRedo()}>↪</button>
                 <button id="save-button" type="button" onClick={() => onSave()}>SAVE</button>
             </div>}
         </div>
