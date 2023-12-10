@@ -676,7 +676,7 @@ export default function MapView(){
           <div>{layerItems.map((item) => {
             return <div key={item.date}>
                     <div className="data-container" onClick={() => setMapView(item.x, item.y)}>
-                      <li className='view'>Lat: {item.y}  Lng: {item.x}</li>
+                      <li className='view'>Lat: {item.y} <br /> Lng: {item.x}</li>
                       <li className='view'>Label: {item.label}</li>
                     </div>
                     {auth_store.isCreatePage ? '':<button className='mv-delete' onClick={() => handleDeletelayer(item.date)}>Delete</button>}
@@ -686,7 +686,7 @@ export default function MapView(){
           <div>{layerItems.map((item) => {
             return <div key={item.date}>
                     <div className="data-container" onClick={() => setMapView(item.x, item.y)}>
-                      <li className='view'>Lat: {item.y}  Lng: {item.x}</li>
+                      <li className='view'>Lat: {item.y} <br /> Lng: {item.x}</li>
                       <li className='view'>Color: {item.label}</li>
                       <li className='view'>Radius: {item.number}</li>
                       <li className='view'>Popup: {item.string}</li>
@@ -698,7 +698,7 @@ export default function MapView(){
           <div>{layerItems.map((item) => {
             return <div key={item.date}>
                     <div className="data-container" onClick={() => setMapView(item.x, item.y)}>
-                      <li className='view'>Admin: {item.label}  Lat: {item.y}  Lng: {item.x}</li>
+                      <li className='view'>Admin: {item.label} <br /> Lat: {item.y} <br /> Lng: {item.x}</li>
                       <li className='view'>Value: {item.number}</li>
                     </div>
                     {auth_store.isCreatePage ? '':<button className='mv-delete' onClick={() => handleDeletelayer(item.date)}>Delete</button>}
@@ -708,7 +708,7 @@ export default function MapView(){
           <div>{layerItems.map((item) => {
             return <div key={item.date}>
                     <div className="data-container" onClick={() => setMapView(item.x, item.y)}>
-                      <li className='view'>Admin: {item.label}  Lat: {item.y}  Lng: {item.x}</li>
+                      <li className='view'>Admin: {item.label}<br />  Lat: {item.y} <br /> Lng: {item.x}</li>
                       <li className='view'>Color: {item.color}</li>
                       <li className='view'>ID: {item.value}</li>
                       <li className='view'>Statistic: {item.string}</li>
