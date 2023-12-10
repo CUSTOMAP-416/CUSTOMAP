@@ -16,7 +16,7 @@
   .toggle-button {
     position: absolute;
     right: -50px; /* Adjust as needed to place it just outside the sidebar */
-    top: 50%;
+    top: 40%;
     transform: translateY(-50%);
     background-color: #4CAF50; /* Color for the button */
     border: none;
