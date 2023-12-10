@@ -664,56 +664,56 @@ export default function MapView(){
           {selectedMapType === 'heat' &&
           <div>{layerItems.map((item) => {
             return <div key={item.date}>
-                    <div onClick={() => setMapView(item.x, item.y)}>
-                      <li className='view'>Lat: {item.y}  Lng: {item.x}</li>
-                      <li>Number: {item.number}</li>
-                      <li>Label: {item.label}</li>
+                    <div className="data-container" onClick={() => setMapView(item.x, item.y)}>
+                      <li className='view'>Lat: {item.y} <br /> Lng: {item.x}</li>
+                      <li className='view'>Number: {item.number}</li>
+                      <li className='view'>Label: {item.label}</li>
                     </div>
-                    {auth_store.isCreatePage ? '':<button onClick={() => handleDeletelayer(item.date)}>Delete</button>}
+                    {auth_store.isCreatePage ? '':<button className='mv-delete' onClick={() => handleDeletelayer(item.date)}>Delete</button>}
                   </div>
             })}</div>}
           {selectedMapType === 'point' &&
           <div>{layerItems.map((item) => {
             return <div key={item.date}>
-                    <div onClick={() => setMapView(item.x, item.y)}>
+                    <div className="data-container" onClick={() => setMapView(item.x, item.y)}>
                       <li className='view'>Lat: {item.y}  Lng: {item.x}</li>
-                      <li>Label: {item.label}</li>
+                      <li className='view'>Label: {item.label}</li>
                     </div>
-                    {auth_store.isCreatePage ? '':<button onClick={() => handleDeletelayer(item.date)}>Delete</button>}
+                    {auth_store.isCreatePage ? '':<button className='mv-delete' onClick={() => handleDeletelayer(item.date)}>Delete</button>}
                   </div>
             })}</div>}
           {selectedMapType === 'bubble' &&
           <div>{layerItems.map((item) => {
             return <div key={item.date}>
-                    <div onClick={() => setMapView(item.x, item.y)}>
+                    <div className="data-container" onClick={() => setMapView(item.x, item.y)}>
                       <li className='view'>Lat: {item.y}  Lng: {item.x}</li>
-                      <li>Color: {item.label}</li>
-                      <li>Radius: {item.number}</li>
-                      <li>Popup: {item.string}</li>
+                      <li className='view'>Color: {item.label}</li>
+                      <li className='view'>Radius: {item.number}</li>
+                      <li className='view'>Popup: {item.string}</li>
                     </div>
-                    {auth_store.isCreatePage ? '':<button onClick={() => handleDeletelayer(item.date)}>Delete</button>}
+                    {auth_store.isCreatePage ? '':<button className='mv-delete' onClick={() => handleDeletelayer(item.date)}>Delete</button>}
                   </div>
             })}</div>}
           {selectedMapType === 'thematic' &&
           <div>{layerItems.map((item) => {
             return <div key={item.date}>
-                    <div onClick={() => setMapView(item.x, item.y)}>
+                    <div className="data-container" onClick={() => setMapView(item.x, item.y)}>
                       <li className='view'>Admin: {item.label}  Lat: {item.y}  Lng: {item.x}</li>
-                      <li>Value: {item.number}</li>
+                      <li className='view'>Value: {item.number}</li>
                     </div>
-                    {auth_store.isCreatePage ? '':<button onClick={() => handleDeletelayer(item.date)}>Delete</button>}
+                    {auth_store.isCreatePage ? '':<button className='mv-delete' onClick={() => handleDeletelayer(item.date)}>Delete</button>}
                   </div>
             })}</div>}
           {selectedMapType === 'choropleth' &&
           <div>{layerItems.map((item) => {
             return <div key={item.date}>
-                    <div onClick={() => setMapView(item.x, item.y)}>
+                    <div className="data-container" onClick={() => setMapView(item.x, item.y)}>
                       <li className='view'>Admin: {item.label}  Lat: {item.y}  Lng: {item.x}</li>
-                      <li>Color: {item.color}</li>
-                      <li>ID: {item.value}</li>
-                      <li>Statistic: {item.string}</li>
+                      <li className='view'>Color: {item.color}</li>
+                      <li className='view'>ID: {item.value}</li>
+                      <li className='view'>Statistic: {item.string}</li>
                     </div>
-                    {auth_store.isCreatePage ? '':<button onClick={() => handleDeletelayer(item.date)}>Delete</button>}
+                    {auth_store.isCreatePage ? '':<button className='mv-delete' onClick={() => handleDeletelayer(item.date)}>Delete</button>}
                   </div>
             })}</div>}
           </div>
