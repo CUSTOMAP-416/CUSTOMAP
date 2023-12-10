@@ -553,7 +553,21 @@ hr.hr-1 {
   border-radius: 4px;
 }
 
+.thematic-container{
+  background-color: #a8e4aa;
+  border-radius: 4px;
+  width:500px;
+  margin:4px;
+  padding:5px;
+}
+.thematic-menu{
+  background-color: #298d2c;
+  border-radius: 4px;
+  width:520px;
+  margin:4px;
+  padding:5px;
 
+}
 
 
  

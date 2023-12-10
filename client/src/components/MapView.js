@@ -562,6 +562,7 @@ export default function MapView(){
             </div>
           </div>
           :
+          
           <MapViewCustomizeToolbar 
             onFontChange={handleFontChange} 
             onTextChange={handleTextChange} 
@@ -582,23 +583,33 @@ export default function MapView(){
             layerId={layerId}
             put={put}
           />
+          
         }
-        {selectedMapType === 'thematic' ? 
-        <div>
-          {legendItems.map((item, index) => {
-            if(index == 0){
+        {selectedMapType === 'thematic'  ? 
+          
+          <div className='thematic-menu'>
+            
+          <div></div>
+            {legendItems.map((item,index) => {
+            
+            if(index == 0) {
+              
               return <div key={index}>
-                      <label>Value:<input type="text" value={'-inf'} disabled></input></label>
-                      <label>Color:<input type="color" value={item.color}
-                          onChange={(e) => handleLegendColorChange(index, e.target.value)}/>
-                      </label>
-                      <label>Opacity:<input type="number" min="0" max="1" step="0.01" value={item.opacity}
-                          onChange={(e) => handleLegendOpacityChange(index, e.target.value)}/>
-                      </label>
-                    </div>
+                <div className='thematic-container'>
+                  <label>Value:<input type="text" value={'-inf'} disabled></input></label>
+                  <label>Color:<input type="color" value={item.color}
+                      onChange={(e) => handleLegendColorChange(index, e.target.value)}/>
+                  </label>
+                  <label>Opacity:<input type="number" min="0" max="1" step="0.01" value={item.opacity}
+                      onChange={(e) => handleLegendOpacityChange(index, e.target.value)}/>
+                  </label>
+                </div>
+              </div>
+                      
             }
-            return  <div key={index}>
-                      <label>Value:<input type="number" value={item.value}
+            return <div key={index}>
+              <div className='thematic-container'>
+                    <label>Value:<input type="number" value={item.value}
                         onChange={(e) => handleLegendValueChange(index, e.target.value)}/>
                       </label>
                       <label>Color:<input type="color" value={item.color}
@@ -609,10 +620,15 @@ export default function MapView(){
                       </label>
                       <button type="button" onClick={() => handleLegendVisibilityChange(index)}>{item.visibility?'display':'hide'}</button>
                     </div>
-          })}
+
+              </div>
+                    
+          }
+          )}
           <button type="button" onClick={() => handleSetLegends()}>Undate Legends</button>
-        </div>
-          : ''}
+          </div>
+          : ''
+        }
         {errorMessage && <p className="error-message" style={{color:"red"}}>{errorMessage}</p>}
         <div id="mapview-container" style={{display: "flex", gap: "20px"}}>
           <div id="mapview" style={{width: "80%"}}>
