@@ -102,7 +102,7 @@ export default function AdminDashboardMapList(){
     }
 
     return (
-      <div style={{height: '750px',  overflow: 'auto'}}>
+      <div style={{height: 'auto',  overflow: 'auto'}}>
         <div className="dashboard-header">Search Map</div>
         <div className="search-box">
           <img className="glass" src={glass} alt="My SVG" />
