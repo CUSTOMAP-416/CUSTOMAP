@@ -474,7 +474,6 @@ hr.hr-1 {
   .text-color{
     display: flex;
   }
-
   @media (max-width: 600px) {
     .rightside-for-legend{
       width: 80%;

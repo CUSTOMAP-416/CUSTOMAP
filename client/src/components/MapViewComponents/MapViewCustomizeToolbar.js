@@ -193,12 +193,21 @@ export default function MapViewCustomizeToolbar({
                 <button className="icon-link2" onClick={() => onRedo()}>↪</button>
                 <button id="save-button" type="button" onClick={() => onSave()}>SAVE</button>
             </div>}
-            {mapType === 'thematic' && <div>
-                <div>Admin:{layerId.admin}; Lat:{newXY.y}; Lng:{newXY.x}</div>
-                Value:<input type='number' value={label} onChange={handleLabelChange}/>
+            {/* ---THEMATIC MAP-------------------------------------------- */}
+            {mapType === 'thematic' && <div className='custom-texts'>
+                <div className='custom-explain'>
+                    Click on the map to set area.
+                    Set Value number OR Open "range" on left side and put display to set Color and Opacity. Press PUT to change the map.
+                </div>
+                <div className='custom-backg2'>
+                    <span className='custom-back-title'> Selected Area </span>
+                    <span className='custom-back-line'> || </span>
+                    Admin : {layerId.admin} ;  Lat : {newXY.y} ;  Lng : {newXY.x}
+                </div>
+                Value : <input className="custom-input" type='number' value={label} onChange={handleLabelChange}/>
                 <button className="custom-button" type="button" onClick={() => put(label)}>Put</button>
-                <button className="icon-link" onClick={() => onUndo()}>↩</button>
-                <button className="icon-link" onClick={() => onRedo()}>↪</button>
+                <button className="icon-link2" onClick={() => onUndo()}>↩</button>
+                <button className="icon-link2" onClick={() => onRedo()}>↪</button>
                 <button id="save-button" type="button" onClick={() => onSave()}>SAVE</button>
             </div>}
             {/* ---CHOROPLETH MAP-------------------------------------------- */}
