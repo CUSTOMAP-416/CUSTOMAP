@@ -109,20 +109,10 @@ export default function Dashboard(){
                         className={`sidebar-buttons ${isDarkMode ? 'sidebar-buttons-dark' : 'sidebar-buttons'}`}
                         onClick={() => handleSelectedViewChange(<DashboardSearchMapView isDarkMode={isDarkMode}/>,'search')}>Search Map</button>
                 </div>
-                {/* <div className="darkmodebutton">
-                    <div className={`sidebar-buttons ${isDarkMode ? 'sidebar-buttons-dark' : 'sidebar-buttons'}`}>Dark Mode</div>
-                    <label className="switch">
-                        <input
-                            type="checkbox"
-                            checked={isDarkMode}
-                            onChange={handleToggle}
-                            />
-                        <span className="slider"></span>
-                    </label>
-                </div> */}
+                <button id='refresh'onClick={handleRefresh}>refresh</button>
             </div>
-            <div className={`selectedDashboard ${isDarkMode ? 'selectedDashbord-dark' : 'selectedDashbord'}`} style={{ overflowX: "hidden" }}> {React.cloneElement(auth_store.user?selectedView, { key: refreshCount }):''}</div>
-            </div>
+            <div className={`selectedDashboard ${isDarkMode ? 'selectedDashbord-dark' : 'selectedDashbord'}`} style={{ overflowX: "hidden" }}> {React.cloneElement(selectedView, { key: refreshCount })}</div>
+        </div>
            
 
     )
