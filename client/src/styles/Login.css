@@ -105,7 +105,9 @@
     text-decoration: none;
 }
 .log_right{
-    display:block;
+    /* display:block; */
+    position: relative;
+    z-index: -1;
     width:45%;
 }
 .mapdot{

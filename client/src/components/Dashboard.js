@@ -40,7 +40,18 @@ export default function Dashboard(){
     return (
         <div className='container'>
             <div className={`sidebar ${isDarkMode ? 'sidebar-dark' : 'sidebar-bright'}`}>
-            <img className="bear" src={bear} style={{padding:"30px 0px"}}alt="My SVG" />
+                <div className="darkmodebutton">
+                    <span className={`sidebar-buttons ${isDarkMode ? 'sidebar-buttons-dark' : 'sidebar-buttons'}`} style={{fontSize:'15px'}}>Dark Mode</span>
+                    <label className="switch">
+                        <input
+                            type="checkbox"
+                            checked={isDarkMode}
+                            onChange={handleToggle}
+                        />
+                        <span className="slider"></span>
+                    </label>
+                </div>
+            <img className="bear" src={bear} style={{padding:"20px 10px 0px"}}alt="My SVG" />
                 <div className={`profile ${isDarkMode ? 'profile-dark' : ''}`}>Hello {auth_store.user?auth_store.user.username:''}</div>
                 <div className="sidebar-buttons">
                     <button
@@ -62,7 +73,7 @@ export default function Dashboard(){
                         className={`sidebar-buttons ${isDarkMode ? 'sidebar-buttons-dark' : 'sidebar-buttons'}`}
                         onClick={() => handleSelectedViewChange(<DashboardSearchMapView isDarkMode={isDarkMode}/>)}>Search Map</button>
                 </div>
-                <div className="darkmodebutton">
+                {/* <div className="darkmodebutton">
                     <div className={`sidebar-buttons ${isDarkMode ? 'sidebar-buttons-dark' : 'sidebar-buttons'}`}>Dark Mode</div>
                     <label className="switch">
                         <input
@@ -72,7 +83,7 @@ export default function Dashboard(){
                         />
                         <span className="slider"></span>
                     </label>
-                </div>
+                </div> */}
             </div>
             <div className={`selectedDashboard ${isDarkMode ? 'selectedDashbord-dark' : 'selectedDashbord'}`} style={{ overflowX: "hidden" }}>{auth_store.user?selectedView:''}</div>
         </div>
