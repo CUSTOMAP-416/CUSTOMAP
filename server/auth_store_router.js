@@ -6,6 +6,7 @@ authStoreRouter.get("/users", AuthStoreController.getAllusers);
 authStoreRouter.get("/maps", AuthStoreController.getAllmaps);
 authStoreRouter.post('/register', AuthStoreController.registerUser)
 authStoreRouter.post('/login', AuthStoreController.loginUser)
+authStoreRouter.get('/session', AuthStoreController.session)
 authStoreRouter.get('/logout', AuthStoreController.logoutUser)
 authStoreRouter.get('/loggedIn', AuthStoreController.getLoggedIn)
 authStoreRouter.post("/forgetPassword", AuthStoreController.forgetPassword)

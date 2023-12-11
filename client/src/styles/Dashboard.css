@@ -4,7 +4,6 @@
     font-family: Arial, sans-serif;
     color: #333;
     display: flex;
-
     /* width:200; */
 }
 
@@ -14,7 +13,6 @@
     padding: 20px;
     flex:  0 20%;
     text-align: center;
-    height: 100vh;
 }
 
 .sidebar-dark {
@@ -758,7 +756,6 @@
   }
 
   .darkmodebutton{
-    margin-top: 40px;
     font-family: DM Sans;
     font-size: 20px;
     font-style: normal;
@@ -770,7 +767,7 @@
   position: relative;
   display: inline-block;
   width: 60px;
-  height: 34px;
+  height: 28px;
 }
 
 

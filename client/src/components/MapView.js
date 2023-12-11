@@ -61,7 +61,7 @@ export default function MapView(){
   };
   //Handles the undo button click.
   const handleUndo = () => {
-    if(customizations.length != 0){
+    if(customizations.length !== 0){
       customs = customizations
       undoCustoms = undoCustomizations
       custom = customs.pop()
@@ -72,18 +72,18 @@ export default function MapView(){
         redoUndo: 'undo',
         custom: custom,
       })
-      if(custom.type == 'add'){
+      if(custom.type === 'add'){
         const updatedLayerItems = layerItems.filter((item) => item.date !== custom.value.date);
         setLayerItems(updatedLayerItems);
       }
-      else if(custom.type == 'delete'){
+      else if(custom.type === 'delete'){
         setLayerItems((prevItems) => [...prevItems, custom.value]);
       }
     }
   };
   //Handles the redo button click.
   const handleRedo = () => {
-    if(undoCustomizations.length != 0){
+    if(undoCustomizations.length !== 0){
       customs = customizations
       undoCustoms = undoCustomizations
       custom = undoCustoms.pop()
@@ -94,10 +94,10 @@ export default function MapView(){
         redoUndo: 'redo',
         custom: custom,
       })
-      if(custom.type == 'add'){
+      if(custom.type === 'add'){
         setLayerItems((prevItems) => [...prevItems, custom.value]);
       }
-      else if(custom.type == 'delete'){
+      else if(custom.type === 'delete'){
         const updatedLayerItems = layerItems.filter((item) => item.date !== custom.value.date);
         setLayerItems(updatedLayerItems);
       }
@@ -109,7 +109,7 @@ export default function MapView(){
   const [texts, setTexts] = useState([]);
   const [colors, setColors] = useState([]);
   const [legendItems, setLegendItems] = useState([]);
-  const [newLegend, setNewLegend] = useState({ color: '#000000', label: '' });
+  const [newLegend, setNewLegend] = useState({ _id: null, color: '#000000', label: '' });
   const handleNewLegendColorChange = (event) => {
     setNewLegend({ ...newLegend, color: event.target.value });
   };
@@ -126,7 +126,7 @@ export default function MapView(){
     const updatedLegendItems = [...legendItems];
     updatedLegendItems.splice(index, 1);
     setLegendItems(updatedLegendItems);
-    if(_id != null){
+    if(_id !== null){
       auth_store.deleteLegend(_id)
     }
   };
@@ -138,7 +138,7 @@ export default function MapView(){
     let deleteCustoms = []
     for(let i=0; i<customizations.length; i++){
       if(customizations[i].type === 'color'){
-        if(customizations[i].value.color !== "#3388ff" && customizations[i].value.color != "#ffffff" && customizations[i].value.color != null){
+        if(customizations[i].value.color !== "#3388ff" && customizations[i].value.color !== "#ffffff" && customizations[i].value.color !== null){
           colors.push(customizations[i])
         }
       }
@@ -149,7 +149,7 @@ export default function MapView(){
         customs.push(customizations[i].value)
       }
       else if(customizations[i].type === 'delete'){
-        if(customizations[i].value._id != null){
+        if(customizations[i].value._id !== null){
           deleteCustoms.push({
             _id: customizations[i].value._id
           })
@@ -170,7 +170,7 @@ export default function MapView(){
         }
       }
 
-      if(color != null){
+      if(color !== null){
         saveColors.push(color)
       }
     }
@@ -186,7 +186,7 @@ export default function MapView(){
         }
       }
 
-      if(text != null){
+      if(text !== null){
         saveTexts.push(text)
       }
     }
@@ -207,12 +207,12 @@ export default function MapView(){
       auth_store.onLegend(saveLegends)
     }
     // font
-    if(auth_store.selectMap.font != changedFont){
+    if(auth_store.selectMap.font !== changedFont){
       auth_store.onFont(changedFont)
     }
     // backgroudColor
     if(selectedMapType === 'heat' || selectedMapType === 'point' || selectedMapType === 'bubble'){
-      if(auth_store.selectMap.backgroundColor != selectedColor){
+      if(auth_store.selectMap.backgroundColor !== selectedColor){
         auth_store.onBackgroundColor(selectedColor)
       }
     }
@@ -223,19 +223,19 @@ export default function MapView(){
     //thematicLegends
     if(selectedMapType === 'thematic'){
       for(let i=0; i<8; i++){
-        if(auth_store.selectMap.thematicLegends[i].value != legendItems[i].value){
+        if(auth_store.selectMap.thematicLegends[i].value !== legendItems[i].value){
           auth_store.onThematicLegends(legendItems)
           break;
         }
-        if(auth_store.selectMap.thematicLegends[i].color != legendItems[i].color){
+        if(auth_store.selectMap.thematicLegends[i].color !== legendItems[i].color){
           auth_store.onThematicLegends(legendItems)
           break;
         }
-        if(auth_store.selectMap.thematicLegends[i].visibility != legendItems[i].visibility){
+        if(auth_store.selectMap.thematicLegends[i].visibility !== legendItems[i].visibility){
           auth_store.onThematicLegends(legendItems)
           break;
         }
-        if(auth_store.selectMap.thematicLegends[i].opacity != legendItems[i].opacity){
+        if(auth_store.selectMap.thematicLegends[i].opacity !== legendItems[i].opacity){
           auth_store.onThematicLegends(legendItems)
           break;
         }
@@ -320,7 +320,7 @@ export default function MapView(){
             }, 5000);
           }
         }
-        if(newItem != null){
+        if(newItem !== null){
           setCustomization({
             redoUndo: 'add',
             custom: newItem
@@ -343,7 +343,7 @@ export default function MapView(){
   };
 
   const put = (value, ID, Statistic) => {
-    if(layerId.id == ''){
+    if(layerId.id === ''){
       setErrorMessage("Please select a country.")
       setTimeout(() => {
         setErrorMessage("")
@@ -390,7 +390,7 @@ export default function MapView(){
             date: Date.now()
           }
         }
-        if(newItem != null){
+        if(newItem !== null){
           setCustomization({
             redoUndo: 'add',
             custom: newItem
@@ -512,7 +512,7 @@ export default function MapView(){
       setMapData(auth_store.selectMap.mapData)
       setTexts(auth_store.selectMap.texts)
       setColors(auth_store.selectMap.colors)
-      if(auth_store.selectMap.mapType == 'thematic'){
+      if(auth_store.selectMap.mapType === 'thematic'){
         let thematicLegends = []
         let thematicLegend = ''
         for (let i=0; i<8; i++){
@@ -612,7 +612,7 @@ export default function MapView(){
             <div></div>
             {legendItems.map((item,index) => {
             
-            if(index == 0) {
+            if(index === 0) {
               
               return <div key={index}>
                 <div className='thematic-container'>

@@ -40,13 +40,13 @@ export default function AdminDashboardUserList(){
     };
     const handleSortingChange = (event) => {
         const userSort = [...allUsers]
-        if(event == "Ascending"){
+        if(event === "Ascending"){
             userSort.sort((a, b) => a.username.localeCompare(b.username));
         }
-        else if(event == "Descending"){
+        else if(event === "Descending"){
             userSort.sort((a, b) => b.username.localeCompare(a.username));
         }
-        else if(event == "Recent Date"){
+        else if(event === "Recent Date"){
             userSort.sort((a, b) => a.createdDate - b.createdDate);
         }
 
@@ -69,7 +69,7 @@ export default function AdminDashboardUserList(){
         </div>
         <div class="user-list">
 
-          <div className="sort-buttons">
+          {/* <div className="sort-buttons">
             <div className="sort-dropdown">
               <select onChange={(e) => handleSortingChange(e.target.value)}>
                 <option value="defult">SORT</option>
@@ -78,7 +78,7 @@ export default function AdminDashboardUserList(){
                 <option value="Recent Date">Recent Date</option>
               </select>
             </div>
-          </div>
+          </div> */}
           <div style={{ color: "black" }}>
             {allUsers.length > 0 &&
               allUsers.map((user) => (
