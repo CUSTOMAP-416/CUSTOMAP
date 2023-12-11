@@ -146,19 +146,22 @@ loginUser = async (req, res) => {
         }
 
         const profile = await Profile.findById(existingUser.profile);
+
+        const log={
+            username: existingUser.username,  
+            email: existingUser.email,
+            phone: profile.phone,    
+            role: existingUser.role,  
+            maps: maps, 
+        }
+        req.session.user = log;
         res.cookie("token", token, {
             httpOnly: true,
             secure: true,
             sameSite: true
         }).status(200).json({
             success: true,
-            user: {
-                username: existingUser.username,  
-                email: existingUser.email,
-                phone: profile.phone,    
-                role: existingUser.role,  
-                maps: maps,        
-            }
+            user: log,
         })
 
     } catch (err) {
@@ -167,7 +170,17 @@ loginUser = async (req, res) => {
     }
 }
 
+session = async (req, res) => {
+    if(req.session.user){
+        res.send(req.session.user);
+    }
+    else{
+        res.send("null");
+    }
+}
+
 logoutUser = async (req, res) => {
+    req.session.destroy(err => {res.send()})
     res.cookie("token", "", {
         httpOnly: true,
         expires: new Date(0),
@@ -251,19 +264,21 @@ registerUser = async (req, res) => {
         console.log("token:" + token);
         console.log("username: "+ savedUser.username);
 
+        const log={
+            username: savedUser.username,  
+            email: savedUser.email,
+            phone: phone,
+            role: savedUser.role,   
+            maps: [],     
+        }
+        req.session.user = log;
         await res.cookie("token", token, {
             httpOnly: true,
             secure: true,
             sameSite: "none"
         }).status(200).json({
             success: true,
-            user: {
-                username: savedUser.username,  
-                email: savedUser.email,
-                phone: phone,
-                role: savedUser.role,   
-                maps: [],              
-            }
+            user: log
         })
         console.log("token sent");
 
@@ -950,6 +965,7 @@ module.exports = {
   getLoggedIn,
   registerUser,
   loginUser,
+  session,
   logoutUser,
   forgetPassword,
   editUserInfo,
