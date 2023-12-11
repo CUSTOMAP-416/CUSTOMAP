@@ -80,6 +80,8 @@ export default function DashboardSearchMapView(props){
         }
     }, [auth_store.searchMaps])
 
+   
+    
     useEffect(() => {
         auth_store.onSearch('')
     }, [])
