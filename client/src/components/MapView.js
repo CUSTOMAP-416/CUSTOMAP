@@ -109,7 +109,7 @@ export default function MapView(){
   const [texts, setTexts] = useState([]);
   const [colors, setColors] = useState([]);
   const [legendItems, setLegendItems] = useState([]);
-  const [newLegend, setNewLegend] = useState({ color: '#000000', label: '' });
+  const [newLegend, setNewLegend] = useState({ _id: null, color: '#000000', label: '' });
   const handleNewLegendColorChange = (event) => {
     setNewLegend({ ...newLegend, color: event.target.value });
   };
