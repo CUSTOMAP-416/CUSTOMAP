@@ -41,7 +41,7 @@ export default function Dashboard(){
         <div className='container'>
             <div className={`sidebar ${isDarkMode ? 'sidebar-dark' : 'sidebar-bright'}`}>
             <img className="bear" src={bear} style={{padding:"30px 0px"}}alt="My SVG" />
-                <div className={`profile ${isDarkMode ? 'profile-dark' : ''}`}>Hello {auth_store.user.username}</div>
+                <div className={`profile ${isDarkMode ? 'profile-dark' : ''}`}>Hello {auth_store.user?auth_store.user.username:''}</div>
                 <div className="sidebar-buttons">
                     <button
                         className={`sidebar-buttons ${isDarkMode ? 'sidebar-buttons-dark' : 'sidebar-buttons'}`}
@@ -74,7 +74,7 @@ export default function Dashboard(){
                     </label>
                 </div>
             </div>
-            <div className={`selectedDashboard ${isDarkMode ? 'selectedDashbord-dark' : 'selectedDashbord'}`} style={{ overflowX: "hidden" }}>{selectedView}</div>
+            <div className={`selectedDashboard ${isDarkMode ? 'selectedDashbord-dark' : 'selectedDashbord'}`} style={{ overflowX: "hidden" }}>{auth_store.user?selectedView:''}</div>
         </div>
 
     )

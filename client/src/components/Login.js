@@ -1,29 +1,12 @@
-import { useEffect, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import AuthStoreContextProvider from "../auth_store";
 import { Link } from "react-router-dom";
 import "../styles/Login.css"
 import mapdot from "../assets_img/login_mapWp.svg";
-import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const { auth_store } = useContext(AuthStoreContextProvider);
 
-  useEffect(() => {
-    auth_store.successMessage = null
-    if (auth_store.loggedIn) {
-      if(auth_store.user.role == "admin"){
-        auth_store.getAllUsers()
-        auth_store.getAllMaps()
-        navigate("/AdminDashboard/");
-      }
-      else{
-        navigate("/Dashboard/");
-      }
-    }
-    //checking state for login
-  }, [auth_store.loggedIn]);
-
-  const navigate = useNavigate();
   //function to handle the login process
   const onLogin = (state) => {
     auth_store.onLogin(state);
