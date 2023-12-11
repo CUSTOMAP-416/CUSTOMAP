@@ -84,6 +84,10 @@ const loggedIn = (email, password) => {
     })
 };
 
+const session = () => {
+    return api.get('/session/')
+};
+
 // Logs out the user
 const onLogout = () => api.get('/logout/')
 
@@ -203,6 +207,7 @@ const apis = {
     deleteMap,
     shareMap,
     loggedIn,
+    session,
     onLogout,
     onVerification,
     onEditMap,

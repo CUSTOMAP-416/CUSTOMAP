@@ -53,11 +53,10 @@ function AuthStoreContextProvider(props) {
             }
             case AuthStoreActionType.LOGOUT_USER: {
                 console.log(type)
-                return setAuthStore((prevAuthStore) => ({
-                    ...prevAuthStore,
+                return setAuthStore({
                     user: null,
                     loggedIn: false
-                }));
+                });
             }
             case AuthStoreActionType.REGISTER_USER: {
                 console.log(type)
@@ -287,6 +286,26 @@ function AuthStoreContextProvider(props) {
                 ...prevAuthStore,
                 errorMessage: null,
               }));
+        })
+        .catch(error => {
+            console.log(error.response.data.errorMessage)
+            return setAuthStore((prevAuthStore) => ({
+                ...prevAuthStore,
+                errorMessage: error.response.data.errorMessage
+            }));
+        });
+    }
+    auth_store.session= async function () {
+        await apis.session().then(response => {
+            if(response.data){
+                auth_storeReducer({
+                    type: AuthStoreActionType.LOGIN_USER,
+                    payload: response.data,
+                });
+            }
+            else{
+                return
+            }
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
