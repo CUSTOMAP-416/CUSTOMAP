@@ -102,7 +102,7 @@ export default function AdminDashboardMapList(props){
     }
 
     return (
-      <div style={{height: 'auto',  overflow: 'auto'}}>
+      <div className="right-body" style={{height: 'auto',  overflow: 'auto'}}>
         <div className={props.isDarkMode ? 'dashboard-header-dark' : 'dashboard-header'}>Search Map</div>
         <div className="search-box">
           <img className="glass" src={glass} alt="My SVG" />
