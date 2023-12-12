@@ -14,22 +14,25 @@ export default function AdminDashboardUserList(){
     const [toolOpen, setToolOpen] = useState(false);
 
     const [mapDetails, setMapDetails] = useState({});
+  
+    useEffect(() => {
+      if(auth_store.users){
+        setAllUsers(auth_store.users);
+      }
+    }, [auth_store.users]);
 
     useEffect(() => {
-      auth_store.getAllUsers().then(() => {
-        setAllUsers(auth_store.users);
-      });
-    }, [auth_store.users]);
-    useEffect(() => {
-      auth_store.maps.forEach((mapId) =>
-        setMapDetails((prevDetails) => ({
-          ...prevDetails,
-          [mapId._id]: {
-            title: mapId.title,
-            description: mapId.description,
-          },
-        }))
-      );
+      if(auth_store.maps){
+        auth_store.maps.forEach((mapId) =>
+          setMapDetails((prevDetails) => ({
+            ...prevDetails,
+            [mapId._id]: {
+              title: mapId.title,
+              description: mapId.description,
+            },
+          }))
+        );
+      }
     }, [auth_store.maps]);
 
     const handleUserMaplistOpen = (userId) => {
@@ -47,18 +50,18 @@ export default function AdminDashboardUserList(){
             userSort.sort((a, b) => b.username.localeCompare(a.username));
         }
         else if(event === "Recent Date"){
-            userSort.sort((a, b) => a.createdDate - b.createdDate);
+            userSort.sort(function(a, b){ if(a.createdDate > b.createdDate){return 0}else{return -1}});
         }
 
         setAllUsers(userSort);
     }
     //Handle the user edit button click. 
     const handleUserDelete = (email) => {
-        deleteUser(email)
-        console.log(email)
-    }
-    const deleteUser = (email) => {
-        auth_store.deleteUser(email)
+      auth_store.deleteUser(email)
+      let users = [...allUsers]
+      let index = users.findIndex(user => user.email == email);
+      users.splice(index, 1);
+      setAllUsers(users)
     }
     
 
@@ -68,8 +71,7 @@ export default function AdminDashboardUserList(){
           <h1 className="header-font">Admin Dashboard</h1>
         </div>
         <div class="user-list">
-
-          {/* <div className="sort-buttons">
+          <div className="sort-buttons">
             <div className="sort-dropdown">
               <select onChange={(e) => handleSortingChange(e.target.value)}>
                 <option value="defult">SORT</option>
@@ -78,7 +80,7 @@ export default function AdminDashboardUserList(){
                 <option value="Recent Date">Recent Date</option>
               </select>
             </div>
-          </div> */}
+          </div> 
           <div style={{ color: "black" }}>
             {allUsers.length > 0 &&
               allUsers.map((user) => (
