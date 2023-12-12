@@ -9,6 +9,7 @@ const Discussion = require('./models/discussion')
 const Custom = require('./models/custom')
 const bcrypt = require('bcryptjs')
 const fs = require('fs');
+const { MpSharp } = require('@mui/icons-material')
 
 getAllusers = async (req, res) => {
   try {
@@ -392,13 +393,16 @@ editUserInfo = async (req, res) => {
 
 deleteUser = async (req, res) => {
     try {
-        const userToDelete = await User.findOne({email: req.params.email})
-        await User.deleteOne({email: req.params.email});
-        await Profile.findByIdAndDelete(userToDelete.profile);
-
-        if (!userToDelete) {
-            return res.status(404).json({ errorMessage: "User not found." });
-        }
+        User.findOne({ email: req.params.email }).then(async userToDelete =>{
+            if (!userToDelete) {
+                return res.status(404).json({ errorMessage: "User not found." });
+            }
+            for(let i=0; i<userToDelete.maps.length; i++){
+                await Map.findByIdAndDelete(userToDelete.maps[i]);
+            }
+            await Profile.findByIdAndDelete(userToDelete.profile);
+            await User.deleteOne({email: req.params.email});
+        })
         return res.status(200).json({
             success: true,
             message: "Delete User"
