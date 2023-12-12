@@ -9,7 +9,6 @@ const Discussion = require('./models/discussion')
 const Custom = require('./models/custom')
 const bcrypt = require('bcryptjs')
 const fs = require('fs');
-const { MpSharp } = require('@mui/icons-material')
 
 getAllusers = async (req, res) => {
   try {
