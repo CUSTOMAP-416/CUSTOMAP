@@ -392,17 +392,32 @@ editUserInfo = async (req, res) => {
 }
 
 deleteUser = async (req, res) => {
-    try {
-        User.findOne({ email: req.params.email }).then(async userToDelete =>{
-            if (!userToDelete) {
-                return res.status(404).json({ errorMessage: "User not found." });
+    try {  
+        const userToDelete = await User.findOne({ email: req.params.email });
+        if (!userToDelete) {
+            return res.status(404).json({ errorMessage: "User not found." });
+        }
+        for(let i=0; i<userToDelete.maps.length; i++){
+            const mapToDelete = await Map.findById(userToDelete.maps[i])
+            await Discussion.deleteMany({ _id: { $in: mapToDelete.discussions } })
+            if(mapToDelete.texts.length != null && mapToDelete.texts.length > 0){
+                await Text.deleteMany({ _id: { $in: mapToDelete.texts } })
             }
-            for(let i=0; i<userToDelete.maps.length; i++){
-                await Map.findByIdAndDelete(userToDelete.maps[i]);
+            if(mapToDelete.colors.length != null && mapToDelete.colors.length > 0){
+                await Color.deleteMany({ _id: { $in: mapToDelete.colors } })
             }
-            await Profile.findByIdAndDelete(userToDelete.profile);
-            await User.deleteOne({email: req.params.email});
-        })
+            if(mapToDelete.legends.length != null && mapToDelete.legends.length > 0){
+                await Legend.deleteMany({ _id: { $in: mapToDelete.legends } })
+            }
+            if(mapToDelete.customs.length != null && mapToDelete.customs.length > 0){
+                await Custom.deleteMany({ _id: { $in: mapToDelete.customs } })
+            }
+            await Map.deleteOne({_id: userToDelete.maps[i]});
+
+        }
+        await Profile.findByIdAndDelete(userToDelete.profile);
+        await User.deleteOne({email: req.params.email});
+
         return res.status(200).json({
             success: true,
             message: "Delete User"
