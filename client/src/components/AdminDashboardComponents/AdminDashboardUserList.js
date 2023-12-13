@@ -70,7 +70,7 @@ export default function AdminDashboardUserList(){
         <div className="admin-header">
           <h1 className="header-font">Admin Dashboard</h1>
         </div>
-        <div class="user-list">
+        <div className="user-list">
           <div className="sort-buttons">
             <div className="sort-dropdown">
               <select onChange={(e) => handleSortingChange(e.target.value)}>
