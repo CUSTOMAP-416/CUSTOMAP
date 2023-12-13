@@ -318,7 +318,8 @@ const mapInfo = {
     email: 'john.doe@stonybrook.edu', 
     mapTitle: 'backendTestMap',
     mapData: mapData,
-    mapDescription: ''
+    mapDescription: '',
+    mapType: 'point'
 }
 
 let mapId = ''
