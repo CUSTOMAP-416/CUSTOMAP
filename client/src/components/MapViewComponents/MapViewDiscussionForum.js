@@ -31,7 +31,7 @@ export default function MapViewDiscussionForum(){
     }
 
     useEffect(() => {
-        if(auth_store.selectMap !== null){
+        if(auth_store.selectMap){
             let discussionShow = []
             for(let i=0; i<auth_store.selectMap.discussions.length; i++){
                 discussionShow.push(

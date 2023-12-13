@@ -117,8 +117,8 @@ class MapComponent extends Component {
     const divs = document.querySelectorAll('.view');
     divs.forEach((div) => {
       const content = div.innerHTML;
-      if (content.includes(`Lat: ${lat}  Lng: ${lng}`)) {
-        div.style.backgroundColor = 'green';
+      if (content.includes(`Lat: ${lat} <br> Lng: ${lng}`)) {
+        div.style.backgroundColor = 'red';
         rightside.scrollTo({
           top: div.offsetTop - rightside.offsetTop, 
           behavior: 'smooth'
