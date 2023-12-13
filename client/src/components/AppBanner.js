@@ -1,8 +1,9 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import AuthStoreContextProvider from '../auth_store';
 import { Link } from "react-router-dom";
 import "../styles/AppBanner.css";
 import icon from "../assets_img/icon.svg";
+import { useNavigate } from "react-router-dom";
 
 export default function AppBanner() {
   const { auth_store } = useContext(AuthStoreContextProvider);
@@ -25,6 +26,29 @@ export default function AppBanner() {
     //function to handle the logout process
     auth_store.onLogout()
   }
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    auth_store.successMessage = null
+    if (auth_store.loggedIn) {
+      if(auth_store.user.role == "admin"){
+        auth_store.getAllUsers()
+        auth_store.getAllMaps()
+        navigate("/AdminDashboard/");
+      }
+      else{
+        navigate("/Dashboard/");
+      }
+    }
+    //checking state for login
+  }, [auth_store.loggedIn]);
+
+  useEffect(() => {
+    if(!auth_store.user){
+      navigate("/");
+    }
+    auth_store.session()
+  }, []);
 
   return (
     <div className="banner">
@@ -94,7 +118,7 @@ export default function AppBanner() {
                 style={{ color: "white", textDecoration: "none" }}
                 onClick={() => handleLogout()}
               >
-                Sign out
+                SignOut
               </Link>
             </div>
           ) : (
@@ -105,7 +129,7 @@ export default function AppBanner() {
                 style={{ color: "white", textDecoration: "none" }}
                 onClick={() => handleLogin()}
               >
-                Sign in
+                SignIn
               </Link>
             </div>
           )}

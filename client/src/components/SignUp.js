@@ -3,30 +3,14 @@ import AuthStoreContextProvider from '../auth_store';
 import { Link } from "react-router-dom";
 import "../styles/SignUp.css";
 import logo from "../assets_img/signup_logo.svg";
-import { useNavigate } from "react-router-dom";
 
 export default function SignUp(){
     const { auth_store } = useContext(AuthStoreContextProvider);
-    const navigate = useNavigate();
 
     //function to handle the sign-up process 
     const onSignUp = (state) => {
         auth_store.createUser(state)
     }
-
-    useEffect(() => {
-      if (auth_store.loggedIn) {
-        if(auth_store.user.role == "admin"){
-          auth_store.getAllUsers()
-          auth_store.getAllMaps()
-          navigate("/AdminDashboard/");
-        }
-        else{
-          navigate("/Dashboard/");
-        }
-      }
-      //checking state for login
-    }, [auth_store.loggedIn, auth_store.errMessage]);
 
     //Stores the ID input. 
     const [ID, setID] = useState('');

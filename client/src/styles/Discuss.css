@@ -2,11 +2,12 @@
     position: fixed;
     left: -400px; /* Initial position should be off-screen */
     width: 400px; /* Adjust width as needed */
-    height: 700px;
+    height: 580px;
     
     background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
     transition: left 0.3s; /* Smooth sliding effect */
     z-index: 1000; /* Make sure it's above other content */
+    top: 120px
   }
   
   .sidebar-container.open {
@@ -16,7 +17,7 @@
   .toggle-button {
     position: absolute;
     right: -50px; /* Adjust as needed to place it just outside the sidebar */
-    top: 50%;
+    top: 40%;
     transform: translateY(-50%);
     background-color: #4CAF50; /* Color for the button */
     border: none;
@@ -32,7 +33,7 @@
   .sidebar-content {
     padding: 10px;
     overflow-y: auto; /* Enable scrolling if content is too long */
-    height: calc(100% - 60px); /* Adjust height to leave space for footer */
+    /* height: calc(100% - 60px); Adjust height to leave space for footer */
   }
   
   .sidebar-footer {
@@ -52,6 +53,7 @@
   
   .sidebar-footer button {
     padding: 10px;
+    cursor: pointer;
   }
 
   .message{
@@ -63,7 +65,10 @@
     display: flex;
     border-radius: 10px;
     box-shadow: 3px 3px 0 0 rgb(43, 43, 43);
-
+    max-height: 200px; 
+    overflow-y: auto; 
+    word-wrap: break-word;
+    justify-Content: flex-start
   }
 
   .username{
@@ -79,4 +84,10 @@
     color: black;
   }
   
- 
+  @media screen and (max-width: 600px){
+    .sidebar-container{
+      left: -300px; /* Initial position should be off-screen */
+      width: 300px;
+      height: 500px;
+    }
+  }

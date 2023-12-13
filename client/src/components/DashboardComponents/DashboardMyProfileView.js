@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import AuthStoreContextProvider from '../../auth_store';
 import "../../styles/DashboardMyProfileView.css";
 
-export default function DashboardMyProfileView(){
+export default function DashboardMyProfileView(props){
     const { auth_store } = useContext(AuthStoreContextProvider);
 
     //function to handle the change Information process 
@@ -66,6 +66,7 @@ export default function DashboardMyProfileView(){
             password: changePassword,
         }
         updateUser(state)
+        alert("Information Changed successfully!");
       }else{
         setErrorMessage("Please enter the same password twice.")
       }
@@ -73,7 +74,7 @@ export default function DashboardMyProfileView(){
 
     return (
       <div className="myprofile_all">
-        <div className="myprofile_H">My Profile</div>
+        <div className={props.isDarkMode ? 'myprofile_H-dark' : 'myprofile_H'}>My Profile</div>
         <div style={{ color: "grey", paddingTop: "20px", paddingLeft: "10px" }}>
           User email cannot be changed
         </div>

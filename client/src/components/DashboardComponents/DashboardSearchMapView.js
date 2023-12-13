@@ -6,7 +6,7 @@ import arrow from "../../assets_img/dashboard_arrow.svg";
 import map from "../../assets_img/dashboard_map.svg";
 import glass from "../../assets_img/dashboard_glass.svg";
 
-export default function DashboardSearchMapView(){
+export default function DashboardSearchMapView(props){
     const { auth_store } = useContext(AuthStoreContextProvider);
 
     const [searchKeyword, setSearchKeyword] = useState('');
@@ -49,9 +49,9 @@ export default function DashboardSearchMapView(){
         const maps = []
         for(let i=0; i<mapsId.length; i++){
             maps.push(
-                <div key={mapsId[i]._id} className="box">
+                <div key={mapsId[i]._id} className={props.isDarkMode ? 'box-dark' : 'box'}>
                     <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
-                        <div className='map-name' data-cy='list-item'>{mapsId[i].title}</div>
+                        <div cclassName={props.isDarkMode ? 'map-name-dark' : 'map-name'}>{mapsId[i].title}</div>
                     </div>
                     <Link to="/MapView/" onClick={() => handleMapSelect(mapsId[i]._id)}>
                         <img className="map" src={map} alt="My SVG" />
@@ -66,9 +66,9 @@ export default function DashboardSearchMapView(){
             const maps = []
             for(let i=0; i<auth_store.searchMaps.length; i++){
                 maps.push(
-                    <div key={auth_store.searchMaps[i]._id} className="box">
+                    <div key={auth_store.searchMaps[i]._id} className={props.isDarkMode ? 'box-dark' : 'box'}>
                         <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
-                            <div className='map-name'>{auth_store.searchMaps[i].title}</div>
+                            <div className={props.isDarkMode ? 'map-name-dark' : 'map-name'}>{auth_store.searchMaps[i].title}</div>
                         </div>
                         <Link to="/MapView/" onClick={() => handleMapSelect(auth_store.searchMaps[i]._id)}>
                             <img className="map" src={map} alt="My SVG" />
@@ -80,13 +80,15 @@ export default function DashboardSearchMapView(){
         }
     }, [auth_store.searchMaps])
 
+   
+    
     useEffect(() => {
         auth_store.onSearch('')
     }, [])
 
     return(
-        <div>
-        <div className='dashboard-header'>
+        <div style={{height: 'auto',  overflow: 'auto'}}>
+        <div className={props.isDarkMode ? 'dashboard-header-dark' : 'dashboard-header'}>
             Search Map
         </div>
         <div className='search-box'>

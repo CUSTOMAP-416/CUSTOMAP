@@ -1,7 +1,7 @@
 import axios from 'axios'
 axios.defaults.withCredentials = true;
 const api = axios.create({
-    baseURL: 'https://customap416-e4fee90f355c.herokuapp.com/auth_store',
+    baseURL: 'http://localhost:8080/auth_store',
 })
 
 const getUser = () => api.get('/loggedIn/');
@@ -43,7 +43,7 @@ const getMap = (mapId) => {
     })
 };
 //function to handle the create a new map process const onCreateMap = async (map) => { ?
-const createMap = (mapData, mapTitle, mapDescription, user) => {
+const createMap = (mapData, mapTitle, mapDescription, mapType, user) => {
     // Serialize the data
     const serializedData = JSON.stringify(mapData);
     return api.post('/createMap/', {
@@ -51,6 +51,7 @@ const createMap = (mapData, mapTitle, mapDescription, user) => {
         mapTitle : mapTitle,
         mapDescription: mapDescription,
         mapData : serializedData,
+        mapType: mapType,
     })
 };
 const updateMap = (id_, name, phone, id, email, password) => {
@@ -81,6 +82,10 @@ const loggedIn = (email, password) => {
         email : email,
         password : password
     })
+};
+
+const session = () => {
+    return api.get('/session/')
 };
 
 // Logs out the user
@@ -160,6 +165,32 @@ const onSearch = (searchTerm) => {
     });
 }
 
+const onFont = (mapId, font) => {
+    return api.post("/onFont/", {
+        mapId: mapId, 
+        font: font
+    });
+}
+const onBackgroundColor = (mapId, backgroundColor) => {
+    return api.post("/onBackgroundColor/", {
+        mapId: mapId,
+        backgroundColor: backgroundColor
+    });
+}
+const onCustom = (array, deleteCustoms, mapId) => {
+    return api.post("/onCustom/", {
+        array: array, 
+        deleteCustoms,
+        mapId: mapId
+    });
+}
+const onThematicLegends = (mapId, thematicLegends) => {
+    return api.post("/onThematicLegends/", {
+        mapId: mapId, 
+        thematicLegends: thematicLegends
+    });
+}
+
 //function to handle getting the list of user's created maps. 
 const getUserMaps = (user) => {}
 
@@ -176,6 +207,7 @@ const apis = {
     deleteMap,
     shareMap,
     loggedIn,
+    session,
     onLogout,
     onVerification,
     onEditMap,
@@ -189,6 +221,10 @@ const apis = {
     getUserMaps,
     changeVisibility,
     deleteLegend,
+    onFont,
+    onBackgroundColor,
+    onCustom,
+    onThematicLegends,
 }
 
 export default apis

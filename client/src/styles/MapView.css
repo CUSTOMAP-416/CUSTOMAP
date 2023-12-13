@@ -17,6 +17,12 @@
     display: flex;
     min-height: 100vh;
   }
+
+  .MapView-page-container-dark {
+    display: flex;
+    min-height: 100vh;
+    background-color: rgb(62, 62, 62);;
+  }
  
   .content {
     flex: 1; /* Take up the remaining width */
@@ -24,6 +30,15 @@
     background-color: white;
     width: 100%;
   }
+
+  .content-dark {
+    flex: 1; /* Take up the remaining width */
+    padding: 20px;
+    background-color: rgb(88, 87, 87);
+    width: 100%;
+  }
+
+
   
   /* Sidebar link styles */
   .sidebar a {
@@ -52,6 +67,8 @@
   .custom-textinput:hover {
     border-color: #888;
 }
+
+
 /*  save button ------------------------------------ */
   #text-save-button{
     width:200px;
@@ -109,7 +126,21 @@
     margin-bottom:20px;
     padding-left: 10px;
   }
-
+  .icon-link2{
+    width: 35px;
+    height: 35px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+  }
+  .icon-link2:hover{
+    background-color: rgb(50, 114, 52);
+  }
   .legends-Adder{
     display: flex;
     justify-content: space-between;
@@ -155,10 +186,76 @@
     border:2px;
     border-color: black;
   }
+  .custom-inputL{
+  background-color: rgb(218, 237, 213);
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 15px;
+  margin: 10px;
+  height: 30px;
+}
+.custom-input{
+  background-color: rgb(218, 237, 213);
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 15px;
+  margin: 10px;
+  height: 30px;
+  width: 100px;
+}
+  .custom-backg{
+    border: 2px solid #a2cca4;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 5px;
+  }
+  .custom-backg2{
+    border: none;
+    font-family: DM Sans;
+    background-color:  rgb(207, 229, 208);
+    border-radius: 10px;
+    padding: 10px 30px 10px;
+    margin: 5px;
+  }
+  .custom-texts{
+    font-family: DM Sans;
+    font-size: 15px;
+  }
+  .colorPicker-box{
+    margin: 10px;
+  }
+  .custom-button{
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+  }
+  .custom-button:hover{
+    background-color: rgb(50, 114, 52);
+  }
+  .custom-explain{
+    margin: 7px;
+    font-family: DM Sans;
+    color:#555;
+    font-weight: 100;
+    font-size: 17px;
+  }
+  .custom-back-title{
+    font-weight: 600;
+    font-size: 18px;
+    color:#434343;
+  }
+  .custom-back-line{
+    color: #386f3b;
+    font-weight: 600;
+    font-size: 20px;
 
-
-  
-  /* Responsive layout - makes the sidebar and the content stack on top of each other instead of next to each other, on smaller screens */
+  }
   @media (max-width: 600px) {
     
     .container {
@@ -211,9 +308,16 @@
     width: 100%;
   }
   .customize-all{
-    padding: 20px 20px 0px;
+    padding: 20px 20px 10px;
     background-color: white;
     border: solid 3px #a2cca4;
+    margin-bottom:15px;
+    border-radius: 16px;
+  }
+  .customize-all-dark{
+    padding: 20px 20px 10px;
+    background-color: rgb(87, 87, 87);
+    border: solid 3px #c6c6c6;
     margin-bottom:15px;
     border-radius: 16px;
   }
@@ -266,6 +370,11 @@ hr.hr-1 {
   display: flex;
   align-items: center;
 }
+.mapview-title-dark{
+  color:white;
+  display: flex;
+  align-items: center;
+}
 .mapview-disc{
   display: flex;
 }
@@ -274,6 +383,13 @@ hr.hr-1 {
   font-size: 25px;
   color: #155A03;
 }
+
+.mapview-header-dark{
+  font-family: Changa One;
+  font-size: 25px;
+  color: #ffffff;
+}
+
 /* Sort dropdown button ------------------*/
   #text-select{
     width:100px;
@@ -348,10 +464,16 @@ hr.hr-1 {
     border-radius: 10px;
   }
 
+  .rightside-for-legend-dark{
+    padding: 20px;
+    background-color: #8c9079;
+    width: 15%;
+    border-radius: 10px;
+  }
+
   .text-color{
     display: flex;
   }
-
   @media (max-width: 600px) {
     .rightside-for-legend{
       width: 80%;
@@ -432,6 +554,189 @@ hr.hr-1 {
     }
   }
 
+/********************* right-side legend*******************/
 
- 
+
+.data-container{
+  border-radius:10px;
+  background-color: rgb(150, 215, 150);/* rgb(99, 142, 102) */
+  padding:10px;
+  cursor: pointer;
+  margin-bottom:5px;
+}
+
+.view{
+  color:#f0efef;/*#e9ede7*/
+  font-weight:700;
+  border-radius:10px;
+  border-color:transparent;
+  background-color: rgb(31, 145, 42);/* rgb(64, 75, 65) */
+  padding:10px;
+}
+
+.mv-delete:hover{
   
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3); 
+}
+
+.mv-delete{
+  background-color: #4CAF50; /* Green */
+  border: none;
+  width:100px;
+  color: white;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  margin-bottom:8px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.thematic-container{
+  font-weight:500;
+  color:white;
+  background-color: rgb(32, 161, 45);
+  border-radius: 4px;
+  width:500px;
+  margin:4px;
+  padding:5px;
+}
+.thematic-menu{
+  background-color: rgb(199, 232, 199);
+  border-radius: 4px;
+  width:520px;
+  margin:4px;
+  padding:5px;
+
+}
+
+
+.update{
+  border-style:solid;
+  border-width: 2px;
+  border-color:white;
+  background-color: #4CAF50; /* Green */
+  width:130px;
+  color: white;
+  padding: 5px 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  margin-top:5px;
+  margin-bottom:5px;
+  margin-left:5px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.update:hover{
+  background-color:rgb(145, 214, 141);
+  box-shadow: 2px 2px 2px white; 
+}
+
+.display{
+  margin-left:2px;
+  border-radius:10px;
+  background-color:rgb(178, 222, 175);
+}
+  
+
+
+.thematic-sidebar-container {
+  position: fixed;
+  left: -533px; /* Initial position should be off-screen */
+  width: 533px; /* Adjust width as needed */
+  height: 400px;
+  
+  background-color: transparent; /* Semi-transparent background */
+  transition: left 0.3s; /* Smooth sliding effect */
+  z-index: 1000; /* Make sure it's above other content */
+}
+
+.thematic-sidebar-container.open {
+  left: 0; /* When sidebar is open, it should align with the left edge */
+}
+
+.thematic-toggle-button {
+  writing-mode: vertical-rl; /* 垂直方向从上到下 */
+  text-orientation: upright;
+  position: absolute;
+  right: -20px; /* Adjust as needed to place it just outside the sidebar */
+  top: 70%;
+  transform: translateY(-50%);
+  background-color: #727572; /* Color for the button */
+  border: none;
+  color: white;
+  padding:5px;
+  
+  cursor: pointer;
+}
+
+.mapview-dark{
+  font-family: Changa One;
+  font-size: 25px;
+  color: #155A03;
+  margin-right:5px;
+}
+
+.darkmodebutton{
+  margin-top: 0px;
+  font-family: DM Sans;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  color: #000;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #4CAF50;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #4CAF50;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}

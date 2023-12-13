@@ -37,8 +37,8 @@ export default function MapViewDiscussionForum(){
                 discussionShow.push(
                     <div key={'discussions'+i} className="message-container">
                         <div style={{display: "flex", flexDirection: "column",justifyContent: "flex-start", paddingBottom:"10px"}}>
-                            <div className='username'style={{ flex: "1", minWidth: "100%", wordBreak: "break-all" }}>{auth_store.selectMap.discussions[i].username}</div>
-                            <button className="message" style={{ flex: "1", minWidth: "100%", wordBreak: "break-all" }}>{auth_store.selectMap.discussions[i].content}</button>
+                            <div className='username'>{auth_store.selectMap.discussions[i].username}</div>
+                            <button className="message" >{auth_store.selectMap.discussions[i].content}</button>
                         </div>
                     </div>
                 )

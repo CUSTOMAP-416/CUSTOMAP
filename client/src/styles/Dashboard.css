@@ -4,35 +4,56 @@
     font-family: Arial, sans-serif;
     color: #333;
     display: flex;
-
     /* width:200; */
 }
 
 .sidebar {
     background-color: #E8E8E8;/* #E8E8E8*/
-    height: 100%;
+    height: auto;
     padding: 20px;
     flex:  0 20%;
     text-align: center;
-    height: 100vh;
 }
+
+.sidebar-dark {
+  width:100%;
+  background-color: #504f4f;
+}
+
+
 .sidebar-buttons{
     padding-top: 30px;
 }
 
-.sidebar button {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 5px;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    color: #000;
 
-    font-family: DM Sans;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 700;
+.sidebar-buttons {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 5px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #000;
+
+  font-family: DM Sans;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.sidebar-buttons-dark {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 5px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #f9f6f6;
+
+  font-family: DM Sans;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
 }
 
 .sidebar button:hover {
@@ -44,11 +65,6 @@
 .sidebar-bright {
   width:100%;
   background-color: #E8E8E8;
-}
-
-.sidebar-dark {
-  width:100%;
-  background-color: #908e8e;
 }
 
 
@@ -64,7 +80,7 @@
 
 .selectedDashbord-dark {
   width:100%;
-  background-color: rgb(186, 182, 143);
+  background-color: rgb(143, 143, 141);
 }
 
 .profile{
@@ -77,6 +93,16 @@
     font-weight: 700;
 }
 
+.profile-dark{
+  border-bottom: solid #1F8505;
+  padding: 20px;
+  color: #faf9f9;
+  font-family: DM Sans;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 700;
+}
+
 /* Style for the dashboard header */
 .dashboard-header {
     color: #155A03;
@@ -86,6 +112,15 @@
     font-size: 50px;
     font-style: normal;
     font-weight: 150px;
+}
+.dashboard-header-dark {
+  color: #e6e7e6;
+  padding: 50px;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-family: Changa One;
+  font-size: 50px;
+  font-style: normal;
+  font-weight: 150px;
 }
 
 /* Description and sorting area */
@@ -158,6 +193,14 @@
     box-shadow: 2px 2px 0 0 gray;
     background-color: #f8f9f7;
 }
+
+.box-dark{
+  border: solid #c7c7c7;
+  padding: 20px 30px;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 0 gray;  
+  background-color: #4e544e;
+}
 .box:hover{
   border: solid #1F8505;
   padding: 20px 30px;
@@ -171,6 +214,15 @@
     font-family: DM Sans;
     font-weight: bold;
     padding-right: 10px;
+}
+
+.map-name-dark{
+  color:white;
+  text-align: center;
+  font-size: 23px;
+  font-family: DM Sans;
+  font-weight: bold;
+  padding-right: 10px;
 }
 
 .delete{
@@ -241,6 +293,8 @@
     display:flex;
     width: 80%;
   }
+
+  
 }
 /* ----------------------------------------------------*/
 .modal {
@@ -305,7 +359,18 @@
     color: #006400;
     font-size: 1.2em;
   }
-  
+
+  .create_detail{
+    font-family: DM Sans;
+    color: gray;
+    margin-left: 13px;
+    margin-bottom: 15px;
+  }
+
+  .create_detail-dark{
+    color: rgb(255, 255, 255);
+  }
+
   .button-section {
     text-align: right;
   }
@@ -361,6 +426,15 @@
     padding: 10px;
     border-radius: 5px;
   }
+
+  .property-bar-dark {
+    color:white;
+    display: flex;
+    align-items: center;
+    background-color: #494949;
+    padding: 10px;
+    border-radius: 5px;
+  }
   
   .create-map-bottom-bar label {
     padding: 5px 10px;
@@ -385,6 +459,16 @@
   }
 
   .create-map-bottom-bar input{
+    padding: 5px;
+    margin-right: 5px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    width: 60%;
+    height: 20px;
+    font-size: 16px;
+  }
+
+  .create-map-bottom-bar-dark input{
     padding: 5px;
     margin-right: 5px;
     border: 2px solid #ddd;
@@ -442,9 +526,28 @@
     justify-content: space-around;
     align-items: center;
   }
+
+  .create-map-bottom-bar-dark {
+    color:white;
+    position: flex;
+    bottom: 0;
+    width: 300;
+    background-color: #494949;
+    padding: 10px;
+    box-shadow: 0px -2px 5px rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
   .create-map-bottom-bar input:hover{
     border: 2px solid #888;
   }
+
+  .create-map-bottom-bar-dark input:hover{
+    border: 2px solid #888;
+  }
+
   #create-button {
     background-color: #4CAF50; /* Green */
     border: none;
@@ -506,7 +609,12 @@
     border: 2px solid #888;
   }
 
-  
+  .maptype{
+    font-family: DM Sans;
+    font-weight: 100;
+    color: rgb(168, 168, 168);
+    font-size: 25px;
+  }
   .fork-content {
     position: absolute;
     margin-top: 8px;
@@ -648,7 +756,6 @@
   }
 
   .darkmodebutton{
-    margin-top: 40px;
     font-family: DM Sans;
     font-size: 20px;
     font-style: normal;
@@ -660,7 +767,7 @@
   position: relative;
   display: inline-block;
   width: 60px;
-  height: 34px;
+  height: 28px;
 }
 
 
@@ -706,3 +813,24 @@ input:focus + .slider {
 input:checked + .slider:before {
   transform: translateX(26px);
 }
+
+/* Empty map view page */
+
+.emptyMap{
+  margin: auto;
+  align-items: center;
+  text-align: center;
+
+}
+.mapImage {
+  width: 25%; 
+  height: auto; 
+}
+.emptyText{
+  font-family: 'Franklin Gothic Medium';
+  font-weight: bold;
+  font-size: 25px;
+  padding: 10px;
+  color: gray;
+}
+

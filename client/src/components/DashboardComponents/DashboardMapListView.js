@@ -3,10 +3,10 @@ import { useContext, useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import AuthStoreContextProvider from '../../auth_store';
 
-import arrow from "../../assets_img/dashboard_arrow.svg";
+import mapImage from "../../assets_img/mapImage.png";
 import map from "../../assets_img/dashboard_map.svg";
 
-export default function DashboardMapListView({ handleEditView }){
+export default function DashboardMapListView( props ){
     const { auth_store } = useContext(AuthStoreContextProvider);
 
     //List of user maps. 
@@ -28,6 +28,8 @@ export default function DashboardMapListView({ handleEditView }){
     const handleMapSelect = (event) => {
         console.log(event)
         auth_store.getMap(event)
+        auth_store.isCreatePage = true;
+        
     }
     //Handle changes in map sorting.
     const handleSortingChange = (event) => {
@@ -45,9 +47,9 @@ export default function DashboardMapListView({ handleEditView }){
         const maps = []
         for(let i=0; i<mapsId.length; i++){
             maps.push(
-                <div key={mapsId[i]._id} className="box">
+                <div key={mapsId[i]._id} className={props.isDarkMode ? 'box-dark' : 'box'}>
                     <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
-                        <div className='map-name'>{mapsId[i].title}</div>
+                        <div className={props.isDarkMode ? 'map-name-dark' : 'map-name'}>{mapsId[i].title}</div>
                         <button className="delete" onClick={() => handleEdit(mapsId[i]._id)}>Edit</button>
                         <button className="delete" onClick={() => handleDeleteMap(mapsId[i]._id)}>X</button>
                     </div>
@@ -69,31 +71,47 @@ export default function DashboardMapListView({ handleEditView }){
         //function to handle open edit map Screen. 
         handleMapSelect(id)
         auth_store.openEdit(false)
-        handleEditView()
+        props.handleEditView()
+        props.handleEditView(id, props.isDarkMode);
     }
     
     useEffect(() => {
-        const maps = []
-        for(let i=0; i<auth_store.user.maps.length; i++){
+        const maps = [];
+        if(auth_store.user.maps.length > 0){
+                    for(let i=0; i<auth_store.user.maps.length; i++){
             maps.push(
-                <div key={auth_store.user.maps[i]._id} className="box">
+                <div key={auth_store.user.maps[i]._id} className={props.isDarkMode ? 'box-dark' : 'box'}>
                     <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
-                        <div className='map-name'>{auth_store.user.maps[i].title}</div>
-                        <button className="delete" onClick={() => handleEdit(auth_store.user.maps[i]._id)}>Edit</button>
+                        <div className={props.isDarkMode ? 'map-name-dark' : 'map-name'}>{auth_store.user.maps[i].title}</div>
+                        <button className="delete" onClick={() => handleEdit(auth_store.user.maps[i]._id, props.isDarkMode)}>Edit</button>
                         <button className="delete" onClick={() => handleDeleteMap(auth_store.user.maps[i]._id)}>X</button>
                     </div>
-                    <Link to="/MapView/" onClick={() => handleMapSelect(auth_store.user.maps[i]._id)}>
+                    <Link to="/MapView/" onClick={() => handleMapSelect(auth_store.user.maps[i]._id )}>
                         <img className="map" src={map} alt="My SVG" />
                     </Link>
                 </div>
             )
         }
         setUserMaps(maps)
-    }, []);
-
+        }
+        else{
+            setUserMaps(emptyMap);
+        }
+    },[]);
+    
+    
+    const emptyMap = (
+        <div className="emptyMap">
+          <img className="mapImage" src={mapImage} alt="mapImage" />
+          <div className="emptyText">
+            <div>Click the "Create Map" button</div>
+            <div>to create your own new map!</div>
+          </div>
+        </div>
+    );
     return (
-      <div>
-        <div className="dashboard-header">Dashboard</div>
+      <div style={{height: 'auto',  overflow: 'auto'}}>
+        <div className={props.isDarkMode ? 'dashboard-header-dark' : 'dashboard-header'}>Dashboard</div>
         <div className="description-and-sorting">
           <div className="description">Maps you have participated in</div>
           <div className="sort-buttons">

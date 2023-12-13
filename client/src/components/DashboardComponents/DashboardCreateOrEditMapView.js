@@ -9,14 +9,14 @@ import * as shapefile from "shapefile";
 import JSZip from 'jszip';
 import { timeout } from "async";
 
-export default function DashboardCreateOrEditMapView() {
+export default function DashboardCreateOrEditMapView(props) {
   const { auth_store } = useContext(AuthStoreContextProvider);
 
   const [errorMessage, setErrorMessage] = useState('');
 
   //function to handle the create a new map process
   const onCreateMap = () => {
-    auth_store.createMap(mapData, mapTitle, mapDescription);
+    auth_store.createMap(mapData, mapTitle, mapDescription, selectedMapType);
     alert("Created successfully!")
     setMapData(null)
     setMapTitle('')
@@ -169,16 +169,35 @@ export default function DashboardCreateOrEditMapView() {
   };
   const [visibility, setVisibility] = useState('');
 
+  //map type
+  const [selectedMapType, setSelectedMapType] = useState('default');
+
+  const handleMapTypeChange = (event) => {
+    setSelectedMapType(event.target.value);
+  };
+  const [layerItems, setLayerItems] = useState([]);
+  const [selectedColor, setSelectedColor] = useState("#ffffff"); 
+  const [changedFont, setChangedFont] = useState('');
+
   useEffect(() => {
     if(!auth_store.isCreatePage && auth_store.selectMap != null){
       setTimeout(function() {
         setMapData(auth_store.selectMap.mapData)
         setTexts(auth_store.selectMap.texts)
         setColors(auth_store.selectMap.colors)
-        setLegends(auth_store.selectMap.legends)
+        if(auth_store.selectMap.mapType == 'thematic'){
+          setLegends(auth_store.selectMap.thematicLegends)
+        }
+        else{
+          setLegends(auth_store.selectMap.legends)
+        }
         setMapTitle(auth_store.selectMap.title)
         setMapDescription(auth_store.selectMap.description)
         setVisibility(auth_store.selectMap.visibility)
+        setSelectedMapType(auth_store.selectMap.mapType)
+        setLayerItems(auth_store.selectMap.customs)
+        setChangedFont(auth_store.selectMap.font)
+        setSelectedColor(auth_store.selectMap.backgroundColor)
       }, 100);
     }
   }, [auth_store.selectMap]);
@@ -202,70 +221,79 @@ export default function DashboardCreateOrEditMapView() {
       <div>
         <div className="creat-banner" style={{ paddingBottom: "0px" }}>
           <div className="title-section">
-            {/* {isForkOpen && (
-              <div className="fork-content">
-                <a className="fork" onClick={() => handleForkContent("North America")}>North America</a>
-                <a className="fork" onClick={() => handleForkContent("South America")}>South America</a>
-                <a className="fork" onClick={() => handleForkContent("Oceania")}>Oceania</a>
-                <a className="fork" onClick={() => handleForkContent("Europe")}>Europe</a>
-                <a className="fork" onClick={() => handleForkContent("Africa")}>Africa</a>
-                <a className="fork" onClick={() => handleForkContent("Asia")}>Asia</a>
-                <a className="fork" onClick={() => handleForkContent("World")}>World</a>
+            <div className={props.isDarkMode ? 'dashboard-header-dark' : 'dashboard-header'} style={{ padding: "40px 30px" }}>
+              {auth_store.isCreatePage ? "Create Map" : "Edit Map"}
+            </div>
+            {auth_store.isCreatePage ? (
+              ""
+            ) : (
+              <div style={{ paddingBottom: "10px" }}>
+                <button
+                  className="button upload"
+                  type="button"
+                  onClick={() =>
+                    document.getElementById("link-to-map-view").click()
+                  }
+                >
+                  Map Customize Tool
+                </button>
+                <Link
+                  id="link-to-map-view"
+                  to="/MapView/"
+                  onClick={() => handleCustomizeTool()}
+                >
+                  Map Customize Tool
+                </Link>
+                <button
+                  className="button upload"
+                  id="export-map"
+                  onClick={() => showExportPage()}
+                >
+                  Export Map
+                </button>
+                <div id="export-modal">
+                  <button className="button upload" id="pdf-option" value="pdf">
+                    .PDF
+                  </button>
+                  <button className="button upload" id="png-option" value="png">
+                    .PNG
+                  </button>
+                  <button
+                    className="button upload"
+                    id="json-option"
+                    value="json"
+                  >
+                    .JSON
+                  </button>
+                  <button id="close" onClick={() => hideExportPage()}>
+                    x
+                  </button>
+                </div>
               </div>
-            )} */}
-            <div className="dashboard-header" style={{padding: "40px 30px"}}>{auth_store.isCreatePage ? 'Create Map' : 'Edit Map'}</div>
-            {auth_store.isCreatePage ?'':
-              <div style={{paddingBottom: "10px"}}>
-                
-              <button
-                className="button upload"
-                type="button"
-                onClick={() =>
-                  document.getElementById("link-to-map-view").click()
-                }
-              >
-                Map Customize Tool
-              </button>
-              <Link
-                id="link-to-map-view"
-                to="/MapView/"
-                onClick={() => handleCustomizeTool()}>
-                Map Customize Tool
-              </Link>
-                
-                <button className="button upload" id="export-map" onClick={() => showExportPage()}>Export Map</button>
-                
-          
-                
-              <div id="export-modal">
-                <button className='button upload' id="pdf-option" value="pdf">.PDF</button>
-                <button className='button upload' id="png-option" value="png">.PNG</button>
-                <button className='button upload' id="json-option" value="json">.JSON</button>
-                <button id="close" onClick={() => hideExportPage()}>x</button>
-              </div>
-
-              
-              </div>
-
-              
-            }
+            )}
           </div>
           <div className="button-section">
             {auth_store.isCreatePage ? (
               <div>
+                <select
+                  className="button fork fork-select"
+                  onChange={handleMapTypeChange}
+                >
+                  <option value="default">Select Map Type</option>
+                  <option value="default">Default Map</option>
+                  <option value="heat">Heat Map</option>
+                  <option value="point">Point Map</option>
+                  <option value="bubble">Bubble Map</option>
+                  <option value="thematic">Thematic Map</option>
+                  <option value="choropleth">Choropleth Map</option>
+                </select>
+                <span className="maptype">||</span>
                 <input
                   type="file"
                   id="creatmap-fileInput"
                   accept=".zip,.kml,.geojson"
                   onChange={handleUploadFile}
                 />
-                {/* <button
-                  className="button fork"
-                  type="button"
-                  onClick={() => handleForkMap()}
-                >
-                  Fork Map
-                </button> */}
 
                 <select
                   className="button fork fork-select"
@@ -280,6 +308,7 @@ export default function DashboardCreateOrEditMapView() {
                   <option value="Asia">Asia</option>
                   <option value="World">World</option>
                 </select>
+                <span style={{color: "rgb(168, 168, 168)"}}>or</span>
                 <button
                   className="button upload"
                   type="button"
@@ -316,7 +345,9 @@ export default function DashboardCreateOrEditMapView() {
                       onChange={handleShareEmailChange}
                       placeholder="Enter recipient's email"
                     />
-                    <button className="shareB" onClick={() => shareMap()}>Share</button>
+                    <button className="shareB" onClick={() => shareMap()}>
+                      Share
+                    </button>
                   </div>
                 )}
                 <button
@@ -331,7 +362,15 @@ export default function DashboardCreateOrEditMapView() {
           </div>
         </div>
         <div className="create-content">
-          <div className="property-bar">
+          {auth_store.isCreatePage ? (
+            <div className={props.isDarkMode ? 'create_detail-dark' : 'create_detail'}>
+              ⛧ Choose the Map Type, Use provided map with Fork Map Or upload
+              your file!
+            </div>
+          ) : (
+            ""
+          )}
+          <div className={props.isDarkMode ? 'property-bar-dark' : 'property-bar'}>
             <label
               className="MD"
               style={{ padding: "0px 10px", fontWeight: "bolder" }}
@@ -349,18 +388,25 @@ export default function DashboardCreateOrEditMapView() {
           </div>
         </div>
         <MapComponent
+          mapType={selectedMapType}
           mapData={mapData}
           texts={texts}
           colors={colors}
-          legends={legends}
+          legendItems={legends}
+          layerItems={layerItems}
+          changedFont={changedFont}
+          selectedColor={selectedColor}
         />
         {errorMessage && (
           <p className="error-message" style={{ color: "red" }}>
             {errorMessage}
           </p>
         )}
-        <div className="create-map-bottom-bar">
-          <div className="MD-container" style={{ width: "70%", paddingLeft: "20px" }}>
+        <div className={props.isDarkMode ? 'create-map-bottom-bar-dark' : 'create-map-bottom-bar'}>
+          <div
+            className="MD-container"
+            style={{ width: "70%", paddingLeft: "20px" }}
+          >
             <label className="MD">Map Description:</label>
             <input
               type="text"
