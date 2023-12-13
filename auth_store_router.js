@@ -6,6 +6,7 @@ authStoreRouter.get("/users", AuthStoreController.getAllusers);
 authStoreRouter.get("/maps", AuthStoreController.getAllmaps);
 authStoreRouter.post('/register', AuthStoreController.registerUser)
 authStoreRouter.post('/login', AuthStoreController.loginUser)
+authStoreRouter.get('/session', AuthStoreController.session)
 authStoreRouter.get('/logout', AuthStoreController.logoutUser)
 authStoreRouter.get('/loggedIn', AuthStoreController.getLoggedIn)
 authStoreRouter.post("/forgetPassword", AuthStoreController.forgetPassword)
@@ -22,7 +23,11 @@ authStoreRouter.post("/searchMap", AuthStoreController.searchMap)
 authStoreRouter.post("/onText", AuthStoreController.onText)
 authStoreRouter.post("/onColor", AuthStoreController.onColor)
 authStoreRouter.post("/onLegend", AuthStoreController.onLegend)
-authStoreRouter.post("/deleteLegend",AuthStoreController.deleteLegend)
+authStoreRouter.post("/deleteLegend", AuthStoreController.deleteLegend)
 authStoreRouter.post("/discussion", AuthStoreController.onDiscussion)
+authStoreRouter.post("/onFont", AuthStoreController.onFont)
+authStoreRouter.post("/onBackgroundColor", AuthStoreController.onBackgroundColor)
+authStoreRouter.post("/onCustom", AuthStoreController.onCustom)
+authStoreRouter.post("/onThematicLegends", AuthStoreController.onThematicLegends)
 
 module.exports = authStoreRouter

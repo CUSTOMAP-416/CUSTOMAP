@@ -14,6 +14,13 @@ app.use(cors({
     credentials: true
 }))
 app.use(cookieParser())
+const session = require("express-session");
+app.use(session({
+    secret: "secret to sign session cookie",
+    cookie: {},
+    resave: false,
+    saveUninitialized: false,
+}))
 
 // SETUP OUR OWN ROUTERS AS MIDDLEWARE
 const authStoreRouter = require('./auth_store_router')
@@ -22,7 +29,7 @@ app.use('/auth_store', authStoreRouter)
 // INITIALIZE OUR DATABASE OBJECT
 const mongoose = require('mongoose')
 const mongoDB = "mongodb+srv://shihaowen:customap@cluster0.qw90kmw.mongodb.net/?retryWrites=true&w=majority";
-mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
