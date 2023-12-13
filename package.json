@@ -20,6 +20,7 @@
     "jszip": "^3.10.1",
     "leaflet": "^1.9.4",
     "leaflet-easyprint": "^2.1.9",
+    "leaflet.heat": "^0.2.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.18.0",
