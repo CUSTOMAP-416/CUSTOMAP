@@ -4,7 +4,12 @@ import { Link } from "react-router-dom";
 import AuthStoreContextProvider from '../../auth_store';
 
 import mapImage from "../../assets_img/mapImage.png";
-import map from "../../assets_img/dashboard_map.svg";
+import map from "../../assets_img/Default.png";
+import heat from "../../assets_img/Heat.png";
+import point from "../../assets_img/Point.png";
+import bubble from "../../assets_img/Bubble.png";
+import thematic from "../../assets_img/Thematic.png";
+import choropleth from "../../assets_img/Choropleth.png";
 
 export default function DashboardMapListView( props ){
     const { auth_store } = useContext(AuthStoreContextProvider);
@@ -54,7 +59,12 @@ export default function DashboardMapListView( props ){
                         <button className="delete" onClick={() => handleDeleteMap(mapsId[i]._id)}>X</button>
                     </div>
                     <Link to="/MapView/" onClick={() => handleMapSelect(mapsId[i]._id)}>
-                        <img className="map" src={map} alt="My SVG" />
+                    {mapsId[i].mapType === "heat" ? <img className="map" src={heat} alt="My SVG" /> : 
+                        mapsId[i].mapType === "point" ? <img className="map" src={point} alt="My SVG" /> :
+                        mapsId[i].mapType === "bubble" ? <img className="map" src={bubble} alt="My SVG" /> :
+                        mapsId[i].mapType === "thematic" ? <img className="map" src={thematic} alt="My SVG" /> :
+                        mapsId[i].mapType === "choropleth" ? <img className="map" src={choropleth} alt="My SVG" /> :
+                        <img className="map" src={map} alt="My SVG" />}
                     </Link>
                 </div>
             )
@@ -87,7 +97,12 @@ export default function DashboardMapListView( props ){
                         <button className="delete" onClick={() => handleDeleteMap(auth_store.user.maps[i]._id)}>X</button>
                     </div>
                     <Link to="/MapView/" onClick={() => handleMapSelect(auth_store.user.maps[i]._id )}>
-                        <img className="map" src={map} alt="My SVG" />
+                        {auth_store.user.maps[i].mapType === "heat" ? <img className="map" src={heat} alt="My SVG" /> : 
+                        auth_store.user.maps[i].mapType === "point" ? <img className="map" src={point} alt="My SVG" /> :
+                        auth_store.user.maps[i].mapType === "bubble" ? <img className="map" src={bubble} alt="My SVG" /> :
+                        auth_store.user.maps[i].mapType === "thematic" ? <img className="map" src={thematic} alt="My SVG" /> :
+                        auth_store.user.maps[i].mapType === "choropleth" ? <img className="map" src={choropleth} alt="My SVG" /> :
+                        <img className="map" src={map} alt="My SVG" />}
                     </Link>
                 </div>
             )
