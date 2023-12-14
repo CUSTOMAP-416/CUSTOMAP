@@ -63,8 +63,13 @@ export default function SignUp(){
         if(!auth_store.loggedIn){
           setErrMessage(auth_store.errorMessage)
         }
-      
     }
+
+    useEffect(()=>{
+      if(!auth_store.loggedIn){
+        setErrMessage(auth_store.errorMessage)
+      }
+    },[auth_store.loggedIn, auth_store.errorMessage])
 
     return (
       <div className="inup">
