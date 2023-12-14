@@ -111,6 +111,7 @@ export default function AdminDashboardMapList(props){
         let index = maps.findIndex(str => str._id == event);
         maps.splice(index, 1);
         setAllMaps(maps)
+        auth_store.maps = maps
         maps = showMaps
         index = maps.findIndex(str => str._id == event);
         maps.splice(index, 1);
