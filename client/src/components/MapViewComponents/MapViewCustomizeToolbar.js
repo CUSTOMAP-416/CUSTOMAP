@@ -132,7 +132,7 @@ export default function MapViewCustomizeToolbar({
             {mapType === 'heat' && <div className='custom-texts'>
                 <div className='custom-explain'>
                     Enter latitude and longitude directly, or click on the map to set them.
-                    Enter a number between 0 and 5000 and press ADD to display it on the map.
+                    Enter a number between 500 and 5000 and press ADD to display it on the map.
                 </div>
                 <span className='custom-backg'>
                     Map Background: 
@@ -173,7 +173,7 @@ export default function MapViewCustomizeToolbar({
             {mapType === 'bubble' && <div className='custom-texts'>
                 <div className='custom-explain'>
                     Enter latitude and longitude directly, or click on the map to set them.
-                    Set Color and Enter the radius. Press ADD to display it on the map.
+                    Set Color and Enter the radius(more than 10000). Press ADD to display it on the map.
                 </div>
                 <span className='custom-backg'>
                     Map Background: 
