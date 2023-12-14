@@ -62,6 +62,7 @@ export default function AdminDashboardUserList(){
       let index = users.findIndex(user => user.email == email);
       users.splice(index, 1);
       setAllUsers(users)
+      auth_store.users = users
     }
     
 
