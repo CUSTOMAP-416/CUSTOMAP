@@ -25,8 +25,10 @@ export default function AdminDashboardMapList(props){
 
     //function to handle get the array of map objects 
     useEffect(() => {
-        setAllMaps(auth_store.maps)
-        setShowMaps(auth_store.maps)
+        const all = [...auth_store.maps]
+        const show = [...auth_store.maps]
+        setAllMaps(all)
+        setShowMaps(show)
     }, [auth_store.maps]);
 
     useEffect(() => {
