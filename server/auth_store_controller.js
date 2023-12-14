@@ -237,7 +237,7 @@ registerUser = async (req, res) => {
         if(!(/^\d+$/.test(phone))){
             return res
                 .status(400)
-                .json({ errorMessage: "Contains non-numeric characters." });
+                .json({ errorMessage: "Phone number contains non-numeric characters." });
         }
         console.log("phone number has all number");
 
