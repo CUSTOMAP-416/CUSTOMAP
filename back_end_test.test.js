@@ -341,7 +341,7 @@ describe('GET /auth_store/getMap', () => {
     test('check getMap', async () => {
         await request(app)
             .post('/auth_store/getMap')
-            .send(mapId) 
+            .send({mapId: mapId}) 
             .expect(200);
     });
 })
