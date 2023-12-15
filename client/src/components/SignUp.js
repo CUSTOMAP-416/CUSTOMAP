@@ -143,7 +143,7 @@ export default function SignUp(){
             </div>
           </div>
         </div>
-        <div>
+        <div style={{display:"flex", flexDirection: "column", alignItems: "center"}}>
           {errMessage && (
             <p className="error-message" style={{ color: "red" }}>
               {errMessage}

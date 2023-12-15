@@ -7,6 +7,50 @@
     overflow-x: hidden;
 }
 
+#welcome{
+    margin: 25px 40px;
+    vertical-align: middle;
+    height: 93%;
+}
+
+.bear-title{
+    top: 45%;
+    left: 50%;
+    z-index: 1;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex;
+}
+
+.mainpage-bear-logo{
+    top: 20px;
+    padding-right: 20px;
+    height: 120px;
+    width: auto;
+    position: relative
+}
+
+.main-title-logo{
+    text-shadow: -5px -5px #104502, 5px -5px #104502, 5px 5px #104502, -5px 5px #104502;
+    text-align: center;
+    font-family: Changa One;
+    font-size: 120px;
+    color: white;
+    z-index: 1;
+}
+
+.main-subtitle-logo{
+    top: 57%;
+    left: 54%;
+    z-index: 1;
+    position: absolute;
+    color: #104502;
+    font-size: 30px;
+    font-family: DM Sans;
+    font-weight: bold;
+    transform: translate(-50%, -50%);
+}
+
 .main-header {
     color: #006400;
     font-weight: bolder;

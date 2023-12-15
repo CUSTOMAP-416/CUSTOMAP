@@ -1,31 +1,31 @@
 import { useContext } from 'react';
 import AuthStoreContextProvider from '../auth_store';
 import Dashboard from './Dashboard';
-import image from "./MainWelcome.png"
+
+import image from "../assets_img/WorldMap.png"
 import laptop from "../assets_img/main_laptop.svg";
 import create from "../assets_img/main-1.png";
 import edit from "../assets_img/main-2.png";
 import share from "../assets_img/main-3.png";
 import search from "../assets_img/main-4.png";
 import community from "../assets_img/main-5.png";
+import icon from "../assets_img/icon.svg";
 import "../styles/Main.css"
 
 export default function Main() {
     const { auth_store } = useContext(AuthStoreContextProvider);
     console.log("Main auth_store.loggedIn: " + auth_store.loggedIn);
-    const imageStyle = {
-        width: '100%',
-        height: '80%',
-        objectFit: 'cover', // Cover the container without stretching
-        // position: 'absolute',
-        // top: '56%',
-        // left: '50%',
-        // transform: 'translate(-50%, -50%)' // Center the image
-      };
-       
+    
     return(
       <div className='main-body'>
-        <img id="welcome"src={image} alt="welcom to the customap" style={imageStyle} ></img>
+        <div style={{position:"relative", height: "88vh", textAlign: "center"}}>
+            <img id="welcome"src={image} alt="welcom to the customap" ></img>
+            <div className='bear-title'>
+            <img className="mainpage-bear-logo" src={icon} alt="logo"></img>
+            <div className="main-title-logo" >CUSTOMAP</div>
+            </div>
+            <div className='main-subtitle-logo'>Explore and Customize Your Own Map!</div>
+        </div>
     <div style={{backgroundColor:"#e6ffe6", padding: "50px 0px"}}>   
         <div className="main-header" style={{border: "#012c01", borderWidth: "4px"}}>
             Welcome to CUSTOMAP, Explore and Customize Your own Map!
