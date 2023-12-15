@@ -37,6 +37,7 @@ jobs:
            npm i mongoose
            npm i bcryptjs
            npm i ts-node
+           npm i express-session
         
     - name: Test
       run: npm test
