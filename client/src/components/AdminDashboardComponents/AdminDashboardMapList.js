@@ -102,6 +102,7 @@ export default function AdminDashboardMapList(props){
     const handleMapSelect = (event) => {
         console.log(event)
         auth_store.getMap(event)
+        auth_store.isCreatePage = true;
     }
     //Handles map delete button click. 
     const handleDeleteMap = (event) => {
