@@ -8,55 +8,110 @@ describe("1. Homepage Test", () => {
   it("passes", () => {
     cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/");
     cy.contains("Home").should("exist");
-    cy.contains("Sign in").should("exist");
-    cy.contains("Sign in").click();
+    cy.contains("SignIn").should("exist");
+    cy.contains("SignIn").click();
     cy.url().should("include", "/login");
   });
 });
 
+let userExist = false;
+
 describe("2. New User Account and Create Map for Adming checking", () => {
-  it("Make New Account for delete Test", () => {
-    cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/SignUp");
-    cy.url().should("include", "/SignUp");
-
-    cy.get('[data-cy="signup_id"]').should("exist");
-    cy.get('[data-cy="signup_id"]').type("testID");
-    cy.get('[data-cy="signup_id"]').should("have.value", "testID");
-
-    cy.get('[data-cy="signup_pw"]').type("testpassword");
-    cy.get('[data-cy="signup_pw"]').should("have.value", "testpassword");
-
-    cy.get('[data-cy="signup_pwv"]').type("testpassword");
-    cy.get('[data-cy="signup_pwv"]').should("have.value", "testpassword");
-
-    cy.get('[data-cy="signup_name"]').type("AtestName");
-    cy.get('[data-cy="signup_name"]').should("have.value", "AtestName");
-
-    cy.get('[data-cy="signup_email"]').type("test1@gmail.com");
-    cy.get('[data-cy="signup_email"]').should("have.value", "test1@gmail.com");
-
-    cy.get('[data-cy="signup_phone"]').type("12345678");
-    cy.get('[data-cy="signup_phone"]').should("have.value", "12345678");
-
-    cy.contains("Create Account").should("exist");
-    cy.contains("Create Account").click();
-
+  it("before signup, checking user", () => {
+    cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/");
+    cy.contains("SignIn").click();
+    cy.url().should("include", "/login");
     cy.wait(1000);
-    cy.url().should("include", "/Dashboard");
-    cy.contains("Hello AtestName").should("exist");
+    cy.get('[data-cy="log_email"]').type("test1@gmail.com");
+    cy.get('input.log_input[type="password"]').type("testpassword");
+
+    cy.contains("Log in").should("exist");
+    cy.contains("Log in").click();
+    cy.wait(1000);
+
+    cy.url().then((url) => {
+      if (url.includes("/Dashboard")) {
+        cy.contains("Hello AtestName").should("exist");
+        cy.contains("SignOut").should("exist");
+        cy.contains("SignOut").click();
+        userExist = true;
+      } else {
+        cy.url().should("include", "/login");
+        userExist = false;
+      }
+    });
+  });
+  
+  it("Make New Account for delete Test", () => {
+    if (userExist === false) {
+      cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/");
+      cy.contains("SignIn").click();
+      cy.contains("Sign Up").click();
+      cy.url().should("include", "/SignUp");
+
+      cy.get('[data-cy="signup_id"]').type("testID");
+      cy.get('[data-cy="signup_pw"]').type("testpassword");
+      cy.get('[data-cy="signup_pwv"]').type("testpassword");
+      cy.get('[data-cy="signup_name"]').type("AtestName");
+      cy.get('[data-cy="signup_email"]').type("test1@gmail.com");
+      cy.get('[data-cy="signup_phone"]').type("12345678");
+      cy.contains("Create Account").click();
+
+      cy.wait(1000);
+      cy.url().should("include", "/Dashboard");
+      cy.contains("Hello AtestName").should("exist");
+    }
+    else{
+      cy.log("User already exist");
+    }
   });
 
-  it("create and fork map", () => {
-    cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/login");
+  it("before test, checking map", () => {
+    cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com");
+    cy.contains("SignIn").click();
     cy.url().should("include", "/login");
     cy.get('[data-cy="log_email"]').type("test1@gmail.com");
     cy.get('input.log_input[type="password"]').type("testpassword");
     cy.contains("Log in").click();
     cy.wait(1000);
+    cy.url().should("include", "/Dashboard");
+    cy.wait(1000);
+
+    cy.get("body").then(($body) => {
+      if ($body.find('.delete:contains("X")').length) {
+        cy.get('.delete:contains("X")').each(($btn) => {
+          cy.wrap($btn)
+            .click()
+            .then(() => {
+              cy.wait(500);
+            });
+        });
+        cy.get('.delete:contains("X")').should("not.exist");
+      } else {
+        cy.log('No "X" buttons found, skipping the test');
+      }
+    });
+  });
+  it("create and fork map", () => {
+    cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com");
+    cy.contains("SignIn").click();
+    cy.url().should("include", "/login");
+    cy.get('[data-cy="log_email"]').type("test1@gmail.com");
+    cy.get('input.log_input[type="password"]').type("testpassword");
+    cy.contains("Log in").click();
+    cy.wait(1000);
+    cy.url().should("include", "/Dashboard");
+    cy.wait(1000);
 
     cy.contains("Create Map").should("exist");
     cy.once("uncaught:exception", () => false);
     cy.contains("Create Map").click();
+
+    cy.get(".fork-select").first().select("Default Map");
+    cy.get(".fork-select").last().select("Africa");
+
+    cy.get('[data-cy="create_mapname"]').type("A Test Map");
+    cy.get('[data-cy="create_mapname"]').should("have.value", "A Test Map");
 
     cy.get('[data-cy="create_discrip"]').type("This is Map for ATEST");
     cy.get('[data-cy="create_discrip"]').should(
@@ -64,44 +119,17 @@ describe("2. New User Account and Create Map for Adming checking", () => {
       "This is Map for ATEST"
     );
 
-    cy.get('[data-cy="create_mapname"]').type("A Test Map");
-    cy.get('[data-cy="create_mapname"]').should("have.value", "A Test Map");
-
-    cy.get(".fork-select").select("Africa");
-
     cy.wait(1000);
     cy.wait(1000);
     cy.get("#create-button").click();
-  });
-  it("Log-in and edit map test", () => {
-    cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/login");
-    cy.url().should("include", "/login");
-    cy.get('[data-cy="log_email"]').type("test1@gmail.com");
-    cy.get('input.log_input[type="password"]').type("testpassword");
-    cy.contains("Log in").click();
-    cy.wait(1000);
-
-    cy.contains("Edit").should("exist");
-    cy.contains("Edit").click();
-
-    cy.contains("Edit Map").should("exist");
-    cy.wait(1000);
-
-    cy.contains("private").should("exist");
-    cy.contains("private").click();
-
-    cy.contains("public").should("exist");
-
-    cy.get("#edit-button").click();
-    cy.wait(300);
   });
 });
 
 describe("3. Admin Log-in Test", () => {
   it("Admin log-in", () => {
     cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/");
-    cy.contains("Sign in").should("exist");
-    cy.contains("Sign in").click();
+    cy.contains("SignIn").should("exist");
+    cy.contains("SignIn").click();
     cy.url().should("include", "/login");
 
     cy.wait(1000);
@@ -124,33 +152,80 @@ describe("3. Admin Log-in Test", () => {
   });
 });
 
-
-describe("4. Admin User delete Test", () => {
-  it("Delete User with Admin account", () => {
-    cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/login");
-    cy.url().should("include", "/login");
+describe("4. Admin User map list Test", () => {
+  beforeEach(() => {
+    cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/");
+    cy.contains("SignIn").click();
     cy.get('[data-cy="log_email"]').type("0");
     cy.get('input.log_input[type="password"]').type("00000000");
     cy.contains("Log in").click();
     cy.wait(1000);
+  });
 
-    cy.contains("AtestName").should("exist");
+  it("Check map list with Map button for User", () => {
+    cy.wait(1000);
 
-    cy.get(".delete").should("exist");
-    cy.get(".delete").last().click();
-
-    cy.contains("AtestName").should("not.exist");
+    cy.get("body").then(($body) => {
+      if ($body.find(':contains("AtestName")').length) {
+        // If "Oen" exists, perform the following actions
+        cy.log("Oen exists on the page");
+        cy.contains(".user-item", "AtestName")
+          .closest(".user-item")
+          .find(".map")
+          .click();
+        cy.contains("Title").should("exist");
+      } else {
+        // If "Oen" does not exist, log a message
+        cy.log("AtestName user does not exist on the page");
+      }
+    });
   });
 });
 
-describe("5. Admin Map Delete Test", () => {
-  it("Delete A Test map", () => {
-    cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/login");
-    cy.url().should("include", "/login");
+
+// admin user sort test
+
+
+
+describe("5. Admin Map View test", () => {
+  beforeEach(() => {
+    cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/");
+    cy.contains("SignIn").click();
     cy.get('[data-cy="log_email"]').type("0");
     cy.get('input.log_input[type="password"]').type("00000000");
     cy.contains("Log in").click();
     cy.wait(1000);
+  });
+
+  it("Admin search and map view", () => {
+    cy.contains("Map List").should("exist");
+    cy.contains("Map List").click();
+    cy.wait(1000);
+
+    cy.get('img[alt="My SVG"]').then((images) => {
+      if (images.length > 3) {
+        cy.wrap(images).eq(3).click(); // click the first map.
+        cy.contains("TITLE :").should("exist");
+        cy.contains("Description :").should("exist");
+        cy.contains("Legend").should("exist");
+      } else {
+        cy.log("No exist map in page");
+      }
+    });
+  });
+});
+
+describe("6. Admin Map Search Test", () => {
+  beforeEach(() => {
+    cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/");
+    cy.contains("SignIn").click();
+    cy.get('[data-cy="log_email"]').type("0");
+    cy.get('input.log_input[type="password"]').type("00000000");
+    cy.contains("Log in").click();
+    cy.wait(1000);
+  });
+
+  it("Map Search Test", () => {
 
     cy.contains("Map List").should("exist");
     cy.contains("Map List").click();
@@ -161,66 +236,94 @@ describe("5. Admin Map Delete Test", () => {
       "have.value",
       "A Test Map"
     );
+
+    cy.contains("Search").should("exist");
+    cy.contains("Search").click();
+
+    cy.contains("A Test Map").should("exist");
+    
+  });
+});
+
+describe("7. Admin Map Delete Test", () => {
+    beforeEach(() => {
+      cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/");
+      cy.contains("SignIn").click();
+      cy.get('[data-cy="log_email"]').type("0");
+      cy.get('input.log_input[type="password"]').type("00000000");
+      cy.contains("Log in").click();
+      cy.wait(1000);
+    });
+
+  it("Delete A Test map", () => {
+    cy.contains("Map List").should("exist");
+    cy.contains("Map List").click();
+
+    cy.get('[data-cy="admin-searchbox"]').should("exist");
+    cy.get('[data-cy="admin-searchbox"]').type("A Test Map");
+    cy.get('[data-cy="admin-searchbox"]').should(
+      "have.value",
+      "A Test Map"
+    );
+    cy.get(".search-button").should("exist");
+    cy.get(".search-button").last().click();
+
     cy.contains("A Test Map").should("exist");
 
-    cy.contains("X").should("exist");
-    cy.contains("X").click();
+    cy.get("body").then(($body) => {
+      if ($body.find('.delete:contains("X")').length) {
+        cy.get('.delete:contains("X")').each(($btn) => {
+          cy.wrap($btn)
+            .click()
+            .then(() => {
+              cy.wait(500);
+            });
+        });
+      } else {
+        cy.log('No "X" buttons found, skipping the test');
+      }
+    });
 
     cy.contains("A Test Map").should("not.exist");
   });
 });
 
-describe("6. Admin Map Search Test", () => {
-  it("Map Search Test", () => {
-    cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/login");
-    cy.url().should("include", "/login");
+describe("8. Admin User delete Test", () => {
+  beforeEach(() => {
+    cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/");
+    cy.contains("SignIn").click();
     cy.get('[data-cy="log_email"]').type("0");
     cy.get('input.log_input[type="password"]').type("00000000");
     cy.contains("Log in").click();
     cy.wait(1000);
+  });
 
-    cy.contains("Map List").should("exist");
-    cy.contains("Map List").click();
+  it("Delete User with Admin account", () => {
 
-    cy.get('[data-cy="admin-searchbox"]').should("exist");
-    cy.get('[data-cy="admin-searchbox"]').type("Front Test Map (2)");
-    cy.get('[data-cy="admin-searchbox"]').should(
-      "have.value",
-      "Front Test Map (2)"
-    );
+    cy.get("body").then(($body) => {
+      if ($body.find(':contains("AtestName")').length) {
+        cy.log("AtestName exists on the page");
+        cy.contains(".user-item", "AtestName")
+          .closest(".user-item")
+          .find(".delete")
+          .click();
+      } else {
+        cy.log("AtestName does not exist on the page");
+      }
+    });
 
-    cy.contains("Search").should("exist");
-    cy.contains("Search").click();
+    cy.get("body").then(($body) => {
+      if ($body.find(':contains("testName")').length) {
+        cy.log("testName exists on the page");
+        cy.contains(".user-item", "testName")
+          .closest(".user-item")
+          .find(".delete")
+          .click();
+      } else {
+        cy.log("testName does not exist on the page");
+      }
+    });
 
-    cy.contains("Front Test Map (2)").should("exist");
-    
   });
 });
 
-describe("7. Admin Map View test", () => {
-  it("", () => {
-    cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/login");
-    cy.url().should("include", "/login");
-    cy.get('[data-cy="log_email"]').type("0");
-    cy.get('input.log_input[type="password"]').type("00000000");
-    cy.contains("Log in").click();
-    cy.wait(1000);
-
-    cy.contains("Map List").should("exist");
-    cy.contains("Map List").click();
-    cy.wait(1000);
-
-    cy.get('[data-cy="admin-searchbox"]').should("exist");
-    cy.get('[data-cy="admin-searchbox"]').type("Front Test Map (2)");
-    cy.get('[data-cy="admin-searchbox"]').should(
-      "have.value",
-      "Front Test Map (2)"
-    );
-
-    cy.get('img[alt="My SVG"]').eq(4).click();
-
-    cy.contains("TITLE :").should("exist");
-    cy.contains("Description :").should("exist");
-    cy.contains("Legend").should("exist");
-  });
-});

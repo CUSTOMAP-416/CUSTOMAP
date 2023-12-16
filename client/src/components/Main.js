@@ -16,8 +16,7 @@ import "../styles/Main.css"
 
 export default function Main() {
     const { auth_store } = useContext(AuthStoreContextProvider);
-    console.log("Main auth_store.loggedIn: " + auth_store.loggedIn);
-    
+        
     return(
       <div className='main-body'>
         <div style={{position:"relative", height: "88vh", textAlign: "center"}}>
