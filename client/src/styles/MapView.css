@@ -559,18 +559,18 @@ hr.hr-1 {
 
 .data-container{
   border-radius:10px;
-  background-color: rgb(150, 215, 150);/* rgb(99, 142, 102) */
+  background-color: rgb(205, 228, 198);
   padding:10px;
   cursor: pointer;
   margin-bottom:5px;
 }
 
 .view{
-  color:#f0efef;/*#e9ede7*/
+  color:#015101;/*#e9ede7*/
   font-weight:700;
   border-radius:10px;
-  border-color:transparent;
-  background-color: rgb(31, 145, 42);/* rgb(64, 75, 65) */
+  border: 3px solid #dddddded;
+  background-color: #fff;/* rgb(64, 75, 65) */
   padding:10px;
 }
 

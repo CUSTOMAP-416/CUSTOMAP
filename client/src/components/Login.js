@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useEffect, useContext, useState } from "react";
 import AuthStoreContextProvider from "../auth_store";
 import { Link } from "react-router-dom";
 import "../styles/Login.css"
@@ -41,21 +41,30 @@ export default function Login() {
   };
 
   const [errorMessage, setErrorMessage] = useState("");
+
   // Handles the login button click.
-  const handleLoginSubmit = () => {
+  const handleLoginSubmit = async () => {
     const state = {
       email: email,
       password: password,
     };
-    onLogin(state);
 
-    if(!auth_store.loggedIn){
-      setErrorMessage(
-        auth_store.errorMessage
-      );
+    await onLogin(state); 
+    checkLoginStatus();
+  };
+
+  const checkLoginStatus = () => {
+    if (!auth_store.loggedIn) {
+      setErrorMessage(auth_store.errorMessage);
     }
   };
 
+  // auth_store 상태 변화 감지
+  useEffect(() => {
+    if (!auth_store.loggedIn) {
+      setErrorMessage(auth_store.errorMessage);
+    }
+  }, [auth_store.loggedIn, auth_store.errorMessage]);
 
   return (
     <div className="loginall">
@@ -92,9 +101,15 @@ export default function Login() {
             Forgot Password?
           </Link>
         </div>
-        {errorMessage && <p className="error-message" style={{color:"red"}}>{errorMessage}</p>}
+        {errorMessage && (
+          <p className="error-message" style={{ color: "red" }}>
+            {errorMessage}
+          </p>
+        )}
         <div className="buttons">
-          <button className="signin" onClick={() => handleLoginSubmit()}>Log in</button>
+          <button className="signin" onClick={() => handleLoginSubmit()}>
+            Log in
+          </button>
           <Link className="signup" to="/SignUp/" onClick={() => openSignUp()}>
             Sign Up{" "}
           </Link>

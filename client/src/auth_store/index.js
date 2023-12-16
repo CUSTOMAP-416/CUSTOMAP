@@ -293,7 +293,7 @@ function AuthStoreContextProvider(props) {
             if(response.data){
                 auth_storeReducer({
                     type: AuthStoreActionType.LOGIN_USER,
-                    payload: response.data,
+                    payload: response.data.user,
                 });
             }
             else{
@@ -557,13 +557,28 @@ function AuthStoreContextProvider(props) {
     //function to handle the undo process. 
     auth_store.onUndo = function () {}
     //function to handle open the home screen 
-    auth_store.openHome = () => {}
+    auth_store.openHome = () => {
+        return setAuthStore((prevAuthStore) => ({
+          ...prevAuthStore,
+          errorMessage: null,
+        }));
+    }
     //function to handle open the my page screen 
     auth_store.openMyPage = () => {}
     //function to handle open the login screen 
-    auth_store.openLogin = () => {}
+    auth_store.openLogin = () => {
+        return setAuthStore((prevAuthStore) => ({
+          ...prevAuthStore,
+          errorMessage: null,
+        }));
+    }
     //function to handle open the sign-up screen 
-    auth_store.openSignUp = () => {}
+    auth_store.openSignUp = () => {
+        return setAuthStore((prevAuthStore) => ({
+          ...prevAuthStore,
+          errorMessage: null,
+        }));
+    }
     //function to handle open forgot password screen 
     auth_store.openForgotPassword = () => {
         return setAuthStore((prevAuthStore) => ({

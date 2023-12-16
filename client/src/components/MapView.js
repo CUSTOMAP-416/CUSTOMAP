@@ -508,7 +508,7 @@ export default function MapView(){
   };
 
   useEffect(() => {
-    if(auth_store.selectMap !== null){
+    if(auth_store.selectMap){
       setMapData(auth_store.selectMap.mapData)
       setTexts(auth_store.selectMap.texts)
       setColors(auth_store.selectMap.colors)

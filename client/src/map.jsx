@@ -118,7 +118,7 @@ class MapComponent extends Component {
     divs.forEach((div) => {
       const content = div.innerHTML;
       if (content.includes(`Lat: ${lat} <br> Lng: ${lng}`)) {
-        div.style.backgroundColor = 'red';
+        div.style.backgroundColor = '#CEF6D8';
         rightside.scrollTo({
           top: div.offsetTop - rightside.offsetTop, 
           behavior: 'smooth'
@@ -151,7 +151,7 @@ class MapComponent extends Component {
         }
       }, 100);
     }
-    if(prevProps.view != this.props.view){
+    if(prevProps.view !== this.props.view){
       this.state.map.setView([this.props.view.y, this.props.view.x], 6);
     }
   }
