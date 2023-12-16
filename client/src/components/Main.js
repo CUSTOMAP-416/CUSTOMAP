@@ -11,7 +11,7 @@ import search from "../assets_img/main-4.png";
 import community from "../assets_img/main-5.png";
 import selection from "../assets_img/main-6.png";
 import icon from "../assets_img/icon.svg";
-import second from "../assets_img/secondpage.png";
+
 import "../styles/Main.css"
 
 export default function Main() {
