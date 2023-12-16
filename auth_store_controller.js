@@ -147,13 +147,7 @@ loginUser = async (req, res) => {
 
         const profile = await Profile.findById(existingUser.profile);
 
-        const log={
-            username: existingUser.username,  
-            email: existingUser.email,
-            phone: profile.phone,    
-            role: existingUser.role,  
-            maps: maps, 
-        }
+        const log={ email: existingUser.email }
         req.session.user = log;
         res.cookie("token", token, {
             httpOnly: true,
@@ -161,7 +155,13 @@ loginUser = async (req, res) => {
             sameSite: true
         }).status(200).json({
             success: true,
-            user: log,
+            user: {
+                username: existingUser.username,  
+                email: existingUser.email,
+                phone: profile.phone,    
+                role: existingUser.role,  
+                maps: maps, 
+            },
         })
 
     } catch (err) {
@@ -170,9 +170,55 @@ loginUser = async (req, res) => {
     }
 }
 
+let lastInvocationTimestamp = 0;
+const timeThreshold = 100;
 session = async (req, res) => {
     if(req.session.user){
-        res.send(req.session.user);
+        const currentTimestamp = Date.now();
+        const email = req.session.user.email
+        console.log("session: " + email);
+        if (currentTimestamp - lastInvocationTimestamp > timeThreshold) {
+            lastInvocationTimestamp = currentTimestamp;
+            try {
+                const existingUser = await User.findOne({ email: email });
+                // LOGIN THE USER
+                const token = auth.signToken(existingUser._id);
+                console.log(token);
+
+                const maps = []
+                for(let i=0; i<existingUser.maps.length; i++){
+                    const map = await Map.findById(existingUser.maps[i])
+                    maps.push({
+                        _id: map._id,
+                        title: map.title,
+                        description: map.description,
+                        mapType: map.mapType,
+                        createdDate: map.createdDate,
+                    })
+                }
+
+                const profile = await Profile.findById(existingUser.profile);
+                res.cookie("token", token, {
+                    httpOnly: true,
+                    secure: true,
+                    sameSite: true
+                }).status(200).json({
+                    user: {
+                        username: existingUser.username,  
+                        email: existingUser.email,
+                        phone: profile.phone,    
+                        role: existingUser.role,  
+                        maps: maps, 
+                    },
+                })
+            } catch (err) {
+                console.error(err);
+                res.status(500).send();
+            }
+        }
+        else{
+            res.send("null");
+        }
     }
     else{
         res.send("null");
@@ -237,7 +283,7 @@ registerUser = async (req, res) => {
         if(!(/^\d+$/.test(phone))){
             return res
                 .status(400)
-                .json({ errorMessage: "Contains non-numeric characters." });
+                .json({ errorMessage: "Phone number contains non-numeric characters." });
         }
         console.log("phone number has all number");
 
@@ -264,13 +310,7 @@ registerUser = async (req, res) => {
         console.log("token:" + token);
         console.log("username: "+ savedUser.username);
 
-        const log={
-            username: savedUser.username,  
-            email: savedUser.email,
-            phone: phone,
-            role: savedUser.role,   
-            maps: [],     
-        }
+        const log={ email: savedUser.email }
         req.session.user = log;
         await res.cookie("token", token, {
             httpOnly: true,
@@ -278,7 +318,13 @@ registerUser = async (req, res) => {
             sameSite: "none"
         }).status(200).json({
             success: true,
-            user: log
+            user: {
+                username: savedUser.username,  
+                email: savedUser.email,
+                phone: phone,
+                role: savedUser.role,   
+                maps: [],     
+            }
         })
         console.log("token sent");
 
