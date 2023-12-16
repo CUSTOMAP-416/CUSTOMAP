@@ -52,9 +52,10 @@
 }
 
 .main-header {
-    color: #006400;
-    font-weight: bolder;
-    font-size: 45px;
+    font-family: Changa One;
+    color: black;
+    font-weight: lighter;
+    font-size: 50px;
     padding: 0px 25px 25px 25px;
     text-align: center;
 }
@@ -71,7 +72,7 @@
     font-family: DM Sans;
     font-size: 30px;
     font-weight: bold;
-    padding: 50px;
+    text-align: center;
 }
 
 .main-feature {
@@ -82,16 +83,26 @@
 
 .main-footer {
     padding: 20px;
-    font-weight: bolder;
+    font-weight: bold;
     text-align: center;
     font-size: 20px;
-    padding-bottom: 50px;
+    padding: 40px 0px;
+    color: black;
 }
 
 .main-flex{
-    display: flex;
+    /* display: flex;
     justify-content: space-between;
-    padding: 0px 50px
+    padding: 0px 50px */
+    width: 30%;
+}
+
+.main-content-items{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 30px 30px;
+    gap: 20px
 }
 
 @keyframes bounce {
@@ -104,8 +115,8 @@
   }
 
 .main-image{
-    padding: 20px;
-    width: 40%;
+    padding-left: 35px;
+    width: 80%;
     height:auto;
     animation: bounce 1s 10;
 }
