@@ -221,7 +221,7 @@ export default function DashboardCreateOrEditMapView(props) {
       <div>
         <div className="creat-banner" style={{ paddingBottom: "0px" }}>
           <div className="title-section">
-            <div className={props.isDarkMode ? 'dashboard-header-dark' : 'dashboard-header'} style={{ padding: "40px 30px" }}>
+            <div className={props.isDarkMode ? 'dashboard-header' : 'dashboard-header-dark'} style={{ padding: "40px 30px" }}>
               {auth_store.isCreatePage ? "Create Map" : "Edit Map"}
             </div>
             {auth_store.isCreatePage ? (
@@ -363,14 +363,14 @@ export default function DashboardCreateOrEditMapView(props) {
         </div>
         <div className="create-content">
           {auth_store.isCreatePage ? (
-            <div className={props.isDarkMode ? 'create_detail-dark' : 'create_detail'}>
+            <div className={props.isDarkMode ? 'create_detail' : 'create_detail-dark'}>
               ⛧ Choose the Map Type, Use provided map with Fork Map Or upload
               your file!
             </div>
           ) : (
             ""
           )}
-          <div className={props.isDarkMode ? 'property-bar-dark' : 'property-bar'}>
+          <div className={props.isDarkMode ? 'property-bar' : 'property-bar-dark'}>
             <label
               className="MD"
               style={{ padding: "0px 10px", fontWeight: "bolder" }}
@@ -402,7 +402,7 @@ export default function DashboardCreateOrEditMapView(props) {
             {errorMessage}
           </p>
         )}
-        <div className={props.isDarkMode ? 'create-map-bottom-bar-dark' : 'create-map-bottom-bar'}>
+        <div className={props.isDarkMode ? 'create-map-bottom-bar' : 'create-map-bottom-bar-dark'}>
           <div
             className="MD-container"
             style={{ width: "70%", paddingLeft: "20px" }}

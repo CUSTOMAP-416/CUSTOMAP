@@ -23,8 +23,8 @@ export default function Dashboard(){
 
     //Handles changing the selected view.
     const handleSelectedViewChange = (newView,viewType) => {
-        auth_store.openEdit(true)
-        setSelectedView(newView)
+        auth_store.openEdit(true);
+        setSelectedView(React.cloneElement(newView, { isDarkMode: !isDarkMode })); // 使用最新的状态
         setCurrentViewType(viewType);
         
         
@@ -38,8 +38,16 @@ export default function Dashboard(){
     const [isDarkMode, setIsDarkMode] = useState(false); 
     const handleToggle = () => {
         setIsDarkMode(!isDarkMode);
-        
+        simulateButtonClick();
     };
+
+    const simulateButtonClick = () => {
+        const refreshButton = document.getElementById('refreshButton');
+        if (refreshButton) {
+            refreshButton.click();
+        }
+    };
+    
     
 
     const [refreshCount,setRefreshCount] = useState(0);
@@ -51,20 +59,25 @@ export default function Dashboard(){
     const getSelectedView = (viewType) => {
         switch (viewType) {
             case 'dashboard':
+                console.log("dashboard")
                 
                 return <DashboardMapListView handleEditView={handleEditView} isDarkMode={isDarkMode} />;
+
             case 'profile':
                 
                 return <DashboardMyProfileView isDarkMode={isDarkMode} />;
             case 'creat':
-               
+                console.log("creat")
                 return <DashboardCreateOrEditMapView isDarkMode={isDarkMode} />;
             case 'search':
-                
+                console.log("search")
                 return <DashboardSearchMapView isDarkMode={isDarkMode}/>;
-            // 添加其他视图类型的 case
+            
             default:
+                console.log("start")
+                
                 return <DashboardMapListView handleEditView={handleEditView} isDarkMode={isDarkMode} />;
+                
         }
     };
 
@@ -78,7 +91,7 @@ export default function Dashboard(){
             <div className={`sidebar ${isDarkMode ? 'sidebar-dark' : 'sidebar-bright'}`}>
                 <div className="darkmodebutton">
                     <span className={`sidebar-buttons ${isDarkMode ? 'sidebar-buttons-dark' : 'sidebar-buttons'}`} style={{fontSize:'15px'}}>Dark Mode</span>
-                    <label className="switch">
+                    <label className="switch" id="switch">
                         <input
                             type="checkbox"
                             checked={isDarkMode}
@@ -91,12 +104,12 @@ export default function Dashboard(){
                 <div className={`profile ${isDarkMode ? 'profile-dark' : ''}`}>Hello {auth_store.user?auth_store.user.username:''}</div>
                 <div className="sidebar-buttons">
                     <button
-                        className={`sidebar-buttons ${isDarkMode ? 'sidebar-buttons-dark' : 'sidebar-buttons'}`}
+                        className={`sidebar-buttons ${isDarkMode ? 'sidebar-buttons-dark' : 'sidebar-buttons'}`} id='dashboardbutton'
                         onClick={() => handleSelectedViewChange(<DashboardMapListView handleEditView={handleEditView} isDarkMode={isDarkMode} />,'dashboard')}>Dashboard</button>
                 </div>
                 <div className="sidebar-buttons">
                     <button
-                        className={`sidebar-buttons ${isDarkMode ? 'sidebar-buttons-dark' : 'sidebar-buttons'}`}
+                        className={`sidebar-buttons ${isDarkMode ? 'sidebar-buttons-dark' : 'sidebar-buttons'}`} id='profilebutton'
                         onClick={() => handleSelectedViewChange(<DashboardMyProfileView isDarkMode={isDarkMode} />,'profile')}>My Profile</button>
                 </div>
                 <div className="sidebar-buttons">
@@ -109,7 +122,7 @@ export default function Dashboard(){
                         className={`sidebar-buttons ${isDarkMode ? 'sidebar-buttons-dark' : 'sidebar-buttons'}`}
                         onClick={() => handleSelectedViewChange(<DashboardSearchMapView isDarkMode={isDarkMode}/>,'search')}>Search Map</button>
                 </div>
-                <button id='refresh'onClick={handleRefresh}>refresh</button>
+                <button id='refreshButton'onClick={handleRefresh} style={{display:'none'}}>refresh</button>
             </div>
             <div className={`selectedDashboard ${isDarkMode ? 'selectedDashbord-dark' : 'selectedDashbord'}`} style={{ overflowX: "hidden" }}> {React.cloneElement(selectedView, { key: refreshCount })}</div>
         </div>

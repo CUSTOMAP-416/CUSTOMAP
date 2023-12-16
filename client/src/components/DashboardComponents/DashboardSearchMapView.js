@@ -54,9 +54,9 @@ export default function DashboardSearchMapView(props){
         const maps = []
         for(let i=0; i<mapsId.length; i++){
             maps.push(
-                <div key={mapsId[i]._id} className={props.isDarkMode ? 'box-dark' : 'box'}>
+                <div key={mapsId[i]._id} className={props.isDarkMode ? 'box' : 'box-dark'}>
                     <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
-                        <div className={props.isDarkMode ? 'map-name-dark' : 'map-name'}>{mapsId[i].title}</div>
+                        <div className={props.isDarkMode ? 'map-name' : 'map-name-dark'}>{mapsId[i].title}</div>
                     </div>
                     <Link to="/MapView/" onClick={() => handleMapSelect(mapsId[i]._id)}>
                     {mapsId[i].mapType === "heat" ? <img className="map" src={heat} alt="My SVG" /> : 
@@ -76,9 +76,9 @@ export default function DashboardSearchMapView(props){
             const maps = []
             for(let i=0; i<auth_store.searchMaps.length; i++){
                 maps.push(
-                    <div key={auth_store.searchMaps[i]._id} className={props.isDarkMode ? 'box-dark' : 'box'}>
+                    <div key={auth_store.searchMaps[i]._id} className={props.isDarkMode ? 'box' : 'box-dark'}>
                         <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
-                            <div className={props.isDarkMode ? 'map-name-dark' : 'map-name'}>{auth_store.searchMaps[i].title}</div>
+                            <div className={props.isDarkMode ? 'map-name' : 'map-name-dark'}>{auth_store.searchMaps[i].title}</div>
                         </div>
                         <Link to="/MapView/" onClick={() => handleMapSelect(auth_store.searchMaps[i]._id)}>
                         {auth_store.searchMaps[i].mapType === "heat" ? <img className="map" src={heat} alt="My SVG" /> : 
@@ -103,7 +103,7 @@ export default function DashboardSearchMapView(props){
 
     return(
         <div style={{height: 'auto',  overflow: 'auto'}}>
-        <div className={props.isDarkMode ? 'dashboard-header-dark' : 'dashboard-header'}>
+        <div className={props.isDarkMode ? 'dashboard-header' : 'dashboard-header-dark'}>
             Search Map
         </div>
         <div className='search-box'>
