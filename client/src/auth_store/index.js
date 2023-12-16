@@ -293,7 +293,7 @@ function AuthStoreContextProvider(props) {
             if(response.data){
                 auth_storeReducer({
                     type: AuthStoreActionType.LOGIN_USER,
-                    payload: response.data,
+                    payload: response.data.user,
                 });
             }
             else{
