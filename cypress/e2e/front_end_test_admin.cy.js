@@ -14,8 +14,6 @@ describe("1. Homepage Test", () => {
   });
 });
 
-let userExist = false;
-
 describe("2. New User Account and Create Map for Adming checking", () => {
   it("before signup, checking user", () => {
     cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/");
@@ -34,36 +32,26 @@ describe("2. New User Account and Create Map for Adming checking", () => {
         cy.contains("Hello AtestName").should("exist");
         cy.contains("SignOut").should("exist");
         cy.contains("SignOut").click();
-        userExist = true;
       } else {
         cy.url().should("include", "/login");
-        userExist = false;
+        cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/");
+        cy.contains("SignIn").click();
+        cy.contains("Sign Up").click();
+        cy.url().should("include", "/SignUp");
+
+        cy.get('[data-cy="signup_id"]').type("testID");
+        cy.get('[data-cy="signup_pw"]').type("testpassword");
+        cy.get('[data-cy="signup_pwv"]').type("testpassword");
+        cy.get('[data-cy="signup_name"]').type("AtestName");
+        cy.get('[data-cy="signup_email"]').type("test1@gmail.com");
+        cy.get('[data-cy="signup_phone"]').type("12345678");
+        cy.contains("Create Account").click();
+
+        cy.wait(1000);
+        cy.url().should("include", "/Dashboard");
+        cy.contains("Hello AtestName").should("exist");
       }
     });
-  });
-  
-  it("Make New Account for delete Test", () => {
-    if (userExist === false) {
-      cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/");
-      cy.contains("SignIn").click();
-      cy.contains("Sign Up").click();
-      cy.url().should("include", "/SignUp");
-
-      cy.get('[data-cy="signup_id"]').type("testID");
-      cy.get('[data-cy="signup_pw"]').type("testpassword");
-      cy.get('[data-cy="signup_pwv"]').type("testpassword");
-      cy.get('[data-cy="signup_name"]').type("AtestName");
-      cy.get('[data-cy="signup_email"]').type("test1@gmail.com");
-      cy.get('[data-cy="signup_phone"]').type("12345678");
-      cy.contains("Create Account").click();
-
-      cy.wait(1000);
-      cy.url().should("include", "/Dashboard");
-      cy.contains("Hello AtestName").should("exist");
-    }
-    else{
-      cy.log("User already exist");
-    }
   });
 
   it("before test, checking map", () => {
