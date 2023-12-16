@@ -310,7 +310,7 @@ registerUser = async (req, res) => {
         console.log("token:" + token);
         console.log("username: "+ savedUser.username);
 
-        const log={ email: existingUser.email }
+        const log={ email: savedUser.email }
         req.session.user = log;
         await res.cookie("token", token, {
             httpOnly: true,
