@@ -39,13 +39,13 @@ export default function DashboardMapListView( props ){
     //Handle changes in map sorting.
     const handleSortingChange = (event) => {
         const mapsId = [...auth_store.user.maps]
-        if(event == "Ascending"){
+        if(event === "Ascending"){
             mapsId.sort((a, b) => a.title.localeCompare(b.title));
         }
-        else if(event == "Descending"){
+        else if(event === "Descending"){
             mapsId.sort((a, b) => b.title.localeCompare(a.title));
         }
-        else if(event == "Recent Date"){
+        else if(event === "Recent Date"){
             mapsId.sort((a, b) => a.createdDate - b.createdDate);
         }
 

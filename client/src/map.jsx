@@ -151,7 +151,7 @@ class MapComponent extends Component {
         }
       }, 100);
     }
-    if(prevProps.view != this.props.view){
+    if(prevProps.view !== this.props.view){
       this.state.map.setView([this.props.view.y, this.props.view.x], 6);
     }
   }
