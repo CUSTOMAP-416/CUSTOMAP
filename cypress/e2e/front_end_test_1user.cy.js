@@ -392,7 +392,7 @@ describe("7. Log out test", () => {
 });
 
 
-describe("7. My Profile test", () => {
+describe("8. My Profile test", () => {
   beforeEach(() => {
     cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/");
     cy.contains("SignIn").click();
