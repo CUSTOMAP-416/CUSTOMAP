@@ -87,27 +87,27 @@ export default function DashboardMapListView( props ){
     
     useEffect(() => {
         const maps = [];
-        if(auth_store.user.maps.length > 0){
-                    for(let i=0; i<auth_store.user.maps.length; i++){
-            maps.push(
-                <div key={auth_store.user.maps[i]._id} className={props.isDarkMode ? 'box-dark' : 'box'}>
-                    <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
-                        <div className={props.isDarkMode ? 'map-name-dark' : 'map-name'}>{auth_store.user.maps[i].title}</div>
-                        <button className="delete" onClick={() => handleEdit(auth_store.user.maps[i]._id, props.isDarkMode)}>Edit</button>
-                        <button className="delete" onClick={() => handleDeleteMap(auth_store.user.maps[i]._id)}>X</button>
+        if(auth_store.user && auth_store.user.maps.length > 0){
+            for(let i=0; i<auth_store.user.maps.length; i++){
+                maps.push(
+                    <div key={auth_store.user.maps[i]._id} className={props.isDarkMode ? 'box-dark' : 'box'}>
+                        <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
+                            <div className={props.isDarkMode ? 'map-name-dark' : 'map-name'}>{auth_store.user.maps[i].title}</div>
+                            <button className="delete" onClick={() => handleEdit(auth_store.user.maps[i]._id, props.isDarkMode)}>Edit</button>
+                            <button className="delete" onClick={() => handleDeleteMap(auth_store.user.maps[i]._id)}>X</button>
+                        </div>
+                        <Link to="/MapView/" onClick={() => handleMapSelect(auth_store.user.maps[i]._id )}>
+                            {auth_store.user.maps[i].mapType === "heat" ? <img className="map" src={heat} alt="My SVG" /> : 
+                            auth_store.user.maps[i].mapType === "point" ? <img className="map" src={point} alt="My SVG" /> :
+                            auth_store.user.maps[i].mapType === "bubble" ? <img className="map" src={bubble} alt="My SVG" /> :
+                            auth_store.user.maps[i].mapType === "thematic" ? <img className="map" src={thematic} alt="My SVG" /> :
+                            auth_store.user.maps[i].mapType === "choropleth" ? <img className="map" src={choropleth} alt="My SVG" /> :
+                            <img className="map" src={map} alt="My SVG" />}
+                        </Link>
                     </div>
-                    <Link to="/MapView/" onClick={() => handleMapSelect(auth_store.user.maps[i]._id )}>
-                        {auth_store.user.maps[i].mapType === "heat" ? <img className="map" src={heat} alt="My SVG" /> : 
-                        auth_store.user.maps[i].mapType === "point" ? <img className="map" src={point} alt="My SVG" /> :
-                        auth_store.user.maps[i].mapType === "bubble" ? <img className="map" src={bubble} alt="My SVG" /> :
-                        auth_store.user.maps[i].mapType === "thematic" ? <img className="map" src={thematic} alt="My SVG" /> :
-                        auth_store.user.maps[i].mapType === "choropleth" ? <img className="map" src={choropleth} alt="My SVG" /> :
-                        <img className="map" src={map} alt="My SVG" />}
-                    </Link>
-                </div>
-            )
-        }
-        setUserMaps(maps)
+                )
+            }
+            setUserMaps(maps)
         }
         else{
             setUserMaps(emptyMap);
