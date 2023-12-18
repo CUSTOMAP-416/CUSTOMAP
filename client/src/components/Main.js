@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import AuthStoreContextProvider from '../auth_store';
+import { Link } from "react-router-dom";
 import Dashboard from './Dashboard';
 
 import image from "../assets_img/WorldMap.png"
@@ -18,6 +19,11 @@ import "../styles/Main.css"
 export default function Main() {
     const { auth_store } = useContext(AuthStoreContextProvider);
         
+    const handleLogin = () => {
+        //function to handle open the login screen
+       auth_store.openLogin()
+     }
+
     return(
       <div className='main-body'>
         <div style={{position:"relative", height: "88vh", textAlign: "center"}}>
@@ -27,6 +33,14 @@ export default function Main() {
                 <div className="main-title-logo" >CUSTOMAP</div>
             </div>
             <div className='main-subtitle-logo'>Explore and Customize Your Own Map!</div>
+            <Link
+                to="/login/"
+                className="login"
+                style={{ color: "white", textDecoration: "none", position: "absolute", top: "60%", left: "50%", height: "fit-content" }}
+                onClick={() => handleLogin()}
+              >
+                SignIn
+              </Link>
         </div>
         <div style={{position: "relative"}}>
             <img id="second"src={second} alt="welcom to the customap" ></img>
