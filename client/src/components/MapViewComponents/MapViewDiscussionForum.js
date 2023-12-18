@@ -15,6 +15,7 @@ export default function MapViewDiscussionForum(){
     }
     //Handle the discussion send button click. 
     const handleDiscussionSubmit = () => {
+        if(newDiscussion){
         let discussionShow = [...discussions]
         discussionShow.push(
             <div key={'discussions'+discussionShow.length} className="message-container">
@@ -28,6 +29,7 @@ export default function MapViewDiscussionForum(){
         setNewDiscussion('');
         //function to handle the Discussion process 
         auth_store.onDiscussion(newDiscussion)
+        }
     }
 
     useEffect(() => {
