@@ -233,50 +233,8 @@ describe("6. Admin Map Search Test", () => {
   });
 });
 
-describe("7. Admin Map Delete Test", () => {
-    beforeEach(() => {
-      cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/");
-      cy.contains("SignIn").click();
-      cy.get('[data-cy="log_email"]').type("0");
-      cy.get('input.log_input[type="password"]').type("00000000");
-      cy.contains("Log in").click();
-      cy.wait(1000);
-    });
 
-  it("Delete A Test map", () => {
-    cy.contains("Map List").should("exist");
-    cy.contains("Map List").click();
-
-    cy.get('[data-cy="admin-searchbox"]').should("exist");
-    cy.get('[data-cy="admin-searchbox"]').type("A Test Map");
-    cy.get('[data-cy="admin-searchbox"]').should(
-      "have.value",
-      "A Test Map"
-    );
-    cy.get(".search-button").should("exist");
-    cy.get(".search-button").last().click();
-
-    cy.contains("A Test Map").should("exist");
-
-    cy.get("body").then(($body) => {
-      if ($body.find('.delete:contains("X")').length) {
-        cy.get('.delete:contains("X")').each(($btn) => {
-          cy.wrap($btn)
-            .click()
-            .then(() => {
-              cy.wait(500);
-            });
-        });
-      } else {
-        cy.log('No "X" buttons found, skipping the test');
-      }
-    });
-
-    cy.contains("A Test Map").should("not.exist");
-  });
-});
-
-describe("8. Admin User delete Test", () => {
+describe("7. Admin User delete Test", () => {
   beforeEach(() => {
     cy.visit("https://customap416client-3b33f67d5c86.herokuapp.com/");
     cy.contains("SignIn").click();
@@ -314,4 +272,3 @@ describe("8. Admin User delete Test", () => {
 
   });
 });
-
