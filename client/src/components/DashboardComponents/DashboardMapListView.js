@@ -14,6 +14,9 @@ import choropleth from "../../assets_img/Choropleth.png";
 export default function DashboardMapListView( props ){
     const { auth_store } = useContext(AuthStoreContextProvider);
 
+    //const isDarkMode = props.isDarkMode !== undefined ? props.isDarkMode : true; 
+    const [isDarkMode, setIsDarkMode] = useState(true);
+    
     //List of user maps. 
     const [userMaps, setUserMaps] = useState([]);
 
@@ -72,16 +75,16 @@ export default function DashboardMapListView( props ){
         props.handleEditView()
         props.handleEditView(id, props.isDarkMode);
     }
-    
+
     useEffect(() => {
         const maps = [];
         if(auth_store.user && auth_store.user.maps.length > 0){
             for(let i=0; i<auth_store.user.maps.length; i++){
                 maps.push(
-                    <div key={auth_store.user.maps[i]._id} className={props.isDarkMode ? 'box' : 'box-dark'}>
+                    <div key={auth_store.user.maps[i]._id} className={isDarkMode ? 'box' : 'box-dark'}>
                         <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
-                            <div className={props.isDarkMode ? 'map-name' : 'map-name-dark'}>{auth_store.user.maps[i].title}</div>
-                            <button className="delete" onClick={() => handleEdit(auth_store.user.maps[i]._id, props.isDarkMode)}>Edit</button>
+                            <div className={isDarkMode ? 'map-name' : 'map-name-dark'}>{auth_store.user.maps[i].title}</div>
+                            <button className="delete" onClick={() => handleEdit(auth_store.user.maps[i]._id, isDarkMode)}>Edit</button>
                             <button className="delete" onClick={() => handleDeleteMap(auth_store.user.maps[i]._id)}>X</button>
                         </div>
                         <Link to="/MapView/" onClick={() => handleMapSelect(auth_store.user.maps[i]._id )}>
@@ -101,6 +104,7 @@ export default function DashboardMapListView( props ){
             setUserMaps(emptyMap);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
+        setIsDarkMode(props.isDarkMode);
     },[]);
     
     
@@ -114,9 +118,8 @@ export default function DashboardMapListView( props ){
         </div>
     );
 
-    const isDarkMode = props.isDarkMode !== undefined ? props.isDarkMode : true; 
+    
     return (
-        console.log(props.isDarkMode),
         <div style={{height: 'auto',overflow: 'auto'}}>
         <div className={`dashboard-header ${ isDarkMode ? 'dashboard-header' : 'dashboard-header-dark'}`}>Dashboard</div>
         <div className="description-and-sorting">

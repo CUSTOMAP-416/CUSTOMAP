@@ -19,7 +19,7 @@ export default function Dashboard(){
     //Handles changing the selected view.
     const handleSelectedViewChange = (newView,viewType) => {
         auth_store.openEdit(true);
-        setSelectedView(React.cloneElement(newView, { isDarkMode: !isDarkMode })); // 使用最新的状态
+        setSelectedView(React.cloneElement(newView, { isDarkMode: !isDarkMode })); 
         setCurrentViewType(viewType);
     }
     const handleEditView = () => {
