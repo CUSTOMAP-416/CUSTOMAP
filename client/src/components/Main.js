@@ -23,7 +23,6 @@ export default function Main() {
         //function to handle open the login screen
        auth_store.openLogin()
      }
-
     return(
       <div className='main-body'>
         <div style={{position:"relative", height: "88vh", textAlign: "center"}}>
@@ -33,6 +32,7 @@ export default function Main() {
                 <div className="main-title-logo" >CUSTOMAP</div>
             </div>
             <div className='main-subtitle-logo'>Explore and Customize Your Own Map!</div>
+            {auth_store.loggedIn ? '':
             <Link
                 to="/login/"
                 className="login"
@@ -40,7 +40,8 @@ export default function Main() {
                 onClick={() => handleLogin()}
               >
                 SignIn
-              </Link>
+              </Link>}
+            
         </div>
         <div style={{position: "relative"}}>
             <img id="second"src={second} alt="welcom to the customap" ></img>

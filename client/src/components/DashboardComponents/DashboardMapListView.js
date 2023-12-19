@@ -133,18 +133,6 @@ export default function DashboardMapListView( props ){
         <div className="description-and-sorting">
           <div className="description">Maps you have participated in</div>
           <div className="sort-buttons">
-            {/* <button className='arrow-button'  onClick={() => handleSortingChange("Ascending")}>
-                    <img className="arrow" src={arrow} alt="My SVG" />
-                </button>
-                <button className="sort-button" onClick={() => handleSortingChange("Ascending")}>Ascending</button>
-                <button className='arrow-button' onClick={() => handleSortingChange("Descending")}>
-                    <img className="arrow" src={arrow} alt="My SVG" />
-                </button>
-                <button className="sort-button" onClick={() => handleSortingChange("Descending")}>Descending</button>
-                <button className='arrow-button' onClick={() => handleSortingChange("Recent Date")}>
-                    <img className="arrow" src={arrow} alt="My SVG" />
-                </button>
-                <button className="sort-button" onClick={() => handleSortingChange("Recent Date")}>Recent Date</button> */}
             <div className="sort-dropdown">
               <select onChange={(e) => handleSortingChange(e.target.value)}>
                 <option value="defult">SORT</option>
