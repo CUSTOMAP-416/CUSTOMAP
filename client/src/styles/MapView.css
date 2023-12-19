@@ -596,20 +596,26 @@ hr.hr-1 {
 
 .thematic-container{
   font-weight:500;
-  color:white;
-  background-color: rgb(32, 161, 45);
+  color:rgb(3, 75, 20);
+  font-family: DM Sans;
+  font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.875);
   border-radius: 4px;
   width:500px;
   margin:4px;
   padding:5px;
 }
 .thematic-menu{
-  background-color: rgb(199, 232, 199);
+  background-color: rgb(187, 220, 187);
   border-radius: 4px;
   width:520px;
   margin:4px;
   padding:5px;
 
+}
+
+.thematic-menu label{
+  padding: 7px;
 }
 
 
@@ -633,14 +639,22 @@ hr.hr-1 {
 }
 
 .update:hover{
-  background-color:rgb(145, 214, 141);
+  background-color:#468249;
   box-shadow: 2px 2px 2px white; 
 }
 
 .display{
   margin-left:2px;
   border-radius:10px;
+  font-family: DM Sans;
   background-color:rgb(178, 222, 175);
+  border-color: rgb(178, 222, 175);
+  margin-top: 5px;
+  font-weight: bold
+}
+
+.display:hover{
+  background-color: #509654;
 }
   
 
@@ -650,7 +664,7 @@ hr.hr-1 {
   left: -533px; /* Initial position should be off-screen */
   width: 533px; /* Adjust width as needed */
   height: 400px;
-  
+  top: 157px;
   background-color: transparent; /* Semi-transparent background */
   transition: left 0.3s; /* Smooth sliding effect */
   z-index: 1000; /* Make sure it's above other content */

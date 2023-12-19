@@ -1,7 +1,7 @@
 import axios from 'axios'
 axios.defaults.withCredentials = true;
 const api = axios.create({
-    baseURL: 'https://customap416-e4fee90f355c.herokuapp.com/auth_store',
+    baseURL: 'http://localhost:8080/auth_store',
 })
 
 const getUser = () => api.get('/loggedIn/');
