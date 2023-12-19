@@ -31,7 +31,7 @@ export default function AppBanner() {
   useEffect(() => {
     auth_store.successMessage = null
     if (auth_store.loggedIn) {
-      if(auth_store.user.role == "admin"){
+      if(auth_store.user.role === "admin"){
         auth_store.getAllUsers()
         auth_store.getAllMaps()
         navigate("/AdminDashboard/");
@@ -41,6 +41,7 @@ export default function AppBanner() {
       }
     }
     //checking state for login
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth_store.loggedIn]);
 
   useEffect(() => {
@@ -48,6 +49,7 @@ export default function AppBanner() {
       navigate("/");
     }
     auth_store.session()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -79,7 +81,7 @@ export default function AppBanner() {
           </div>
 
           {auth_store.loggedIn ? (
-            auth_store.user.role == "admin" ?
+            auth_store.user.role === "admin" ?
               <div id="banner-mypage" onClick={() => openMyPage()}>
                 <Link
                   id="banner-mypage"

@@ -7,7 +7,6 @@ import '../../styles/Dashboard.css';
 import toGeoJSON from "@mapbox/togeojson"; // Updated import for toGeoJSON
 import * as shapefile from "shapefile";
 import JSZip from 'jszip';
-import { timeout } from "async";
 
 export default function DashboardCreateOrEditMapView(props) {
   const { auth_store } = useContext(AuthStoreContextProvider);
@@ -110,11 +109,7 @@ export default function DashboardCreateOrEditMapView(props) {
   const handleCustomizeTool = () => {
     openCustomizeTool(auth_store.selectMap);
   };
-  //Handles the fork map button click.
-  const handleForkMap = () => {
-    setIsForkOpen(!isForkOpen)
-  };
-  const [isForkOpen, setIsForkOpen] = useState(false);
+
   const handleForkContent = (name) => {
     auth_store.onForkMap(name);
   };
@@ -126,7 +121,7 @@ export default function DashboardCreateOrEditMapView(props) {
   };
   //Handles map create button click.
   const handleCreateMap = () => {
-    if(mapData == null || mapTitle == ""){
+    if(mapData === null || mapTitle === ""){
       setErrorMessage('The map or map name is empty, please upload or fork it.')
     }
     else{
@@ -135,7 +130,7 @@ export default function DashboardCreateOrEditMapView(props) {
   };
   //Handles map Edit button click.
   const handleEditMap = () => {
-    if(mapTitle != auth_store.selectMap.title || mapDescription != auth_store.selectMap.description){
+    if(mapTitle !== auth_store.selectMap.title || mapDescription !== auth_store.selectMap.description){
       //function to handle the edit map process
       auth_store.onEditMap(mapTitle, mapDescription);
     }
@@ -185,7 +180,7 @@ export default function DashboardCreateOrEditMapView(props) {
         setMapData(auth_store.selectMap.mapData)
         setTexts(auth_store.selectMap.texts)
         setColors(auth_store.selectMap.colors)
-        if(auth_store.selectMap.mapType == 'thematic'){
+        if(auth_store.selectMap.mapType === 'thematic'){
           setLegends(auth_store.selectMap.thematicLegends)
         }
         else{
@@ -200,6 +195,7 @@ export default function DashboardCreateOrEditMapView(props) {
         setSelectedColor(auth_store.selectMap.backgroundColor)
       }, 100);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth_store.selectMap]);
 
   useEffect(() => {

@@ -22,10 +22,10 @@ export default function ForgetPassword(){
       setPassInfo(true);
     }
     if(auth_store.successMessage === "Changed User Info"){
-      console.log(0)
       navigate("/login/");
     }
     //checking state for login
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth_store.successMessage]);
 
   //function to handle change password process

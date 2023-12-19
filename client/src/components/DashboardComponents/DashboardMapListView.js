@@ -16,19 +16,7 @@ export default function DashboardMapListView( props ){
 
     //List of user maps. 
     const [userMaps, setUserMaps] = useState([]);
-    //Stores the currently selected map. 
-    const [mapSelected, setMapSelected] = useState(null);
-    //Stores the map sorting option. 
-    const [sortingOption, setSortingOption] = useState('');
 
-    //function to handle getting the list of user's created maps. 
-    const getUserMaps = (user) => {
-        setUserMaps(auth_store.getUserMaps(user))
-    }
-    //function to handle delete map process. 
-    const deleteMap = (map) => {
-        auth_store.deleteMap(map)
-    }
     //Handles map selection button click. 
     const handleMapSelect = (event) => {
         console.log(event)
@@ -112,6 +100,7 @@ export default function DashboardMapListView( props ){
         else{
             setUserMaps(emptyMap);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
     
     

@@ -16,18 +16,11 @@ import bear from "../assets_img/dashboard_bear.svg";
 export default function Dashboard(){
     const { auth_store } = useContext(AuthStoreContextProvider);
 
-    //function to handle open the selected view screen 
-    const openViewScreen = () => {
-        auth_store.openViewScreen()
-    }
-
     //Handles changing the selected view.
     const handleSelectedViewChange = (newView,viewType) => {
         auth_store.openEdit(true);
         setSelectedView(React.cloneElement(newView, { isDarkMode: !isDarkMode })); // 使用最新的状态
         setCurrentViewType(viewType);
-        
-        
     }
     const handleEditView = () => {
         setSelectedView(<DashboardCreateOrEditMapView />)
@@ -48,8 +41,6 @@ export default function Dashboard(){
         }
     };
     
-    
-
     const [refreshCount,setRefreshCount] = useState(0);
     const handleRefresh = () => {
         setRefreshCount(prevCount => prevCount + 1);

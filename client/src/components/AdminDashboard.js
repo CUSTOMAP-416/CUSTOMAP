@@ -1,7 +1,6 @@
 
 
-import { useContext, useState } from 'react';
-import AuthStoreContextProvider from '../auth_store';
+import { useState } from 'react';
 
 import AdminDashboardUserList from './AdminDashboardComponents/AdminDashboardUserList';
 import AdminDashboardMapList from './AdminDashboardComponents/AdminDashboardMapList';
@@ -10,13 +9,6 @@ import adminBear from "../assets_img/adminDashboard_bear.svg";
 
 
 export default function AdminDashboard(){
-    const { auth_store } = useContext(AuthStoreContextProvider);
-
-    //function to handle open the selected view screen 
-    const openAdminViewScreen = () => {
-        auth_store.openAdminViewScreen()
-    }
-
     //'User List', 'Map List' 
     const [selectedView, setSelectedView] = useState(<AdminDashboardUserList/>);
 

@@ -2,7 +2,6 @@ import { useContext, useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import AuthStoreContextProvider from '../../auth_store';
 
-import arrow from "../../assets_img/dashboard_arrow.svg";
 import map from "../../assets_img/Default.png";
 import heat from "../../assets_img/Heat.png";
 import point from "../../assets_img/Point.png";
@@ -17,10 +16,6 @@ export default function DashboardSearchMapView(props){
     const [searchKeyword, setSearchKeyword] = useState('');
     //List of search maps. 
     const [searchMaps, setSearchMaps] = useState([]);
-    //Stores the currently selected map. 
-    const [mapSelected, setMapSelected] = useState(null);
-    //Stores the map sorting option. 
-    const [sortingOption, setSortingOption] = useState('');
     const [rander, setRander] = useState(true);
 
     //Handle Search input changes.
@@ -93,12 +88,14 @@ export default function DashboardSearchMapView(props){
             }
             setSearchMaps(maps)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [auth_store.searchMaps])
 
    
     
     useEffect(() => {
         auth_store.onSearch('')
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return(

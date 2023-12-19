@@ -4,14 +4,12 @@ import { useContext, useState, useEffect } from 'react';
 import AuthStoreContextProvider from '../../auth_store';
 
 import UserIcon from "../../assets_img/adminDashboard_user.svg";
-import arrow from "../../assets_img/dashboard_arrow.svg";
 
 export default function AdminDashboardUserList(){
     const {auth_store} = useContext(AuthStoreContextProvider);
 
     const [userMaplistOpen, setUserMaplistOpen] = useState({});
     const [allUsers, setAllUsers] = useState([]);
-    const [toolOpen, setToolOpen] = useState(false);
 
     const [mapDetails, setMapDetails] = useState({});
   

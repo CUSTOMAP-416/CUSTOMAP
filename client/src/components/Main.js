@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import AuthStoreContextProvider from '../auth_store';
 import { Link } from "react-router-dom";
-import Dashboard from './Dashboard';
 
 import image from "../assets_img/WorldMap.png"
 import laptop from "../assets_img/main_laptop.svg";

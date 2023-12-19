@@ -191,9 +191,6 @@ const onThematicLegends = (mapId, thematicLegends) => {
     });
 }
 
-//function to handle getting the list of user's created maps. 
-const getUserMaps = (user) => {}
-
 const apis = {
     getUser,
     getAllUsers,
@@ -218,7 +215,6 @@ const apis = {
     onColor,
     onLegend,
     onSearch,
-    getUserMaps,
     changeVisibility,
     deleteLegend,
     onFont,

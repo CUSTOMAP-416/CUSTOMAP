@@ -4,7 +4,6 @@ import { useContext, useState, useEffect } from 'react';
 import AuthStoreContextProvider from '../../auth_store';
 import { Link } from "react-router-dom";
 
-import arrow from "../../assets_img/dashboard_arrow.svg";
 import map from "../../assets_img/Default.png";
 import heat from "../../assets_img/Heat.png";
 import point from "../../assets_img/Point.png";
@@ -52,6 +51,7 @@ export default function AdminDashboardMapList(props){
             )
         }
         setShowMapsContent(maps)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [showMaps]);
  
     const handleSearchChange = (event) => {
@@ -67,13 +67,13 @@ export default function AdminDashboardMapList(props){
     //Handle changes in map sorting change.
     const handleSortingChange = (event) => {
         const mapsId = [...showMaps]
-        if(event == "Ascending"){
+        if(event === "Ascending"){
             mapsId.sort((a, b) => a.title.localeCompare(b.title));
         }
-        else if(event == "Descending"){
+        else if(event === "Descending"){
             mapsId.sort((a, b) => b.title.localeCompare(a.title));
         }
-        else if(event == "Recent Date"){
+        else if(event === "Recent Date"){
             mapsId.sort((a, b) => a.createdDate - b.createdDate);
         }
 
@@ -109,12 +109,12 @@ export default function AdminDashboardMapList(props){
         //function to handle delete map process. 
         auth_store.deleteMap(event)
         let maps = allMaps
-        let index = maps.findIndex(str => str._id == event);
+        let index = maps.findIndex(str => str._id === event);
         maps.splice(index, 1);
         setAllMaps(maps)
         auth_store.maps = maps
         maps = showMaps
-        index = maps.findIndex(str => str._id == event);
+        index = maps.findIndex(str => str._id === event);
         maps.splice(index, 1);
         setShowMaps(maps)
         handleSortingChange("Recent Date")
