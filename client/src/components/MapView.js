@@ -730,7 +730,6 @@ export default function MapView(){
             })}</div>}
           {selectedMapType === 'choropleth' &&
           <div>{layerItems.map((item) => {
-            console.log(item)
             return <div key={item.date}>
                     <div className="data-container" onClick={() => setMapView(item.x, item.y)}>
                       <li className='view'>Admin: {item.label}<br />  Lat: {item.y} <br /> Lng: {item.x}</li>
