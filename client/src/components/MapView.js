@@ -366,7 +366,7 @@ export default function MapView(){
           newItem = {
             _id: null,
             id: layerId.id,
-            lable: layerId.admin,
+            label: layerId.admin,
             x: newXY.x,
             y: newXY.y,
             color: value,

@@ -269,7 +269,7 @@ export default function DashboardCreateOrEditMapView(props) {
                   >
                     .JSON
                   </button>
-                  <button id="close" onClick={() => hideExportPage()}>
+                  <button className="button upload" id="close" onClick={() => hideExportPage()}>
                     x
                   </button>
                 </div>

@@ -120,6 +120,7 @@ export default function DashboardMapListView( props ){
             setUserMaps(emptyMap);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
+        setIsDarkMode(props.isDarkMode);
     },[]);
     
     useEffect(() => {
