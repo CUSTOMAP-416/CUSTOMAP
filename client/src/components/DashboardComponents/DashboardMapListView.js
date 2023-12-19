@@ -16,19 +16,7 @@ export default function DashboardMapListView( props ){
 
     //List of user maps. 
     const [userMaps, setUserMaps] = useState([]);
-    //Stores the currently selected map. 
-    const [mapSelected, setMapSelected] = useState(null);
-    //Stores the map sorting option. 
-    const [sortingOption, setSortingOption] = useState('');
 
-    //function to handle getting the list of user's created maps. 
-    const getUserMaps = (user) => {
-        setUserMaps(auth_store.getUserMaps(user))
-    }
-    //function to handle delete map process. 
-    const deleteMap = (map) => {
-        auth_store.deleteMap(map)
-    }
     //Handles map selection button click. 
     const handleMapSelect = (event) => {
         console.log(event)
@@ -48,13 +36,13 @@ export default function DashboardMapListView( props ){
         else if(event === "Recent Date"){
             mapsId.sort((a, b) => a.createdDate - b.createdDate);
         }
-
+//{`sidebar-buttons ${isDarkMode ? 'sidebar-buttons-dark' : 'sidebar-buttons'}`}
         const maps = []
         for(let i=0; i<mapsId.length; i++){
             maps.push(
-                <div key={mapsId[i]._id} className={props.isDarkMode ? 'box-dark' : 'box'}>
+                <div key={mapsId[i]._id} className={`box ${props.isDarkMode ? 'box' : 'box-dark'}`}>
                     <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
-                        <div className={props.isDarkMode ? 'map-name-dark' : 'map-name'}>{mapsId[i].title}</div>
+                        <div className={props.isDarkMode ? 'map-name' : 'map-name-dark'}>{mapsId[i].title}</div>
                         <button className="delete" onClick={() => handleEdit(mapsId[i]._id)}>Edit</button>
                         <button className="delete" onClick={() => handleDeleteMap(mapsId[i]._id)}>X</button>
                     </div>
@@ -90,9 +78,9 @@ export default function DashboardMapListView( props ){
         if(auth_store.user && auth_store.user.maps.length > 0){
             for(let i=0; i<auth_store.user.maps.length; i++){
                 maps.push(
-                    <div key={auth_store.user.maps[i]._id} className={props.isDarkMode ? 'box-dark' : 'box'}>
+                    <div key={auth_store.user.maps[i]._id} className={props.isDarkMode ? 'box' : 'box-dark'}>
                         <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
-                            <div className={props.isDarkMode ? 'map-name-dark' : 'map-name'}>{auth_store.user.maps[i].title}</div>
+                            <div className={props.isDarkMode ? 'map-name' : 'map-name-dark'}>{auth_store.user.maps[i].title}</div>
                             <button className="delete" onClick={() => handleEdit(auth_store.user.maps[i]._id, props.isDarkMode)}>Edit</button>
                             <button className="delete" onClick={() => handleDeleteMap(auth_store.user.maps[i]._id)}>X</button>
                         </div>
@@ -112,6 +100,7 @@ export default function DashboardMapListView( props ){
         else{
             setUserMaps(emptyMap);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
     
     
@@ -124,24 +113,15 @@ export default function DashboardMapListView( props ){
           </div>
         </div>
     );
+
+    const isDarkMode = props.isDarkMode !== undefined ? props.isDarkMode : true; 
     return (
-      <div style={{height: 'auto',  overflow: 'auto'}}>
-        <div className={props.isDarkMode ? 'dashboard-header-dark' : 'dashboard-header'}>Dashboard</div>
+        console.log(props.isDarkMode),
+        <div style={{height: 'auto',overflow: 'auto'}}>
+        <div className={`dashboard-header ${ isDarkMode ? 'dashboard-header' : 'dashboard-header-dark'}`}>Dashboard</div>
         <div className="description-and-sorting">
           <div className="description">Maps you have participated in</div>
           <div className="sort-buttons">
-            {/* <button className='arrow-button'  onClick={() => handleSortingChange("Ascending")}>
-                    <img className="arrow" src={arrow} alt="My SVG" />
-                </button>
-                <button className="sort-button" onClick={() => handleSortingChange("Ascending")}>Ascending</button>
-                <button className='arrow-button' onClick={() => handleSortingChange("Descending")}>
-                    <img className="arrow" src={arrow} alt="My SVG" />
-                </button>
-                <button className="sort-button" onClick={() => handleSortingChange("Descending")}>Descending</button>
-                <button className='arrow-button' onClick={() => handleSortingChange("Recent Date")}>
-                    <img className="arrow" src={arrow} alt="My SVG" />
-                </button>
-                <button className="sort-button" onClick={() => handleSortingChange("Recent Date")}>Recent Date</button> */}
             <div className="sort-dropdown">
               <select onChange={(e) => handleSortingChange(e.target.value)}>
                 <option value="defult">SORT</option>

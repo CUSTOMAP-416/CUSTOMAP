@@ -1,5 +1,4 @@
 import React, {createContext, useState } from "react";
-import { useNavigate } from 'react-router-dom'
 import apis from './auth_store_stroe_request_api'
 
 const AuthStoreContext = createContext();
@@ -29,8 +28,6 @@ function AuthStoreContextProvider(props) {
       users: [],
       maps: [],
     });
-
-    const history = useNavigate();
 
     const auth_storeReducer = (action) => {
         const { type, payload } = action;
@@ -240,7 +237,7 @@ function AuthStoreContextProvider(props) {
     auth_store.deleteMap= async function (id) {
         let maps =[]
         for(let i=0; i<this.user.maps.length; i++){
-            if(this.user.maps[i]._id != id){
+            if(this.user.maps[i]._id !== id){
                 maps.push(this.user.maps[i])
             }
         }
@@ -343,7 +340,7 @@ function AuthStoreContextProvider(props) {
     //function to handle the edit map process 
     auth_store.onEditMap= async function (title, description) {
         for(let i=0; i<this.user.maps.length; i++){
-            if(this.user.maps[i]._id == this.selectMap._id){
+            if(this.user.maps[i]._id === this.selectMap._id){
                 this.user.maps[i].title = title
                 this.selectMap.title = title;
                 this.user.maps[i].description = description
@@ -557,28 +554,13 @@ function AuthStoreContextProvider(props) {
     //function to handle the undo process. 
     auth_store.onUndo = function () {}
     //function to handle open the home screen 
-    auth_store.openHome = () => {
-        return setAuthStore((prevAuthStore) => ({
-          ...prevAuthStore,
-          errorMessage: null,
-        }));
-    }
+    auth_store.openHome = () => {}
     //function to handle open the my page screen 
     auth_store.openMyPage = () => {}
     //function to handle open the login screen 
-    auth_store.openLogin = () => {
-        return setAuthStore((prevAuthStore) => ({
-          ...prevAuthStore,
-          errorMessage: null,
-        }));
-    }
+    auth_store.openLogin = () => {}
     //function to handle open the sign-up screen 
-    auth_store.openSignUp = () => {
-        return setAuthStore((prevAuthStore) => ({
-          ...prevAuthStore,
-          errorMessage: null,
-        }));
-    }
+    auth_store.openSignUp = () => {}
     //function to handle open forgot password screen 
     auth_store.openForgotPassword = () => {
         return setAuthStore((prevAuthStore) => ({

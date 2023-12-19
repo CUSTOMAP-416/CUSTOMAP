@@ -50,7 +50,7 @@ class DefaultMap extends Component {
   onEachFeature = (feature, layer) => {
     let text = ''
     for(let i=0; i<this.props.props.texts.length; i++){
-      if(this.props.props.texts[i].x==feature.properties.label_x && this.props.props.texts[i].y==feature.properties.label_y){
+      if(this.props.props.texts[i].x===feature.properties.label_x && this.props.props.texts[i].y===feature.properties.label_y){
         text = this.props.props.texts[i].text;
         break;
       }
@@ -76,7 +76,7 @@ class DefaultMap extends Component {
     this.props.map.addLayer(marker)
 
     for(let i=0; i<this.props.props.colors.length; i++){
-      if(this.props.props.colors[i].x==feature.properties.label_x && this.props.props.colors[i].y==feature.properties.label_y){
+      if(this.props.props.colors[i].x===feature.properties.label_x && this.props.props.colors[i].y===feature.properties.label_y){
         layer.setStyle({
           fillColor: this.props.props.colors[i].color,
           fillOpacity: 0.2,
@@ -152,7 +152,7 @@ class DefaultMap extends Component {
             }
           }
 
-          if(this.props.props.changedText && marker._icon.innerText != this.props.props.changedText){
+          if(this.props.props.changedText && marker._icon.innerText !== this.props.props.changedText){
             state = {
               type: 'text',
               id: marker._leaflet_id,
@@ -231,9 +231,9 @@ class DefaultMap extends Component {
   };
 
   undo = (customization) => {
-    if(customization.type == 'color'){
+    if(customization.type === 'color'){
       let layer=this.props.geojsonLayer.getLayer(customization.id)
-      if(customization.previous == "#808080" || customization.value.color == "#ffffff" || customization.previous == null){
+      if(customization.previous === "#808080" || customization.value.color === "#ffffff" || customization.previous === null){
         layer.setStyle({
           fillColor: "",
           fillOpacity: 0,
@@ -259,11 +259,11 @@ class DefaultMap extends Component {
         });
       }
     }
-    else if(customization.type == 'text'){
+    else if(customization.type === 'text'){
       const id = customization.id
       const text = customization.previous
       this.props.map.eachLayer(function(layer){
-        if(layer._leaflet_id == id){
+        if(layer._leaflet_id === id){
           const label = L.divIcon({
             className: "label",
             html: `<div>${text}</div>`,
@@ -276,9 +276,9 @@ class DefaultMap extends Component {
   }
 
   redo = (customization) => {
-    if(customization.type == 'color'){
+    if(customization.type === 'color'){
       let layer=this.props.geojsonLayer.getLayer(customization.id)
-      if(customization.value.color == "#808080" || customization.value.color == "#ffffff" || customization.value.color == null){
+      if(customization.value.color === "#808080" || customization.value.color === "#ffffff" || customization.value.color === null){
         layer.setStyle({
           fillColor: "",
           fillOpacity: 0,
@@ -304,11 +304,11 @@ class DefaultMap extends Component {
         });
       }
     }
-    else if(customization.type == 'text'){
+    else if(customization.type === 'text'){
       const id = customization.id
       const text = customization.value.text
       this.props.map.eachLayer(function(layer){
-        if(layer._leaflet_id == id){
+        if(layer._leaflet_id === id){
           const label = L.divIcon({
             className: "label",
             html: `<div>${text}</div>`,
@@ -328,10 +328,10 @@ class DefaultMap extends Component {
       this.updateFont();
     }
     if (prevProps.props.customization !== this.props.props.customization){
-      if(this.props.props.customization.redoUndo == 'redo'){
+      if(this.props.props.customization.redoUndo === 'redo'){
         this.redo(this.props.props.customization.custom)
       }
-      else if(this.props.props.customization.redoUndo == 'undo'){
+      else if(this.props.props.customization.redoUndo === 'undo'){
         this.undo(this.props.props.customization.custom)
       }
     } 

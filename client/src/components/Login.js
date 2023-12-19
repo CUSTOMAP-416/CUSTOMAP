@@ -28,8 +28,6 @@ export default function Login() {
   //Stores the password input.
   const [password, setPassword] = useState("");
 
-  const [ready, setReady] = useState(false);
-
   //Handle changes to the email input field.
   const handleEmailChange = (event) => {
     setEmail(event.target.value);

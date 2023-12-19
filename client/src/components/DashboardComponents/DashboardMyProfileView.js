@@ -74,7 +74,7 @@ export default function DashboardMyProfileView(props){
 
     return (
       <div className="myprofile_all">
-        <div className={props.isDarkMode ? 'myprofile_H-dark' : 'myprofile_H'}>My Profile</div>
+        <div className={props.isDarkMode ? 'myprofile_H' : 'myprofile_H-dark'}>My Profile</div>
         <div style={{ color: "grey", paddingTop: "20px", paddingLeft: "10px" }}>
           User email cannot be changed
         </div>

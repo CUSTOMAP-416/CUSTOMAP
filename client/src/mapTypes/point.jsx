@@ -79,13 +79,13 @@ class PointMap extends Component {
   }
 
   undo = (customization) => {
-    if(customization.type == 'add'){
+    if(customization.type === 'add'){
       this.delete(customization.value.y, customization.value.x)
     }
-    else if(customization.type == 'delete'){
+    else if(customization.type === 'delete'){
       this.add(customization.value.y, customization.value.x)
     }
-    else if(customization.type == 'background'){
+    else if(customization.type === 'background'){
       const geojsonLayer = this.props.geojsonLayer;
       geojsonLayer.setStyle({
         fillColor: customization.previous,
@@ -97,13 +97,13 @@ class PointMap extends Component {
   }
 
   redo = (customization) => {
-    if(customization.type == 'add'){
+    if(customization.type === 'add'){
       this.add(customization.value.y, customization.value.x)
     }
-    else if(customization.type == 'delete'){
+    else if(customization.type === 'delete'){
       this.delete(customization.value.y, customization.value.x)
     }
-    else if(customization.type == 'background'){
+    else if(customization.type === 'background'){
       const geojsonLayer = this.props.geojsonLayer;
       geojsonLayer.setStyle({
         fillColor: customization.value.background,
@@ -119,16 +119,16 @@ class PointMap extends Component {
       this.loadFile(this.props.props.mapData);
     }
     if (prevProps.props.customization !== this.props.props.customization){
-      if(this.props.props.customization.redoUndo == 'redo'){
+      if(this.props.props.customization.redoUndo === 'redo'){
         this.redo(this.props.props.customization.custom)
       }
-      else if(this.props.props.customization.redoUndo == 'undo'){
+      else if(this.props.props.customization.redoUndo === 'undo'){
         this.undo(this.props.props.customization.custom)
       }
-      else if(this.props.props.customization.redoUndo == 'add'){
+      else if(this.props.props.customization.redoUndo === 'add'){
         this.add(this.props.props.customization.custom.y, this.props.props.customization.custom.x)
       }
-      else if(this.props.props.customization.redoUndo == 'delete'){
+      else if(this.props.props.customization.redoUndo === 'delete'){
         this.delete(this.props.props.customization.custom.y, this.props.props.customization.custom.x)
       }
     } 

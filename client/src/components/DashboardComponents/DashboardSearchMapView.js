@@ -2,7 +2,6 @@ import { useContext, useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import AuthStoreContextProvider from '../../auth_store';
 
-import arrow from "../../assets_img/dashboard_arrow.svg";
 import map from "../../assets_img/Default.png";
 import heat from "../../assets_img/Heat.png";
 import point from "../../assets_img/Point.png";
@@ -17,10 +16,6 @@ export default function DashboardSearchMapView(props){
     const [searchKeyword, setSearchKeyword] = useState('');
     //List of search maps. 
     const [searchMaps, setSearchMaps] = useState([]);
-    //Stores the currently selected map. 
-    const [mapSelected, setMapSelected] = useState(null);
-    //Stores the map sorting option. 
-    const [sortingOption, setSortingOption] = useState('');
     const [rander, setRander] = useState(true);
 
     //Handle Search input changes.
@@ -54,9 +49,9 @@ export default function DashboardSearchMapView(props){
         const maps = []
         for(let i=0; i<mapsId.length; i++){
             maps.push(
-                <div key={mapsId[i]._id} className={props.isDarkMode ? 'box-dark' : 'box'}>
+                <div key={mapsId[i]._id} className={props.isDarkMode ? 'box' : 'box-dark'}>
                     <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
-                        <div className={props.isDarkMode ? 'map-name-dark' : 'map-name'}>{mapsId[i].title}</div>
+                        <div className={props.isDarkMode ? 'map-name' : 'map-name-dark'}>{mapsId[i].title}</div>
                     </div>
                     <Link to="/MapView/" onClick={() => handleMapSelect(mapsId[i]._id)}>
                     {mapsId[i].mapType === "heat" ? <img className="map" src={heat} alt="My SVG" /> : 
@@ -76,9 +71,9 @@ export default function DashboardSearchMapView(props){
             const maps = []
             for(let i=0; i<auth_store.searchMaps.length; i++){
                 maps.push(
-                    <div key={auth_store.searchMaps[i]._id} className={props.isDarkMode ? 'box-dark' : 'box'}>
+                    <div key={auth_store.searchMaps[i]._id} className={props.isDarkMode ? 'box' : 'box-dark'}>
                         <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
-                            <div className={props.isDarkMode ? 'map-name-dark' : 'map-name'}>{auth_store.searchMaps[i].title}</div>
+                            <div className={props.isDarkMode ? 'map-name' : 'map-name-dark'}>{auth_store.searchMaps[i].title}</div>
                         </div>
                         <Link to="/MapView/" onClick={() => handleMapSelect(auth_store.searchMaps[i]._id)}>
                         {auth_store.searchMaps[i].mapType === "heat" ? <img className="map" src={heat} alt="My SVG" /> : 
@@ -93,17 +88,19 @@ export default function DashboardSearchMapView(props){
             }
             setSearchMaps(maps)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [auth_store.searchMaps])
 
    
     
     useEffect(() => {
         auth_store.onSearch('')
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return(
         <div style={{height: 'auto',  overflow: 'auto'}}>
-        <div className={props.isDarkMode ? 'dashboard-header-dark' : 'dashboard-header'}>
+        <div className={props.isDarkMode ? 'dashboard-header' : 'dashboard-header-dark'}>
             Search Map
         </div>
         <div className='search-box'>

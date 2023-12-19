@@ -1,60 +1,20 @@
-import { useContext, useState, useEffect } from 'react';
-import AuthStoreContextProvider from '../../auth_store';
+import { useState } from 'react';
 import '../../styles/MapView.css';
 
 export default function MapViewCustomizeToolbar({ 
     onFontChange, onTextChange, onColorChange, onUndo, onRedo, onSave, mapType, newXY, setNewXY, label, setLabel, number, setNumber, string, setString, add, layerId, put,isDarkMode
 }) {
-    const { auth_store } = useContext(AuthStoreContextProvider);
-
     const [text, setText] = useState("");
     const [color, setColor] = useState("#ffffff"); // Default color white
     const [showPicker, setShowPicker] = useState(false);
-    const [font, setFont] = useState('');
 
     const handleButtonClick = () => {
         setShowPicker((showPicker) => !showPicker); // Toggle color picker display
     };
 
-  const handleColorChange = (e) => {
-    setColor(e.target.value);
-    setShowPicker(false); // Hide the color picker after selection
-  };
-
-  //function to handle the text process
-  const onText = (event) => {
-    auth_store.onText(event);
-  };
-  //function to handle the Color process
-  const onColor = (event) => {
-    // auth_store.onColor(event);
-  };
-  //function to handle the Legend process
-  const onLegend = (event) => {
-    auth_store.onLegend(event);
-  };
-
-    //'Text', 'Color', 'Legend'
-    const [selectedTool, setSelectedTool] = useState("");
-
-    //Handle show font list.
-    const handleShowFonts = (e) => {
-        // onFontChange(e);
-    };
-    //Handle the text button click.
-    const handleText = (event) => {
-        setSelectedTool(event);
-    };
     //Handle the Select Font button click.
     const handleSelectFont = (event) => {
-        setFont(event.target.value);
         onFontChange(event.target.value);
-    };
-    //Handle show color list.
-    const handleShowColors = () => {};
-    //Handle the color button click.
-    const handleColor = (event) => {
-        setSelectedTool(event);
     };
 
     const handleTextChange = (event) => {
@@ -65,19 +25,13 @@ export default function MapViewCustomizeToolbar({
 
     const handleAppliedTextChange = () => {
         onTextChange(text);
-        //onText(text);
     }
 
     //Handle the Select Color button click.
-    //   const handleSelectColor = (event) => {
-    //     setColor(event.target.value);
-    //     onColor(event);
-    //   };
     const handleSelectColor = (event) => {
         const newColor = event.target.value;
         setColor(newColor);
         onColorChange(newColor); 
-        //onColor(event);
     };
 
     const handleNewXChange = (event) => {

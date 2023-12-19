@@ -112,7 +112,7 @@ body {
 .sort-buttons {
     padding: 10px;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 .right-align{

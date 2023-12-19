@@ -1,4 +1,4 @@
-import { Component, React } from "react";
+import { Component } from "react";
 import L from "leaflet";
 
 class ThematicMap extends Component {
@@ -51,7 +51,7 @@ class ThematicMap extends Component {
 //-------------------onEachFeature --------------------
   onEachFeature = (feature, layer) => {
     for(let i=0; i<this.props.props.layerItems.length; i++){
-      if(this.props.props.layerItems[i].x==feature.properties.label_x && this.props.props.layerItems[i].y==feature.properties.label_y){
+      if(this.props.props.layerItems[i].x===feature.properties.label_x && this.props.props.layerItems[i].y===feature.properties.label_y){
         let index = ''
         for(let j=7; j>0; j--){
           if(this.props.props.legendItems[j].visibility){
@@ -178,7 +178,6 @@ class ThematicMap extends Component {
       this.props.setGeojsonLayer(layer)
       if(this.props.props.legendItems.length !== 0){
         if (!this.state.legendControl) {
-          const liVisibility = this.state.liVisibility
           const legendItems = this.props.props.legendItems
           const hexToRGBA = this.hexToRGBA
           const legendControl = L.Layer.extend({
@@ -408,19 +407,19 @@ class ThematicMap extends Component {
   }
 
   undo = (customization) => {
-    if(customization.type == 'add'){
+    if(customization.type === 'add'){
       this.deleteByLatlng(customization.value.y, customization.value.x)
     }
-    else if(customization.type == 'delete'){
+    else if(customization.type === 'delete'){
       this.addByLatlng(customization.value.y, customization.value.x, customization.value.number)
     }
   }
 
   redo = (customization) => {
-    if(customization.type == 'add'){
+    if(customization.type === 'add'){
       this.addByLatlng(customization.value.y, customization.value.x, customization.value.number)
     }
-    else if(customization.type == 'delete'){
+    else if(customization.type === 'delete'){
       this.deleteByLatlng(customization.value.y, customization.value.x)
     }
   }
@@ -430,19 +429,19 @@ class ThematicMap extends Component {
       this.loadFile(this.props.props.mapData);
     }
     if (prevProps.props.customization !== this.props.props.customization){
-      if(this.props.props.customization.redoUndo == 'redo'){
+      if(this.props.props.customization.redoUndo === 'redo'){
         this.redo(this.props.props.customization.custom)
       }
-      else if(this.props.props.customization.redoUndo == 'undo'){
+      else if(this.props.props.customization.redoUndo === 'undo'){
         this.undo(this.props.props.customization.custom)
       }
-      else if(this.props.props.customization.redoUndo == 'legend'){
+      else if(this.props.props.customization.redoUndo === 'legend'){
         this.updateLegend()
       }
-      else if(this.props.props.customization.redoUndo == 'add'){
+      else if(this.props.props.customization.redoUndo === 'add'){
         this.addByLatlng(this.props.props.customization.custom.y, this.props.props.customization.custom.x, this.props.props.customization.custom.number)
       }
-      else if(this.props.props.customization.redoUndo == 'delete'){
+      else if(this.props.props.customization.redoUndo === 'delete'){
         this.deleteByLatlng(this.props.props.customization.custom.y, this.props.props.customization.custom.x)
       }
     } 

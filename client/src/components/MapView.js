@@ -12,12 +12,7 @@ export default function MapView(){
   //Stores the map data.
   const [mapData, setMapData] = useState(null);
 
-  //function to handle open discussion forum. 
-  const openDiscussionForum = () => {
-      auth_store.openDiscussionForum()
-  }
   const [errorMessage, setErrorMessage] = useState("");
-  const [showDiscussionForum, setShowDiscussionForum] = useState(false);
   const [changedText, setChangedText] = useState('');
   const [changedFont, setChangedFont] = useState('');
   const [selectedColor, setSelectedColor] = useState("#ffffff"); 
@@ -36,16 +31,6 @@ export default function MapView(){
   const handleColorChange = (color) => {
     setSelectedColor(color);
   };
-
-  //Handle the discussion forum button click. 
-  const handleDiscussionForum = () => {
-      if(showDiscussionForum){
-          setShowDiscussionForum(false)
-      }
-      else{
-          setShowDiscussionForum(true)
-      }
-  }
 
   const [customization, setCustomization] = useState(null);
   const [customizations, setCustomizations] = useState([]);
@@ -540,6 +525,7 @@ export default function MapView(){
         setLabel("#ffffff")
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth_store.selectMap]);
   
   const [isOpen, setIsOpen] = useState(false);
