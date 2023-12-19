@@ -13,6 +13,7 @@
     padding: 20px;
     flex:  0 20%;
     text-align: center;
+    min-height:100vh;
 }
 
 .sidebar-dark {
