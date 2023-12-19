@@ -212,12 +212,20 @@ export default function DashboardCreateOrEditMapView(props) {
     user.style.display = 'none';
   }
 
+  const [isFirstRender, setIsFirstRender] = useState(true);
+
+    useEffect(() => {
+        // 组件首次渲染后，将 isFirstRender 设置为 false
+      setIsFirstRender(false);
+      
+    }, []);
+    console.log(isFirstRender)
   return (
     <div className="createEditAll">
       <div>
         <div className="creat-banner" style={{ paddingBottom: "0px" }}>
           <div className="title-section">
-            <div className={props.isDarkMode ? 'dashboard-header' : 'dashboard-header-dark'} style={{ padding: "40px 30px" }}>
+            <div className={auth_store.isCreatePage ? (!props.isDarkMode ? 'dashboard-header-dark' : 'dashboard-header') :'dashboard-header'} style={{ padding: "40px 30px" }}>
               {auth_store.isCreatePage ? "Create Map" : "Edit Map"}
             </div>
             {auth_store.isCreatePage ? (
