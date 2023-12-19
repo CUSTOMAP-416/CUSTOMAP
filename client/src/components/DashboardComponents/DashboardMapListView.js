@@ -16,6 +16,9 @@ import  handleSelectedViewChange from "../Dashboard"
 export default function DashboardMapListView( props ){
     const { auth_store } = useContext(AuthStoreContextProvider);
 
+    //const isDarkMode = props.isDarkMode !== undefined ? props.isDarkMode : true; 
+    const [isDarkMode, setIsDarkMode] = useState(true);
+    
     //List of user maps. 
     const [userMaps, setUserMaps] = useState([]);
 
