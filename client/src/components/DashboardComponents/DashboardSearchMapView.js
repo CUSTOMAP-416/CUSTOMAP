@@ -49,7 +49,7 @@ export default function DashboardSearchMapView(props){
         const maps = []
         for(let i=0; i<mapsId.length; i++){
             maps.push(
-                <div key={mapsId[i]._id} className={props.isDarkMode ? 'box' : 'box-dark'}>
+                <div key={mapsId[i]._id} className='box'>
                     <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
                         <div className={props.isDarkMode ? 'map-name' : 'map-name-dark'}>{mapsId[i].title}</div>
                     </div>
@@ -71,7 +71,7 @@ export default function DashboardSearchMapView(props){
             const maps = []
             for(let i=0; i<auth_store.searchMaps.length; i++){
                 maps.push(
-                    <div key={auth_store.searchMaps[i]._id} className={props.isDarkMode ? 'box' : 'box-dark'}>
+                    <div key={auth_store.searchMaps[i]._id} className= 'box' >
                         <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
                             <div className={props.isDarkMode ? 'map-name' : 'map-name-dark'}>{auth_store.searchMaps[i].title}</div>
                         </div>
