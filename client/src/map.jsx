@@ -75,30 +75,11 @@ class MapComponent extends Component {
   };
 
   manualExportJson = () => {
-    const { map, geojsonLayer } = this.state;
-    if (map && geojsonLayer && geojsonLayer.type === "FeatureCollection") {
-      const geojsonStr = JSON.stringify(geojsonLayer);
+    const { map } = this.state;
+    if (map && this.props.mapData && this.props.mapData.type === "FeatureCollection") {
+      const geojsonStr = JSON.stringify(this.props.mapData);
       const blob = new Blob([geojsonStr], { type: "application/json" });
       
-      const url = URL.createObjectURL(blob);
-  
-      const downloadLink = document.createElement("a");
-      downloadLink.href = url;
-      downloadLink.download = "mapData.json";
-
-      downloadLink.click();
-      
-      URL.revokeObjectURL(url);
-    }
-  };
-
-  exportMapToJson = (map, geojsonLayer) => {
-    if (map && geojsonLayer && geojsonLayer.type === "FeatureCollection") {
-     
-      const geojsonStr = JSON.stringify(geojsonLayer);
-  
-      const blob = new Blob([geojsonStr], { type: "application/json" });
-  
       const url = URL.createObjectURL(blob);
   
       const downloadLink = document.createElement("a");
@@ -112,7 +93,6 @@ class MapComponent extends Component {
   };
 
   changeView = (lat, lng) => {
-
     const rightside = document.querySelector('.rightside-for-legend');
     const divs = document.querySelectorAll('.view');
     divs.forEach((div) => {
@@ -134,12 +114,6 @@ class MapComponent extends Component {
     if (prevProps.mapType !== this.props.mapType) {
       setTimeout(() => {
         this.setState({mapType: this.props.mapType})
-        if (document.getElementById("json-option")) {
-          document.getElementById("png-option").addEventListener("click", this.manualPrint);
-          document.getElementById("pdf-option").addEventListener("click", this.manualPrintpdf);
-          document.getElementById("json-option").addEventListener("click", this.manualExportJson);
-        }
-        
         if(this.props.mapType === 'heat' || this.props.mapType === 'point' || this.props.mapType === 'bubble'){
           if(!this.props.isCreatePage){
             this.state.map.on('click', (e) => {
@@ -162,6 +136,11 @@ class MapComponent extends Component {
       height: height || "500px",
       width: width || "100%",
     };
+    if (document.getElementById("json-option")) {
+      document.getElementById("png-option").addEventListener("click", this.manualPrint);
+      document.getElementById("pdf-option").addEventListener("click", this.manualPrintpdf);
+      document.getElementById("json-option").addEventListener("click", this.manualExportJson);
+    }
 
     return (
       <div id="map-container">
