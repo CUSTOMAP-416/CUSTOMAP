@@ -287,11 +287,16 @@ function AuthStoreContextProvider(props) {
     }
     auth_store.session= async function () {
         await apis.session().then(response => {
-            if(response.data){
-                auth_storeReducer({
-                    type: AuthStoreActionType.LOGIN_USER,
-                    payload: response.data.user,
-                });
+            if(response){
+                if(response.data){
+                    auth_storeReducer({
+                        type: AuthStoreActionType.LOGIN_USER,
+                        payload: response.data.user,
+                    });
+                }
+                else{
+                    return
+                }
             }
             else{
                 return
