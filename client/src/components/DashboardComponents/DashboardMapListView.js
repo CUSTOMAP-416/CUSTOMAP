@@ -46,7 +46,7 @@ export default function DashboardMapListView( props ){
         for(let i = 0; i < mapsId.length; i++){
             const isDarkMode = props.isDarkMode;
             maps.push(
-                <div key={mapsId[i]._id} className={`box ${props.isDarkMode ? 'box' : 'box-dark'}`}>
+                <div key={mapsId[i]._id} className='box'>
                     <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
                         <div className='map-name'>{mapsId[i].title}</div>
                         <button className="delete" onClick={() => handleEdit(mapsId[i]._id, props.isDarkMode)} >Edit</button>
