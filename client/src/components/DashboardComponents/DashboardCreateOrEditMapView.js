@@ -138,7 +138,7 @@ export default function DashboardCreateOrEditMapView(props) {
   };
   //share map
   const shareMap = () => {
-    auth_store.shareMap(auth_store.selectMap._id, parseInt(shareEmail, 10))
+    auth_store.shareMap(auth_store.selectMap._id, shareEmail)
     setIsShareOpen(!isShareOpen)
   };
   const [isShareOpen, setIsShareOpen] = useState(false);
