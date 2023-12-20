@@ -133,22 +133,24 @@ class BubbleMap extends Component {
     } 
     if(prevProps.props.selectedColor !== this.props.props.selectedColor){
       const geojsonLayer = this.props.geojsonLayer;
-      if(this.props.props.handleCustomization){
-        const state = {
-          type: 'background',
-          previous: geojsonLayer.getLayers()[0].options.fillColor,
-          value: {
-            background: this.props.props.selectedColor,
+      if(geojsonLayer){
+        if(this.props.props.handleCustomization){
+          const state = {
+            type: 'background',
+            previous: geojsonLayer.getLayers()[0].options.fillColor,
+            value: {
+              background: this.props.props.selectedColor,
+            }
           }
+          this.props.props.handleCustomization(state)
         }
-        this.props.props.handleCustomization(state)
+        geojsonLayer.setStyle({
+          fillColor: this.props.props.selectedColor,
+          color: "#808080",
+          weight: 1,
+          fillOpacity: 0.1,
+        });
       }
-      geojsonLayer.setStyle({
-        fillColor: this.props.props.selectedColor,
-        color: "#808080",
-        weight: 1,
-        fillOpacity: 0.1,
-      });
     }
   }
 

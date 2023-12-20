@@ -23,7 +23,8 @@ export default function Dashboard(){
         setCurrentViewType(viewType);
     }
     const handleEditView = () => {
-        setSelectedView(<DashboardCreateOrEditMapView />)
+        setSelectedView(<DashboardCreateOrEditMapView isDarkMode={isDarkMode} />)
+        
     }
 
     //Stores the currently selected view (Dash Board, My Profile, Create Map, Search Map)
@@ -50,7 +51,6 @@ export default function Dashboard(){
     const getSelectedView = (viewType) => {
         switch (viewType) {
             case 'dashboard':
-                console.log("dashboard")
                 
                 return <DashboardMapListView handleEditView={handleEditView} isDarkMode={isDarkMode} />;
 
