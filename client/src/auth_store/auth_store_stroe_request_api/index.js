@@ -1,8 +1,8 @@
 import axios from 'axios'
 axios.defaults.withCredentials = true;
 const api = axios.create({
-    baseURL: 'https://customap416-e4fee90f355c.herokuapp.com/auth_store',
-})
+  baseURL: "https://customap416-e4fee90f355c.herokuapp.com/auth_store",
+});
 
 const getUser = () => api.get('/loggedIn/');
 //All user list in Admin dashboard const getUsers = async () => { ?

@@ -390,6 +390,16 @@ hr.hr-1 {
   color: #ffffff;
 }
 
+.mapview-footer{
+  display: flex;
+  margin-top: 15px;
+  margin-right: 25px;
+  align-items: center;
+  justify-content: flex-end;
+}
+.mapview-footer-title{
+  margin-right: 10px;
+}
 /* Sort dropdown button ------------------*/
   #text-select{
     width:100px;

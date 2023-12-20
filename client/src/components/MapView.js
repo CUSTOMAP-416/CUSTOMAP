@@ -5,6 +5,7 @@ import MapComponent from "../map.jsx";
 
 import MapViewDiscussionForum from './MapViewComponents/MapViewDiscussionForum';
 import MapViewCustomizeToolbar from './MapViewComponents/MapViewCustomizeToolbar';
+import { Padding } from '@mui/icons-material';
 
 export default function MapView(){
   const { auth_store } = useContext(AuthStoreContextProvider);
@@ -742,15 +743,20 @@ export default function MapView(){
             })}</div>}
           </div>
         </div>
-        <div className={`mapview-header ${isDarkMode ? 'mapview-header-dark' : 'mapview-header'}`}>Dark Mode</div>
-                    <label className="switch">
-                        <input
-                            type="checkbox"
-                            checked={isDarkMode}
-                            onChange={handleToggle}
-                        />
-                        <span className="slider"></span>
-                    </label>
+        <hr className="hr-1"></hr>
+        <div className='mapview-footer'>
+          <span className='mapview-footer-title'>
+            <span className={`mapview-header ${isDarkMode ? 'mapview-header-dark' : 'mapview-header'}`}>Dark Mode </span>
+          </span>
+          <label className="switch">
+              <input
+                  type="checkbox"
+                  checked={isDarkMode}
+                  onChange={handleToggle}
+              />
+              <span className="slider"></span>
+          </label>
+        </div>
       </div>
       
     </div>
