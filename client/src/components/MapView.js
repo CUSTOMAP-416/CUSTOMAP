@@ -5,7 +5,6 @@ import MapComponent from "../map.jsx";
 
 import MapViewDiscussionForum from './MapViewComponents/MapViewDiscussionForum';
 import MapViewCustomizeToolbar from './MapViewComponents/MapViewCustomizeToolbar';
-import { Padding } from '@mui/icons-material';
 
 export default function MapView(){
   const { auth_store } = useContext(AuthStoreContextProvider);
