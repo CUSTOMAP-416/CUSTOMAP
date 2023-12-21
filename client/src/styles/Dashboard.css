@@ -835,3 +835,17 @@ input:checked + .slider:before {
   color: gray;
 }
 
+
+/* Loading page */
+@keyframes slide {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(100px); } 
+  100% { transform: translateX(0); } 
+}
+
+.text-slide {
+  color: gray;
+  font-family: 'Lucida Sans';
+  /* font-family: 'Courier New', Courier, monospace; */
+  animation: slide 3s infinite; 
+}
