@@ -23,7 +23,7 @@ export default function Dashboard(){
         setCurrentViewType(viewType);
     }
     const handleEditView = () => {
-        setSelectedView(<DashboardCreateOrEditMapView isDarkMode={isDarkMode} />)
+        setSelectedView(<DashboardCreateOrEditMapView isDarkMode={!isDarkMode} />)
         
     }
 
