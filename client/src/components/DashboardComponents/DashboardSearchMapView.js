@@ -51,7 +51,7 @@ export default function DashboardSearchMapView(props){
             maps.push(
                 <div key={mapsId[i]._id} className='box'>
                     <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
-                        <div className={props.isDarkMode ? 'map-name' : 'map-name-dark'}>{mapsId[i].title}</div>
+                        <div className='map-name'>{mapsId[i].title}</div>
                     </div>
                     <Link to="/MapView/" onClick={() => handleMapSelect(mapsId[i]._id)}>
                     {mapsId[i].mapType === "heat" ? <img className="map" src={heat} alt="My SVG" /> : 
@@ -73,7 +73,7 @@ export default function DashboardSearchMapView(props){
                 maps.push(
                     <div key={auth_store.searchMaps[i]._id} className= 'box' >
                         <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
-                            <div className={props.isDarkMode ? 'map-name' : 'map-name-dark'}>{auth_store.searchMaps[i].title}</div>
+                            <div className='map-name'>{auth_store.searchMaps[i].title}</div>
                         </div>
                         <Link to="/MapView/" onClick={() => handleMapSelect(auth_store.searchMaps[i]._id)}>
                         {auth_store.searchMaps[i].mapType === "heat" ? <img className="map" src={heat} alt="My SVG" /> : 
@@ -110,18 +110,6 @@ export default function DashboardSearchMapView(props){
         </div>
         <div className='description-and-sorting' style={{justifyContent: "end"}}>
         <div className='sort-buttons'>
-            {/* <button className='arrow-button'  onClick={() => handleSortingChange("Ascending")}>
-                <img className="arrow" src={arrow} alt="My SVG" />
-            </button>
-            <button className="sort-button" onClick={() => handleSortingChange("Ascending")}>Ascending</button>
-            <button className='arrow-button' onClick={() => handleSortingChange("Descending")}>
-                <img className="arrow" src={arrow} alt="My SVG" />
-            </button>
-            <button className="sort-button" onClick={() => handleSortingChange("Descending")}>Descending</button>
-            <button className='arrow-button' onClick={() => handleSortingChange("Recent Date")}>
-                <img className="arrow" src={arrow} alt="My SVG" />
-            </button>
-            <button className="sort-button" onClick={() => handleSortingChange("Recent Date")}>Recent Date</button> */}
             <div className="sort-dropdown">
               <select onChange={(e) => handleSortingChange(e.target.value)}>
                 <option value="defult">SORT</option>
