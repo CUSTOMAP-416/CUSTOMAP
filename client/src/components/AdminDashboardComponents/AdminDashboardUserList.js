@@ -28,6 +28,7 @@ export default function AdminDashboardUserList(){
           setAllUsers(auth_store.users)
         }
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [auth_store.maps]);
 
     const handleUserMaplistOpen = (userId) => {
