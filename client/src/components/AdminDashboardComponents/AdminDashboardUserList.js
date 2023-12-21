@@ -126,7 +126,7 @@ export default function AdminDashboardUserList(){
                     </div>
                   )}
                 </div>
-              )): <h1>Loading...</h1>}
+              )): <h1 className='text-slide'> ╰┈➤ Loading...</h1>}
           </div>
         </div>
       </div>
