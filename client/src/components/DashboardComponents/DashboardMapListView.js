@@ -10,14 +10,9 @@ import point from "../../assets_img/Point.png";
 import bubble from "../../assets_img/Bubble.png";
 import thematic from "../../assets_img/Thematic.png";
 import choropleth from "../../assets_img/Choropleth.png";
-import  handleSelectedViewChange from "../Dashboard"
-
 
 export default function DashboardMapListView( props ){
     const { auth_store } = useContext(AuthStoreContextProvider);
-
-    //const isDarkMode = props.isDarkMode !== undefined ? props.isDarkMode : true; 
-    const [isDarkMode, setIsDarkMode] = useState(true);
     
     //List of user maps. 
     const [userMaps, setUserMaps] = useState([]);
@@ -41,15 +36,13 @@ export default function DashboardMapListView( props ){
         else if(event === "Recent Date"){
             mapsId.sort((a, b) => a.createdDate - b.createdDate);
         }
-//{`sidebar-buttons ${isDarkMode ? 'sidebar-buttons-dark' : 'sidebar-buttons'}`}
         const maps = []
         for(let i = 0; i < mapsId.length; i++){
-            const isDarkMode = props.isDarkMode;
             maps.push(
                 <div key={mapsId[i]._id} className='box'>
                     <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
                         <div className='map-name'>{mapsId[i].title}</div>
-                        <button className="delete" onClick={() => handleEdit(mapsId[i]._id, props.isDarkMode)} >Edit</button>
+                        <button className="delete" onClick={() => handleEdit(mapsId[i]._id)} >Edit</button>
                         <button className="delete" onClick={() => handleDeleteMap(mapsId[i]._id)}>X</button>
                     </div>
                     <Link to="/MapView/" onClick={() => handleMapSelect(mapsId[i]._id)}>
@@ -71,29 +64,12 @@ export default function DashboardMapListView( props ){
         handleSortingChange("Recent Date")
     }
     //Handles map edit button click. 
-    const handleEdit = (id, isDarkMode) => {
+    const handleEdit = (id) => {
         //function to handle open edit map Screen. 
         handleMapSelect(id)
         auth_store.openEdit(false)
         props.handleEditView(props.isDarkMode);
     }
-    const [firstLoad, setFirstLoad] = useState(true);
-
-    useEffect(() => {
-        // 在组件加载后，将 firstLoad 设为 false
-        setFirstLoad(false);
-    }, []);
-   
-    useEffect(() => {
-        // 当 isDarkMode 更改时，执行一些操作
-        // 这里不需要执行任何特定的操作，因为组件将根据 isDarkMode 自动重新渲染
-    },[props.isDarkMode]);
-    const [isFirstRender, setIsFirstRender] = useState(true);
-
-    useEffect(() => {
-        // 组件首次渲染后，将 isFirstRender 设置为 false
-        setIsFirstRender(false);
-    }, []);
 
     useEffect(() => {
         const maps = [];
@@ -103,7 +79,7 @@ export default function DashboardMapListView( props ){
                     <div key={auth_store.user.maps[i]._id} className='box'>
                         <div style={{display: "flex", justifyContent: "center", paddingBottom:"10px"}}>
                             <div className='map-name'>{auth_store.user.maps[i].title}</div>
-                            <button className="delete" onClick={() => handleEdit(auth_store.user.maps[i]._id, props.isDarkMode)}>Edit</button>
+                            <button className="delete" onClick={() => handleEdit(auth_store.user.maps[i]._id)}>Edit</button>
                             <button className="delete" onClick={() => handleDeleteMap(auth_store.user.maps[i]._id)}>X</button>
                         </div>
                         <Link to="/MapView/" onClick={() => handleMapSelect(auth_store.user.maps[i]._id )}>
@@ -123,14 +99,12 @@ export default function DashboardMapListView( props ){
             setUserMaps(emptyMap);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        setIsDarkMode(props.isDarkMode);
     },[]);
     
     useEffect(() => {
         const dashboardButton = document.getElementById('dashboardbutton');
         const profileButton = document.getElementById('profilebutton');
             if (dashboardButton) {
-                
                 profileButton.click();
                 dashboardButton.click();
             }

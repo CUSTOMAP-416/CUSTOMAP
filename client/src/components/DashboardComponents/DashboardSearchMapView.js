@@ -133,7 +133,7 @@ export default function DashboardSearchMapView(props){
         </div>
         </div>
         <div className="box-container">
-            {searchMaps}
+            {searchMaps.length>0?searchMaps: <h1>Loading...</h1>}
         </div>
     </div>
     )

@@ -79,6 +79,7 @@
   display: inline-block; 
   background-color: #1f8505; 
   border-radius: 20px; 
+  margin-top:12px;
   transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s;
 }
 

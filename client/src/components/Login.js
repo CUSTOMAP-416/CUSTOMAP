@@ -12,16 +12,6 @@ export default function Login() {
     auth_store.onLogin(state);
   };
 
-  //function to handle open the sign-up screen
-  const openSignUp = () => {
-    auth_store.openSignUp();
-  };
-
-  //function to handle open forgot password screen
-  const openForgotPassword = () => {
-    auth_store.openForgotPassword();
-  };
-
   //Stores the email input.
   const [email, setEmail] = useState("");
 
@@ -94,7 +84,6 @@ export default function Login() {
           <Link
             className="forgetText"
             to="/ForgetPassword/"
-            onClick={() => openForgotPassword()}
           >
             Forgot Password?
           </Link>
@@ -108,7 +97,7 @@ export default function Login() {
           <button className="signin" onClick={() => handleLoginSubmit()}>
             Log in
           </button>
-          <Link className="signup" to="/SignUp/" onClick={() => openSignUp()}>
+          <Link className="signup" to="/SignUp/">
             Sign Up{" "}
           </Link>
         </div>
