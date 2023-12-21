@@ -26,48 +26,6 @@ body {
     font-size: 50px;
 }
 
-/* .sidebar {
-    background-color: #E8E8E8;
-    padding: 20px;
-    width: 20%;
-    height: 95vh;
-    text-align: center;
-}
-.sidebar-buttons{
-    padding-top: 30px;
-}
-
-.sidebar button {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 5px;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    color: #000;
-
-    font-family: DM Sans;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 700;
-}
-
-.sidebar button:hover {
-    background-color: #95C289;
-    border-radius: 10px;
-    color: white;
-}
-
-.profile{
-    border-bottom: solid #1F8505;
-    padding: 20px;
-    color: #000;
-    font-family: DM Sans;
-    font-size: 28px;
-    font-style: normal;
-    font-weight: 700;
-} */
-
 .user-list {
     padding: 0px 30px
 }
@@ -191,4 +149,19 @@ li {
   margin-bottom: 10px;
   padding: 10px 15px;
   transition: all 0.3s ease;
+}
+
+
+/* Loading page */
+@keyframes slide {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(100px); } 
+  100% { transform: translateX(0); } 
+}
+
+.text-slide {
+  color: gray;
+  font-family: 'Lucida Sans';
+  /* font-family: 'Courier New', Courier, monospace; */
+  animation: slide 3s infinite; 
 }
