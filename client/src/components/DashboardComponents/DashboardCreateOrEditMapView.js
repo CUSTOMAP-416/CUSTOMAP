@@ -22,11 +22,6 @@ export default function DashboardCreateOrEditMapView(props) {
     setMapDescription('')
   };
 
-  //function to handle open customize tool Screen.
-  const openCustomizeTool = (map) => {
-    auth_store.openCustomizeTool(map);
-  };
-
   const [texts, setTexts] = useState([]);
   const [colors, setColors] = useState([]);
   const [legends, setLegends] = useState([]);
@@ -103,11 +98,6 @@ export default function DashboardCreateOrEditMapView(props) {
         console.error("Unsupported file format");
       }
     }
-  };
-
-  //Handles the map customization button click.
-  const handleCustomizeTool = () => {
-    openCustomizeTool(auth_store.selectMap);
   };
 
   const handleForkContent = (name) => {
@@ -212,14 +202,6 @@ export default function DashboardCreateOrEditMapView(props) {
     user.style.display = 'none';
   }
 
-  const [isFirstRender, setIsFirstRender] = useState(true);
-
-    useEffect(() => {
-        // 组件首次渲染后，将 isFirstRender 设置为 false
-      setIsFirstRender(false);
-      
-    }, []);
-    console.log(isFirstRender)
   return (
     <div className="createEditAll">
       <div>
@@ -244,7 +226,6 @@ export default function DashboardCreateOrEditMapView(props) {
                 <Link
                   id="link-to-map-view"
                   to="/MapView/"
-                  onClick={() => handleCustomizeTool()}
                 >
                   Map Customize Tool
                 </Link>

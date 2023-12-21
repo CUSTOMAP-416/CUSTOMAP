@@ -12,25 +12,23 @@ export default function AdminDashboardUserList(){
     const [allUsers, setAllUsers] = useState([]);
 
     const [mapDetails, setMapDetails] = useState({});
-  
-    useEffect(() => {
-      if(auth_store.users){
-        setAllUsers(auth_store.users);
-      }
-    }, [auth_store.users]);
 
     useEffect(() => {
       if(auth_store.maps){
-        auth_store.maps.forEach((mapId) =>
-          setMapDetails((prevDetails) => ({
-            ...prevDetails,
-            [mapId._id]: {
-              title: mapId.title,
-              description: mapId.description,
-            },
-          }))
-        );
+        if(auth_store.maps[0]){
+          auth_store.maps.forEach((mapId) =>
+            setMapDetails((prevDetails) => ({
+              ...prevDetails,
+              [mapId._id]: {
+                title: mapId.title,
+                description: mapId.description,
+              },
+            }))
+          );
+          setAllUsers(auth_store.users)
+        }
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [auth_store.maps]);
 
     const handleUserMaplistOpen = (userId) => {
@@ -81,7 +79,7 @@ export default function AdminDashboardUserList(){
             </div>
           </div> 
           <div style={{ color: "black" }}>
-            {allUsers.length > 0 &&
+            {allUsers.length > 0?
               allUsers.map((user) => (
                 <div key={user._id} className="user-box">
                   <div className="user-item">
@@ -119,8 +117,8 @@ export default function AdminDashboardUserList(){
                       <ul>
                         {user.maps.map((mapId) => (
                           <li key={mapId}>
-                            <spen className='small-ul'>Title: </spen>
-                            <spen>{mapDetails[mapId].title}</spen>
+                            <span className='small-ul'>Title: </span>
+                            <span>{mapDetails[mapId].title}</span>
                             <div>Description: {mapDetails[mapId].description || "< none >"}</div>
                           </li>
                         ))}
@@ -128,7 +126,7 @@ export default function AdminDashboardUserList(){
                     </div>
                   )}
                 </div>
-              ))}
+              )): <h1>Loading...</h1>}
           </div>
         </div>
       </div>

@@ -17,11 +17,6 @@ import "../styles/Main.css"
 
 export default function Main() {
     const { auth_store } = useContext(AuthStoreContextProvider);
-        
-    const handleLogin = () => {
-        //function to handle open the login screen
-       auth_store.openLogin()
-     }
     return(
       <div className='main-body'>
         <div style={{position:"relative", height: "88vh", textAlign: "center"}}>
@@ -36,7 +31,6 @@ export default function Main() {
                 to="/login/"
                 className="login"
                 style={{ color: "white", textDecoration: "none", position: "absolute", top: "60%", left: "50%", height: "fit-content" }}
-                onClick={() => handleLogin()}
               >
                 SignIn
               </Link>}

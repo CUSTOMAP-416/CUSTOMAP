@@ -1,7 +1,7 @@
 import axios from 'axios'
 axios.defaults.withCredentials = true;
 const api = axios.create({
-    baseURL: 'https://customap416-e4fee90f355c.herokuapp.com/auth_store',
+    baseURL: 'http://localhost:8080/auth_store',
 })
 
 const getUser = () => api.get('/loggedIn/');
@@ -54,16 +54,6 @@ const createMap = (mapData, mapTitle, mapDescription, mapType, user) => {
         mapType: mapType,
     })
 };
-const updateMap = (id_, name, phone, id, email, password) => {
-    return api.post('', {
-        id_ : id_,
-        username : name,
-        phone : phone,
-        id : id,
-        email : email,
-        password : password
-    })
-};
 //function to handle delete map process. const onDeleteMap = async (map) => { ?
 const deleteMap = (id) => {
     return api.post('/deleteMap/', {
@@ -113,9 +103,6 @@ const onForkMap = (name) => {
         name: name,
     });
 }
-//function to handle the attach property process 
-const onAttachProperty = (map) => {}
-
 //function to handle the Discussion process 
 const onDiscussion = (mapId, email, content) => {
     return api.post("/discussion/", {
@@ -200,7 +187,6 @@ const apis = {
     getAllMaps,
     getMap,
     createMap,
-    updateMap,
     deleteMap,
     shareMap,
     loggedIn,
@@ -209,7 +195,6 @@ const apis = {
     onVerification,
     onEditMap,
     onForkMap,
-    onAttachProperty,
     onDiscussion,
     onText,
     onColor,

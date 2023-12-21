@@ -218,21 +218,6 @@ function AuthStoreContextProvider(props) {
             }));
         });
     }
-    auth_store.updateMap= async function () {
-        await apis.updateMap().then(response => {
-            auth_storeReducer({
-                type: AuthStoreActionType.null,
-                payload: null,
-            });
-        })
-        .catch(error => {
-            console.log(error.response.data.errorMessage)
-            return setAuthStore((prevAuthStore) => ({
-                ...prevAuthStore,
-                errorMessage: error.response.data.errorMessage
-            }));
-        });
-    }
     //function to handle delete map process. const onDeleteMap = async (map) => { ?
     auth_store.deleteMap= async function (id) {
         let maps =[]
@@ -371,22 +356,6 @@ function AuthStoreContextProvider(props) {
                 ...prevAuthStore,
                 forkMap: response.data.geojson,
             }))
-        })
-        .catch(error => {
-            console.log(error.response.data.errorMessage)
-            return setAuthStore((prevAuthStore) => ({
-                ...prevAuthStore,
-                errorMessage: error.response.data.errorMessage
-            }));
-        });
-    }
-    //function to handle the attach property process 
-    auth_store.onAttachProperty= async function () {
-        await apis.onAttachProperty().then(response => {
-            auth_storeReducer({
-                type: AuthStoreActionType.null,
-                payload: null,
-            });
         })
         .catch(error => {
             console.log(error.response.data.errorMessage)
@@ -537,44 +506,6 @@ function AuthStoreContextProvider(props) {
             }));
         });
     }
-
-    //function to handle getting the list of user's created maps. 
-    auth_store.getUserMaps = async function () {
-        await apis.getUserMaps().then(response => {
-            auth_storeReducer({
-                type: AuthStoreActionType.null,
-                payload: null,
-            });
-        })
-        .catch(error => {
-            console.log(error.response.data.errorMessage)
-            return setAuthStore((prevAuthStore) => ({
-                ...prevAuthStore,
-                errorMessage: error.response.data.errorMessage
-            }));
-        });
-    }
-    //function to handle the redo process. 
-    auth_store.onRedo = function () {}
-    //function to handle the undo process. 
-    auth_store.onUndo = function () {}
-    //function to handle open the home screen 
-    auth_store.openHome = () => {}
-    //function to handle open the my page screen 
-    auth_store.openMyPage = () => {}
-    //function to handle open the login screen 
-    auth_store.openLogin = () => {}
-    //function to handle open the sign-up screen 
-    auth_store.openSignUp = () => {}
-    //function to handle open forgot password screen 
-    auth_store.openForgotPassword = () => {
-        return setAuthStore((prevAuthStore) => ({
-          ...prevAuthStore,
-          errorMessage: null,
-        }));
-    }
-    //function to handle open the selected view screen 
-    auth_store.openViewScreen = () => {}
     //function to handle open edit map Screen. 
     auth_store.openEdit = (page) => {
         return setAuthStore((prevAuthStore) => ({
@@ -582,12 +513,6 @@ function AuthStoreContextProvider(props) {
             isCreatePage: page,
           }));
     }
-    //function to handle open customize tool Screen. 
-    auth_store.openCustomizeTool = (map) => {}
-    //function to handle open discussion forum. 
-    auth_store.openDiscussionForum = (map) => {}
-    //function to handle open the selected view screen 
-    auth_store.openAdminViewScreen = () => {}
 
     return (
         <AuthStoreContext.Provider value={{

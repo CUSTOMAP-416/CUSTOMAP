@@ -158,7 +158,7 @@ export default function AdminDashboardMapList(props){
             </div>
           </div>
         </div>
-        <div className="box-container">{showMapsContent}</div>
+        <div className="box-container">{showMapsContent.length>0?showMapsContent: <h1>Loading...</h1>}</div>
       </div>
     );
 }

@@ -22,8 +22,8 @@ export default function Dashboard(){
         setSelectedView(React.cloneElement(newView, { isDarkMode: !isDarkMode })); 
         setCurrentViewType(viewType);
     }
-    const handleEditView = () => {
-        setSelectedView(<DashboardCreateOrEditMapView isDarkMode={isDarkMode} />)
+    const handleEditView = (dark) => {
+        setSelectedView(<DashboardCreateOrEditMapView isDarkMode={dark} />)
         
     }
 
@@ -73,7 +73,7 @@ export default function Dashboard(){
     };
 
     const [currentViewType,setCurrentViewType] = useState('dashboard');
-    const [selectedView, setSelectedView] = useState(getSelectedView(currentViewType));
+    const [selectedView, setSelectedView] = useState(<DashboardMapListView handleEditView={handleEditView} isDarkMode={!isDarkMode} />);
     
       
     return (
