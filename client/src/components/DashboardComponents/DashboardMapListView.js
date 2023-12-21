@@ -75,7 +75,7 @@ export default function DashboardMapListView( props ){
         //function to handle open edit map Screen. 
         handleMapSelect(id)
         auth_store.openEdit(false)
-        props.handleEditView(id,props.isDarkMode);
+        props.handleEditView(props.isDarkMode);
     }
     const [firstLoad, setFirstLoad] = useState(true);
 
