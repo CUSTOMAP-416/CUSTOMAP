@@ -1,8 +1,12 @@
 {
-  "name": "server",
+  "name": "customap",
   "version": "1.0.0",
+  "description": "CSE416 project",
   "main": "index.js",
-  "license": "MIT",
+  "scripts": {
+    "start": "node index.js",
+    "server": "nodemon index.js"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
